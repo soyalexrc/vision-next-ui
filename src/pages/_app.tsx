@@ -1,6 +1,16 @@
 import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import type {AppProps} from 'next/app'
+import {NextUIProvider} from '@nextui-org/react'
+import Layout from "@/components/layout";
+import 'keen-slider/keen-slider.min.css'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+
+export default function App({Component, pageProps}: AppProps) {
+    return (
+        <NextUIProvider>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </NextUIProvider>
+    )
 }

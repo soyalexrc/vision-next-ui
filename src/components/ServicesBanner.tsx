@@ -1,0 +1,25 @@
+import {SERVICES_DATA} from "@/utils/data/services";
+import {Button} from "@nextui-org/react";
+
+export default function ServicesBanner () {
+    return  (
+        <div className='px-24  py-10 m-10 bg-black-opacity w-full'>
+            <h2 className=' text-center text-white text-2xl tracking-widest'>Porque no somos otra inmobiliaria mas, somos integrales.</h2>
+            <h2 className=' text-center text-white text-4xl mt-5 mb-10'>Nuestros servicios</h2>
+            <div className='grid gap-x-4 grid-cols-4 grid-rows-2 gap-y-10 justify-start '>
+                {
+                    SERVICES_DATA.map(service => (
+                        <div className='flex flex-col items-center justify-items-center' key={service.title}>
+                            <img className='mb-3' src={service.img} alt=""/>
+                            <h6 className='text-white'>{service.title}</h6>
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div className='flex justify-center mt-10'>
+                <Button size='lg' variant='bordered' className='text-white'>Ver detalle</Button>
+            </div>
+        </div>
+    )
+}

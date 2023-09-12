@@ -158,7 +158,6 @@ export default function Header() {
                         width={50}
                         height={50}
                     />
-                    <p className="font-bold text-inherit">Vision Inmobiliaria</p>
                 </NavbarBrand>
             </NavbarContent>
 

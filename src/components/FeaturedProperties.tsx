@@ -41,9 +41,9 @@ const elements = [
 
 export default function FeaturedProperties () {
     return (
-        <section className='px-24'>
-            <h2 className='text-4xl py-10 text-center'>Conoce las propiedades que tenemos para ti</h2>
-            <div className="grid gap-8 grid-cols-3 grid-rows-3">
+        <section className='lg:px-24'>
+            <h2 className='text-2xl font-bold lg:font-medium lg:text-4xl py-10 text-center'>Conoce las propiedades que tenemos para ti</h2>
+            <div className="grid gap-8 grid-cols-1 lg:grid-cols-3 grid-rows-3">
               {
                 elements.map((element) => (
                     <PropertyCard img={element.img} key={element.id} />

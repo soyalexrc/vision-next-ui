@@ -6,20 +6,20 @@ export default function Searcher() {
         {label: 'sample', value: 2}
     ]
     return (
-        <section className='my-14 px-24 w-full'>
-            <div className="w-full flex justify-start   mt-4">
+        <section className='my-14 lg:px-24 w-full'>
+            <div className="w-full flex justify-center lg:justify-start   mt-4">
                 <Tabs aria-label="Options">
                     <Tab key="venta" title="Venta"/>
                     <Tab key="alquiler" title="Alquiler"/>
-                    <Tab key="traspaso" title="Traspaso fondo de comercio"/>
+                    <Tab key="traspaso" title="Traspaso de comercio"/>
                 </Tabs>
             </div>
-            <div className='py-4 grid grid-cols-4 gap-2'>
-                <div>
+            <div className='py-4 px-4 lg:px-0 lg:grid grid-cols-4 gap-2'>
+                <div >
                     <Select
                         size='sm'
                         label="Inmueble"
-                        className="max-w-xs mb-4"
+                        className="lg:max-w-xs mb-4"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>
@@ -30,7 +30,7 @@ export default function Searcher() {
                     <Select
                         size='sm'
                         label="Precio"
-                        className="max-w-xs"
+                        className="mb-4 lg:mb-0 lg:max-w-xs"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>
@@ -43,7 +43,7 @@ export default function Searcher() {
                     <Select
                         size='sm'
                         label="Estado"
-                        className="max-w-xs mb-4"
+                        className="lg:max-w-xs mb-4"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>
@@ -54,7 +54,7 @@ export default function Searcher() {
                     <Select
                         size='sm'
                         label="Referencia"
-                        className="max-w-xs"
+                        className="mb-4 lg:mb-0 lg:max-w-xs"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>
@@ -67,7 +67,7 @@ export default function Searcher() {
                     <Select
                         size='sm'
                         label="Municipio"
-                        className="max-w-xs mb-4"
+                        className="lg:max-w-xs mb-4"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>
@@ -78,7 +78,7 @@ export default function Searcher() {
                     <Select
                         size='sm'
                         label="Otras opciones"
-                        className="max-w-xs"
+                        className="mb-4 lg:max-w-xs lg:mb-0"
                     >
                         {animals.map((animal) => (
                             <SelectItem key={animal.value} value={animal.value}>

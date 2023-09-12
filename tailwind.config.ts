@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         'black-opacity': 'rgba(55,55,55,0.58)',
         'red-opacity': '#DDCBD1',
-      }
+      },
     },
   },
   darkMode: "class",

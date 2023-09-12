@@ -35,10 +35,10 @@ const footerLinks = [
 export default function Footer() {
     return (
         <footer className='border-t-8 border-red-opacity mt-10 pt-5'>
-            <div className='grid gap-4 grid-cols-12 '>
+            <div className='lg:grid gap-4 grid-cols-12 px-5'>
 
 
-                <div className='col-span-6 px-20 '>
+                <div className='col-span-6 lg:px-20 '>
                     <Image
                         alt='Logo de vision inmobiliaria'
                         width={250}
@@ -110,10 +110,10 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className='bg-red-opacity w-full flex gap-4 px-20 py-2 mt-10'>
-                <Link underline='hover' className=' pr-5 border-r-1 border-gray-500' color='secondary' as={NextLink} href='/aviso-legal'>Aviso legal</Link>
-                <Link underline='hover' className=' pr-5 border-r-1 border-gray-500' color='secondary' as={NextLink} href='proteccion-de-datos'>Proteccion de datos</Link>
-                <Link underline='hover' className=' pr-5 border-r-1 border-gray-500' color='secondary' as={NextLink} href='politica-de-cookies'>Cookies</Link>
+            <div className='bg-red-opacity w-full flex gap-4 justify-center flex-wrap px-20 py-2 mt-10'>
+                <Link underline='hover' className=' pr-5 lg:border-r-1 border-gray-500' color='secondary' as={NextLink} href='/aviso-legal'>Aviso legal</Link>
+                <Link underline='hover' className=' pr-5 lg:border-r-1 border-gray-500' color='secondary' as={NextLink} href='proteccion-de-datos'>Proteccion de datos</Link>
+                <Link underline='hover' className=' pr-5 lg:border-r-1 border-gray-500' color='secondary' as={NextLink} href='politica-de-cookies'>Cookies</Link>
                 <Link underline='hover' color='secondary' href='https://lsmsinergy.com' target="_blank">Creado por LSM Sinergy</Link>
             </div>
 

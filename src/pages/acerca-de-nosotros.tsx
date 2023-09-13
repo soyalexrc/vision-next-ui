@@ -90,7 +90,7 @@ export default function AboutUs() {
             <section className='px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-4'>
                 {
                     images.map(image => (
-                        <img src={image.src} alt={image.alt} />
+                        <img key={image.src} src={image.src} alt={image.alt} />
                     ))
                 }
             </section>

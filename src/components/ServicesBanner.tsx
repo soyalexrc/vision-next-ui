@@ -8,8 +8,8 @@ export default function ServicesBanner () {
             <h2 className=' text-center text-white text-3xl lg:text-4xl mt-5 mb-10'>Nuestros servicios</h2>
             <div className='grid gap-x-4 grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-y-10 justify-start '>
                 {
-                    SERVICES_DATA.map(service => (
-                        <div className='flex flex-col items-center justify-items-center' key={service.title}>
+                    SERVICES_DATA.map((service, index) => (
+                        <div key={service.title} className='flex flex-col items-center justify-items-center'>
                             <img className='mb-3' src={service.img} alt=""/>
                             <h6 className='text-white'>{service.title}</h6>
                         </div>

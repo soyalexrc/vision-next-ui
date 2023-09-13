@@ -4,3 +4,6 @@ export * from './Instagram';
 export * from './Mail';
 export * from './Whatsapp';
 export * from './MapPoint';
+export * from './GridVertical';
+export * from './Filters';
+export * from './UnorderedList';

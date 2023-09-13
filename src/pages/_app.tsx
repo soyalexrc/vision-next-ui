@@ -3,6 +3,7 @@ import type {AppProps} from 'next/app'
 import {NextUIProvider} from '@nextui-org/react'
 import Layout from "@/components/layout";
 import 'keen-slider/keen-slider.min.css'
+import "yet-another-react-lightbox/styles.css";
 
 
 export default function App({Component, pageProps}: AppProps) {

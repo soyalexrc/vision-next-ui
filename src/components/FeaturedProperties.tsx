@@ -1,4 +1,5 @@
 import {Button} from "@nextui-org/react";
+import {PropertyCard} from "@/components/PropertyCard";
 
 const elements = [
     {
@@ -46,7 +47,7 @@ export default function FeaturedProperties () {
             <div className="grid gap-8 grid-cols-1 lg:grid-cols-3 grid-rows-3">
               {
                 elements.map((element) => (
-                    <PropertyCard img={element.img} key={element.id} />
+                    <PropertyCard  img={element.img} key={element.id} />
                 ))
             }
             </div>
@@ -59,19 +60,3 @@ export default function FeaturedProperties () {
     )
 }
 
-function PropertyCard(props: { img: string }) {
-    return (
-        <div>
-            <img className='h-[220px] w-[420px] object-cover' src={props.img} alt=""/>
-            <div className='bg-gray-100 p-6 '>
-                <h5 className='text-xl hover:underline cursor-pointer mb-5'>Piso con terraza en avenida de castilla</h5>
-                <div className='flex gap-5 justify-center '>
-                    <small>86 m2</small>
-                    <small className='border-x-1 border-gray-400 px-4'>3 Habitaciones</small>
-                    <small>1 Bano</small>
-                </div>
-                <p className='text-red-900 text-center mt-5 text-4xl'>$ 295.000</p>
-            </div>
-        </div>
-    )
-}

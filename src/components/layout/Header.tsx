@@ -26,19 +26,6 @@ export default function Header() {
         user: <TagUser className="text-danger" fill="currentColor" size={30}/>,
     };
 
-    const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
-    ];
-
     const itemsMenu = [
         {
             id: '1',
@@ -64,37 +51,8 @@ export default function Header() {
         {
             id: '3',
             title: 'Servicios',
-            children: [
-                {
-                    title: 'Inmobiliario',
-                    path: '/servicios#inmobiliario'
-                },
-                {
-                    title: 'Administracion de inmuebles alquilados',
-                    path: '/servicios#administracion-de-inmuebles-alquilados'
-                },
-                {
-                    title: 'Tramites legales',
-                    path: '/servicios#tramites-legales'
-                },
-                {
-                    title: 'Gestion contable',
-                    path: '/servicios#gestion-contable'
-                },
-                {
-                    title: 'Ama de llaves',
-                    path: '/servicios#ama-de-llaves'
-                },
-                {
-                    title: 'Remodelacion',
-                    path: '/servicios#remodelacion'
-                },
-                {
-                    title: 'Mantenimiento de inmuebles',
-                    path: '/servicios#mantenimiento-de-inmuebles'
-                }
-            ],
-            path: ''
+            children: [],
+            path: '/servicios'
         },
         {
             id: '4',
@@ -216,7 +174,7 @@ export default function Header() {
                         } else {
                             return (
                                 <NavbarItem key={item.id}>
-                                    <Link href={item.path} as={NextLink} color="foreground">
+                                    <Link href={item.path} as={NextLink} color="foreground" className='text-[14px]'>
                                         {item.title}
                                     </Link>
 

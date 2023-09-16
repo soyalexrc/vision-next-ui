@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const baseUrl = "http://100.42.69.119:3000/api/v1";
+const baseUrlDev = "http://localhost:3000/api/v1";
 
 export const http = axios.create({
-    baseURL: baseUrl,
+    baseURL: baseUrlDev,
     headers: {
         "Content-Type": "application/json",
         // "Cache-Control": "no-cache, no-store, must-revalidate",

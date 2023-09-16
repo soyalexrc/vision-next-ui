@@ -20,6 +20,8 @@ import {PropertyCardWithCarousel} from "@/components/PropertyCard";
 import {PROPERTY_TYPES} from "@/utils/data/property-types";
 import {CITIES, LOCATIONS} from "@/utils/data/locations";
 import {Location} from "@/interfaces/properties";
+import formatPropertyTitle from "@/utils/format-property-title";
+import {useWindowSize} from "@/hooks";
 
 
 const inter = Inter({subsets: ['latin']})
@@ -30,7 +32,10 @@ const animals = [
 
 
 export default function Home({properties, page, limit, total}: any) {
+    console.log(properties);
     const router = useRouter();
+    // const windowSize = useWindowSize();
+    // console.log(windowSize);
     const searchParams = useSearchParams()
 
 
@@ -169,8 +174,8 @@ export default function Home({properties, page, limit, total}: any) {
                                     viewStyle={viewStyle}
                                     images={property.images}
                                     key={property.code}
-                                    path={property.id}
-                                    title='Titulo de propiedad aqui'
+                                    path={property.publicationTitle}
+                                    title={formatPropertyTitle(property.publicationTitle)}
                                     description={property.description}
                                     price={property.price}
                                 />
@@ -254,7 +259,7 @@ export default function Home({properties, page, limit, total}: any) {
 export async function getServerSideProps({query}: any) {
     const pageSize = query.limite || 10;
     const pageIndex = query.pagina || 1;
-    const res = await http.get(`/property/previews?pageIndex=${pageIndex}&pageSize=${pageSize}`)
+    const res = await http.get(`/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}`)
     const resObj = await res.data;
     const totalElements = resObj.count;
     const totalPages = totalElements / 10;

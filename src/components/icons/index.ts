@@ -7,3 +7,4 @@ export * from './MapPoint';
 export * from './GridVertical';
 export * from './Filters';
 export * from './UnorderedList';
+export * from './Check';

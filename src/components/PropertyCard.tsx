@@ -4,6 +4,7 @@ import Arrow from "@/components/carousel/Arrow";
 import {pop} from "@jridgewell/set-array";
 import {Link} from "@nextui-org/react";
 import NextLink from "next/link";
+import textShortener from "@/utils/text-shortener";
 
 export function PropertyCard(props: { img: string }) {
     return (
@@ -99,7 +100,7 @@ export function PropertyCardWithCarousel(props: {
             }
             {
                 props.viewStyle === 'list' &&
-                <div className='flex w-full mb-5'>
+                <div className='flex w-full mb-5 max-h-[400px]'>
                     <div className='navigation-wrapper max-w-[300px]'>
                         <div ref={sliderRef} className="keen-slider">
                             {
@@ -138,7 +139,7 @@ export function PropertyCardWithCarousel(props: {
                             <small>1 Bano</small>
                         </div>
 
-                        <p className='text-sm'>{props.description ?? 'Descripcion aqui'}</p>
+                        <p className='text-sm'>{textShortener(props.description, 285)}</p>
 
                         <p className='text-red-900 text-right mt-5 text-4xl'>$ {props.price}</p>
 
@@ -159,7 +160,7 @@ function CarouselCard(props: {
     return (
         <div className="keen-slider__slide min-w-[300px]">
             <img
-                className={` ${props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-[270px] w-[300px] object-cover rounded-bl rounded-tl'}`}
+                className={` ${props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-full max-h-[300px] w-[300px] object-cover rounded-bl rounded-tl'}`}
                 src={props.image} alt="banner"/>
         </div>
     )

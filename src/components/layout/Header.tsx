@@ -13,7 +13,7 @@ import {
 import NextLink from 'next/link';
 import {useRouter} from "next/router";
 import Image from "next/image";
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 export default function Header() {
     const router = useRouter();
@@ -27,12 +27,24 @@ export default function Header() {
         user: <TagUser className="text-danger" fill="currentColor" size={30}/>,
     };
 
+    const toggleMenu = () => {
+        const button = document.getElementById('toggle-button');
+        button?.click();
+
+    };
+
     const itemsMenu = [
+        {
+            id: '0',
+            title: 'Inicio',
+            children: [],
+            path: '/'
+        },
         {
             id: '1',
             title: 'En venta',
             children: [],
-            path: '/inmuebles?operationType=venta&page=1&pageSize=10'
+            path: '/inmuebles?tipo_de_operacion=venta&page=1&pageSize=10'
         },
         {
             id: '2',
@@ -40,11 +52,11 @@ export default function Header() {
             children: [
                 {
                     title: 'Estadias vacacionales',
-                    path: '/inmuebles?operationType=alquiler&subType=estadias vacacionales&page=1&pageSize=10'
+                    path: '/inmuebles?tipo_de_operacion=alquiler&subType=estadias vacacionales&page=1&pageSize=10'
                 },
                 {
                     title: 'Temporadas largas',
-                    path: '/inmuebles?operationType=alquiler&subType=temporadas largas&page=1&pageSize=10'
+                    path: '/inmuebles?tipo_de_operacion=alquiler&subType=temporadas largas&page=1&pageSize=10'
                 }
             ],
             path: ''
@@ -91,7 +103,7 @@ export default function Header() {
         }
     ]
     return (
-        <Navbar maxWidth="full" isBlurred={true} classNames={{
+        <Navbar maxWidth="full" isBlurred={false} classNames={{
             item: [
                 "flex",
                 "relative",
@@ -108,28 +120,33 @@ export default function Header() {
             ],
         }}>
             <NavbarContent className="sm:hidden" justify="start">
-                <NavbarMenuToggle />
-                <NavbarBrand as={NextLink} href='/' className='justify-end'>
-                    <Image
-                        title='Vision inmobiliaria logo'
-                        alt='Vision inmobiliaria logo'
-                        src='/vision-icon.png'
-                        width={50}
-                        height={50}
-                    />
-                </NavbarBrand>
-            </NavbarContent>
-
-            <NavbarContent className="hidden sm:flex gap-4" justify="end">
-                <NavbarBrand  as={NextLink} href='/'>
-                    {/*<AcmeLogo*/}
+                <NavbarMenuToggle id='toggle-button' />
+                <NavbarBrand className='justify-end'>
+                    <NextLink href='/'>
                         <Image
                             title='Vision inmobiliaria logo'
                             alt='Vision inmobiliaria logo'
                             src='/vision-icon.png'
                             width={50}
                             height={50}
-                            />
+                        />
+                    </NextLink>
+
+                </NavbarBrand>
+            </NavbarContent>
+
+            <NavbarContent className="hidden sm:flex gap-4" justify="end">
+                <NavbarBrand>
+                    <NextLink href='/'>
+                        <Image
+                            title='Vision inmobiliaria logo'
+                            alt='Vision inmobiliaria logo'
+                            src='/vision-icon.png'
+                            width={50}
+                            height={50}
+                        />
+                    </NextLink>
+
                     <p className="font-bold text-inherit">Vision Inmobiliaria</p>
                 </NavbarBrand>
                 {
@@ -191,32 +208,52 @@ export default function Header() {
                     <NavbarMenuItem key={`${item.id}-${index}`}>
                         {
                             item.children.length > 0 &&
-                            <Accordion isCompact>
-                                <AccordionItem  aria-label={item.title} title={item.title}>
-                                {
-                                    item.children.map((child: any) => (
-                                        <Link
-                                            key={child.title}
-                                            className="w-full mb-4"
-                                            href={child.path}
-                                            as={NextLink}
-                                            size="lg"
-                                        >
-                                            {child.title}
-                                        </Link>
-                                    ))
-                                }
-                                </AccordionItem>
-
-                            </Accordion>
+                            <>
+                                <h4 className='text-xl font-bold mb-4'>{item.title}</h4>
+                                <ul>
+                                    {
+                                        item.children.map((child: any) => (
+                                            <Link
+                                                key={child.title}
+                                                className="w-full pl-4 mb-4 text-xl"
+                                                href={child.path}
+                                                as={NextLink}
+                                                onClick={toggleMenu}
+                                                size="lg"
+                                            >
+                                                {child.title}
+                                            </Link>
+                                        ))
+                                    }
+                                </ul>
+                            </>
+                            // <Accordion isCompact>
+                            //     <AccordionItem  aria-label={item.title} title={item.title}>
+                            //     {
+                            //         item.children.map((child: any) => (
+                            //             <Link
+                            //                 key={child.title}
+                            //                 className="w-full mb-4"
+                            //                 href={child.path}
+                            //                 as={NextLink}
+                            //                 size="lg"
+                            //             >
+                            //                 {child.title}
+                            //             </Link>
+                            //         ))
+                            //     }
+                            //     </AccordionItem>
+                            //
+                            // </Accordion>
                         }
                         {
                             item.children.length < 1 &&
                             <Link
-                                className="w-full px-2 mb-2"
+                                className="w-full pl-4 text-xl mb-2"
                                 href={item.path}
                                 as={NextLink}
                                 size="lg"
+                                onClick={toggleMenu}
                             >
                                 {item.title}
                             </Link>

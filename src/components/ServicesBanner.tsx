@@ -1,5 +1,6 @@
 import {SERVICES_DATA} from "@/utils/data/services";
 import {Button} from "@nextui-org/react";
+import NextLink from "next/link";
 
 export default function ServicesBanner () {
     return  (
@@ -18,7 +19,7 @@ export default function ServicesBanner () {
             </div>
 
             <div className='flex justify-center mt-10'>
-                <Button size='lg' variant='bordered' className='text-white'>Ver detalle</Button>
+                <Button size='lg' as={NextLink} href='/servicios' variant='bordered' className='text-white'>Ver detalle</Button>
             </div>
         </div>
     )

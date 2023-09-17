@@ -10,23 +10,23 @@ const footerLinks = [
     },
     {
         title: 'Venta de inmuebles',
-        path: '/'
+        path: '/inmuebles?pagina=1&limite=10&tipo_de_operacion=venta'
     },
     {
         title: 'Alquiler de inmuebles',
-        path: '/'
+        path: '/inmuebles?pagina=1&limite=10&tipo_de_operacion=alquiler'
     },
     {
         title: 'Nuestros servicios',
-        path: '/'
+        path: '/servicios'
     },
     {
         title: 'Acerca de nosotros',
-        path: '/'
+        path: '/acerca-de-nosotros'
     },
     {
         title: 'Contacto',
-        path: '/'
+        path: '/contacto'
     },
 
 ]

@@ -56,10 +56,14 @@ export default function Property({property}: any) {
                         </div>
                     </div>
                     <div className='lg:hidden px-4'>
+                        <Chip variant='bordered' className='border-red-900 text-red-900 mb-5'>{property.generalInformation.operationType}</Chip>
+
                         <h1 className='text-2xl'>{formatPropertyTitle(property.publicationTitle)}</h1>
-                        <h2 className='text-lg mt-3'>Ubicacion corta - {property.generalInformation.code}</h2>
-                        <h2 className='text-xl'>{property.generalInformation.operationType}</h2>
-                        <h3 className='text-3xl text-center mt-3 text-red-900'>$ {property.negotiationInformation.price}</h3>
+                        <span>-</span>
+                        <h2 className='text-lg mt-3'>{property.locationInformation.city}, {property.locationInformation.state},  {property.locationInformation.country}</h2>
+                        <h3 className='text-md mt-3'>REF - {property.generalInformation.code}</h3>
+
+                        <h2 className='text-3xl text-center mt-3 text-red-900'>$ {property.negotiationInformation.price}</h2>
                     </div>
                     <div className='mt-5'>
                         <div className='flex gap-5 justify-center '>
@@ -79,13 +83,13 @@ export default function Property({property}: any) {
                     </div>
 
                     <div className='px-4'>
-                        <h3 className='text-3xl my-10'>Comentario de distribucion</h3>
+                        <h3 className='text-3xl my-10'>Comentarios de distribucion</h3>
                         <p>{property.generalInformation.distributionComments}</p>
                     </div>
 
                     <div className='px-4'>
                         <h3 className='text-3xl my-10'>Caracteristicas</h3>
-                        <div className='grid gap-x-20 gap-y-6 grid-cols-12'>
+                        <div className='grid lg:gap-x-20 gap-y-6 grid-cols-1 lg:grid-cols-12'>
                             {
                                 property.attributes
                                     .filter((attr: any) => attr.value !== null)

@@ -1,5 +1,6 @@
 import {Button} from "@nextui-org/react";
 import {PropertyCard} from "@/components/PropertyCard";
+import NextLink from "next/link";
 
 const elements = [
     {
@@ -53,7 +54,7 @@ export default function FeaturedProperties () {
             </div>
 
             <div className='flex justify-center mt-10'>
-                <Button size='lg' className='bg-red-900 text-white w-[300px]'>Ver mas</Button>
+                <Button as={NextLink} href='/inmuebles?pagina=1&limite=10' size='lg' className='bg-red-900 text-white w-[300px]'>Ver mas</Button>
             </div>
 
         </section>

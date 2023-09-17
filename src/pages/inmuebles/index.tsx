@@ -18,7 +18,7 @@ import {useSearchParams} from 'next/navigation'
 import {IconBxGridVertical, IconFilter, IconUnorderedList} from '@/components/icons'
 import {PropertyCardWithCarousel} from "@/components/PropertyCard";
 import {PROPERTY_TYPES} from "@/utils/data/property-types";
-import {CITIES, LOCATIONS} from "@/utils/data/locations";
+import {LOCATIONS_DETAIL, LOCATIONS} from "@/utils/data/locations";
 import {Location} from "@/interfaces/properties";
 import formatPropertyTitle from "@/utils/format-property-title";
 import {useWindowSize} from "@/hooks";
@@ -43,6 +43,7 @@ export default function Home({properties, page, limit, total}: any) {
     const [pageLimit, setPageLimit] = useState<string>('10')
     const [state, setState] = useState<string>('')
     const [municipality, setMunicipality] = useState<string>('')
+    const [municipalitiesList, setMunicipalitiesList] = useState<string[]>([])
     const [propertyType, setPropertyType] = useState<string>('')
     const [operationType, setOperationType] = useState<string>('')
     const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('grid')
@@ -78,10 +79,20 @@ export default function Home({properties, page, limit, total}: any) {
         });
     };
 
+    function handleChangeLocation(value: string) {
+        setState(value)
+        if (value === '') setMunicipalitiesList([]);
+        if (value === 'Caracas') setMunicipalitiesList(LOCATIONS_DETAIL.caracas)
+        if (value === 'Carabobo') setMunicipalitiesList(LOCATIONS_DETAIL.carabobo);
+        if (value === 'Cojedes') setMunicipalitiesList(LOCATIONS_DETAIL.cojedes);
+        if (value === 'Aragua') setMunicipalitiesList(LOCATIONS_DETAIL.aragua);
+
+    }
+
 
     return (
         <main
-            className={`  min-h-screen  ${inter.className}`}
+            className={`min-h-screen  ${inter.className}`}
         >
             <section className='relative'>
                 <img src="/about/aboutBanner.jpg" className='h-[200px] object-cover lg:h-full' alt=""/>
@@ -95,18 +106,19 @@ export default function Home({properties, page, limit, total}: any) {
                 </div>
             </section>
 
-            <section className='lg:px-20 grid gap-4 lg:grid-cols-12'>
+            <section className='lg:px-20 grid gap-4 lg:grid-cols-12 '>
                 <div className='lg:col-span-3 lg:order-1 hidden lg:block'>
                     <div className='my-5'>
-                        <Select  value={state} selectedKeys={[state]}  onChange={e => setState(e.target.value)} size='sm' variant='bordered' className='mb-4' label="Estado">
+                        <Select value={state} selectedKeys={[state]} onChange={e => handleChangeLocation(e.target.value)} size='sm'
+                                variant='bordered' className='mb-4' label="Estado">
                             {LOCATIONS.map((location) => (
-                                <SelectItem key={location} value={location}>
+                                <SelectItem key={location} value={location} >
                                     {location}
                                 </SelectItem>
                             ))}
                         </Select>
-                        <Select size='sm' variant='bordered' className='mb-4' label="Municipio">
-                            {CITIES[state].map((city: string) => (
+                        <Select size='sm' variant='bordered' className='mb-4' label="Municipio" onChange={e => setMunicipality(e.target.value)}>
+                            {municipalitiesList.map((city: string) => (
                                 <SelectItem key={city} value={city}>
                                     {city}
                                 </SelectItem>
@@ -122,12 +134,28 @@ export default function Home({properties, page, limit, total}: any) {
                             <Input size='sm' variant='bordered' className='col-span-5' type="text" label="Hasta"/>
                         </div>
 
-                        <Select value={propertyType} selectedKeys={[propertyType]} onChange={e => setPropertyType(e.target.value)} size='sm' variant='bordered' className='mb-4' label="Inmueble">
+                        <Select value={propertyType} selectedKeys={[propertyType]}
+                                onChange={e => setPropertyType(e.target.value)} size='sm' variant='bordered'
+                                className='mb-4' label="Inmueble">
                             {PROPERTY_TYPES.map((propertyType) => (
                                 <SelectItem key={propertyType} value={propertyType}>
                                     {propertyType}
                                 </SelectItem>
                             ))}
+                        </Select>
+
+                        <Select value={operationType} selectedKeys={[operationType]}
+                                onChange={e => setOperationType(e.target.value)} size='sm' variant='bordered'
+                                className='mb-4' label="Tipo de operacion">
+                            <SelectItem key='Venta' value='Venta'>
+                                Venta
+                            </SelectItem>
+                            <SelectItem key='Alquiler' value='Alquiler'>
+                                Alquiler
+                            </SelectItem>
+                            <SelectItem key='Traspaso de fondo' value='Traspaso de fondo'>
+                                Traspaso de fondo
+                            </SelectItem>
                         </Select>
 
 
@@ -178,6 +206,11 @@ export default function Home({properties, page, limit, total}: any) {
                                     title={formatPropertyTitle(property.publicationTitle)}
                                     description={property.description}
                                     price={property.price}
+                                    featured={[
+                                        property.footageGround,
+                                        property.operationType,
+                                        property.propertyType
+                                    ]}
                                 />
                             ))
                         }
@@ -189,6 +222,7 @@ export default function Home({properties, page, limit, total}: any) {
                 </div>
 
             </section>
+
 
             <Modal
                 isOpen={showFilters}
@@ -202,15 +236,17 @@ export default function Home({properties, page, limit, total}: any) {
                             <ModalHeader className="flex flex-col gap-1">Filtros de busqueda</ModalHeader>
                             <ModalBody>
                                 <div>
-                                    <Select  value={state} selectedKeys={[state]}  onChange={e => setState(e.target.value)} size='sm' variant='bordered' className='mb-4' label="Estado">
+                                    <Select value={state} selectedKeys={[state]}
+                                            onChange={e => handleChangeLocation(e.target.value)} size='sm' variant='bordered'
+                                            className='mb-4' label="Estado">
                                         {LOCATIONS.map((location) => (
                                             <SelectItem key={location} value={location}>
                                                 {location}
                                             </SelectItem>
                                         ))}
                                     </Select>
-                                    <Select size='sm' variant='bordered' className='mb-4' label="Municipio">
-                                        {CITIES[state].map((city: string) => (
+                                    <Select size='sm' variant='bordered' className='mb-4' label="Municipio" onChange={e => setMunicipality(e.target.value)}>
+                                        {municipalitiesList.map((city: string) => (
                                             <SelectItem key={city} value={city}>
                                                 {city}
                                             </SelectItem>
@@ -221,12 +257,16 @@ export default function Home({properties, page, limit, total}: any) {
                                     <h3 className='my-4'>Precio</h3>
 
                                     <div className='mb-4 grid grid-cols-12 justify-items-center items-center'>
-                                        <Input size='sm' variant='bordered' className='col-span-5' type="text" label="Desde"/>
+                                        <Input size='sm' variant='bordered' className='col-span-5' type="text"
+                                               label="Desde"/>
                                         <div className='col-span-2'>-</div>
-                                        <Input size='sm' variant='bordered' className='col-span-5' type="text" label="Hasta"/>
+                                        <Input size='sm' variant='bordered' className='col-span-5' type="text"
+                                               label="Hasta"/>
                                     </div>
 
-                                    <Select value={propertyType} selectedKeys={[propertyType]} onChange={e => setPropertyType(e.target.value)} size='sm' variant='bordered' className='mb-4' label="Inmueble">
+                                    <Select value={propertyType} selectedKeys={[propertyType]}
+                                            onChange={e => setPropertyType(e.target.value)} size='sm' variant='bordered'
+                                            className='mb-4' label="Inmueble">
                                         {PROPERTY_TYPES.map((propertyType) => (
                                             <SelectItem key={propertyType} value={propertyType}>
                                                 {propertyType}
@@ -234,8 +274,23 @@ export default function Home({properties, page, limit, total}: any) {
                                         ))}
                                     </Select>
 
+                                    <Select value={operationType} selectedKeys={[operationType]}
+                                            onChange={e => setOperationType(e.target.value)} size='sm' variant='bordered'
+                                            className='mb-4' label="Tipo de operacion">
+                                        <SelectItem key='Venta' value='Venta'>
+                                            Venta
+                                        </SelectItem>
+                                        <SelectItem key='Alquiler' value='Alquiler'>
+                                            Alquiler
+                                        </SelectItem>
+                                        <SelectItem key='Traspaso de fondo' value='Traspaso de fondo'>
+                                            Traspaso de fondo
+                                        </SelectItem>
+                                    </Select>
 
-                                    <Input size='sm' variant='bordered' className='mb-4' type="text" label="Buscar por codigo"/>
+
+                                    <Input size='sm' variant='bordered' className='mb-4' type="text"
+                                           label="Buscar por codigo"/>
 
                                 </div>
                             </ModalBody>
@@ -259,7 +314,12 @@ export default function Home({properties, page, limit, total}: any) {
 export async function getServerSideProps({query}: any) {
     const pageSize = query.limite || 10;
     const pageIndex = query.pagina || 1;
-    const res = await http.get(`/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}`)
+    const operationType = query.tipo_de_operacion || '';
+    const propertyType = query.tipo_de_inmueble || '';
+    const state = query.estado || '';
+    const city = query.municipalidad || '';
+    const municipality = query.sector || '';
+    const res = await http.get(`/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}&state=${state}&city=${city}&propertyType=${propertyType}&operationType=${operationType}`)
     const resObj = await res.data;
     const totalElements = resObj.count;
     const totalPages = totalElements / 10;

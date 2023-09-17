@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://100.42.69.119:3000/api/v1";
-const baseUrlDev = "http://localhost:3000/api/v1";
+const baseUrl = process.env.URL_BACKEND;
 
 export const http = axios.create({
     baseURL: baseUrl,

@@ -44,7 +44,7 @@ export default function Header() {
             id: '1',
             title: 'En venta',
             children: [],
-            path: '/inmuebles?tipo_de_operacion=venta&page=1&pageSize=10'
+            path: '/inmuebles?tipo_de_operacion=Venta&pagina=1&limite=10'
         },
         {
             id: '2',
@@ -52,11 +52,11 @@ export default function Header() {
             children: [
                 {
                     title: 'Estadias vacacionales',
-                    path: '/inmuebles?tipo_de_operacion=alquiler&subType=estadias vacacionales&page=1&pageSize=10'
+                    path: '/inmuebles?tipo_de_operacion=Alquiler&subType=estadias vacacionales&pagina=1&limite=10'
                 },
                 {
                     title: 'Temporadas largas',
-                    path: '/inmuebles?tipo_de_operacion=alquiler&subType=temporadas largas&page=1&pageSize=10'
+                    path: '/inmuebles?tipo_de_operacion=Alquiler&subType=temporadas largas&pagina=1&limite=10'
                 }
             ],
             path: ''

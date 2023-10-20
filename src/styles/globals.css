@@ -83,3 +83,21 @@
     border: 1px solid black;
 }
 
+.image-container {
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container > div {
+    position: unset !important;
+}
+.image-container > .image {
+    object-fit: contain;
+    width: 100% !important;
+    max-width: 500px;
+    position: relative !important;
+    height: unset !important;
+}
+

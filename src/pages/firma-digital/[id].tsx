@@ -1,6 +1,6 @@
 import {GetServerSideProps} from "next";
 import SignatureCanvas from 'react-signature-canvas'
-import {useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {
     Modal,
     ModalContent,
@@ -15,14 +15,16 @@ import {Inter} from "next/font/google";
 import Stepper from "@/components/Stepper";
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {http} from "@/utils/axios";
-import {DigitalSignatureRequest} from "@/interfaces/digital-signature-request";
+import {DigitalSignatureRequest, GetDigitalSignatureRequestById} from "@/interfaces/digital-signature-request";
 import Image from "next/image";
 import {sleep} from "@/utils/delay";
+import {GenericError} from "@/interfaces/generics";
+import NextLink from "next/link";
+import {UiContext} from "@/context/UiContext";
+import axios from "axios";
+import Snackbar from "@/components/Snackbar";
 
 const inter = Inter({subsets: ['latin']})
-
-const url = 'http://100.42.69.119:3000/api/v1/files/genericStaticFileAsset/servicio-inmobiliario+propiedades+VINM-001+documentos+Ficha_Te%C3%8C%C2%81cnica_Visio%C3%8C%C2%81n_Inmobiliaria_VINM_2023-09-26T04:21:05.pdf';
-
 // TODO 1. Validar la solicitud (status en pendiente solamente y fecha de expiracion mayor a now)
 // TODO 2. formulario de autenticacion para validar que sea el usuario
 // TODO 3. Presentar el documento, y casilla de firma para completar el proceso
@@ -34,24 +36,33 @@ type Inputs = {
     ci: string;
 }
 
-export default function DocumentSignature(props: { data: DigitalSignatureRequest }) {
+export default function DocumentSignature(props: { data: GetDigitalSignatureRequestById }) {
     const {data} = props;
+    const filePath = data.data.filePath
+    const {toggleToolbar} = useContext(UiContext);
     const {
         register,
         handleSubmit,
         formState: {errors, isLoading, isValid, isSubmitting},
     } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log(data);
         await validateUserData(data)
     }
 
-    console.log(isSubmitting);
 
     const sigCanvas = useRef<any>();
     const [signatureURL, setSignatureURL] = useState<string>('');
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [currentStep, setCurrentStep] = useState<number>(1);
+    const [validationError, setValidationError] = useState<boolean>(false);
+    const [validationErrorMessage, setValidationErrorMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        toggleToolbar(false);
+        return () => toggleToolbar(true);
+    }, []);
+
     const save = () => {
         const URL = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
         setSignatureURL(URL);
@@ -61,14 +72,58 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
         sigCanvas.current.clear();
         setSignatureURL('');
     }
-    const validateUserData = async (data: Inputs) => {
-        console.log(data);
-        await sleep(5000);
-        setCurrentStep(2);
+    const validateUserData = async (formValues: Inputs) => {
+        console.log(formValues);
+        const payload = {
+            ...formValues,
+            userId: data.owner.id.toString()
+        }
+        const responseValidation = await axios.post('/api/digital-signature/validateUserData', payload);
+        console.log(responseValidation)
+        if (responseValidation.data.error) {
+            setValidationError(true);
+            setValidationErrorMessage(responseValidation.data.message);
+        } else {
+            setValidationError(false);
+            setValidationErrorMessage('');
+            setCurrentStep(2);
+        }
     }
 
-    const sendDigitalSign = () => {
-        onClose();
+    const sendDigitalSign = async () => {
+        setLoading(true);
+
+        const response = await http.post('/api/digital-signature/sendDigitalSignature', {
+            digitalSignature: signatureURL,
+            digitalSignatureRequestId: data.data.id,
+        })
+
+        // onClose();
+    }
+
+
+
+
+    if (data.error) {
+        return (
+            <main
+                className={`min-h-screen p-5 lg:p-10  ${inter.className}`}
+            >
+                <Snackbar
+                    title='Ocurrio un error'
+                    variant='error'
+                    message={data.message!}
+                />
+
+                <div className='image-container'>
+                    <Image className='image mt-20' src='/error.jpg' fill={true} alt='Imagen de error' />
+                </div>
+
+                <div className='flex justify-center mt-20'>
+                    <Button color='primary' as={NextLink} href='/'>Regresar</Button>
+                </div>
+            </main>
+        )
     }
 
     return (
@@ -76,7 +131,15 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
             className={`min-h-screen  ${inter.className}`}
         >
             <Stepper currentStep={currentStep} steps={['Validacion de datos', 'Firma digital']}/>
-            <div className='px-5 lg:px-20 py-10'>
+            {
+                validationError &&
+                <Snackbar
+                    variant='warning'
+                    title='Error de validacion de datos'
+                    message={validationErrorMessage}
+                />
+            }
+            <div className='px-5 lg:px-20 py-10 mt-20'>
                 {
                     currentStep === 1 &&
                     <div className='flex flex-col justify-center items-center'>
@@ -91,7 +154,7 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
                                 variant='bordered'
                                 type="text"
                                 label="Ultimos 4 digitos de telefono"
-                                description='De tu numero que inicia en 0414 - 482...'
+                                description={`De tu numero que inicia en ${data.owner.phone.substring(0, 6)}...`}
                                 { ...register('last4PhoneDigits', {required : true, maxLength: 4}) }
                                 errorMessage={errors.last4PhoneDigits?.type === 'required' ? <span className='text-red-600'>Este campo es requerido</span> : errors.last4PhoneDigits?.type === 'maxLength' && <span className='text-red-600'>Maximo 4 digitos</span>}
                             />
@@ -100,7 +163,7 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
                                 variant='bordered'
                                 type="text"
                                 label="Apellido"
-                                description='Que inicia en Ro...'
+                                description={`Que inicia en ${data.owner.lastName.substring(0, 2)}...`}
                                 errorMessage={errors.lastname && <span className='text-red-600'>Este campo es requerido</span>}
                                 { ...register('lastname', {required : true}) }
                             />
@@ -109,19 +172,19 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
                                 variant='bordered'
                                 type="text"
                                 label="Cedula de identidad"
-                                placeholder='Numero de cedula de identidad'
+                                description={`Que inicia en ${data.owner.ci.substring(0, 2)}...`}
                                 { ...register('ci', {required : true}) }
                                 errorMessage={errors.ci && <span className='text-red-600'>Este campo es requerido</span>}
                             />
 
-                            <Button type='submit' isLoading={isSubmitting} isDisabled={!isValid}>{isSubmitting ? 'Validando informacion' : 'Siguiente'}</Button>
+                            <Button type='submit' color='primary' isLoading={isSubmitting} isDisabled={!isValid}>{isSubmitting ? 'Validando informacion' : 'Siguiente'}</Button>
                         </form>
                     </div>
                 }
                 {
                     currentStep === 2 &&
                     <div className='flex flex-col items-center gap-5'>
-                        <a href={url} target='_blank'>
+                        <a href={data.data.filePath} target='_blank'>
                             <Button color='primary' className='mb-5'>
                                 Ver documento original
                             </Button>
@@ -157,8 +220,8 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
                                            </p>
                                             {
                                                 signatureURL &&
-                                                <div className='flex justify-center'>
-                                                    <Image  width={280} height={280} src={signatureURL} alt="firma digital canvas svg"/>
+                                                <div className='flex justify-center max-h-48'>
+                                                    <Image  width={250} height={200} src={signatureURL} alt="firma digital canvas svg"/>
                                                 </div>
                                             }
 
@@ -186,14 +249,17 @@ export default function DocumentSignature(props: { data: DigitalSignatureRequest
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}: any) => {
-    console.log(params.id);
     const request = await http.get(`/files/getDigitalSignatureRequestById/${params.id}`)
 
+    if (request?.data.error) {
+        return {
+            props: {
+                data: request.data
+            }
+        }
+    }
+
     return {
-        // redirect: {
-        //     permanent: false,
-        //     destination: '/'
-        // },
         props: {
             data: request.data
         }

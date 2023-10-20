@@ -12,5 +12,24 @@ export interface DigitalSignatureRequest {
     ownerId: number | null,
     allyId: number | null,
     externalAdviserId: number | null,
+}
 
+export interface GetDigitalSignatureRequestById {
+    data: DigitalSignatureRequest,
+    owner: Owner,
+    message?: string;
+    error?: boolean;
+}
+
+interface Owner {
+    id: number,
+    ci: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    phone: string,
+    birthdate: Date,
+    isInvestor: boolean,
+    createdAt: Date,
+    updatedAt: Date
 }

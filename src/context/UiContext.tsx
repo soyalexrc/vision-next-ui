@@ -5,14 +5,14 @@ interface UiState {
 }
 
 const initialUiState: UiState = {
-    showToolbar: true
+    showToolbar: true,
 }
 
 
-export const UiContext = createContext<UiState>(initialUiState);
+export const UiContext = createContext<any>(initialUiState);
 
 export default function UiProvider({children}: any) {
-    const [uiState, setUiState] = useState<UiState>(initialUiState)
+    const [uiState, setUiState] = useState<any>(initialUiState)
 
     const toggleToolbar = (value: boolean) => {
         setUiState({

@@ -16,7 +16,7 @@ export interface DigitalSignatureRequest {
 
 export interface GetDigitalSignatureRequestById {
     data: DigitalSignatureRequest,
-    owner: Owner,
+    user: Owner,
     message?: string;
     error?: boolean;
 }

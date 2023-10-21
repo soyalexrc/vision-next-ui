@@ -36,9 +36,17 @@ type Inputs = {
     ci: string;
 }
 
+type SnackbarState = {
+    show: boolean,
+    variant: 'error' | 'success' | 'warning' | 'info',
+    title: string,
+    message: string,
+
+}
+
 export default function DocumentSignature(props: { data: GetDigitalSignatureRequestById }) {
     const {data} = props;
-    const filePath = data.data.filePath
+    const filePath = data.data?.filePath
     const {toggleToolbar} = useContext(UiContext);
     const {
         register,
@@ -54,8 +62,13 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
     const [signatureURL, setSignatureURL] = useState<string>('');
     const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [currentStep, setCurrentStep] = useState<number>(1);
-    const [validationError, setValidationError] = useState<boolean>(false);
-    const [validationErrorMessage, setValidationErrorMessage] = useState<string>('');
+    const [signedDocument, setSignedDocument] = useState<string>('');
+    const [snackbarState, setSnackbarState] = useState<SnackbarState>({
+        show: false,
+        variant: 'info',
+        title: '',
+        message: ''
+    })
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -76,32 +89,69 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
         console.log(formValues);
         const payload = {
             ...formValues,
-            userId: data.owner.id.toString()
+            userId: data.user.id.toString()
         }
         const responseValidation = await axios.post('/api/digital-signature/validateUserData', payload);
         console.log(responseValidation)
         if (responseValidation.data.error) {
-            setValidationError(true);
-            setValidationErrorMessage(responseValidation.data.message);
+            setSnackbarState({
+                show: true,
+                title: 'Error de validacion de datos',
+                variant: 'error',
+                message: responseValidation.data.message
+            })
         } else {
-            setValidationError(false);
-            setValidationErrorMessage('');
+            setSnackbarState({
+                show: true,
+                title: 'Validacion de datos exitosa',
+                variant: 'success',
+                message: 'Por favor, continua con la firma para culminar el proceso.'
+            })
+            setTimeout(() => {
+                resetSnackbarState()
+            }, 2000)
             setCurrentStep(2);
         }
     }
 
+    const resetSnackbarState = () => setSnackbarState({
+        show: false,
+        variant: 'info',
+        title: '',
+        message: ''
+    })
+
     const sendDigitalSign = async () => {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const response = await http.post('/api/digital-signature/sendDigitalSignature', {
-            digitalSignature: signatureURL,
-            digitalSignatureRequestId: data.data.id,
-        })
+            const response = await http.post('/api/digital-signature/sendDigitalSignature', {
+                digitalSignature: signatureURL,
+                digitalSignatureRequestId: data.data.id,
+            })
+            onClose();
+            setLoading(false);
 
-        // onClose();
+
+            if (!response.data.error) {
+                setCurrentStep(3);
+                setSnackbarState({
+                    show: true,
+                    variant: 'success',
+                    title: 'Se completo el proceso con exito',
+                    message: `Aqui abajo puedes descargar el documento actualizado con tu firma digital. De igual manera puedes pedirlo cuando quieras a a nuestros asesores bajo el numero de identificaion: ${data.data.id}`
+                });
+                setSignedDocument(response.data.data.signedDocumentURL);
+            //     mensaje de exito
+            } else {
+            //     mensaje de error
+            }
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+
     }
-
-
 
 
     if (data.error) {
@@ -112,11 +162,12 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
                 <Snackbar
                     title='Ocurrio un error'
                     variant='error'
+                    close={() => {}}
                     message={data.message!}
                 />
 
                 <div className='image-container'>
-                    <Image className='image mt-20' src='/error.jpg' fill={true} alt='Imagen de error' />
+                    <Image className='image mt-20' src='/error.jpg' fill={true} alt='Imagen de error'/>
                 </div>
 
                 <div className='flex justify-center mt-20'>
@@ -130,13 +181,14 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
         <main
             className={`min-h-screen  ${inter.className}`}
         >
-            <Stepper currentStep={currentStep} steps={['Validacion de datos', 'Firma digital']}/>
+            <Stepper currentStep={currentStep} steps={['Validacion de datos', 'Firma digital', 'Proceso completado']}/>
             {
-                validationError &&
+                snackbarState.show &&
                 <Snackbar
-                    variant='warning'
-                    title='Error de validacion de datos'
-                    message={validationErrorMessage}
+                    close={resetSnackbarState}
+                    variant={snackbarState.variant}
+                    title={snackbarState.title}
+                    message={snackbarState.message}
                 />
             }
             <div className='px-5 lg:px-20 py-10 mt-20'>
@@ -147,44 +199,50 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
                         {/*<p>Ultimos 4 digitos de numero de telefono registrado que inicia en ***</p>*/}
                         {/*<p>Cedula de identidad</p>*/}
                         {/*<p>Apellido que inicia con ***</p>*/}
-                        <h2 className='text-xl mb-8'>Por favor completa el siguiente formulario para validar tus datos </h2>
+                        <h2 className='text-xl mb-8'>Por favor completa el siguiente formulario para validar tus
+                            datos </h2>
                         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5 w-full max-w-lg'>
                             <Input
                                 size='sm'
                                 variant='bordered'
                                 type="text"
                                 label="Ultimos 4 digitos de telefono"
-                                description={`De tu numero que inicia en ${data.owner.phone.substring(0, 6)}...`}
-                                { ...register('last4PhoneDigits', {required : true, maxLength: 4}) }
-                                errorMessage={errors.last4PhoneDigits?.type === 'required' ? <span className='text-red-600'>Este campo es requerido</span> : errors.last4PhoneDigits?.type === 'maxLength' && <span className='text-red-600'>Maximo 4 digitos</span>}
+                                description={`De tu numero que inicia en ${data.user.phone.substring(0, 6)}...`}
+                                {...register('last4PhoneDigits', {required: true, maxLength: 4})}
+                                errorMessage={errors.last4PhoneDigits?.type === 'required' ? <span
+                                    className='text-red-600'>Este campo es requerido</span> : errors.last4PhoneDigits?.type === 'maxLength' &&
+                                    <span className='text-red-600'>Maximo 4 digitos</span>}
                             />
                             <Input
                                 size='sm'
                                 variant='bordered'
                                 type="text"
                                 label="Apellido"
-                                description={`Que inicia en ${data.owner.lastName.substring(0, 2)}...`}
-                                errorMessage={errors.lastname && <span className='text-red-600'>Este campo es requerido</span>}
-                                { ...register('lastname', {required : true}) }
+                                description={`Que inicia en ${data.user?.lastName.substring(0, 2)}...`}
+                                errorMessage={errors.lastname &&
+                                    <span className='text-red-600'>Este campo es requerido</span>}
+                                {...register('lastname', {required: true})}
                             />
                             <Input
                                 size='sm'
                                 variant='bordered'
                                 type="text"
                                 label="Cedula de identidad"
-                                description={`Que inicia en ${data.owner.ci.substring(0, 2)}...`}
-                                { ...register('ci', {required : true}) }
-                                errorMessage={errors.ci && <span className='text-red-600'>Este campo es requerido</span>}
+                                description={`Que inicia en ${data.user.ci.substring(0, 2)}...`}
+                                {...register('ci', {required: true})}
+                                errorMessage={errors.ci &&
+                                    <span className='text-red-600'>Este campo es requerido</span>}
                             />
 
-                            <Button type='submit' color='primary' isLoading={isSubmitting} isDisabled={!isValid}>{isSubmitting ? 'Validando informacion' : 'Siguiente'}</Button>
+                            <Button type='submit' color='primary' isLoading={isSubmitting}
+                                    isDisabled={!isValid}>{isSubmitting ? 'Validando informacion' : 'Siguiente'}</Button>
                         </form>
                     </div>
                 }
                 {
                     currentStep === 2 &&
                     <div className='flex flex-col items-center gap-5'>
-                        <a href={data.data.filePath} target='_blank'>
+                        <a href={data.data?.filePath} target='_blank'>
                             <Button color='primary' className='mb-5'>
                                 Ver documento original
                             </Button>
@@ -216,12 +274,14 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
                                         <ModalHeader className="flex flex-col gap-1">Confirmar</ModalHeader>
                                         <ModalBody>
                                             <p>
-                                                La siguiente imagen representa la firma previamente guardada, estas conforme?
-                                           </p>
+                                                La siguiente imagen representa la firma previamente guardada, estas
+                                                conforme?
+                                            </p>
                                             {
                                                 signatureURL &&
                                                 <div className='flex justify-center max-h-48'>
-                                                    <Image  width={250} height={200} src={signatureURL} alt="firma digital canvas svg"/>
+                                                    <Image width={250} height={200} src={signatureURL}
+                                                           alt="firma digital canvas svg"/>
                                                 </div>
                                             }
 
@@ -231,14 +291,23 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
                                             <Button color="danger" variant="light" onPress={onClose}>
                                                 Cancelar
                                             </Button>
-                                            <Button color="primary" onPress={sendDigitalSign}>
-                                                Confirmar
+                                            <Button color="primary" isLoading={loading} onPress={sendDigitalSign}>
+                                                {loading ? 'Enviando firma...' : 'Confirmar'}
                                             </Button>
                                         </ModalFooter>
                                     </>
                                 )}
                             </ModalContent>
                         </Modal>
+                    </div>
+                }
+                {
+                    currentStep === 3 &&
+                    <div className='flex justify-center gap-10'>
+                        <Button variant='bordered' color='primary'>Volver</Button>
+                        <a href={signedDocument} target='_blank'>
+                            <Button color='primary'>Descargar documento firmado</Button>
+                        </a>
                     </div>
                 }
             </div>

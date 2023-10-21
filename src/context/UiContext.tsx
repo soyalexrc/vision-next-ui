@@ -2,7 +2,6 @@ import {createContext, useState} from "react";
 
 interface UiState {
     showToolbar: boolean;
-    toggleToolbar: (value: boolean) => void;
 }
 
 const initialUiState: UiState = {
@@ -12,7 +11,7 @@ const initialUiState: UiState = {
 
 export const UiContext = createContext<UiState>(initialUiState);
 
-export default function UiProvider({children}) {
+export default function UiProvider({children}: any) {
     const [uiState, setUiState] = useState<UiState>(initialUiState)
 
     const toggleToolbar = (value: boolean) => {

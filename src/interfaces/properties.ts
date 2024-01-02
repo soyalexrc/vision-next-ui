@@ -1,1 +1,1 @@
-export type Location = 'Aragua' | 'Carabobo' | 'Caracas' | 'Cojedes'
+export type Location = 'Aragua' | 'Carabobo' | 'Caracas' | 'Cojedes';

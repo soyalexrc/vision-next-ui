@@ -1,34 +1,28 @@
-import {createContext, useState} from "react";
+import { createContext, useState } from 'react';
 
 interface UiState {
-    showToolbar: boolean;
+  showToolbar: boolean;
 }
 
 const initialUiState: UiState = {
-    showToolbar: true,
-}
-
+  showToolbar: true,
+};
 
 export const UiContext = createContext<any>(initialUiState);
 
-export default function UiProvider({children}: any) {
-    const [uiState, setUiState] = useState<any>(initialUiState)
+export default function UiProvider({ children }: any) {
+  const [uiState, setUiState] = useState<any>(initialUiState);
 
-    const toggleToolbar = (value: boolean) => {
-        setUiState({
-            showToolbar: value,
-        })
-    }
+  const toggleToolbar = (value: boolean) => {
+    setUiState({
+      showToolbar: value,
+    });
+  };
 
-    const value = {
-        ...uiState,
-        toggleToolbar
-    }
+  const value = {
+    ...uiState,
+    toggleToolbar,
+  };
 
-
-    return (
-        <UiContext.Provider value={value}>
-            {children}
-        </UiContext.Provider>
-    )
+  return <UiContext.Provider value={value}>{children}</UiContext.Provider>;
 }

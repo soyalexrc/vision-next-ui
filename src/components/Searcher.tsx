@@ -1,20 +1,23 @@
 import { Button, Input, Select, SelectItem, Tab, Tabs } from '@nextui-org/react';
-import {PROPERTY_TYPES} from "@/utils/data/property-types";
+import { PROPERTY_TYPES } from '@/utils/data/property-types';
 
 export default function Searcher() {
-  const animals = [{ label: 'sample', value: 2 }, {label: 'sample 2', value: 33}];
+  const animals = [
+    { label: 'sample', value: 2 },
+    { label: 'sample 2', value: 33 },
+  ];
   const attributesOptions = [
-    {label: 'Pozo de agua'},
-    {label: 'Planta electrica 50%'},
-    {label: 'Planta electrica 100%'},
-    {label: 'Piscina'},
-    {label: 'A estrenar'},
-    {label: 'Obra blanca'},
-    {label: 'Amoblado'},
-    {label: 'Equipado'},
-    {label: 'Terraza'},
-    {label: 'ocina empotrada'},
-  ]
+    { label: 'Pozo de agua' },
+    { label: 'Planta electrica 50%' },
+    { label: 'Planta electrica 100%' },
+    { label: 'Piscina' },
+    { label: 'A estrenar' },
+    { label: 'Obra blanca' },
+    { label: 'Amoblado' },
+    { label: 'Equipado' },
+    { label: 'Terraza' },
+    { label: 'ocina empotrada' },
+  ];
   return (
     <section className="my-14 lg:px-24 w-full">
       <div className="w-full flex justify-center lg:justify-start   mt-4">
@@ -47,7 +50,7 @@ export default function Searcher() {
               </SelectItem>
             ))}
           </Select>
-          <Input size="sm" type="text" label="Codigo" className='mb-4 lg:mb-0' />
+          <Input size="sm" type="text" label="Codigo" className="mb-4 lg:mb-0" />
         </div>
         <div>
           <Select size="sm" label="Municipio" className="lg:max-w-xs mb-4">

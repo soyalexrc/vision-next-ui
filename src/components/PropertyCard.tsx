@@ -15,7 +15,7 @@ export function PropertyCard(props: { img: string }) {
         <div className="flex gap-5 justify-center ">
           <small>86 m2</small>
           <small className="border-x-1 border-gray-400 px-4">3 Habitaciones</small>
-          <small>1 Bano</small>
+          <small>2 P.E</small>
         </div>
         <p className="text-red-900 text-center mt-5 text-4xl">$ 295.000</p>
       </div>

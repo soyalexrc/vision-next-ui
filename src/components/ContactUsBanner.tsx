@@ -12,7 +12,7 @@ export default function ContactUsBanner() {
         </h2>
         <div className="flex justify-center mt-7">
           <Button as={NextLink} href="/contacto" size="lg" className="bg-red-900 text-white">
-            Contactanos
+            Contáctanos
           </Button>
         </div>
       </div>

@@ -52,11 +52,13 @@ export default function CategoriesCarousel() {
       <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu propiedad ideal</h2>
       <div className="navigation-wrapper">
         <div ref={sliderRef} className="keen-slider">
-          <CarouselCard />
-          <CarouselCard />
-          <CarouselCard />
-          <CarouselCard />
-          <CarouselCard />
+          <CarouselCard title="Locales comerciales" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Oficinas" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Propiedades vacacionales" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Apartamentos" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Casas, Townhouse, Quintas" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Galpones" image="/home/lifestyle-banner-1.jpg" />
+          <CarouselCard title="Otras porpiedades" image="/home/lifestyle-banner-1.jpg" />
         </div>
         {loaded && instanceRef.current && (
           <>
@@ -90,13 +92,13 @@ export default function CategoriesCarousel() {
   );
 }
 
-function CarouselCard(props: { title?: string; image?: string; link?: string }) {
+function CarouselCard(props: { title: string; image: string; link?: string }) {
   return (
     <div className="keen-slider__slide relative">
-      <img width="100%" height="100%" src="/home/lifestyle-banner-1.jpg" alt="banner" />
+      <img width="100%" height="100%" src={props.image} alt={props.title} />
       <div className="absolute bottom-0 left-0 w-full bg-black-opacity h-full flex flex-col items-center justify-end pb-6">
-        <h4 className="text-white text-lg">Alquileres vacacionales</h4>
-        <a className="underline text-blue-500">Ver mas</a>
+        <h4 className="text-white text-lg">{props.title}</h4>
+        <a className="underline text-blue-500">Ver más</a>
       </div>
     </div>
   );

@@ -1,23 +1,15 @@
 export const SERVICES_DATA = [
   {
     img: '/services/particulares.png',
-    title: 'Inmobiliario',
+    title: 'Promoción de propiedades',
   },
   {
     img: '/services/promotores.png',
-    title: 'Administración de inmuebles alquilados',
-  },
-  {
-    img: '/services/promotores.png',
-    title: 'Administración empresas',
+    title: 'Administración de de contratos de alquiler',
   },
   {
     img: '/services/entidades-financieras.png',
     title: 'Trámites legales',
-  },
-  {
-    img: '/services/sociedades-de-inversion.png',
-    title: 'Gestión contable',
   },
   {
     img: '/services/sociedades-de-inversion.png',

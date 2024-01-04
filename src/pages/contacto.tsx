@@ -43,7 +43,7 @@ export default function ContactUs() {
             <h2 className="text-2xl my-10">Estoy interesado en </h2>
 
             <div className="grid gap-4 grid-cols-2 my-5">
-              <Select size="sm" variant="bordered" label="Tipo de inmueble">
+              <Select size="sm" variant="bordered" label="Tipo de propiedad">
                 {animals.map((animal) => (
                   <SelectItem key={animal.value} value={animal.value}>
                     {animal.label}

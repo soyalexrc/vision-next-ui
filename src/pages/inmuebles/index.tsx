@@ -88,7 +88,7 @@ export default function Home({ properties, page, limit, total }: any) {
         <div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">
           <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-2">Opera con nosotros</h2>
           <p className="text-white text-sm lg:text-xl text-center">
-            Consulta nuestra amplia oferta de inmuebles en venta y alquiler. Encuentra la opcion que <br /> mejor se adapte a tus
+            Consulta nuestra amplia oferta de propiedades en venta y alquiler. Encuentra la opcion que <br /> mejor se adapte a tus
             necesidades
           </p>
         </div>
@@ -135,7 +135,7 @@ export default function Home({ properties, page, limit, total }: any) {
               size="sm"
               variant="bordered"
               className="mb-4"
-              label="Inmueble"
+              label="Propiedad"
             >
               {PROPERTY_TYPES.map((propertyType) => (
                 <SelectItem key={propertyType} value={propertyType}>
@@ -278,7 +278,7 @@ export default function Home({ properties, page, limit, total }: any) {
                     size="sm"
                     variant="bordered"
                     className="mb-4"
-                    label="Inmueble"
+                    label="Propiedad"
                   >
                     {PROPERTY_TYPES.map((propertyType) => (
                       <SelectItem key={propertyType} value={propertyType}>

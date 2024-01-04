@@ -9,4 +9,5 @@ export const PROPERTY_TYPES = [
   'Apartoquinta',
   'Casa Quinta',
   'Fondo de Comercio',
+  'Penthouse',
 ];

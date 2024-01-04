@@ -49,7 +49,7 @@ export default function CategoriesCarousel() {
   );
   return (
     <section className="lg:px-24 py-12 w-full bg-gray-200">
-      <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu inmueble ideal</h2>
+      <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu propiedad ideal</h2>
       <div className="navigation-wrapper">
         <div ref={sliderRef} className="keen-slider">
           <CarouselCard />

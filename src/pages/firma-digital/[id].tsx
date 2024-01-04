@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import SignatureCanvas from 'react-signature-canvas';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from '@nextui-org/react';
-import { Inter } from 'next/font/google';
 import Stepper from '@/components/Stepper';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { http } from '@/utils/axios';
@@ -13,7 +12,6 @@ import { UiContext } from '@/context/UiContext';
 import axios from 'axios';
 import Snackbar from '@/components/Snackbar';
 
-const inter = Inter({ subsets: ['latin'] });
 // TODO 1. Validar la solicitud (status en pendiente solamente y fecha de expiracion mayor a now)
 // TODO 2. formulario de autenticacion para validar que sea el usuario
 // TODO 3. Presentar el documento, y casilla de firma para completar el proceso

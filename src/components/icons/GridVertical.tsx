@@ -8,5 +8,3 @@ export function IconBxGridVertical(props: { width: string | number; height: stri
     </svg>
   );
 }
-
-export default IconBxGridVertical;

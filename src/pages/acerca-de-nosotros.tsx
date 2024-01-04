@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@nextui-org/react';
+import NextLink from 'next/link';
 
 const images = [
   {
@@ -76,23 +77,23 @@ export default function AboutUs() {
           src="/about/about-image-2.jpg"
         />
         <div className="absolute top-0 left-0 z-10 bg-black-opacity w-full h-full flex justify-center items-center flex-col">
-          <h2 className="text-center text-white text-2xl lg:text-4xl tracking-widest mb-5">Tu hogar te espera aqui</h2>
-          <p className="text-center text-white text-sm lg:text-lg max-w-[700px]">
-            Únicamente al lugar donde vivimos, en el que sentimos seguridad y calma, podemos llamar hogar. En Induo sabemos que no siempre
-            es fácil encontrar ese sueño en forma de casa, que tan importante es para cualquier persona. Por ello dedicamos todos nuestros
-            esfuerzos en hacer realidad esta ilusión, un hogar hecho a tu medida.
-          </p>
-          <Button size="lg" className="bg-red-900 text-white mt-5">
-            Contactanos
-          </Button>
+          <h2 className="text-center text-white lg:text-4xl">
+            Te asesoramos para conseguir el propiedad <br />
+            que estas buscando, de forma transparente y segura.
+          </h2>
+          <div className="flex justify-center mt-7">
+            <Button as={NextLink} href="/contacto" size="lg" className="bg-red-900 text-white">
+              Contáctanos
+            </Button>
+          </div>
         </div>
       </section>
 
-      <section className="px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-4">
-        {images.map((image) => (
-          <img key={image.src} src={image.src} alt={image.alt} />
-        ))}
-      </section>
+      {/*<section className="px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-4">*/}
+      {/*  {images.map((image) => (*/}
+      {/*    <img key={image.src} src={image.src} alt={image.alt} />*/}
+      {/*  ))}*/}
+      {/*</section>*/}
     </>
   );
 }

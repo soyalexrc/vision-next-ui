@@ -5,7 +5,6 @@ import CategoriesCarousel from '@/components/CategoriesCarousel';
 import ContactUsBanner from '@/components/ContactUsBanner';
 import FeaturedProperties from '@/components/FeaturedProperties';
 import ServicesBanner from '@/components/ServicesBanner';
-import AdvisersBanner from '@/components/AdvisersBanner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +18,7 @@ export default function Home() {
       <ContactUsBanner />
       <FeaturedProperties />
       <ServicesBanner />
-      <AdvisersBanner />
+      {/*<AdvisersBanner />*/}
     </main>
   );
 }

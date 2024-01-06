@@ -4,9 +4,9 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "/",
-  "name": "Vision inmobiliaria",
-  "short_name": "Vision inmobiliaria",
-  "description": "Sitio web de vision inmobiliaria",
+  "name": "Visión inmobiliaria",
+  "short_name": "Visión inmobiliaria",
+  "description": "Sitio web de Visión Inmobiliaria",
   "icons": [
     {
       "src": "/icon-192x192.png",

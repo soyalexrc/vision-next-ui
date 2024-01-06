@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = process.env.URL_BACKEND_PROD;
+const baseUrl = process.env.URL_BACKEND;
 
 export const http = axios.create({
   baseURL: baseUrl,

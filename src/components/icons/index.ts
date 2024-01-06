@@ -8,3 +8,5 @@ export * from './GridVertical';
 export * from './Filters';
 export * from './UnorderedList';
 export * from './Check';
+export * from './Delete';
+export * from './Upload';

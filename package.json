@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 8000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"*/**/*.tsx\" \"*/**/*.ts\"",
+    "deploy": "git branch main && git pull && yarn install && yarn build && pm2 stop vision-web pm2 start vision-web"
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.10",
@@ -14,15 +16,16 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
-    "axios": "^1.5.0",
+    "axios": "^1.6.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.16.2",
     "keen-slider": "^6.8.6",
     "next": "13.4.19",
-    "postcss": "8.4.29",
+    "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
     "react-pdf": "^7.5.0",
     "react-signature-canvas": "^1.0.6",
@@ -31,6 +34,11 @@
     "yet-another-react-lightbox": "^3.12.2"
   },
   "devDependencies": {
-    "@types/react-signature-canvas": "^1.0.3"
+    "@types/react-signature-canvas": "^1.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "prettier": "^3.1.1"
   }
 }

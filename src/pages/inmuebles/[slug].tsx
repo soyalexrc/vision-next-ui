@@ -25,11 +25,11 @@ export default function Property({ property, error }: any) {
   }
 
   if (error.error) {
-      return (
-          <div className='min-h-screen flex justify-center items-center'>
-              <h3 className='text-xl'>{error.message}</h3>
-          </div>
-      )
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <h3 className="text-xl">{error.message}</h3>
+      </div>
+    );
   }
 
   return (

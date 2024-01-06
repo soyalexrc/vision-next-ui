@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Button, Checkbox, Input, Link, Select, SelectItem, Textarea } from '@nextui-org/react';
 import NextLink from 'next/link';
 import { useDropzone } from 'react-dropzone';
@@ -27,9 +26,6 @@ export default function WorkWithUs() {
     setMyFiles(newFiles);
   };
 
-  const removeAll = () => {
-    setMyFiles([]);
-  };
   return (
     <>
       <section className="relative">

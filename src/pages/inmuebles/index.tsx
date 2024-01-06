@@ -15,7 +15,7 @@ const inter = Inter({ subsets: ['latin'] });
 const animals = [{ label: 'sample', value: 2 }];
 
 export default function Home({ properties, page, limit, total }: any) {
-  console.log(properties);
+  console.log(properties, page, limit);
   const router = useRouter();
   // const windowSize = useWindowSize();
   // console.log(windowSize);
@@ -42,9 +42,9 @@ export default function Home({ properties, page, limit, total }: any) {
 
   // Call this function whenever you want to
   // refresh props!
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
+  // const refreshData = () => {
+  //   router.replace(router.asPath);
+  // };
 
   const updateQuery = () => {
     setShowFilters(false);
@@ -324,7 +324,7 @@ export async function getServerSideProps({ query }: any) {
   const city = query.municipalidad || '';
   const municipality = query.sector || '';
   const res = await http.get(
-    `/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}&state=${state}&city=${city}&propertyType=${propertyType}&operationType=${operationType}`,
+    `/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}&state=${state}&city=${city}&municipality=${municipality}&propertyType=${propertyType}&operationType=${operationType}`,
   );
   const resObj = await res.data;
   const totalElements = resObj.count;

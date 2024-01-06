@@ -1,34 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@nextui-org/react';
 import NextLink from 'next/link';
-
-const images = [
-  {
-    src: '/about/office-1.jpg',
-    alt: 'oficina 1',
-  },
-  {
-    src: '/about/office-2.jpg',
-    alt: 'oficina 2',
-  },
-  {
-    src: '/about/office-3.jpg',
-    alt: 'oficina 3',
-  },
-  {
-    src: '/about/office-4.jpg',
-    alt: 'oficina 4',
-  },
-  {
-    src: '/about/office-5.jpg',
-    alt: 'oficina 5',
-  },
-  {
-    src: '/about/office-6.jpg',
-    alt: 'oficina 6',
-  },
-];
-
 export default function AboutUs() {
   return (
     <>

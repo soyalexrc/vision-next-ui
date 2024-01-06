@@ -141,10 +141,8 @@ export default function Header() {
       <NavbarContent className="hidden sm:flex gap-4" justify="end">
         <NavbarBrand>
           <NextLink href="/">
-            <Image title="Vision inmobiliaria logo" alt="Vision inmobiliaria logo" src="/vision-icon.png" width={50} height={50} />
+            <Image title="Vision inmobiliaria logo" alt="Vision inmobiliaria logo" src="/vision-logo.png" width={160} height={100} />
           </NextLink>
-
-          <p className="font-bold text-inherit">Vision Inmobiliaria</p>
         </NavbarBrand>
         {itemsMenu.map((item: any) => {
           if (item.children.length > 0) {

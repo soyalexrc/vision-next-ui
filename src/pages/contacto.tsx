@@ -24,15 +24,15 @@ export default function ContactUs() {
             </p>
             <div className="relative h-[400px] mt-5">
               <a
-                  href="https://www.google.com/maps/place/Visi%C3%B3n+Inmobiliaria/@10.2444275,-68.0105401,17z/data=!3m1!4b1!4m5!3m4!1s0x8e805d6ea2ff11a9:0x454dae0b7a50bc4b!8m2!3d10.244425!4d-68.0083623"
-                  target="_blank"
+                href="https://www.google.com/maps/place/Visi%C3%B3n+Inmobiliaria/@10.2444275,-68.0105401,17z/data=!3m1!4b1!4m5!3m4!1s0x8e805d6ea2ff11a9:0x454dae0b7a50bc4b!8m2!3d10.244425!4d-68.0083623"
+                target="_blank"
               >
-                    <Image
-                        alt="Imagen de mapa google maps ubicacion de Vision Inmobiliaria"
-                        fill
-                        className="w-full h-full top-0 left-0 object-cover"
-                        src="/map.png"
-                    />
+                <Image
+                  alt="Imagen de mapa google maps ubicacion de Vision Inmobiliaria"
+                  fill
+                  className="w-full h-full top-0 left-0 object-cover"
+                  src="/map.png"
+                />
               </a>
             </div>
           </div>
@@ -47,13 +47,7 @@ export default function ContactUs() {
 
             <h2 className="text-2xl mt-10 mb-3">Estoy interesado en </h2>
 
-            <Textarea
-              minRows={5}
-              variant="bordered"
-              labelPlacement="outside"
-              placeholder="Escribir mensaje aqui"
-              className="w-full"
-            />
+            <Textarea minRows={5} variant="bordered" labelPlacement="outside" placeholder="Escribir mensaje aqui" className="w-full" />
 
             <div className="my-5">
               <Checkbox defaultSelected />

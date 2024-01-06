@@ -12,7 +12,7 @@ export default function AboutUs() {
       </section>
       <section className="lg:px-52">
         <div className="my-10 border-b-1">
-          <h3 className="tracking-widest text-xl uppercase text-center mb-5">Vision inmobiliaria</h3>
+          <h3 className="tracking-widest text-xl uppercase text-center mb-5">Visión Inmobiliaria</h3>
           <h1 className="text-center text-4xl mb-5">
             Profesionales con más de veinte años de <br />
             experiencia

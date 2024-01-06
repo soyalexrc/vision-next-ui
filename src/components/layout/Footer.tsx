@@ -35,7 +35,7 @@ export default function Footer() {
     <footer className="border-t-8 border-red-opacity mt-10 pt-5">
       <div className="lg:grid gap-4 grid-cols-12 px-5">
         <div className="col-span-6 lg:px-20 ">
-          <Image alt="Logo de vision inmobiliaria" width={250} height={100} className="h-[110px] object-cover" src="/vision-logo.png" />
+          <Image alt="Logo de Visión Vnmobiliaria" width={250} height={100} className="h-[110px] object-cover" src="/vision-logo.png" />
           <p>
             Grupo Induo, es una empresa de intermediación inmobiliaria y gestión de activos, compuesta por profesionales con más de veinte
             años de experiencia en el sector. Actualmente gestionamos el patrimonio inmobiliario de particulares, entidades financieras y

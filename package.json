@@ -8,7 +8,7 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "format": "prettier --write \"*/**/*.tsx\" \"*/**/*.ts\"",
-    "deploy": "git branch main && git pull && yarn install && yarn build && pm2 stop vision-web pm2 start vision-web"
+    "deploy": "git checkout main && git pull && yarn install && yarn build && pm2 stop vision-web pm2 start vision-web"
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.10",

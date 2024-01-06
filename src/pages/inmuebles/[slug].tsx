@@ -14,14 +14,22 @@ import formatCurrency from '@/utils/format-currency';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Property({ property }: any) {
+export default function Property({ property, error }: any) {
   const [openGallery, setOpenGallery] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
-  console.log(property);
+  console.log(error);
 
   function handleOpenGallery(index: number) {
     setImgIndex(index);
     setOpenGallery(true);
+  }
+
+  if (error.error) {
+      return (
+          <div className='min-h-screen flex justify-center items-center'>
+              <h3 className='text-xl'>{error.message}</h3>
+          </div>
+      )
   }
 
   return (
@@ -199,8 +207,17 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const res = await http.get(`/property/getBySlug/${params.slug}`);
-  const finalProperty = await res.data;
-
-  return { props: { property: finalProperty, revalidate: 60 } };
+  try {
+    const res = await http.get(`/property/getBySlug/${params.slug}`);
+    const finalProperty = await res.data;
+    return { props: { property: finalProperty, revalidate: 60 } };
+  } catch (err: any) {
+    console.log('here', err.response.data);
+    return {
+      props: {
+        property: {},
+        error: err.response.data,
+      },
+    };
+  }
 }

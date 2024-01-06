@@ -32,13 +32,14 @@ type SnackbarState = {
 
 export default function DocumentSignature(props: { data: GetDigitalSignatureRequestById }) {
   const { data } = props;
-  const filePath = data.data?.filePath;
+  // const filePath = data.data?.filePath;
   const { toggleToolbar } = useContext(UiContext);
   const {
     register,
     handleSubmit,
     formState: { errors, isLoading, isValid, isSubmitting },
   } = useForm<Inputs>();
+  console.log(isLoading);
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await validateUserData(data);
   };
@@ -139,7 +140,7 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
 
   if (data.error) {
     return (
-      <main className={`min-h-screen p-5 lg:p-10  ${inter.className}`}>
+      <main className={`min-h-screen p-5 lg:p-10 `}>
         <Snackbar title="Ocurrio un error" variant="error" close={() => {}} message={data.message!} />
 
         <div className="image-container">
@@ -156,7 +157,7 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
   }
 
   return (
-    <main className={`min-h-screen  ${inter.className}`}>
+    <main className={`min-h-screen`}>
       <Stepper currentStep={currentStep} steps={['Validacion de datos', 'Firma digital', 'Proceso completado']} />
       {snackbarState.show && (
         <Snackbar close={resetSnackbarState} variant={snackbarState.variant} title={snackbarState.title} message={snackbarState.message} />

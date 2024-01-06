@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 const url =
   'http://100.42.69.119:3000/api/v1/files/genericStaticFileAsset/servicio-inmobiliario+propiedades+VINM-001+documentos+Ficha_Te%C3%8C%C2%81cnica_Visio%C3%8C%C2%81n_Inmobiliaria_VINM_2023-09-26T04:21:05.pdf';
 
-export default function MultiPagePDFViewer(props: { pdfUrl: string }) {
+export default function MultiPagePDFViewer() {
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { pdfUrl } = props;
+  // const { pdfUrl } = props;
   const [numPages, setNumPages] = useState(0);
 
   useEffect(() => {

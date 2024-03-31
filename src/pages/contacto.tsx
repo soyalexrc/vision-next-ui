@@ -1,8 +1,6 @@
 import Image from 'next/image';
-import { Button, Checkbox, Input, Link, Select, SelectItem, Textarea } from '@nextui-org/react';
+import { Button, Checkbox, Input, Link, Textarea } from '@nextui-org/react';
 import NextLink from 'next/link';
-
-const animals = [{ label: 'sample', value: 2 }];
 
 export default function ContactUs() {
   return (

@@ -1,9 +1,11 @@
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+'use client';
+
 import { useContext } from 'react';
 import { UiContext } from '@/context/UiContext';
 import { Link } from '@nextui-org/react';
 import { FacebookIcon, InstagramIcon, MailIcon, MapPointIcon, TiktokIcon, WhatsappIcon } from '@/components/icons';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 export default function Layout({ children }: any) {
   const { showToolbar } = useContext(UiContext);

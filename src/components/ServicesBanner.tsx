@@ -1,5 +1,5 @@
 import { SERVICES_DATA } from '@/utils/data/services';
-import { Button } from '@nextui-org/react';
+import { Button } from '@nextui-org/button';
 import NextLink from 'next/link';
 
 export default function ServicesBanner() {

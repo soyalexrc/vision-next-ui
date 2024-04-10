@@ -1,3 +1,4 @@
+'use client';
 import { Inter } from 'next/font/google';
 import { Button, Checkbox, Chip, Input, Link, Textarea } from '@nextui-org/react';
 import { http } from '@/utils/axios';
@@ -166,7 +167,7 @@ export default function Property({ property, error }: any) {
               <Checkbox defaultSelected />
               <span className="text-xs">
                 He leido y acepto los{' '}
-                <Link className="text-xs" underline="always" as={NextLink} href="/">
+                <Link className="text-xs" underline="always" as={NextLink} href="/public">
                   terminos y condiciones
                 </Link>
               </span>

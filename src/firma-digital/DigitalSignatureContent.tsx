@@ -1,21 +1,16 @@
-import { GetServerSideProps } from 'next';
+'use client';
+
+import Snackbar from '@/components/Snackbar';
+import Image from 'next/image';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
+import NextLink from 'next/link';
+import Stepper from '@/components/Stepper';
 import SignatureCanvas from 'react-signature-canvas';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from '@nextui-org/react';
-import Stepper from '@/components/Stepper';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { http } from '@/utils/axios';
-import { GetDigitalSignatureRequestById } from '@/interfaces/digital-signature-request';
-import Image from 'next/image';
-import NextLink from 'next/link';
 import { UiContext } from '@/context/UiContext';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
-import Snackbar from '@/components/Snackbar';
-
-// TODO 1. Validar la solicitud (status en pendiente solamente y fecha de expiracion mayor a now)
-// TODO 2. formulario de autenticacion para validar que sea el usuario
-// TODO 3. Presentar el documento, y casilla de firma para completar el proceso
-// TODO 4. Enviar el id de la peticion (tabla) y la imagen de la firma para ser procesada
 
 type Inputs = {
   last4PhoneDigits: string;
@@ -30,20 +25,11 @@ type SnackbarState = {
   message: string;
 };
 
-export default function DocumentSignature(props: { data: GetDigitalSignatureRequestById }) {
-  const { data } = props;
-  // const filePath = data.data?.filePath;
-  const { toggleToolbar } = useContext(UiContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isLoading, isValid, isSubmitting },
-  } = useForm<Inputs>();
-  console.log(isLoading);
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await validateUserData(data);
-  };
+interface Props {
+  data: any;
+}
 
+export function DigitalSignatureContent({ data }: Props) {
   const sigCanvas = useRef<any>();
   const [signatureURL, setSignatureURL] = useState<string>('');
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -57,10 +43,15 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    toggleToolbar(false);
-    return () => toggleToolbar(true);
-  }, []);
+  const { toggleToolbar } = useContext(UiContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isLoading, isValid, isSubmitting },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await validateUserData(data);
+  };
 
   const save = () => {
     const URL = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
@@ -71,42 +62,11 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
     sigCanvas.current.clear();
     setSignatureURL('');
   };
-  const validateUserData = async (formValues: Inputs) => {
-    console.log(formValues);
-    const payload = {
-      ...formValues,
-      userId: data.user.id.toString(),
-    };
-    const responseValidation = await axios.post('/api/digital-signature/validateUserData', payload);
-    console.log(responseValidation);
-    if (responseValidation.data.error) {
-      setSnackbarState({
-        show: true,
-        title: 'Error de validacion de datos',
-        variant: 'error',
-        message: responseValidation.data.message,
-      });
-    } else {
-      setSnackbarState({
-        show: true,
-        title: 'Validacion de datos exitosa',
-        variant: 'success',
-        message: 'Por favor, continua con la firma para culminar el proceso.',
-      });
-      setTimeout(() => {
-        resetSnackbarState();
-      }, 2000);
-      setCurrentStep(2);
-    }
-  };
 
-  const resetSnackbarState = () =>
-    setSnackbarState({
-      show: false,
-      variant: 'info',
-      title: '',
-      message: '',
-    });
+  useEffect(() => {
+    toggleToolbar(false);
+    return () => toggleToolbar(true);
+  }, []);
 
   const sendDigitalSign = async () => {
     try {
@@ -138,6 +98,35 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
     }
   };
 
+  const validateUserData = async (formValues: Inputs) => {
+    console.log(formValues);
+    const payload = {
+      ...formValues,
+      userId: data.user.id.toString(),
+    };
+    const responseValidation = await axios.post('/api/digital-signature/validateUserData', payload);
+    console.log(responseValidation);
+    if (responseValidation.data.error) {
+      setSnackbarState({
+        show: true,
+        title: 'Error de validacion de datos',
+        variant: 'error',
+        message: responseValidation.data.message,
+      });
+    } else {
+      setSnackbarState({
+        show: true,
+        title: 'Validacion de datos exitosa',
+        variant: 'success',
+        message: 'Por favor, continua con la firma para culminar el proceso.',
+      });
+      setTimeout(() => {
+        resetSnackbarState();
+      }, 2000);
+      setCurrentStep(2);
+    }
+  };
+
   if (data.error) {
     return (
       <main className={`min-h-screen p-5 lg:p-10 `}>
@@ -155,6 +144,14 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
       </main>
     );
   }
+
+  const resetSnackbarState = () =>
+    setSnackbarState({
+      show: false,
+      variant: 'info',
+      title: '',
+      message: '',
+    });
 
   return (
     <main className={`min-h-screen`}>
@@ -278,21 +275,3 @@ export default function DocumentSignature(props: { data: GetDigitalSignatureRequ
     </main>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ params }: any) => {
-  const request = await http.get(`/files/getDigitalSignatureRequestById/${params.id}`);
-
-  if (request?.data.error) {
-    return {
-      props: {
-        data: request.data,
-      },
-    };
-  }
-
-  return {
-    props: {
-      data: request.data,
-    },
-  };
-};

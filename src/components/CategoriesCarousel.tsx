@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';

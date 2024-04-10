@@ -1,11 +1,13 @@
+'use client';
+
 import { Inter } from 'next/font/google';
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Pagination, Select, SelectItem } from '@nextui-org/react';
 import { http } from '@/utils/axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { IconBxGridVertical, IconFilter, IconUnorderedList } from '@/components/icons';
-import { PropertyCardWithCarousel } from '@/components/PropertyCard';
+import { IconBxGridVertical, IconFilter, IconUnorderedList } from '@/app/components/icons';
+import { PropertyCardWithCarousel } from '@/app/components/PropertyCard';
 import { PROPERTY_TYPES } from '@/utils/data/property-types';
 import { LOCATIONS_DETAIL, LOCATIONS } from '@/utils/data/locations';
 import formatPropertyTitle from '@/utils/format-property-title';

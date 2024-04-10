@@ -10,7 +10,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { http } from '@/utils/axios';
 import { UiContext } from '@/context/UiContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
 
 type Inputs = {
   last4PhoneDigits: string;
@@ -72,7 +71,7 @@ export function DigitalSignatureContent({ data }: Props) {
     try {
       setLoading(true);
 
-      const response = await http.post('/api/digital-signature/sendDigitalSignature', {
+      const response = await http.post('/api/firma-digital/sendDigitalSignature', {
         digitalSignature: signatureURL,
         digitalSignatureRequestId: data.data.id,
       });
@@ -104,7 +103,7 @@ export function DigitalSignatureContent({ data }: Props) {
       ...formValues,
       userId: data.user.id.toString(),
     };
-    const responseValidation = await axios.post('/api/digital-signature/validateUserData', payload);
+    const responseValidation = await http.post('/api/firma-digital/validateUserData', payload);
     console.log(responseValidation);
     if (responseValidation.data.error) {
       setSnackbarState({
@@ -263,7 +262,7 @@ export function DigitalSignatureContent({ data }: Props) {
         )}
         {currentStep === 3 && (
           <div className="flex justify-center gap-10">
-            <Button variant="bordered" color="primary">
+            <Button variant="bordered" color="primary" as={NextLink} href="/">
               Volver
             </Button>
             <a href={signedDocument} target="_blank">

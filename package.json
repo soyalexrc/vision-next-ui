@@ -13,8 +13,8 @@
   "dependencies": {
     "@nextui-org/react": "^2.1.10",
     "@types/node": "20.5.9",
-    "@types/react": "^18.2.75",
-    "@types/react-dom": "^18.2.24",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "autoprefixer": "10.4.15",
     "axios": "^1.6.0",
     "eslint": "8.48.0",
@@ -41,5 +41,9 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
     "prettier": "^3.1.1"
+  },
+  "resolutions": {
+    "@types/react": "",
+    "@types/react-dom": ""
   }
 }

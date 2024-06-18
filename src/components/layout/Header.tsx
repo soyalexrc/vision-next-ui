@@ -1,3 +1,4 @@
+'use client';
 import { Activity, ChevronDown, Flash, Lock, Scale, Server, TagUser } from '@nextui-org/shared-icons';
 import {
   Button,
@@ -15,7 +16,7 @@ import {
   NavbarMenuToggle,
 } from '@nextui-org/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Header() {

@@ -1,28 +1,28 @@
-import { Inter } from 'next/font/google';
+'use client';
+
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Pagination, Select, SelectItem } from '@nextui-org/react';
-import { http } from '@/utils/axios';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
+import { PROPERTY_TYPES } from '@/utils/data/property-types';
 import { IconBxGridVertical, IconFilter, IconUnorderedList } from '@/components/icons';
 import { PropertyCardWithCarousel } from '@/components/PropertyCard';
-import { PROPERTY_TYPES } from '@/utils/data/property-types';
-import { LOCATIONS_DETAIL, LOCATIONS } from '@/utils/data/locations';
 import formatPropertyTitle from '@/utils/format-property-title';
+import { Inter } from 'next/font/google';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const animals = [{ label: 'sample', value: 2 }];
 
-export default function Home({ properties, page, limit, total }: any) {
-  console.log(properties, page, limit);
-  const router = useRouter();
-  // const windowSize = useWindowSize();
-  // console.log(windowSize);
-  const searchParams = useSearchParams();
+interface Props {
+  properties: any;
+  total: any;
+}
 
-  const [currentPage, setCurrentPage] = useState<string>('1');
-  const [pageLimit, setPageLimit] = useState<string>('10');
+export function PropertiesContent({ properties, total }: Props) {
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const [currentPage, setCurrentPage] = useState<string>('1');
+  // const [pageLimit, setPageLimit] = useState<string>('10');
   const [state, setState] = useState<string>('');
   const [municipality, setMunicipality] = useState<string>('');
   const [municipalitiesList, setMunicipalitiesList] = useState<string[]>([]);
@@ -31,34 +31,27 @@ export default function Home({ properties, page, limit, total }: any) {
   const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
 
-  useEffect(() => {
-    setCurrentPage(searchParams.get('pagina') ?? '1');
-    setPageLimit(searchParams.get('limite') ?? '10');
-    setState(searchParams.get('estado') ?? '');
-    setMunicipality(searchParams.get('municipalidad') ?? '');
-    setPropertyType(searchParams.get('tipo_de_inmueble') ?? '');
-    setOperationType(searchParams.get('tipo_de_operacion') ?? '');
-  }, [router.query]);
-
-  // Call this function whenever you want to
-  // refresh props!
-  // const refreshData = () => {
-  //   router.replace(router.asPath);
-  // };
+  console.log(municipality);
+  // useEffect(() => {
+  //   setCurrentPage(searchParams?.get('pagina') ?? '1');
+  //   setPageLimit(searchParams?.get('limite') ?? '10');
+  //   setState(searchParams?.get('estado') ?? '');
+  //   setMunicipality(searchParams?.get('municipalidad') ?? '');
+  //   setPropertyType(searchParams?.get('tipo_de_inmueble') ?? '');
+  //   setOperationType(searchParams?.get('tipo_de_operacion') ?? '');
+  // }, [searchParams]);
 
   const updateQuery = () => {
     setShowFilters(false);
-    router.push({
-      pathname: '/inmuebles',
-      query: {
-        pagina: encodeURI(currentPage),
-        limite: encodeURI(pageLimit),
-        estado: encodeURI(state),
-        municipalidad: encodeURI(municipality),
-        tipo_de_operacion: encodeURI(operationType),
-        tipo_de_inmueble: encodeURI(propertyType),
-      },
-    });
+    // const updatedSearchParams = new URLSearchParams(searchParams?.toString());
+    // updatedSearchParams.set('pagina', encodeURI(currentPage));
+    // updatedSearchParams.set('limite', encodeURI(pageLimit));
+    // updatedSearchParams.set('estado', encodeURI(state));
+    // updatedSearchParams.set('municipalidad', encodeURI(municipality));
+    // updatedSearchParams.set('tipo_de_operacion', encodeURI(operationType));
+    // updatedSearchParams.set('tipo_de_inmueble', encodeURI(propertyType));
+    //
+    // router.push('/inmuebles' + '?' + updatedSearchParams.toString());
   };
 
   function handleChangeLocation(value: string) {
@@ -217,7 +210,7 @@ export default function Home({ properties, page, limit, total }: any) {
           </div>
 
           <div className="flex justify-end mt-10">
-            <Pagination total={total} showControls page={Number(currentPage)} />
+            <Pagination total={total} showControls page={1} />
           </div>
         </div>
       </section>
@@ -313,23 +306,4 @@ export default function Home({ properties, page, limit, total }: any) {
       </Modal>
     </main>
   );
-}
-
-export async function getServerSideProps({ query }: any) {
-  const pageSize = query.limite || 10;
-  const pageIndex = query.pagina || 1;
-  const operationType = query.tipo_de_operacion || '';
-  const propertyType = query.tipo_de_inmueble || '';
-  const state = query.estado || '';
-  const city = query.municipalidad || '';
-  const municipality = query.sector || '';
-  const res = await http.get(
-    `/property/previews/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}&state=${state}&city=${city}&municipality=${municipality}&propertyType=${propertyType}&operationType=${operationType}`,
-  );
-  const resObj = await res.data;
-  const totalElements = resObj.count;
-  const totalPages = totalElements / 10;
-  const properties = resObj.rows;
-
-  return { props: { properties: properties, page: pageIndex, limit: pageSize, total: totalPages } };
 }

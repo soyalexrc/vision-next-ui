@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { Link } from '@nextui-org/react';
 import NextLink from 'next/link';

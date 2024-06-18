@@ -2,11 +2,11 @@
 import { Button, Checkbox, Chip, Input, Link, Textarea } from '@nextui-org/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import Lightbox from 'yet-another-react-lightbox';
-import NextJsImage from '@/components/lightbox/NextJsImage';
+// import Lightbox from 'yet-another-react-lightbox';
+// import NextJsImage from '@/components/lightbox/NextJsImage';
 import { useState } from 'react';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import formatSlides from '@/utils/getSlides';
+// import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+// import formatSlides from '@/utils/getSlides';
 import formatPropertyTitle from '@/utils/format-property-title';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
@@ -15,17 +15,15 @@ export default function Property() {
   const [openGallery, setOpenGallery] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
 
+  console.log(openGallery, imgIndex);
+
   function handleOpenGallery(index: number) {
     setImgIndex(index);
     setOpenGallery(true);
   }
 
   const property = {
-    images: [
-        '/home/latestElements/latest-1.jpg',
-        '/home/latestElements/latest-2.jpg',
-        '/home/latestElements/latest-3.jpg',
-    ],
+    images: ['/home/latestElements/latest-1.jpg', '/home/latestElements/latest-2.jpg', '/home/latestElements/latest-3.jpg'],
     publicationTitle: 'Casa en el parral, cercanias XYZ',
 
     price: '50000',
@@ -90,7 +88,13 @@ export default function Property() {
   return (
     <main className="min-h-screen">
       <div className="w-full h-[300px] lg:h-[500px] relative">
-        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src='/home/latestElements/latest-1.jpg' />
+        <Image
+          fill
+          priority
+          alt="Property image"
+          className="top-0 left-0 w-full h-full object-cover"
+          src="/home/latestElements/latest-1.jpg"
+        />
       </div>
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="lg:px-24">

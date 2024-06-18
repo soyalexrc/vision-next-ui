@@ -7,8 +7,7 @@ import { IconBxGridVertical, IconFilter, IconUnorderedList } from '@/components/
 import { PropertyCardWithCarousel } from '@/components/PropertyCard';
 import formatPropertyTitle from '@/utils/format-property-title';
 import { Inter } from 'next/font/google';
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +19,10 @@ interface Props {
 }
 
 export function PropertiesContent({ properties, total }: Props) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [currentPage, setCurrentPage] = useState<string>('1');
-  const [pageLimit, setPageLimit] = useState<string>('10');
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const [currentPage, setCurrentPage] = useState<string>('1');
+  // const [pageLimit, setPageLimit] = useState<string>('10');
   const [state, setState] = useState<string>('');
   const [municipality, setMunicipality] = useState<string>('');
   const [municipalitiesList, setMunicipalitiesList] = useState<string[]>([]);
@@ -32,26 +31,27 @@ export function PropertiesContent({ properties, total }: Props) {
   const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
 
-  useEffect(() => {
-    setCurrentPage(searchParams?.get('pagina') ?? '1');
-    setPageLimit(searchParams?.get('limite') ?? '10');
-    setState(searchParams?.get('estado') ?? '');
-    setMunicipality(searchParams?.get('municipalidad') ?? '');
-    setPropertyType(searchParams?.get('tipo_de_inmueble') ?? '');
-    setOperationType(searchParams?.get('tipo_de_operacion') ?? '');
-  }, [searchParams]);
+  console.log(municipality);
+  // useEffect(() => {
+  //   setCurrentPage(searchParams?.get('pagina') ?? '1');
+  //   setPageLimit(searchParams?.get('limite') ?? '10');
+  //   setState(searchParams?.get('estado') ?? '');
+  //   setMunicipality(searchParams?.get('municipalidad') ?? '');
+  //   setPropertyType(searchParams?.get('tipo_de_inmueble') ?? '');
+  //   setOperationType(searchParams?.get('tipo_de_operacion') ?? '');
+  // }, [searchParams]);
 
   const updateQuery = () => {
     setShowFilters(false);
-    const updatedSearchParams = new URLSearchParams(searchParams?.toString());
-    updatedSearchParams.set('pagina', encodeURI(currentPage));
-    updatedSearchParams.set('limite', encodeURI(pageLimit));
-    updatedSearchParams.set('estado', encodeURI(state));
-    updatedSearchParams.set('municipalidad', encodeURI(municipality));
-    updatedSearchParams.set('tipo_de_operacion', encodeURI(operationType));
-    updatedSearchParams.set('tipo_de_inmueble', encodeURI(propertyType));
-
-    router.push('/inmuebles' + '?' + updatedSearchParams.toString());
+    // const updatedSearchParams = new URLSearchParams(searchParams?.toString());
+    // updatedSearchParams.set('pagina', encodeURI(currentPage));
+    // updatedSearchParams.set('limite', encodeURI(pageLimit));
+    // updatedSearchParams.set('estado', encodeURI(state));
+    // updatedSearchParams.set('municipalidad', encodeURI(municipality));
+    // updatedSearchParams.set('tipo_de_operacion', encodeURI(operationType));
+    // updatedSearchParams.set('tipo_de_inmueble', encodeURI(propertyType));
+    //
+    // router.push('/inmuebles' + '?' + updatedSearchParams.toString());
   };
 
   function handleChangeLocation(value: string) {
@@ -210,7 +210,7 @@ export function PropertiesContent({ properties, total }: Props) {
           </div>
 
           <div className="flex justify-end mt-10">
-            <Pagination total={total} showControls page={Number(currentPage)} />
+            <Pagination total={total} showControls page={1} />
           </div>
         </div>
       </section>

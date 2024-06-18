@@ -1,7 +1,5 @@
 'use client';
-import { Inter } from 'next/font/google';
 import { Button, Checkbox, Chip, Input, Link, Textarea } from '@nextui-org/react';
-import { http } from '@/utils/axios';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import Lightbox from 'yet-another-react-lightbox';
@@ -13,30 +11,86 @@ import formatPropertyTitle from '@/utils/format-property-title';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
 
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Property({ property, error }: any) {
+export default function Property() {
   const [openGallery, setOpenGallery] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
-  console.log(error);
 
   function handleOpenGallery(index: number) {
     setImgIndex(index);
     setOpenGallery(true);
   }
 
-  if (error.error) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <h3 className="text-xl">{error.message}</h3>
-      </div>
-    );
-  }
+  const property = {
+    images: [
+        '/home/latestElements/latest-1.jpg',
+        '/home/latestElements/latest-2.jpg',
+        '/home/latestElements/latest-3.jpg',
+    ],
+    publicationTitle: 'Casa en el parral, cercanias XYZ',
+
+    price: '50000',
+
+    locationInformation: {
+      city: 'Valencia',
+      state: 'Carabobo',
+      country: 'Venezuela',
+      location: 'Av 123, paseo la castellana 456',
+      municipality: '',
+      avenue: '',
+      street: '',
+      isClosedStreet: 'Si',
+      referencePoint: '',
+      howToGet: '',
+    },
+    generalInformation: {
+      code: 'VINM_001',
+      footageGround: '45',
+      footageBuilding: '500',
+      description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+    when an unknown printer took a galley of type and scrambled it to make a type 
+    specimen book. It has survived not only five centuries, but also the leap into 
+    electronic typesetting, remaining essentially unchanged. It was popularised in 
+    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+    and more recently with desktop publishing software like Aldus PageMaker including 
+    versions of Lorem Ipsum.`,
+      operationType: 'Venta',
+      propertyType: 'Apartamentp',
+      distributionComments: '',
+    },
+    negotiationInformation: {
+      price: '50000',
+    },
+    attributes: [
+      {
+        id: 1,
+        formType: 'check',
+        label: 'Tiene estacionamiento?',
+        value: 'si',
+      },
+      {
+        id: 2,
+        formType: 'text',
+        label: 'Numero de muebles',
+        value: '4',
+      },
+    ],
+  };
+
+  console.log(property);
+
+  // if (error.error) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center">
+  //       <h3 className="text-xl">{error.message}</h3>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <main className={`min-h-screen ${inter.className}`}>
+    <main className="min-h-screen">
       <div className="w-full h-[300px] lg:h-[500px] relative">
-        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />
+        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src='/home/latestElements/latest-1.jpg' />
       </div>
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="lg:px-24">
@@ -182,43 +236,14 @@ export default function Property({ property, error }: any) {
         </div>
       </div>
 
-      <Lightbox
-        open={openGallery}
-        index={imgIndex}
-        close={() => setOpenGallery(false)}
-        slides={formatSlides(property.images)}
-        render={{ slide: NextJsImage }}
-        plugins={[Zoom]}
-      />
+      {/*<Lightbox*/}
+      {/*  open={openGallery}*/}
+      {/*  index={imgIndex}*/}
+      {/*  close={() => setOpenGallery(false)}*/}
+      {/*  slides={formatSlides(property.images)}*/}
+      {/*  render={{ slide: NextJsImage }}*/}
+      {/*  plugins={[Zoom]}*/}
+      {/*/>*/}
     </main>
   );
-}
-
-export async function getStaticPaths() {
-  const res = await http.get('/property/previews');
-  const properties = await res.data.rows;
-
-  const paths = properties.map((property: any) => ({
-    params: { slug: property.publicationTitle },
-  }));
-
-  console.log(paths);
-
-  return { paths, fallback: 'blocking' };
-}
-
-export async function getStaticProps({ params }: any) {
-  try {
-    const res = await http.get(`/property/getBySlug/${params.slug}`);
-    const finalProperty = await res.data;
-    return { props: { property: finalProperty, revalidate: 60 } };
-  } catch (err: any) {
-    console.log('here', err.response.data);
-    return {
-      props: {
-        property: {},
-        error: err.response.data,
-      },
-    };
-  }
 }

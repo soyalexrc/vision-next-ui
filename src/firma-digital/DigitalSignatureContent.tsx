@@ -46,7 +46,7 @@ export function DigitalSignatureContent({ data }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading, isValid, isSubmitting },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await validateUserData(data);

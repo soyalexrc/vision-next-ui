@@ -1,3 +1,4 @@
+'use client';
 import { Button, Checkbox, Input, Link, Select, SelectItem, Textarea } from '@nextui-org/react';
 import NextLink from 'next/link';
 import { useDropzone } from 'react-dropzone';

@@ -1,3 +1,4 @@
+'use client';
 import { Button, Input, Select, SelectItem, Tab, Tabs } from '@nextui-org/react';
 import { PROPERTY_TYPES } from '@/utils/data/property-types';
 

@@ -5,9 +5,8 @@ import { getDownloadURL, getMetadata, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import useShareSupport from '@/lib/hooks/useShareSupport';
 import { useState } from 'react';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { useWindowSize } from '@/lib/hooks';
 
 type Props = {

@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { ClerkProvider } from '@clerk/nextjs';
 import { esES } from '@clerk/localizations';
+import {Toaster} from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
           <ClerkProvider localization={esES}>{children}</ClerkProvider>
         </main>
+        <Toaster />
       </body>
     </html>
   );

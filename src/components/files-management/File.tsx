@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import {toast} from "sonner";
 
 type Props = {
   fullPath: string;
@@ -84,6 +85,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       router.refresh();
       setTimeout(() => {
         setLoading(false);
+        toast.success(`Se elimino: ${fileRef.name} con exito!`);
       }, 1000);
     } catch (err) {
       console.log(err);

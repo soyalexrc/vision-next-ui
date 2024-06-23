@@ -10,6 +10,7 @@ import { activateLoading, turnOffLoading } from '@/lib/store/features/files/stat
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import {toast} from "sonner";
 
 export default function UploadActionsButtons() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,6 +29,7 @@ export default function UploadActionsButtons() {
           const fileRef = ref(storage, `${basePath}/${file.name}`);
           const snapshot = await uploadBytes(fileRef, file);
           console.log(snapshot);
+          toast.success(`Se cargo: ${fileRef.name} con exito!`);
         }
         router.refresh();
         setTimeout(() => {
@@ -46,6 +48,7 @@ export default function UploadActionsButtons() {
       setNewFolder('');
       router.refresh();
       setOpen(false);
+      toast.success(`Se creo la carpeta: ${newFolder} con exito!`);
     } catch (err) {
       console.log(err);
     }

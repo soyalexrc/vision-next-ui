@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 import { useAppDispatch } from '@/lib/store/hooks';
 import { activateLoading, turnOffLoading } from '@/lib/store/features/files/state/filesSlice';
+import {toast} from "sonner";
 
 type Props = {
   fullPath: string;
@@ -50,6 +51,8 @@ export default function FolderComponent({ fullPath, name }: Props) {
       router.refresh();
       dispatch(turnOffLoading());
       setLoading(false);
+      toast.success(`Se eliminaron los archivos con exito!`);
+
     } catch (err) {
       console.log(err);
     }

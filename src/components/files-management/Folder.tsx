@@ -4,13 +4,15 @@ import Link from 'next/link';
 import { deleteObject, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
-import { Folder, PencilLine, Trash2 } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Folder, Loader, PencilLine, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
+import { useAppDispatch } from '@/lib/store/hooks';
+import { activateLoading, turnOffLoading } from '@/lib/store/features/files/state/filesSlice';
 
 type Props = {
   fullPath: string;
@@ -18,29 +20,36 @@ type Props = {
 };
 
 export default function FolderComponent({ fullPath, name }: Props) {
-  const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [folderName, setFolderName] = useState<string>(name);
+  const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   async function removeFolder() {
     try {
+      setLoading(true);
+      dispatch(activateLoading({ text: `Preparando archivos para eliminar...`, type: 'REMOVE' }));
       const folderRef = ref(storage, fullPath);
       const listResult = await listAll(folderRef);
       if (listResult.prefixes.length > 0) {
         const nestedFolderRef = ref(storage, listResult.prefixes[0].fullPath);
         const nestedListResult = await listAll(nestedFolderRef);
         for (const file of nestedListResult.items) {
+          dispatch(activateLoading({ text: `Se esta eliminando ${file.name}...`, type: 'REMOVE' }));
           await deleteObject(ref(storage, file.fullPath));
         }
         await removeFolder();
       } else {
         for (const file of listResult.items) {
+          dispatch(activateLoading({ text: `Se esta eliminando ${file.name}...`, type: 'REMOVE' }));
           await deleteObject(ref(storage, file.fullPath));
         }
       }
 
       router.refresh();
+      dispatch(turnOffLoading());
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +57,6 @@ export default function FolderComponent({ fullPath, name }: Props) {
 
   async function renameFolder() {
     try {
-
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +70,8 @@ export default function FolderComponent({ fullPath, name }: Props) {
             key={fullPath}
             className="flex items-center gap-2 p-2 cursor-pointer transition-colors hover:bg-gray-100 hover:text-gray-600"
           >
-            <Folder className="w-[30px]" />
+            {loading && <Loader className="min-w-[30px] animate-spin" />}
+            {!loading && <Folder className="w-[30px]" />}
             <p className="text-sm">{name}</p>
           </Link>
         </ContextMenuTrigger>

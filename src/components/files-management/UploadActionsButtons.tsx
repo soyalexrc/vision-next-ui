@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Plus, Upload } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import {deleteObject, ref, uploadBytes, uploadString} from '@firebase/storage';
+import { ref, uploadBytes, uploadString } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
-import { updateFilesUploadStatus } from '@/lib/store/features/files/state/filesSlice';
+import { activateLoading, turnOffLoading } from '@/lib/store/features/files/state/filesSlice';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -23,15 +23,15 @@ export default function UploadActionsButtons() {
   async function uploadFile(e: React.ChangeEvent<HTMLInputElement>) {
     try {
       if (e.target.files) {
-        dispatch(updateFilesUploadStatus(true));
         for (const file of Array.from(e.target.files)) {
+          dispatch(activateLoading({ type: 'UPLOAD', text: `Se esta subiendo ${file.name}...` }));
           const fileRef = ref(storage, `${basePath}/${file.name}`);
           const snapshot = await uploadBytes(fileRef, file);
           console.log(snapshot);
         }
         router.refresh();
         setTimeout(() => {
-          dispatch(updateFilesUploadStatus(false));
+          dispatch(turnOffLoading());
         }, 1000);
       }
     } catch (err) {
@@ -83,7 +83,9 @@ export default function UploadActionsButtons() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={createFolder}>Crear </Button>
+            <Button type="submit" onClick={createFolder}>
+              Crear{' '}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

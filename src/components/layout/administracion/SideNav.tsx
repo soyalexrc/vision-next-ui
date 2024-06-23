@@ -1,17 +1,10 @@
 import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs/server';
 import Icon from '@/components/ui/icon';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
-
-type AllowedRoute = {
-  title: string;
-  path: string;
-  icon: keyof typeof dynamicIconImports;
-};
+import {AllowedRoute} from "@/lib/interfaces/Menu";
 
 export default async function Sidenav() {
-  // const pathname = usePathname();
   const user = await currentUser();
 
   return (

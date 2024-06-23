@@ -1,40 +1,23 @@
 'use client';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Bell, HandCoins, Home, Menu, Settings } from 'lucide-react';
+import { Bell, Menu } from 'lucide-react';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { UserButton } from '@clerk/nextjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useClerk, UserButton } from '@clerk/nextjs';
+import { AllowedRoute } from '@/lib/interfaces/Menu';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
+import Icon from '@/components/ui/icon';
 import { usePathname } from 'next/navigation';
-
-type LinkType = {
-  title: string;
-  route: string;
-  icon: JSX.Element;
-};
-
-const links: LinkType[] = [
-  {
-    title: 'Dashboard',
-    route: '/dashboard',
-    icon: <Home className="h-4 w-4" />,
-  },
-  {
-    title: 'Expenses',
-    route: '/dashboard/expenses',
-    icon: <HandCoins className="h-4 w-4" />,
-  },
-  {
-    title: 'Settings',
-    route: '/dashboard/settings',
-    icon: <Settings className="h-4 w-4" />,
-  },
-];
 
 export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
+  const { user } = useClerk();
   const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -45,39 +28,31 @@ export default function Header() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
+
         <SheetContent side="left" className="flex flex-col">
-          <nav className="grid gap-2 text-lg font-medium">
-            <Link href="#" className="flex items-center gap-2 text-lg font-semibold">
-              <span className="sr-only">Acme Inc</span>
+          <SheetTitle>
+            <Link href="#" className="flex items-center gap-2 mt-4 text-lg font-semibold">
+              <span>Vision Admin</span>
             </Link>
-            {links.map((link) => (
-              <Link
-                key={link.route}
-                href={link.route}
-                prefetch={true}
-                onClick={() => setOpen(false)}
-                className={`${
-                  pathname === link.route && 'bg-muted'
-                } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
-              >
-                {link.icon}
-                {link.title}
-              </Link>
-            ))}
+          </SheetTitle>
+          <nav className="grid gap-2 text-lg font-medium">
+            {user &&
+              (user?.publicMetadata.allowedRoutes as AllowedRoute[]).map(
+                (route: { path: string; title: string; icon: keyof typeof dynamicIconImports }) => (
+                  <Link
+                    key={route.path}
+                    href={route.path ?? ''}
+                    prefetch={true}
+                    className={`${
+                      pathname === route.path && 'bg-muted'
+                    } flex items-center gap-3 rounded-lg py-1 text-muted-foreground transition-all hover:text-primary`}
+                  >
+                    <Icon name={route.icon} />
+                    {route.title}
+                  </Link>
+                ),
+              )}
           </nav>
-          <div className="mt-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>Unlock all features and get unlimited access to our support team.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1" />

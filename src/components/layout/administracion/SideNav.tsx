@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs/server';
 import Icon from '@/components/ui/icon';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
-import {AllowedRoute} from "@/lib/interfaces/Menu";
+import { AllowedRoute } from '@/lib/interfaces/Menu';
 
 export default async function Sidenav() {
   const user = await currentUser();

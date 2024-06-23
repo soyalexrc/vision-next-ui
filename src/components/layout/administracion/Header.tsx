@@ -85,7 +85,7 @@ export default function Header() {
         <Bell className="h-4 w-4" />
         <span className="sr-only">Toggle notifications</span>
       </Button>
-      <UserButton afterSignOutUrl='/ingreso' />
+      <UserButton afterSignOutUrl="/ingreso" />
     </header>
   );
 }

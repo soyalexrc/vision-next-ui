@@ -1,5 +1,3 @@
 export default function Page() {
-    return (
-        <div>Usuarios</div>
-    )
+  return <div>Usuarios</div>;
 }

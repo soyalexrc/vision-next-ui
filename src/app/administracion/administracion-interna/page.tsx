@@ -1,5 +1,3 @@
 export default function Page() {
-    return (
-        <div>Administracion interna</div>
-    )
+  return <div>Administracion interna</div>;
 }

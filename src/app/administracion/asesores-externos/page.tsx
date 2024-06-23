@@ -1,5 +1,3 @@
 export default function Page() {
-    return (
-        <div>Asesores externos</div>
-    )
+  return <div>Asesores externos</div>;
 }

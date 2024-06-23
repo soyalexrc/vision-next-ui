@@ -2,8 +2,8 @@
 
 import UiProvider from '@/context/UiContext';
 import { NextUIProvider } from '@nextui-org/react';
-import {Provider} from "react-redux";
-import {store} from "@/lib/store";
+import { Provider } from 'react-redux';
+import { store } from '@/lib/store';
 
 interface Props {
   children: React.ReactNode;
@@ -11,10 +11,10 @@ interface Props {
 
 export const Providers = ({ children }: Props) => {
   return (
-   <Provider store={store}>
-       <NextUIProvider>
-           <UiProvider>{children}</UiProvider>
-       </NextUIProvider>
-   </Provider>
+    <Provider store={store}>
+      <NextUIProvider>
+        <UiProvider>{children}</UiProvider>
+      </NextUIProvider>
+    </Provider>
   );
 };

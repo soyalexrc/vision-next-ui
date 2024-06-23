@@ -1,5 +1,3 @@
 export default function Page() {
-    return (
-        <div>Aliados</div>
-    )
+  return <div>Aliados</div>;
 }

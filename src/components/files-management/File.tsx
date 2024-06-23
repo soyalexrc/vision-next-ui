@@ -1,9 +1,9 @@
 'use client';
-import {CloudDownload, File, Folder, ScanEye, Share} from 'lucide-react';
+import { CloudDownload, File, Folder, ScanEye, Share } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import Link from 'next/link';
-import {getDownloadURL, ref} from "@firebase/storage";
-import storage from "@/lib/firebase/storage";
+import { getDownloadURL, ref } from '@firebase/storage';
+import storage from '@/lib/firebase/storage';
 
 type Props = {
   fullPath: string;
@@ -11,29 +11,28 @@ type Props = {
 };
 
 export default function FileComponent({ fullPath, name }: Props) {
+  async function share() {
+    try {
+      const fileRef = ref(storage, fullPath);
+      const downloadUrl = await getDownloadURL(fileRef);
 
-    async function share() {
-        try {
-            const fileRef = ref(storage, fullPath);
-            const downloadUrl = await getDownloadURL(fileRef);
+      const shareData = {
+        title: name,
+        url: downloadUrl,
+      };
 
-            const shareData = {
-                title: name,
-                url: downloadUrl
-            }
+      console.log(navigator);
 
-            console.log(navigator)
-
-            if ('share' in navigator && navigator.canShare()) {
-                await navigator.share(shareData);
-            } else {
-                alert('share is not supported')
-            }
-            console.log("File shared successfully!");
-        } catch (err) {
-            console.log(err);
-        }
+      if ('share' in navigator && navigator.canShare()) {
+        await navigator.share(shareData);
+      } else {
+        alert('share is not supported');
+      }
+      console.log('File shared successfully!');
+    } catch (err) {
+      console.log(err);
     }
+  }
 
   return (
     <ContextMenu>
@@ -44,17 +43,17 @@ export default function FileComponent({ fullPath, name }: Props) {
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem className='gap-2 border-b-2'>
-            <ScanEye />
-            Ver
+        <ContextMenuItem className="gap-2 border-b-2">
+          <ScanEye />
+          Ver
         </ContextMenuItem>
-        <ContextMenuItem className='gap-2 border-b-2'>
-            <CloudDownload />
-            Descargar
+        <ContextMenuItem className="gap-2 border-b-2">
+          <CloudDownload />
+          Descargar
         </ContextMenuItem>
-        <ContextMenuItem className='gap-2 ' onClick={share}>
-            <Share />
-            Comprartir
+        <ContextMenuItem className="gap-2 " onClick={share}>
+          <Share />
+          Comprartir
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

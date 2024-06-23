@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { ClerkProvider } from '@clerk/nextjs';
 import { esES } from '@clerk/localizations';
-import {Toaster} from "@/components/ui/sonner";
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 

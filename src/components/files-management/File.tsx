@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {toast} from "sonner";
+import { toast } from 'sonner';
 
 type Props = {
   fullPath: string;

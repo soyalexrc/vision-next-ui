@@ -10,7 +10,7 @@ import { activateLoading, turnOffLoading } from '@/lib/store/features/files/stat
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {toast} from "sonner";
+import { toast } from 'sonner';
 
 export default function UploadActionsButtons() {
   const inputRef = useRef<HTMLInputElement>(null);

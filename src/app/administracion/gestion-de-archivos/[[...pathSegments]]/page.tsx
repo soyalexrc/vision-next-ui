@@ -1,9 +1,11 @@
 import { listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import Icon from '@/components/ui/icon';
 import Link from 'next/link';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import FolderComponent from "@/components/files-management/Folder";
+import FileComponent from "@/components/files-management/File";
+import UploadActionsButtons from "@/components/files-management/UploadActionsButtons";
+import FileUploadingLoader from "@/components/files-management/FileUploadingLoader";
 
 interface PageProps {
   params: {
@@ -22,7 +24,6 @@ async function getStorageData(pathSegments: string[] = ['/']) {
 
 export default async function Page({ params: { pathSegments } }: PageProps) {
   const data = await getStorageData(pathSegments);
-  console.log(pathSegments);
 
   return (
     <div className="p-4">
@@ -46,13 +47,11 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
             ))}
         </BreadcrumbList>
       </Breadcrumb>
+      <UploadActionsButtons />
+        <p className='px-4 mb-4 text-sm text-gray-500'>Estas viendo <b>{data?.items.length}</b> Archivos en esta carpeta</p>
+      <FileUploadingLoader />
       {data?.prefixes.map((folder) => <FolderComponent key={folder.fullPath} fullPath={folder.fullPath} name={folder.name} />)}
-      {data?.items.map((file) => (
-        <div key={file.fullPath} className="flex items-center gap-2 p-2 cursor-pointer">
-          <Icon name="file" className="min-w-[30px]" />
-          <p className="text-sm">{file.name}</p>
-        </div>
-      ))}
+      {data?.items.map((file) => <FileComponent name={file.name} fullPath={file.fullPath} />)}
     </div>
   );
 }

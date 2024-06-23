@@ -74,3 +74,18 @@
       @apply bg-background text-foreground;
     }
   }
+
+@keyframes ping {
+  from {
+    transform: translateX(-100%); /* Start from outside the left edge */
+    width: 0; /* Initial width is 0 */
+  }
+  to {
+    transform: translateX(0); /* Move to the right edge */
+    width: 100%; /* Expand to full width */
+  }
+}
+
+.animate-ping {
+  animation: ping 1.5s infinite;
+}

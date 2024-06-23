@@ -3,6 +3,7 @@ import { CloudDownload, File, ScanEye, Share } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import { getDownloadURL, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
+import useShareSupport from "@/hooks/useShareSupport";
 
 type Props = {
   fullPath: string;
@@ -10,7 +11,9 @@ type Props = {
 };
 
 export default function FileComponent({ fullPath, name }: Props) {
+  const hasShareSupport = useShareSupport();
   async function share() {
+
     try {
       const fileRef = ref(storage, fullPath);
       const downloadUrl = await getDownloadURL(fileRef);
@@ -22,7 +25,7 @@ export default function FileComponent({ fullPath, name }: Props) {
 
       console.log(navigator);
 
-      if ('share' in navigator && navigator.canShare()) {
+      if (hasShareSupport) {
         await navigator.share(shareData);
       } else {
         alert('share is not supported');
@@ -50,7 +53,7 @@ export default function FileComponent({ fullPath, name }: Props) {
           <CloudDownload />
           Descargar
         </ContextMenuItem>
-        <ContextMenuItem className="gap-2 " onClick={share}>
+        <ContextMenuItem disabled={!hasShareSupport} className="gap-2 " onClick={share}>
           <Share />
           Comprartir
         </ContextMenuItem>

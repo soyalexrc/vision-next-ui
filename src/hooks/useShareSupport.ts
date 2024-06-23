@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 
 function useShareSupport() {
-    const [isShareSupported, setIsShareSupported] = useState(false);
+  const [isShareSupported, setIsShareSupported] = useState(false);
 
-    useEffect(() => {
-        const checkSupport = () => {
-            setIsShareSupported('share' in navigator);
-        };
+  useEffect(() => {
+    const checkSupport = () => {
+      setIsShareSupported('share' in navigator);
+    };
 
-        checkSupport();
+    checkSupport();
 
-        // Cleanup function to prevent memory leaks
-        return () => {};
-    }, []);
+    // Cleanup function to prevent memory leaks
+    return () => {};
+  }, []);
 
-    return isShareSupported;
+  return isShareSupported;
 }
 
 export default useShareSupport;

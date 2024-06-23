@@ -3,7 +3,7 @@ import { CloudDownload, File, ScanEye, Share } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import { getDownloadURL, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import useShareSupport from "@/hooks/useShareSupport";
+import useShareSupport from '@/hooks/useShareSupport';
 
 type Props = {
   fullPath: string;
@@ -13,7 +13,6 @@ type Props = {
 export default function FileComponent({ fullPath, name }: Props) {
   const hasShareSupport = useShareSupport();
   async function share() {
-
     try {
       const fileRef = ref(storage, fullPath);
       const downloadUrl = await getDownloadURL(fileRef);

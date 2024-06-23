@@ -35,12 +35,12 @@ export default function UploadActionsButtons() {
   }
 
   return (
-    <div className="flex justify-end gap-4 mt-6">
-      <Button className="flex gap-2" onClick={() => inputRef.current?.click()}>
+    <div className="flex justify-end gap-4 my-6">
+      <Button className="flex gap-2 w-full lg:w-auto" onClick={() => inputRef.current?.click()}>
         <Upload />
         Subir archivo
       </Button>
-      <Button variant="secondary" className="flex gap-2">
+      <Button variant="secondary" className="flex gap-2 w-full lg:w-auto">
         <Plus />
         Crear carpeta
       </Button>

@@ -49,7 +49,7 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
       </Breadcrumb>
       <UploadActionsButtons />
       <p className="px-4 mb-4 text-sm text-gray-500">
-        Estas viendo <b>{data?.items.length}</b> Archivos en esta carpeta
+        Estas viendo <b>{data?.items.length}</b> Archivos y <b>{data?.prefixes.length}</b> Carpetas
       </p>
       <FileUploadingLoader />
       {data?.prefixes.map((folder) => <FolderComponent key={folder.fullPath} fullPath={folder.fullPath} name={folder.name} />)}

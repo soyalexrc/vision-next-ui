@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { getBlob, getDownloadURL, listAll, ref, uploadBytes } from '@firebase/storage';
+import { getBlob, listAll, ref, uploadBytes } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import { Folder } from 'lucide-react';
@@ -59,7 +59,7 @@ export default function FolderComponent({ fullPath, name }: Props) {
         </Link>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem onClick={() => renameFolder(name, 'Sample')}>Rename to "sample"</ContextMenuItem>
+        <ContextMenuItem onClick={() => renameFolder(name, 'Sample')}>Rename</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );

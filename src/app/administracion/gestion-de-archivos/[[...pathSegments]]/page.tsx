@@ -53,7 +53,7 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
       </p>
       <FileUploadingLoader />
       {data?.prefixes.map((folder) => <FolderComponent key={folder.fullPath} fullPath={folder.fullPath} name={folder.name} />)}
-      {data?.items.map((file) => <FileComponent name={file.name} fullPath={file.fullPath} />)}
+      {data?.items.map((file) => <FileComponent key={file.name} name={file.name} fullPath={file.fullPath} />)}
     </div>
   );
 }

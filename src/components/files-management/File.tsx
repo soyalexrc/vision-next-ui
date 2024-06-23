@@ -1,7 +1,6 @@
 'use client';
-import { CloudDownload, File, Folder, ScanEye, Share } from 'lucide-react';
+import { CloudDownload, File, ScanEye, Share } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
-import Link from 'next/link';
 import { getDownloadURL, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 

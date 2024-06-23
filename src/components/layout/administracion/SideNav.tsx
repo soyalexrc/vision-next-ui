@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 // import { usePathname } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs/server';
 import Icon from '@/components/ui/icon';

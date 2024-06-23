@@ -1,13 +1,17 @@
 'use client';
-import { CloudDownload, File, Loader, ScanEye, Share } from 'lucide-react';
+import { CloudDownload, File, Loader, PencilLine, ScanEye, Share, Trash2 } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
-import { getDownloadURL, getMetadata, ref } from '@firebase/storage';
+import { deleteObject, getDownloadURL, getMetadata, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import useShareSupport from '@/lib/hooks/useShareSupport';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { useWindowSize } from '@/lib/hooks';
+import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 type Props = {
   fullPath: string;
@@ -18,8 +22,11 @@ export default function FileComponent({ fullPath, name }: Props) {
   const hasShareSupport = useShareSupport();
   const [previewData, setPreviewData] = useState<any>(null); // State to store preview data
   const [open, setOpen] = useState<boolean>(false); // State to store preview data
+  const [openModalChangeName, setOpenModalChangeName] = useState<boolean>(false); // State to store preview data
+  const [newFileName, setNewFileName] = useState<string>(getFilenameWithoutExtension(name)); // State to store preview data
   const [loading, setLoading] = useState<boolean>(false);
   const { width } = useWindowSize();
+  const router = useRouter();
 
   async function share() {
     try {
@@ -68,6 +75,22 @@ export default function FileComponent({ fullPath, name }: Props) {
     }
   }
 
+  async function remove() {
+    try {
+      setLoading(true);
+      const fileRef = ref(storage, fullPath);
+
+      await deleteObject(fileRef);
+      router.refresh();
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  }
+
   async function downloadFile() {
     try {
       setLoading(true);
@@ -92,11 +115,22 @@ export default function FileComponent({ fullPath, name }: Props) {
     if (!value) setPreviewData(null);
   }
 
+  function getFilenameWithoutExtension(filename: string) {
+    const lastDotIndex = filename.lastIndexOf('.');
+    if (lastDotIndex === -1) {
+      return filename; // No extension found, return the whole filename
+    }
+    return filename.slice(0, lastDotIndex);
+  }
+
   return (
     <>
       <ContextMenu>
         <ContextMenuTrigger>
-          <div key={fullPath} className="flex items-center gap-2 p-2 cursor-pointer">
+          <div
+            key={fullPath}
+            className="flex items-center gap-2 p-2 cursor-pointer  transition-colors hover:bg-gray-100 hover:text-gray-600"
+          >
             {loading && <Loader className="min-w-[30px] animate-spin" />}
             {!loading && <File className="min-w-[30px] " />}
             <p className="text-sm">{name}</p>
@@ -111,9 +145,17 @@ export default function FileComponent({ fullPath, name }: Props) {
             <CloudDownload />
             Descargar
           </ContextMenuItem>
-          <ContextMenuItem disabled={!hasShareSupport} className="gap-2 px-3 " onClick={share}>
+          <ContextMenuItem disabled={!hasShareSupport} className="gap-2 px-3 border-b-2" onClick={share}>
             <Share />
             Comprartir {!hasShareSupport && '(Funcion no disponible)'}
+          </ContextMenuItem>
+          <ContextMenuItem className="gap-2 px-3 border-b-2" onClick={() => setOpenModalChangeName(!openModalChangeName)}>
+            <PencilLine />
+            Cambiar nombre
+          </ContextMenuItem>
+          <ContextMenuItem className="gap-2 px-3 " onClick={remove}>
+            <Trash2 />
+            Eliminar
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -140,6 +182,32 @@ export default function FileComponent({ fullPath, name }: Props) {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+      <Dialog open={openModalChangeName} onOpenChange={setOpenModalChangeName}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Cambiar nombre de archivo</DialogTitle>
+            <DialogDescription>
+              El cambio de nombre de archivo no es una accion que recomendamos ejecutar de manera frecuente..
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="newFolder" className="text-right">
+                Titulo
+              </Label>
+              <Input
+                id="newFolder"
+                value={newFileName}
+                onChange={({ target: { value } }: { target: { value: string } }) => setNewFileName(value)}
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Cambiar nombre</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

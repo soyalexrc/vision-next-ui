@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { getBlob, listAll, ref, uploadBytes } from '@firebase/storage';
+import { deleteObject, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
-import { Folder } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Folder, PencilLine, Trash2 } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import React, { useState } from 'react';
 
 type Props = {
   fullPath: string;
@@ -14,53 +19,92 @@ type Props = {
 
 export default function FolderComponent({ fullPath, name }: Props) {
   const pathname = usePathname();
-  async function renameFolder(olderFolderName: string, newFolderName: string) {
-    const currentFolderName = pathname
-      .replace('administracion/gestion-de-archivos', '')
-      .replaceAll('%20', ' ')
-      .concat(`/${olderFolderName}`);
-    const nextFolderName = pathname.replace('administracion/gestion-de-archivos', '').replaceAll('%20', ' ').concat(`/${newFolderName}`);
-    const oldFolderRef = ref(storage, currentFolderName);
-    const newFolderRef = ref(storage, nextFolderName);
+  const router = useRouter();
+  const [open, setOpen] = useState<boolean>(false);
+  const [folderName, setFolderName] = useState<string>(name);
 
+  async function removeFolder() {
     try {
-      const listResult = await listAll(oldFolderRef);
-      if (listResult.prefixes.length > 0) alert('Esta carpeta contiene mas carpetas dentro de ella, no es posible renombrarla por ahora');
+      const folderRef = ref(storage, fullPath);
+      const listResult = await listAll(folderRef);
+      if (listResult.prefixes.length > 0) {
+        const nestedFolderRef = ref(storage, listResult.prefixes[0].fullPath);
+        const nestedListResult = await listAll(nestedFolderRef);
+        for (const file of nestedListResult.items) {
+          await deleteObject(ref(storage, file.fullPath));
+        }
+        await removeFolder();
+      } else {
+        for (const file of listResult.items) {
+          await deleteObject(ref(storage, file.fullPath));
+        }
+      }
 
-      const downloadPromises = listResult.items.map(async (itemRef) => {
-        return await getBlob(itemRef);
-      });
-      // Wait for all downloads to complete
-      const downloadedFiles = await Promise.all(downloadPromises);
+      router.refresh();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-      console.log(downloadedFiles);
+  async function renameFolder() {
+    try {
 
-      // Upload downloaded files to the new folder
-      const uploadPromises = downloadedFiles.map(async (file) => {
-        const newFileRef = ref(newFolderRef, file.name); // Maintain file name
-        await uploadBytes(newFileRef, file); // Upload the downloaded file content
-      });
-
-      await Promise.all(uploadPromises);
     } catch (err) {
       console.log(err);
     }
   }
   return (
-    <ContextMenu>
-      <ContextMenuTrigger>
-        <Link
-          href={`/administracion/gestion-de-archivos/${fullPath}`}
-          key={fullPath}
-          className="flex items-center gap-2 p-2 cursor-pointer"
-        >
-          <Folder className="w-[30px]" />
-          <p className="text-sm">{name}</p>
-        </Link>
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem onClick={() => renameFolder(name, 'Sample')}>Rename</ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    <>
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <Link
+            href={`/administracion/gestion-de-archivos/${fullPath}`}
+            key={fullPath}
+            className="flex items-center gap-2 p-2 cursor-pointer transition-colors hover:bg-gray-100 hover:text-gray-600"
+          >
+            <Folder className="w-[30px]" />
+            <p className="text-sm">{name}</p>
+          </Link>
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem disabled className="gap-2 px-3 border-b-2" onClick={() => setOpen(!open)}>
+            <PencilLine />
+            Cambiar nombre
+          </ContextMenuItem>
+          <ContextMenuItem onClick={removeFolder} className="gap-2 px-3">
+            <Trash2 />
+            Eliminar
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Cambiar nombre de carpeta</DialogTitle>
+            <DialogDescription>
+              El cambio de nombre de carpeta no es una accion que recomendamos ejecutar de manera frecuente..
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="newFolder" className="text-right">
+                Titulo
+              </Label>
+              <Input
+                id="newFolder"
+                value={folderName}
+                onChange={({ target: { value } }: { target: { value: string } }) => setFolderName(value)}
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={renameFolder}>
+              Cambiar nombre
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -24,9 +24,9 @@ async function getStorageData(pathSegments: string[] = ['/']) {
 
 export default async function Page({ params: { pathSegments } }: PageProps) {
   const data = await getStorageData(pathSegments);
-
   return (
-    <div className="p-4">
+    //   TODO misma clase de historiaas clinicas para dynamic get height
+    <div className="p-4 relative" style={{ height: '90vh' }}>
       <h1 className="text-4xl mb-4">Gestion de archivos</h1>
       <Breadcrumb className="mb-2">
         <BreadcrumbList>
@@ -48,12 +48,20 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <UploadActionsButtons />
-      <p className="px-4 mb-4 text-sm text-gray-500">
-        Estas viendo <b>{data?.items.length}</b> Archivos y <b>{data?.prefixes.length}</b> Carpetas
-      </p>
+      <div className="mb-4 flex justify-end">
+        <p className="px-4 text-sm text-gray-500">
+          <b>{data?.items.filter((file) => file.name !== '.ghostfile').length}</b> Archivos
+        </p>
+        <p className="px-4 text-sm text-gray-500">
+          <b>{data?.prefixes.length}</b> Carpetas
+        </p>
+      </div>
+
       <FileUploadingLoader />
       {data?.prefixes.map((folder) => <FolderComponent key={folder.fullPath} fullPath={folder.fullPath} name={folder.name} />)}
-      {data?.items.map((file) => <FileComponent key={file.name} name={file.name} fullPath={file.fullPath} />)}
+      {data?.items
+        .filter((file) => file.name !== '.ghostfile')
+        .map((file) => <FileComponent key={file.name} name={file.name} fullPath={file.fullPath} />)}
     </div>
   );
 }

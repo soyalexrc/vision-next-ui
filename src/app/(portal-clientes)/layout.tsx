@@ -1,5 +1,5 @@
 import React from 'react';
-import {Providers} from '@/store/Providers';
+import {Providers} from '@/components/Providers';
 import Layout from '@/components/layout';
 
 export default function RootLayout({children}: { children: React.ReactNode }) {

@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { Button } from '@nextui-org/react';
-import NextLink from 'next/link';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 export default function AboutUs() {
   return (
     <>
@@ -48,15 +48,16 @@ export default function AboutUs() {
           className="w-full h-full top-0 left-0 object-cover"
           src="/about/about-image-2.jpg"
         />
-        <div className="absolute top-0 left-0 z-10 bg-black-opacity w-full h-full flex justify-center items-center flex-col">
+        <div className="absolute top-0 left-0 z-10 bg-gray-950 opacity-50 w-full h-full flex justify-center items-center flex-col" />
+        <div className="absolute top-0 left-0 z-20 w-full h-full flex justify-center items-center flex-col">
           <h2 className="text-center text-white lg:text-4xl">
             Te asesoramos para conseguir el propiedad <br />
             que estas buscando, de forma transparente y segura.
           </h2>
           <div className="flex justify-center mt-7">
-            <Button as={NextLink} href="/contacto" size="lg" className="bg-red-900 text-white">
-              Contáctanos
-            </Button>
+            <Link href="/contacto">
+              <Button className="bg-red-900  text-white">Contáctanos</Button>
+            </Link>
           </div>
         </div>
       </section>

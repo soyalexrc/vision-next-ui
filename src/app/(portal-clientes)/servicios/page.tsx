@@ -1,5 +1,8 @@
-import { Button, Checkbox, Input, Link, Textarea } from '@nextui-org/react';
-import NextLink from 'next/link';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const services = [
   {
@@ -85,24 +88,22 @@ export default function Services() {
           <p className="text-sm text-center">Si deseas más información sobre esta propiedad, por favor, rellena el formulario.</p>
 
           <div className="my-5">
-            <Input size="sm" variant="bordered" className="mb-4" type="text" label="Nombres y apellidos" />
-            <Input size="sm" variant="bordered" className="mb-4" type="email" label="Email" />
-            <Input size="sm" variant="bordered" className="mb-4" type="tel" label="Telefono" />
-            <Textarea minRows={8} variant="bordered" label="Mensaje" className="w-full" />
-            <div className="my-5">
-              <Checkbox defaultSelected />
+            <Input className="mb-4" type="text" placeholder="Nombres y apellidos" />
+            <Input className="mb-4" type="email" placeholder="Email" />
+            <Input className="mb-4" type="tel" placeholder="Telefono" />
+            <Textarea className="w-full" />
+            <div className="my-5 gap-2 flex items-center">
+              <Checkbox defaultChecked />
               <span className="text-xs">
                 He leido y acepto los{' '}
-                <Link className="text-xs" underline="always" as={NextLink} href="/">
+                <Link className="text-xs" href="/">
                   terminos y condiciones
                 </Link>
               </span>
             </div>
 
             <div className="flex justify-center">
-              <Button size="lg" className="bg-red-900 text-white">
-                Enviar informacion
-              </Button>
+              <Button className="bg-red-900 text-white">Enviar informacion</Button>
             </div>
           </div>
         </div>

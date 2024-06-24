@@ -82,7 +82,7 @@ export default function FolderComponent({ fullPath, name }: Props) {
             <PencilLine />
             Cambiar nombre
           </ContextMenuItem>
-          <ContextMenuItem onClick={removeFolder} className="gap-2 px-3">
+          <ContextMenuItem disabled={!fullPath.includes('/')} onClick={removeFolder} className="gap-2 px-3">
             <Trash2 />
             Eliminar
           </ContextMenuItem>

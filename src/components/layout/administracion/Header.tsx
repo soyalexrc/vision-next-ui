@@ -6,9 +6,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useClerk, UserButton } from '@clerk/nextjs';
 import { AllowedRoute } from '@/lib/interfaces/Menu';
-import dynamicIconImports from 'lucide-react/dynamicIconImports';
-import Icon from '@/components/ui/icon';
 import { usePathname } from 'next/navigation';
+import MenuItem from '@/components/layout/administracion/MenuItem';
 
 export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
@@ -37,21 +36,9 @@ export default function Header() {
           </SheetTitle>
           <nav className="grid gap-2 text-lg font-medium">
             {user &&
-              (user?.publicMetadata.allowedRoutes as AllowedRoute[]).map(
-                (route: { path: string; title: string; icon: keyof typeof dynamicIconImports }) => (
-                  <Link
-                    key={route.path}
-                    href={route.path ?? ''}
-                    prefetch={true}
-                    className={`${
-                      pathname === route.path && 'bg-muted'
-                    } flex items-center gap-3 rounded-lg py-1 text-muted-foreground transition-all hover:text-primary`}
-                  >
-                    <Icon name={route.icon} />
-                    {route.title}
-                  </Link>
-                ),
-              )}
+              (user?.publicMetadata.allowedRoutes as AllowedRoute[]).map((route: { path: string; title: string }) => (
+                <MenuItem key={route.path} route={route} />
+              ))}
           </nav>
         </SheetContent>
       </Sheet>

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs/server';
-import Icon from '@/components/ui/icon';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { AllowedRoute } from '@/lib/interfaces/Menu';
+import MenuItem from '@/components/layout/administracion/MenuItem';
 
 export default async function Sidenav() {
   const user = await currentUser();
@@ -17,21 +17,9 @@ export default async function Sidenav() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {(user?.publicMetadata.allowedRoutes as AllowedRoute[]).map(
-              (route: { path: string; title: string; icon: keyof typeof dynamicIconImports }) => (
-                <Link
-                  key={route.path}
-                  href={route.path ?? ''}
-                  prefetch={true}
-                  className={`${
-                    'sample' === route.path && 'bg-muted'
-                  } flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary`}
-                >
-                  <Icon name={route.icon} />
-                  {route.title}
-                </Link>
-              ),
-            )}
+            {(user?.publicMetadata.allowedRoutes as AllowedRoute[]).map((route: { path: string; title: string }) => (
+              <MenuItem key={route.path} route={route} />
+            ))}
           </nav>
         </div>
       </div>

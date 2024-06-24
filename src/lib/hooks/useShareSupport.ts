@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useShareSupport() {
+export function useShareSupport() {
   const [isShareSupported, setIsShareSupported] = useState(false);
 
   useEffect(() => {
@@ -17,4 +17,3 @@ function useShareSupport() {
   return isShareSupported;
 }
 
-export default useShareSupport;

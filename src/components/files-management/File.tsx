@@ -1,9 +1,9 @@
 'use client';
-import { CloudDownload, File, Loader, PencilLine, ScanEye, Share, Trash2 } from 'lucide-react';
+import { CloudDownload, Copy, File, Loader, PencilLine, ScanEye, Share, Trash2} from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import { deleteObject, getDownloadURL, getMetadata, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import useShareSupport from '@/lib/hooks/useShareSupport';
+import {useClipboardSupport, useShareSupport} from '@/lib/hooks';
 import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ type Props = {
 
 export default function FileComponent({ fullPath, name }: Props) {
   const hasShareSupport = useShareSupport();
+  const hasClipboardSupport = useClipboardSupport();
   const [previewData, setPreviewData] = useState<any>(null); // State to store preview data
   const [open, setOpen] = useState<boolean>(false); // State to store preview data
   const [openModalChangeName, setOpenModalChangeName] = useState<boolean>(false); // State to store preview data
@@ -117,6 +118,17 @@ export default function FileComponent({ fullPath, name }: Props) {
     if (!value) setPreviewData(null);
   }
 
+  async function copyFileName() {
+    try {
+      if (hasClipboardSupport) {
+        await navigator.clipboard.writeText(name);
+        toast.success(`Se copio el nombre del documento en el porta papeles.`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   function getFilenameWithoutExtension(filename: string) {
     const lastDotIndex = filename.lastIndexOf('.');
     if (lastDotIndex === -1) {
@@ -135,13 +147,17 @@ export default function FileComponent({ fullPath, name }: Props) {
           >
             {loading && <Loader className="min-w-[30px] animate-spin" />}
             {!loading && <File className="min-w-[30px] " />}
-            <p className="text-sm">{name}</p>
+            <p className="text-sm select-none">{name}</p>
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem className="gap-2 px-3 border-b-2" onClick={preview}>
             <ScanEye />
             Vista previa
+          </ContextMenuItem>
+          <ContextMenuItem disabled={!hasClipboardSupport} className="gap-2 px-3 border-b-2" onClick={copyFileName}>
+            <Copy />
+            Copiar {!hasClipboardSupport && '(Funcion no disponible)'}
           </ContextMenuItem>
           <ContextMenuItem className="gap-2 px-3 border-b-2" onClick={downloadFile}>
             <CloudDownload />

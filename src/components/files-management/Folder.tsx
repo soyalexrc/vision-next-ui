@@ -74,7 +74,7 @@ export default function FolderComponent({ fullPath, name }: Props) {
           >
             {loading && <Loader className="min-w-[30px] animate-spin" />}
             {!loading && <Folder className="w-[30px]" />}
-            <p className="text-sm">{name}</p>
+            <p className="text-sm select-none">{name}</p>
           </Link>
         </ContextMenuTrigger>
         <ContextMenuContent>

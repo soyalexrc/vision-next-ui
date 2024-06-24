@@ -159,8 +159,8 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger>
-            <Button variant="ghost" className="md:hidden">
+          <SheetTrigger className="md:hidden">
+            <Button variant="ghost">
               <Menu />
             </Button>
           </SheetTrigger>

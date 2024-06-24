@@ -160,9 +160,7 @@ export default function Header() {
         </NavigationMenu>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger className="md:hidden">
-            <Button variant="ghost">
-              <Menu />
-            </Button>
+            <Menu />
           </SheetTrigger>
           <SheetContent side="left" className="overflow-y-auto">
             <SheetHeader>

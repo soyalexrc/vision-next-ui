@@ -11,8 +11,7 @@ import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Welcome to Next.js',
+  title: 'Vision inmobiliaria',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

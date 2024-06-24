@@ -1,7 +1,3 @@
 export default function AttributesInformation() {
-    return (
-        <div>
-            Attributes information
-        </div>
-    )
+  return <div>Attributes information</div>;
 }

@@ -16,4 +16,3 @@ export function useShareSupport() {
 
   return isShareSupported;
 }
-

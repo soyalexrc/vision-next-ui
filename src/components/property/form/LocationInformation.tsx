@@ -1,7 +1,3 @@
 export default function LocationInformation() {
-    return (
-        <div>
-            location information
-        </div>
-    )
+  return <div>location information</div>;
 }

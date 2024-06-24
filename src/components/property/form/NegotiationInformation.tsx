@@ -1,7 +1,3 @@
 export default function NegotiationInformation() {
-    return (
-        <div>
-            negotiation information
-        </div>
-    )
+  return <div>negotiation information</div>;
 }

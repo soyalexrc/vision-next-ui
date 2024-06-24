@@ -1,7 +1,3 @@
 export default function VisualsInformation() {
-    return (
-        <div>
-            visuals information
-        </div>
-    )
+  return <div>visuals information</div>;
 }

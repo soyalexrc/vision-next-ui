@@ -1,9 +1,9 @@
 'use client';
-import { CloudDownload, Copy, File, Loader, PencilLine, ScanEye, Share, Trash2} from 'lucide-react';
+import { CloudDownload, Copy, File, Loader, PencilLine, ScanEye, Share, Trash2 } from 'lucide-react';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
 import { deleteObject, getDownloadURL, getMetadata, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import {useClipboardSupport, useShareSupport} from '@/lib/hooks';
+import { useClipboardSupport, useShareSupport } from '@/lib/hooks';
 import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';

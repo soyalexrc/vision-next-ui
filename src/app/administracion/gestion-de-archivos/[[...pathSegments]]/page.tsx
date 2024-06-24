@@ -47,7 +47,6 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
             ))}
         </BreadcrumbList>
       </Breadcrumb>
-      <UploadActionsButtons />
       <div className="mb-4 flex justify-end">
         <p className="px-4 text-sm text-gray-500">
           <b>{data?.items.filter((file) => file.name !== '.ghostfile').length}</b> Archivos
@@ -56,12 +55,12 @@ export default async function Page({ params: { pathSegments } }: PageProps) {
           <b>{data?.prefixes.length}</b> Carpetas
         </p>
       </div>
-
       <FileUploadingLoader />
       {data?.prefixes.map((folder) => <FolderComponent key={folder.fullPath} fullPath={folder.fullPath} name={folder.name} />)}
       {data?.items
         .filter((file) => file.name !== '.ghostfile')
         .map((file) => <FileComponent key={file.name} name={file.name} fullPath={file.fullPath} />)}
+      <UploadActionsButtons />
     </div>
   );
 }

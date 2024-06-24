@@ -49,6 +49,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       }
     } catch (err) {
       console.log(err);
+      toast.error('Accion de compartir no es soportada por el navegador');
       setLoading(false);
     } finally {
       setLoading(false);
@@ -73,6 +74,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       }, 1000);
     } catch (err) {
       console.log(err);
+      toast.error(JSON.stringify(err));
       setLoading(false);
     }
   }
@@ -90,6 +92,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       }, 1000);
     } catch (err) {
       console.log(err);
+      toast.error(JSON.stringify(err));
       setLoading(false);
     }
   }
@@ -107,6 +110,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       link.click();
     } catch (err) {
       console.log(err);
+      toast.error(JSON.stringify(err));
       setLoading(false);
     } finally {
       setLoading(false);
@@ -126,6 +130,7 @@ export default function FileComponent({ fullPath, name }: Props) {
       }
     } catch (err) {
       console.log(err);
+      toast.error(JSON.stringify(err));
     }
   }
 

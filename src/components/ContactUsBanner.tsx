@@ -1,5 +1,5 @@
-import { Button } from '@nextui-org/react';
-import NextLink from 'next/link';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function ContactUsBanner() {
   return (
@@ -11,9 +11,11 @@ export default function ContactUsBanner() {
           que estas buscando, de forma transparente y segura.
         </h2>
         <div className="flex justify-center mt-7">
-          <Button as={NextLink} href="/contacto" size="lg" className="bg-red-900 text-white">
-            Contáctanos
-          </Button>
+          <Link href="/contacto">
+            <Button size="lg" className="bg-red-900 text-white">
+              Contáctanos
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

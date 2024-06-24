@@ -1,6 +1,9 @@
 import Image from 'next/image';
-import { Button, Checkbox, Input, Link, Textarea } from '@nextui-org/react';
-import NextLink from 'next/link';
+import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 
 export default function ContactUs() {
   return (
@@ -36,24 +39,22 @@ export default function ContactUs() {
           </div>
           <div className="px-4">
             <h2 className="text-3xl mb-4">Mis datos</h2>
-            <Input size="sm" variant="bordered" type="text" label="Nombre" />
+            <Input type="text" placeholder="Nombre" />
 
             <div className="grid gap-4 grid-cols-2 my-5">
-              <Input size="sm" variant="bordered" type="email" label="Email" />
-              <Input size="sm" variant="bordered" type="tel" label="Telefono" />
+              <Input type="email" placeholder="Email" />
+              <Input type="tel" placeholder="Telefono" />
             </div>
 
             <h2 className="text-2xl mt-10 mb-3">Estoy interesado en </h2>
 
-            <Textarea minRows={5} variant="bordered" labelPlacement="outside" placeholder="Escribir mensaje aqui" className="w-full" />
+            <Textarea placeholder="Escribir mensaje aqui" className="w-full" />
 
-            <div className="my-5">
-              <Checkbox defaultSelected />
+            <div className="flex items-center my-5 gap-2">
+              <Checkbox defaultChecked />
               <span className="text-sm">
-                He leido y acepto los{' '}
-                <Link underline="always" as={NextLink} href="/">
-                  terminos y condiciones
-                </Link>
+                He leido y acepto los
+                <Link href="/">terminos y condiciones</Link>
               </span>
             </div>
 

@@ -1,6 +1,6 @@
-import { Button } from '@nextui-org/react';
 import { PropertyCard } from '@/components/PropertyCard';
-import NextLink from 'next/link';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const elements = [
   {
@@ -52,9 +52,11 @@ export default function FeaturedProperties() {
       </div>
 
       <div className="flex justify-center mt-10">
-        <Button as={NextLink} href="/inmuebles?pagina=1&limite=10" size="lg" className="bg-red-900 text-white w-[300px]">
-          Ver más
-        </Button>
+        <Link href="/inmuebles?pagina=1&limite=10">
+          <Button className="bg-red-900 text-white w-[300px]">
+            Ver más
+          </Button>
+        </Link>
       </div>
     </section>
   );

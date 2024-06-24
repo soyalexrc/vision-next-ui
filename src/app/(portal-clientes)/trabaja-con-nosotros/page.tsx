@@ -1,9 +1,13 @@
 'use client';
-import { Button, Checkbox, Input, Link, Select, SelectItem, Textarea } from '@nextui-org/react';
-import NextLink from 'next/link';
+import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import { useCallback, useState } from 'react';
 import { DeleteIcon, UploadIcon } from '@/components/icons';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const animals = [{ label: 'sample', value: 2 }];
 
@@ -41,33 +45,49 @@ export default function WorkWithUs() {
           <div className=" w-full max-w-[800px]">
             <div className="px-4">
               <h2 className="text-3xl mb-4">Mis datos</h2>
-              <Input size="sm" type="text" label="Nombre" />
+              <Input type="text" placeholder="Nombre" />
 
               <div className="grid gap-4 grid-cols-2 my-5">
-                <Input size="sm" type="email" label="Email" />
-                <Input size="sm" type="tel" label="Telefono" />
+                <Input type="email" placeholder="Email" />
+                <Input type="tel" placeholder="Telefono" />
               </div>
 
               <h2 className="text-2xl my-10">Estoy interesado en </h2>
 
               <div className="grid gap-4 grid-cols-2 my-5">
-                <Select size="sm" label="Rol / Posicion">
-                  {animals.map((animal) => (
-                    <SelectItem key={animal.value} value={animal.value}>
-                      {animal.label}
-                    </SelectItem>
-                  ))}
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Seleccionar" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Rol / Posicion</SelectLabel>
+                      {animals.map((animal) => (
+                        <SelectItem value={animal.value.toString()} key={animal.value}>
+                          {animal.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
                 </Select>
-                <Select size="sm" label="Oficina">
-                  {animals.map((animal) => (
-                    <SelectItem key={animal.value} value={animal.value}>
-                      {animal.label}
-                    </SelectItem>
-                  ))}
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Seleccionar" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Oficina</SelectLabel>
+                      {animals.map((animal) => (
+                        <SelectItem value={animal.value.toString()} key={animal.value}>
+                          {animal.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
                 </Select>
               </div>
 
-              <Textarea minRows={5} label="Mensaje" labelPlacement="outside" placeholder="Enter your description" className="w-full" />
+              <Textarea placeholder="Enter your description" className="w-full" />
 
               <div {...getRootProps({ className: 'dropzone' })} className="p-3 border-2 border-dashed border-gray-600 my-10 cursor-pointer">
                 <input {...getInputProps()} />
@@ -94,19 +114,15 @@ export default function WorkWithUs() {
               </div>
 
               <div className="my-5 flex items-center justify-center">
-                <Checkbox defaultSelected />
+                <Checkbox defaultChecked />
                 <span className="text-sm">
-                  He leido y acepto los{' '}
-                  <Link underline="always" as={NextLink} href="/">
-                    terminos y condiciones
-                  </Link>
+                  He leido y acepto los
+                  <Link href="/">terminos y condiciones</Link>
                 </span>
               </div>
 
               <div className="flex justify-center">
-                <Button size="lg" className="bg-red-900 text-white">
-                  Enviar informacion
-                </Button>
+                <Button className="bg-red-900 text-white">Enviar informacion</Button>
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 'use client';
-import { Button, Checkbox, Chip, Input, Link, Textarea } from '@nextui-org/react';
 import Image from 'next/image';
-import NextLink from 'next/link';
+import Link from 'next/link';
 // import Lightbox from 'yet-another-react-lightbox';
 // import NextJsImage from '@/components/lightbox/NextJsImage';
 import { useState } from 'react';
@@ -10,6 +9,11 @@ import { useState } from 'react';
 import formatPropertyTitle from '@/utils/format-property-title';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 
 export default function Property() {
   const [openGallery, setOpenGallery] = useState(false);
@@ -107,17 +111,17 @@ export default function Property() {
               <h3 className="text-lg mt-3">REF - {property.generalInformation.code}</h3>
             </div>
             <div className="col-span-4 flex flex-col items-end">
-              <Chip variant="bordered" className="border-red-900 text-red-900">
+              <Badge className="border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
                 {property.generalInformation.operationType}
-              </Chip>
+              </Badge>
               {/*<h2 className='text-xl'>{property.generalInformation.operationType}</h2>*/}
               <h3 className="text-4xl mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
             </div>
           </div>
           <div className="lg:hidden px-4">
-            <Chip variant="bordered" className="border-red-900 text-red-900 mb-5">
+            <Badge className="border-red-900 select-none hover:bg-transparent text-red-900 bg-transparent mb-5">
               {property.generalInformation.operationType}
-            </Chip>
+            </Badge>
 
             <h1 className="text-2xl">{formatPropertyTitle(property.publicationTitle)}</h1>
             <span>-</span>
@@ -217,24 +221,22 @@ export default function Property() {
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>
           <div className="my-5">
-            <Input size="sm" variant="bordered" className="mb-4" type="text" label="Nombres y apellidos" />
-            <Input size="sm" variant="bordered" className="mb-4" type="email" label="Email" />
-            <Input size="sm" variant="bordered" className="mb-4" type="tel" label="Telefono" />
-            <Textarea minRows={8} variant="bordered" label="Mensaje" className="w-full" />
-            <div className="my-5">
-              <Checkbox defaultSelected />
+            <Input className="mb-4" type="text" placeholder="Nombres y apellidos" />
+            <Input className="mb-4" type="email" placeholder="Email" />
+            <Input className="mb-4" type="tel" placeholder="Telefono" />
+            <Textarea placeholder="Mensaje" className="w-full" />
+            <div className="my-5 flex gap-2 items-center">
+              <Checkbox defaultChecked />
               <span className="text-xs">
                 He leido y acepto los{' '}
-                <Link className="text-xs" underline="always" as={NextLink} href="/public">
+                <Link className="text-xs" href="/public">
                   terminos y condiciones
                 </Link>
               </span>
             </div>
 
             <div className="flex justify-center">
-              <Button size="lg" className="bg-red-900 text-white">
-                Enviar informacion
-              </Button>
+              <Button className="bg-red-900 text-white">Enviar informacion</Button>
             </div>
           </div>
         </div>

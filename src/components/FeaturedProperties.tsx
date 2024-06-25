@@ -53,9 +53,7 @@ export default function FeaturedProperties() {
 
       <div className="flex justify-center mt-10">
         <Link href="/inmuebles?pagina=1&limite=10">
-          <Button className="bg-red-900 text-white w-[300px]">
-            Ver más
-          </Button>
+          <Button className="bg-red-900 text-white w-[300px]">Ver más</Button>
         </Link>
       </div>
     </section>

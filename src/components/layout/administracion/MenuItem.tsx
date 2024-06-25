@@ -23,7 +23,7 @@ const menuIcons: Record<string, React.ReactNode> = {
   '/administracion/usuarios': <UserRoundCog />,
   '/administracion/asesores-externos': <ContactRound />,
   '/administracion/aliados': <UsersRound />,
-  '/administracion/propiedades': <Building />,
+  '/administracion/inmuebles': <Building />,
   '/administracion/flujo-de-caja': <Coins />,
   '/administracion/administracion-interna': <FolderCog />,
   '/administracion/propietarios': <SquareUserRound />,

@@ -1,6 +1,6 @@
-import { Select, SelectItem, SelectContent, SelectGroup, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import React from 'react';
 import CustomSelect from '@/components/property/CustomSelect';
+import {Button} from "@/components/ui/button";
+import PropertyForm from "@/components/property/form/PropertyForm";
 
 export default function Page({
   params,
@@ -16,6 +16,7 @@ export default function Page({
     <div>
       te encuentras en {options.some((opt: string) => opt === searchParams?.seccion) ? searchParams?.seccion : 'NONE'}
       <CustomSelect options={options} />
+      <PropertyForm />
     </div>
   );
 }

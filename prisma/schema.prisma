@@ -41,14 +41,13 @@ model Property {
   files                  String[]
   pubicationTitle        String
   images                 String[]
-  attributes             String
+  attributes             Json[]
   distribution           Json[]
-  services               Json[]
-  adjacencies            String
-  equipment              String[]
+  services               Service[]
+  adjacencies            Json[]
+  equipment              Json[]
   furnishedAread         String
-  statusHistory          String
-  PropertyStatusEntry    PropertyStatusEntry[]
+  statusHistory          PropertyStatusEntry[]
 }
 
 model DocumentsInformation {
@@ -173,6 +172,8 @@ model Service {
   id          String       @id @default(cuid())
   subServices SubService[]
   title       String
+  propertyId  String       @unique
+  property    Property     @relation(fields: [propertyId], references: [id])
 }
 
 model SubService {

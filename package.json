@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "format": "prettier --write \"*/**/*.tsx\" \"*/**/*.ts\"",
-    "deploy": "git checkout main && git pull && yarn install && yarn build && pm2 stop vision-web && pm2 start vision-web"
+    "format": "prettier --write \"*/**/*.tsx\" \"*/**/*.ts\""
   },
   "dependencies": {
     "@clerk/localizations": "^2.4.5",
@@ -28,6 +27,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "@tanstack/react-table": "^8.17.3",
     "@types/node": "20.5.9",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

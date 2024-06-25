@@ -9,11 +9,11 @@ const footerLinks = [
     path: '/',
   },
   {
-    title: 'Venta de propiedades',
+    title: 'Venta de inmuebles',
     path: '/inmuebles?pagina=1&limite=10&tipo_de_operacion=venta',
   },
   {
-    title: 'Alquiler de propiedades',
+    title: 'Alquiler de inmuebles',
     path: '/inmuebles?pagina=1&limite=10&tipo_de_operacion=alquiler',
   },
   {

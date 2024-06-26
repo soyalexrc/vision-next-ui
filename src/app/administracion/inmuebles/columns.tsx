@@ -12,19 +12,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type PropertyPreview = {
   id: string;
   price: number;
+  code: string;
   publicationTitle: string;
+  image: string;
 };
 
 export const columns: ColumnDef<PropertyPreview>[] = [
   {
     accessorKey: 'code',
     header: 'Codigo',
+  },
+  {
+    accessorKey: 'image',
+    header: 'Imagen',
+    cell: ({ cell }) => {
+      const image = cell.row.original.image;
+      return <Image src={image} width={50} height={50} className="max-h-[50px]" alt="Imagen de inmueble" />;
+    },
   },
   {
     accessorKey: 'publicationTitle',
@@ -45,7 +57,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const payment = row.original;
+      const property = row.original;
 
       return (
         <DropdownMenu>
@@ -57,9 +69,11 @@ export const columns: ColumnDef<PropertyPreview>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Copy payment ID</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(property.code)}>Copiar codigo</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+             <Link href={`/administracion/inmuebles/${property.id}`}>
+               <DropdownMenuItem>Ver detalle</DropdownMenuItem>
+             </Link>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

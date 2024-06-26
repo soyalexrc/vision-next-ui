@@ -23,8 +23,7 @@ export async function createProperty(): Promise<{ message: string; success: bool
         generalInformation: {},
         locationInformation: {},
         negotiationInformation: {},
-        statusHistory: '',
-        PropertyStatusEntry: {},
+        statusHistory: {},
         services: {},
         pubicationTitle: '',
       },
@@ -51,9 +50,9 @@ export async function getProperties(): Promise<Property[]> {
         documentsInformation: true,
         generalInformation: true,
         locationInformation: true,
-        PropertyStatusEntry: true,
+        statusHistory: true,
         negotiationInformation: true,
-      }
+      },
     });
   } catch (err) {
     console.log(err);

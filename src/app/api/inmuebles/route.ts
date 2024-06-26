@@ -19,6 +19,8 @@ export async function GET(req: NextRequest) {
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
       publicationTitle: row.pubicationTitle,
+      image: row.images[0],
+      id: row.id,
     }));
 
     return NextResponse.json(formattedData);

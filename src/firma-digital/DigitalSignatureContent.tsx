@@ -5,9 +5,8 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import Stepper from '@/components/Stepper';
 import SignatureCanvas from 'react-signature-canvas';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { http } from '@/utils/axios';
-import { UiContext } from '@/context/UiContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +42,6 @@ export function DigitalSignatureContent({ data }: Props) {
   });
   // const [loading, setLoading] = useState<boolean>(false);
 
-  const { toggleToolbar } = useContext(UiContext);
   const {
     register,
     handleSubmit,
@@ -63,11 +61,6 @@ export function DigitalSignatureContent({ data }: Props) {
     sigCanvas.current.clear();
     setSignatureURL('');
   };
-
-  useEffect(() => {
-    toggleToolbar(false);
-    return () => toggleToolbar(true);
-  }, []);
 
   // const sendDigitalSign = async () => {
   //   try {

@@ -40,30 +40,29 @@ export default function PropertyForm({ data }: Props) {
   } = data;
   return (
     <div className="p-4">
-      <div className='flex justify-end'>
+      <div className="flex justify-end">
         <div>
-          <p className='font-bold text-sm mb-1'>Estas viendo</p>
+          <p className="font-bold text-sm mb-1">Estas viendo</p>
           <Select value={section} onValueChange={setSection}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Seccion de propiedad"/>
+              <SelectValue placeholder="Seccion de propiedad" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 {options.map((opt) => (
-                    <SelectItem key={opt} value={opt}>
-                      {opt}
-                    </SelectItem>
+                  <SelectItem key={opt} value={opt}>
+                    {opt}
+                  </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
       </div>
-      {section === 'Visuales' && <VisualsInformation data={images}/>}
-      {section === 'Atributos' && <AttributesInformation data={attributes}/>}
-      {section === 'Distribucion y Equipos' &&
-          <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution}/>}
-      {section === 'Documentos' && <DocumentsInformationComponent data={documentsInformation} files={files}/>}
+      {section === 'Visuales' && <VisualsInformation data={images} />}
+      {section === 'Atributos' && <AttributesInformation data={attributes} />}
+      {section === 'Distribucion y Equipos' && <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution} />}
+      {section === 'Documentos' && <DocumentsInformationComponent data={documentsInformation} files={files} />}
       {section === 'General' && <GeneralInformationComponent data={generalInformation} />}
       {section === 'Negociacion' && <NegotiationInformation data={negotiationInformation} />}
       {section === 'Ubicacion' && <LocationInformationComponent data={locationInformation} />}

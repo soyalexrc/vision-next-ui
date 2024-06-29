@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
-import Link from "next/link";
+import Link from 'next/link';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -71,9 +71,9 @@ export const columns: ColumnDef<PropertyPreview>[] = [
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(property.code)}>Copiar codigo</DropdownMenuItem>
             <DropdownMenuSeparator />
-             <Link href={`/administracion/inmuebles/${property.id}`}>
-               <DropdownMenuItem>Ver detalle</DropdownMenuItem>
-             </Link>
+            <Link href={`/administracion/inmuebles/${property.id}`}>
+              <DropdownMenuItem>Ver detalle</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

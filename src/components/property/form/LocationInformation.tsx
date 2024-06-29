@@ -4,7 +4,6 @@ type Props = {
   data: Data;
 };
 
-
-export default function LocationInformation({data}: Props) {
+export default function LocationInformation({ data }: Props) {
   return <div>location information</div>;
 }

@@ -9,6 +9,10 @@ import NegotiationInformation from '@/components/property/form/NegotiationInform
 import React, { useState } from 'react';
 import VisualsInformation from '@/components/property/form/VisualsInformation';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form } from '@/components/ui/form';
 
 type Props = {
   data: FullProperty;
@@ -20,6 +24,27 @@ interface FullProperty extends Property {
   documentsInformation: DocumentsInformation;
   locationInformation: LocationInformation;
 }
+
+const formSchema = z.object({
+  generalInformation: z.object({
+    status: z.string(),
+    code: z.string(),
+    footageGround: z.string(),
+    footageBuilding: z.string(),
+    description: z.string(),
+    propertyType: z.string(),
+    propertyCondition: z.string(),
+    handoverKeys: z.boolean(),
+    termsAndConditionsAccepted: z.boolean(),
+    antiquity: z.string(),
+    zoning: z.string(),
+    amountOfFloors: z.string(),
+    propertiesPerFloor: z.string(),
+    typeOfWork: z.string(),
+    isFurnished: z.boolean(),
+    isOccupiedByPeople: z.boolean(),
+  }),
+});
 
 const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', 'Negociacion', 'Atributos', 'Documentos'];
 
@@ -38,6 +63,16 @@ export default function PropertyForm({ data }: Props) {
     negotiationInformation,
     ...rest
   } = data;
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
+
   return (
     <div className="p-4">
       <div className="flex justify-end">
@@ -59,13 +94,19 @@ export default function PropertyForm({ data }: Props) {
           </Select>
         </div>
       </div>
-      {section === 'Visuales' && <VisualsInformation data={images} />}
-      {section === 'Atributos' && <AttributesInformation data={attributes} />}
-      {section === 'Distribucion y Equipos' && <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution} />}
-      {section === 'Documentos' && <DocumentsInformationComponent data={documentsInformation} files={files} />}
-      {section === 'General' && <GeneralInformationComponent data={generalInformation} />}
-      {section === 'Negociacion' && <NegotiationInformation data={negotiationInformation} />}
-      {section === 'Ubicacion' && <LocationInformationComponent data={locationInformation} />}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+          {section === 'Visuales' && <VisualsInformation data={images} />}
+          {section === 'Atributos' && <AttributesInformation data={attributes} />}
+          {section === 'Distribucion y Equipos' && (
+            <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution} />
+          )}
+          {section === 'Documentos' && <DocumentsInformationComponent data={documentsInformation} files={files} />}
+          {section === 'General' && <GeneralInformationComponent data={generalInformation} />}
+          {section === 'Negociacion' && <NegotiationInformation data={negotiationInformation} />}
+          {section === 'Ubicacion' && <LocationInformationComponent data={locationInformation} />}
+        </form>
+      </Form>
     </div>
   );
 }

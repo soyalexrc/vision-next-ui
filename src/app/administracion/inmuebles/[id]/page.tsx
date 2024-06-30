@@ -8,9 +8,5 @@ export default async function Page({ params }: { params: { id: string } }) {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json());
-  return (
-    <div>
-      <PropertyForm data={data} />
-    </div>
-  );
+  return <PropertyForm data={data} />;
 }

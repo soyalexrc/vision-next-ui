@@ -1,23 +1,19 @@
-'use client';
-import { GeneralInformation as Data } from '@/../prisma/prisma-client';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useFormContext } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 
-type Props = {
-  data: Data;
-};
-
-export default function GeneralInformation({ data }: Props) {
+export default function GeneralInformation() {
   const { control } = useFormContext();
 
   return (
     <div>
+      <h1 className="text-4xl mb-4">Informacion general</h1>
+
       <FormField
         control={control}
-        name="publicationTitle"
+        name="generalInformation.publicationTitle"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Titulo de publicacion</FormLabel>
@@ -192,8 +188,7 @@ export default function GeneralInformation({ data }: Props) {
         name="generalInformation.termsAndConditionsAccepted"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Se aceptan los terminos y condiciones de la
-                ficha tecnica</FormLabel>
+            <FormLabel>Se aceptan los terminos y condiciones de la ficha tecnica</FormLabel>
             <FormControl>
               <Checkbox defaultChecked={field.value} {...field} />
             </FormControl>

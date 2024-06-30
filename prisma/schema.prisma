@@ -34,13 +34,7 @@ model Property {
   negotiationInformation NegotiationInfomation?
   documentsInformation   DocumentsInformation?
   userId                 String
-  ally                   String?
   owner                  String?
-  externalAdviser        String?
-  client                 String?
-  files                  File[]
-  publicationTitle        String
-  images                 String[]
   attributes             Json[]
   distribution           Json[]
   services               Service[]
@@ -48,14 +42,6 @@ model Property {
   equipment              Json[]
   furnishedAreas         String[]
   statusHistory          PropertyStatusEntry[]
-}
-
-model File {
-  id                         String   @id @default(cuid())
-  propertyId                 String   @unique
-  property                   Property @relation(fields: [propertyId], references: [id])
-  url String
-  name String
 }
 
 model DocumentsInformation {
@@ -89,6 +75,7 @@ model GeneralInformation {
   code                       String
   footageGround              String
   footageBuilding            String
+  publicationTitle           String
   description                String
   propertyType               String
   propertyCondition          String
@@ -137,7 +124,10 @@ model NegotiationInfomation {
   price                 String
   minimumNegotiation    String
   client                String
+  realStateAdviser      String
   reasonToSellOrRent    String
+  ally                  String?
+  externalAdviser       String?
   partOfPayment         String
   mouthToMouth          Boolean
   realStateGroups       Boolean

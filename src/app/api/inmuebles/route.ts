@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const data = await prisma.property.findMany({
       include: {
         negotiationInformation: { select: { price: true } },
-        generalInformation: { select: { code: true } },
+        generalInformation: { select: { code: true, publicationTitle: true } },
       },
       skip: (page - 1) * size,
       take: size,
@@ -20,8 +20,7 @@ export async function GET(req: NextRequest) {
     const formattedData = data.map((row) => ({
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
-      publicationTitle: row.publicationTitle,
-      image: row.images[0],
+      publicationTitle: row.generalInformation?.publicationTitle,
       id: row.id,
     }));
 

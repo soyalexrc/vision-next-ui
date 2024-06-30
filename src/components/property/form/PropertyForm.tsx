@@ -1,5 +1,5 @@
 'use client';
-import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation } from '@prisma/client';
+import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation, File as PropertyFile } from '@prisma/client';
 import AttributesInformation from '@/components/property/form/AttributesInformation';
 import DistributionAndEquipmentInformation from "@/components/property/form/DistributionAndEquipmentInformation'";
 import DocumentsInformationComponent from '@/components/property/form/DocumentsInformation';
@@ -23,10 +23,10 @@ interface FullProperty extends Property {
   generalInformation: GeneralInformation;
   documentsInformation: DocumentsInformation;
   locationInformation: LocationInformation;
+  files: PropertyFile[];
 }
 
 const formSchema = z.object({
-  publicationTitle: z.string(),
   generalInformation: z.object({
     status: z.string(),
     code: z.string(),
@@ -40,10 +40,34 @@ const formSchema = z.object({
     antiquity: z.string(),
     zoning: z.string(),
     amountOfFloors: z.string(),
+    publicationTitle: z.string(),
     propertiesPerFloor: z.string(),
     typeOfWork: z.string(),
     isFurnished: z.boolean(),
     isOccupiedByPeople: z.boolean(),
+  }),
+  locationInformation: z.object({
+    urbanization: z.string(),
+    state: z.string(),
+    amountOfFloors: z.string(),
+    trunkNumber: z.string(),
+    location: z.string(),
+    referencePoint: z.string(),
+    nomenclature: z.string(),
+    municipality: z.string(),
+    parkingLevel: z.string(),
+    buildingShoppingCenter: z.string(),
+    avenue: z.string(),
+    parkingNumber: z.string(),
+    buildingNumber: z.string(),
+    tower: z.string(),
+    country: z.string(),
+    city: z.string(),
+    howToGet: z.string(),
+    street: z.string(),
+    floor: z.string(),
+    trunkLevel: z.string(),
+    isClosedStreet: z.string(),
   }),
 });
 
@@ -56,20 +80,18 @@ export default function PropertyForm({ data }: Props) {
     images,
     attributes,
     distribution,
-    files,
     equipment,
     documentsInformation,
     locationInformation,
     generalInformation,
     negotiationInformation,
-    publicationTitle,
   } = data;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   form.setValue('generalInformation', generalInformation);
-  form.setValue('publicationTitle', publicationTitle);
+  form.setValue('locationInformation', locationInformation);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -100,15 +122,15 @@ export default function PropertyForm({ data }: Props) {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
-          {section === 'Visuales' && <VisualsInformation data={images} />}
           {section === 'Atributos' && <AttributesInformation data={attributes} />}
           {section === 'Distribucion y Equipos' && (
             <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution} />
           )}
-          {section === 'Documentos' && <DocumentsInformationComponent data={documentsInformation} files={files} />}
-          {section === 'General' && <GeneralInformationComponent data={generalInformation} />}
+          {section === 'Documentos' && <DocumentsInformationComponent />}
+          {section === 'General' && <GeneralInformationComponent />}
+          {section === 'Ubicacion' && <LocationInformationComponent />}
+          {section === 'Visuales' && <VisualsInformation />}
           {section === 'Negociacion' && <NegotiationInformation data={negotiationInformation} />}
-          {section === 'Ubicacion' && <LocationInformationComponent data={locationInformation} />}
         </form>
       </Form>
     </div>

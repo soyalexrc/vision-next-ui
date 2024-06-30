@@ -1,9 +1,8 @@
-'use client';
 
-type Props = {
-  data: string[];
-};
-
-export default function VisualsInformation({ data }: Props) {
-  return <div>{JSON.stringify(data, null, 2)}</div>;
+export default function VisualsInformation() {
+  return (
+    <div>
+      <h1 className="text-4xl mb-4">Visuales</h1>
+    </div>
+  );
 }

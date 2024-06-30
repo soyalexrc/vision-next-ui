@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {createProperty} from "@/actions/property";
 
 export default function TableFilters() {
   const router = useRouter();
@@ -17,6 +18,10 @@ export default function TableFilters() {
     router.push(pathname + '?' + params.toString());
   }
 
+  async function seed() {
+      await createProperty();
+  }
+
   return (
     <div className="flex mb-4 gap-4">
       <Input
@@ -26,6 +31,7 @@ export default function TableFilters() {
         className="max-w-sm"
       />
       <Button onClick={search}>Buscar</Button>
+      <Button onClick={seed}>Seed</Button>
     </div>
   );
 }

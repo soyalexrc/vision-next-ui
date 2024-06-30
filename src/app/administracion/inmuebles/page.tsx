@@ -10,7 +10,7 @@ type SearchParams = {
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
     <div className="p-4">
-      <h1 className='text-4xl mb-4'>Inmuebles</h1>
+      <h1 className="text-4xl mb-4">Inmuebles</h1>
       <TableFilters />
       <Suspense fallback="Loading..." key={JSON.stringify(searchParams)}>
         <TableWrapper query={searchParams} />
@@ -28,7 +28,6 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-
 
   const properties = await fetch(`http://localhost:3000/api/inmuebles?${urlParams}`, {
     cache: 'no-store',

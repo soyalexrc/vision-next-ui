@@ -38,16 +38,24 @@ model Property {
   owner                  String?
   externalAdviser        String?
   client                 String?
-  files                  String[]
-  pubicationTitle        String
+  files                  File[]
+  publicationTitle        String
   images                 String[]
   attributes             Json[]
   distribution           Json[]
   services               Service[]
   adjacencies            Json[]
   equipment              Json[]
-  furnishedAread         String
+  furnishedAreas         String[]
   statusHistory          PropertyStatusEntry[]
+}
+
+model File {
+  id                         String   @id @default(cuid())
+  propertyId                 String   @unique
+  property                   Property @relation(fields: [propertyId], references: [id])
+  url String
+  name String
 }
 
 model DocumentsInformation {

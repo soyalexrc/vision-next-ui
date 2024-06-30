@@ -15,10 +15,12 @@ export async function GET(req: NextRequest) {
       take: size,
     });
 
+    console.log(data);
+
     const formattedData = data.map((row) => ({
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
-      publicationTitle: row.pubicationTitle,
+      publicationTitle: row.publicationTitle,
       image: row.images[0],
       id: row.id,
     }));

@@ -26,6 +26,7 @@ interface FullProperty extends Property {
 }
 
 const formSchema = z.object({
+  publicationTitle: z.string(),
   generalInformation: z.object({
     status: z.string(),
     code: z.string(),
@@ -61,11 +62,14 @@ export default function PropertyForm({ data }: Props) {
     locationInformation,
     generalInformation,
     negotiationInformation,
-    ...rest
+    publicationTitle,
   } = data;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  form.setValue('generalInformation', generalInformation);
+  form.setValue('publicationTitle', publicationTitle);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.

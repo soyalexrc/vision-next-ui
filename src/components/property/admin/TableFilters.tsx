@@ -1,12 +1,11 @@
 'use client';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {createProperty} from "@/actions/property";
+import { createProperty } from '@/actions/property';
 
-export default function TableFilters() {
+export function TableFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -19,7 +18,7 @@ export default function TableFilters() {
   }
 
   async function seed() {
-      await createProperty();
+    await createProperty();
   }
 
   return (

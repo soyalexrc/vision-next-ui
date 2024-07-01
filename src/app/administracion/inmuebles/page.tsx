@@ -1,7 +1,6 @@
-import { columns } from '@/app/administracion/inmuebles/columns';
-import { DataTable } from '@/app/administracion/inmuebles/data-table';
+import { columns, DataTable } from '@/components/property/admin/table';
 import { Suspense } from 'react';
-import TableFilters from '@/components/property/TableFilters';
+import { TableFilters } from '@/components/property/admin';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;

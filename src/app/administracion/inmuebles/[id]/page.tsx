@@ -1,4 +1,4 @@
-import PropertyForm from '@/components/property/form/PropertyForm';
+import PropertyForm from '@/components/property/admin/PropertyForm';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const data = await fetch(`http://localhost:3000/api/inmuebles/${params.id}`, {

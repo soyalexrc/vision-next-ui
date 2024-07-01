@@ -1,13 +1,15 @@
 'use client';
-import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation, File as PropertyFile } from '@prisma/client';
-import AttributesInformation from '@/components/property/form/AttributesInformation';
-import DistributionAndEquipmentInformation from "@/components/property/form/DistributionAndEquipmentInformation'";
-import DocumentsInformationComponent from '@/components/property/form/DocumentsInformation';
-import GeneralInformationComponent from '@/components/property/form/GeneralInformation';
-import LocationInformationComponent from '@/components/property/form/LocationInformation';
-import NegotiationInformation from '@/components/property/form/NegotiationInformation';
+import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation } from '@prisma/client';
+import {
+  AttributesInformation,
+  DistributionAndEquipmentInformation,
+  DocumentsInformation as DocumentsInformationComponent,
+  GeneralInformation as GeneralInformationComponent,
+  LocationInformation as LocationInformationComponent,
+  NegotiationInformation as NegotiationInformationComponent,
+  VisualsInformation,
+} from '@/components/property/admin';
 import React, { useState } from 'react';
-import VisualsInformation from '@/components/property/form/VisualsInformation';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -15,7 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 
 type Props = {
-  data: FullProperty;
+  data?: FullProperty;
 };
 
 interface FullProperty extends Property {
@@ -23,7 +25,6 @@ interface FullProperty extends Property {
   generalInformation: GeneralInformation;
   documentsInformation: DocumentsInformation;
   locationInformation: LocationInformation;
-  files: PropertyFile[];
 }
 
 const formSchema = z.object({
@@ -69,6 +70,46 @@ const formSchema = z.object({
     trunkLevel: z.string(),
     isClosedStreet: z.string(),
   }),
+  negotiationInformation: z.object({
+    socialMedia: z.boolean(),
+    ally: z.string().optional().nullable(),
+    client: z.string().optional(),
+    partOfPayment: z.string(),
+    minimumNegotiation: z.string(),
+    externalAdviser: z.string().optional().nullable(),
+    rentCommission: z.string(),
+    reasonToSellOrRent: z.string(),
+    price: z.string(),
+    realStateGroups: z.boolean(),
+    ownerPaysCommission: z.string(),
+    realStateWebPages: z.boolean(),
+    mouthToMouth: z.boolean(),
+    operationType: z.string(),
+    propertyExclusivity: z.string(),
+    publicationOnBuilding: z.boolean(),
+    realStateAdviser: z.string(),
+    sellCommission: z.string(),
+  }),
+  documentsInformation: z.object({
+    owner: z.string().optional().nullable(),
+    successionDeclaration: z.string(),
+    isCatastralRecordSameOwner: z.boolean(),
+    attorneyEmail: z.string(),
+    catastralRecordYear: z.string(),
+    condominiumSolvency: z.boolean(),
+    CIorRIF: z.boolean(),
+    power: z.string(),
+    attorneyFirstName: z.string(),
+    attorneyPhone: z.string(),
+    attorneyLastName: z.string(),
+    courtRulings: z.string(),
+    spouseCIorRIF: z.boolean(),
+    ownerCIorRIF: z.boolean(),
+    mainProperty: z.boolean(),
+    condominiumSolvencyDetails: z.string(),
+    mortgageRelease: z.string(),
+    propertyDoc: z.boolean(),
+  }),
 });
 
 const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', 'Negociacion', 'Atributos', 'Documentos'];
@@ -76,25 +117,17 @@ const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', '
 export default function PropertyForm({ data }: Props) {
   const [section, setSection] = useState<string>('General');
 
-  const {
-    images,
-    attributes,
-    distribution,
-    equipment,
-    documentsInformation,
-    locationInformation,
-    generalInformation,
-    negotiationInformation,
-  } = data;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  form.setValue('generalInformation', generalInformation);
-  form.setValue('locationInformation', locationInformation);
-
+  if (data) {
+    form.setValue('generalInformation', data.generalInformation);
+    form.setValue('locationInformation', data.locationInformation);
+    form.setValue('negotiationInformation', data.negotiationInformation);
+  }
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
+    // Do something with the admin values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
@@ -122,15 +155,13 @@ export default function PropertyForm({ data }: Props) {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
-          {section === 'Atributos' && <AttributesInformation data={attributes} />}
-          {section === 'Distribucion y Equipos' && (
-            <DistributionAndEquipmentInformation equipment={equipment} distribution={distribution} />
-          )}
+          {section === 'Atributos' && <AttributesInformation />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'General' && <GeneralInformationComponent />}
           {section === 'Ubicacion' && <LocationInformationComponent />}
           {section === 'Visuales' && <VisualsInformation />}
-          {section === 'Negociacion' && <NegotiationInformation data={negotiationInformation} />}
+          {section === 'Distribucion y Equipos' && <DistributionAndEquipmentInformation />}
+          {section === 'Negociacion' && <NegotiationInformationComponent />}
         </form>
       </Form>
     </div>

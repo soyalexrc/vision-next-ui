@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 
-export default function GeneralInformation() {
+export function GeneralInformation() {
   const { control } = useFormContext();
 
   return (

@@ -28,7 +28,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
 
-  const properties = await fetch(`http://localhost:3000/api/inmuebles?${urlParams}`, {
+  const properties = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {

@@ -1,4 +1,3 @@
-
 export function VisualsInformation() {
   return (
     <div>

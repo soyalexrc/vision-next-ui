@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "format": "prettier --write \"*/**/*.tsx\" \"*/**/*.ts\""
   },
   "dependencies": {

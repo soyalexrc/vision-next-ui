@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs/server';
-import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { AllowedRoute } from '@/lib/interfaces/Menu';
 import MenuItem from '@/components/layout/administracion/MenuItem';
 

@@ -1,7 +1,7 @@
 export const SERVICES_DATA = [
   {
     img: '/services/particulares.png',
-    title: 'Promoción de propiedades',
+    title: 'Promoción de inmuebles',
   },
   {
     img: '/services/promotores.png',

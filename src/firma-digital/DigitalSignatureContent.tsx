@@ -2,14 +2,14 @@
 
 import Snackbar from '@/components/Snackbar';
 import Image from 'next/image';
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
-import NextLink from 'next/link';
+// import Link from 'next/link';
 import Stepper from '@/components/Stepper';
 import SignatureCanvas from 'react-signature-canvas';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { http } from '@/utils/axios';
-import { UiContext } from '@/context/UiContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 type Inputs = {
   last4PhoneDigits: string;
@@ -31,18 +31,17 @@ interface Props {
 export function DigitalSignatureContent({ data }: Props) {
   const sigCanvas = useRef<any>();
   const [signatureURL, setSignatureURL] = useState<string>('');
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [signedDocument, setSignedDocument] = useState<string>('');
+  // const [signedDocument, setSignedDocument] = useState<string>('');
   const [snackbarState, setSnackbarState] = useState<SnackbarState>({
     show: false,
     variant: 'info',
     title: '',
     message: '',
   });
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
 
-  const { toggleToolbar } = useContext(UiContext);
   const {
     register,
     handleSubmit,
@@ -51,6 +50,7 @@ export function DigitalSignatureContent({ data }: Props) {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await validateUserData(data);
   };
+  console.log(errors);
 
   const save = () => {
     const URL = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
@@ -62,40 +62,35 @@ export function DigitalSignatureContent({ data }: Props) {
     setSignatureURL('');
   };
 
-  useEffect(() => {
-    toggleToolbar(false);
-    return () => toggleToolbar(true);
-  }, []);
-
-  const sendDigitalSign = async () => {
-    try {
-      setLoading(true);
-
-      const response = await http.post('/api/firma-digital/sendDigitalSignature', {
-        digitalSignature: signatureURL,
-        digitalSignatureRequestId: data.data.id,
-      });
-      onClose();
-      setLoading(false);
-
-      if (!response.data.error) {
-        setCurrentStep(3);
-        setSnackbarState({
-          show: true,
-          variant: 'success',
-          title: 'Se completo el proceso con exito',
-          message: `Aqui abajo puedes descargar el documento actualizado con tu firma digital. De igual manera puedes pedirlo cuando quieras a a nuestros asesores bajo el numero de identificaion: ${data.data.id}`,
-        });
-        setSignedDocument(response.data.data.signedDocumentURL);
-        //     mensaje de exito
-      } else {
-        //     mensaje de error
-      }
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
-  };
+  // const sendDigitalSign = async () => {
+  //   try {
+  //     setLoading(true);
+  //
+  //     const response = await http.post('/api/firma-digital/sendDigitalSignature', {
+  //       digitalSignature: signatureURL,
+  //       digitalSignatureRequestId: data.data.id,
+  //     });
+  //     // onClose();
+  //     setLoading(false);
+  //
+  //     if (!response.data.error) {
+  //       setCurrentStep(3);
+  //       setSnackbarState({
+  //         show: true,
+  //         variant: 'success',
+  //         title: 'Se completo el proceso con exito',
+  //         message: `Aqui abajo puedes descargar el documento actualizado con tu firma digital. De igual manera puedes pedirlo cuando quieras a a nuestros asesores bajo el numero de identificaion: ${data.data.id}`,
+  //       });
+  //       setSignedDocument(response.data.data.signedDocumentURL);
+  //       //     mensaje de exito
+  //     } else {
+  //       //     mensaje de error
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setLoading(false);
+  //   }
+  // };
 
   const validateUserData = async (formValues: Inputs) => {
     console.log(formValues);
@@ -136,9 +131,7 @@ export function DigitalSignatureContent({ data }: Props) {
         </div>
 
         <div className="flex justify-center mt-20">
-          <Button color="primary" as={NextLink} href="/">
-            Regresar
-          </Button>
+          <Button color="primary">Regresar</Button>
         </div>
       </main>
     );
@@ -168,40 +161,34 @@ export function DigitalSignatureContent({ data }: Props) {
             <h2 className="text-xl mb-8">Por favor completa el siguiente formulario para validar tus datos </h2>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full max-w-lg">
               <Input
-                size="sm"
-                variant="bordered"
                 type="text"
-                label="Ultimos 4 digitos de telefono"
-                description={`De tu numero que inicia en ${data.user.phone.substring(0, 6)}...`}
+                placeholder="Ultimos 4 digitos de telefono"
+                // description={`De tu numero que inicia en ${data.user.phone.substring(0, 6)}...`}
                 {...register('last4PhoneDigits', { required: true, maxLength: 4 })}
-                errorMessage={
-                  errors.last4PhoneDigits?.type === 'required' ? (
-                    <span className="text-red-600">Este campo es requerido</span>
-                  ) : (
-                    errors.last4PhoneDigits?.type === 'maxLength' && <span className="text-red-600">Maximo 4 digitos</span>
-                  )
-                }
+                // errorMessage={
+                //   errors.last4PhoneDigits?.type === 'required' ? (
+                //     <span className="text-red-600">Este campo es requerido</span>
+                //   ) : (
+                //     errors.last4PhoneDigits?.type === 'maxLength' && <span className="text-red-600">Maximo 4 digitos</span>
+                //   )
+                // }
               />
               <Input
-                size="sm"
-                variant="bordered"
                 type="text"
-                label="Apellido"
-                description={`Que inicia en ${data.user?.lastName.substring(0, 2)}...`}
-                errorMessage={errors.lastname && <span className="text-red-600">Este campo es requerido</span>}
+                placeholder="Apellido"
+                // description={`Que inicia en ${data.user?.lastName.substring(0, 2)}...`}
+                // errorMessage={errors.lastname && <span className="text-red-600">Este campo es requerido</span>}
                 {...register('lastname', { required: true })}
               />
               <Input
-                size="sm"
-                variant="bordered"
                 type="text"
-                label="Cedula de identidad"
-                description={`Que inicia en ${data.user.ci.substring(0, 2)}...`}
+                placeholder="Cedula de identidad"
+                // description={`Que inicia en ${data.user.ci.substring(0, 2)}...`}
                 {...register('ci', { required: true })}
-                errorMessage={errors.ci && <span className="text-red-600">Este campo es requerido</span>}
+                // errorMessage={errors.ci && <span className="text-red-600">Este campo es requerido</span>}
               />
 
-              <Button type="submit" color="primary" isLoading={isSubmitting} isDisabled={!isValid}>
+              <Button type="submit" color="primary" disabled={!isValid}>
                 {isSubmitting ? 'Validando informacion' : 'Siguiente'}
               </Button>
             </form>
@@ -229,43 +216,39 @@ export function DigitalSignatureContent({ data }: Props) {
             <div className="flex gap-3">
               <Button onClick={clearSignature}>Limpiar campo de firma</Button>
 
-              <Button onClick={onOpen} isDisabled={!signatureURL}>
-                Continuar
-              </Button>
+              <Button disabled={!signatureURL}>Continuar</Button>
             </div>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">Confirmar</ModalHeader>
-                    <ModalBody>
-                      <p>La siguiente imagen representa la firma previamente guardada, estas conforme?</p>
-                      {signatureURL && (
-                        <div className="flex justify-center max-h-48">
-                          <Image width={250} height={200} src={signatureURL} alt="firma digital canvas svg" />
-                        </div>
-                      )}
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Cancelar
-                      </Button>
-                      <Button color="primary" isLoading={loading} onPress={sendDigitalSign}>
-                        {loading ? 'Enviando firma...' : 'Confirmar'}
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
+            {/*<Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>*/}
+            {/*  <ModalContent>*/}
+            {/*    {(onClose) => (*/}
+            {/*      <>*/}
+            {/*        <ModalHeader className="flex flex-col gap-1">Confirmar</ModalHeader>*/}
+            {/*        <ModalBody>*/}
+            {/*          <p>La siguiente imagen representa la firma previamente guardada, estas conforme?</p>*/}
+            {/*          {signatureURL && (*/}
+            {/*            <div className="flex justify-center max-h-48">*/}
+            {/*              <Image width={250} height={200} src={signatureURL} alt="firma digital canvas svg" />*/}
+            {/*            </div>*/}
+            {/*          )}*/}
+            {/*        </ModalBody>*/}
+            {/*        <ModalFooter>*/}
+            {/*          <Button color="danger" variant="light" onPress={onClose}>*/}
+            {/*            Cancelar*/}
+            {/*          </Button>*/}
+            {/*          <Button color="primary" isLoading={loading} onPress={sendDigitalSign}>*/}
+            {/*            {loading ? 'Enviando firma...' : 'Confirmar'}*/}
+            {/*          </Button>*/}
+            {/*        </ModalFooter>*/}
+            {/*      </>*/}
+            {/*    )}*/}
+            {/*  </ModalContent>*/}
+            {/*</Modal>*/}
           </div>
         )}
         {currentStep === 3 && (
           <div className="flex justify-center gap-10">
-            <Button variant="bordered" color="primary" as={NextLink} href="/">
-              Volver
-            </Button>
-            <a href={signedDocument} target="_blank">
+            <Button color="primary">Volver</Button>
+            <a target="_blank">
               <Button color="primary">Descargar documento firmado</Button>
             </a>
           </div>

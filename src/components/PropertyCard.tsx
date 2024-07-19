@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
-import { Link } from '@nextui-org/react';
-import NextLink from 'next/link';
+import Link from 'next/link';
 import textShortener from '@/utils/text-shortener';
 import formatCurrency from '@/utils/format-currency';
 
@@ -55,7 +54,7 @@ export function PropertyCardWithCarousel(props: {
     <>
       {props.viewStyle === 'grid' && (
         <div>
-          <div className="navigation-wrapper">
+          <div className="navigation-wrapper relative">
             <div ref={sliderRef} className="keen-slider">
               {props.images.map((image) => (
                 <CarouselCard key={image} image={image} position="vertical" />
@@ -73,13 +72,7 @@ export function PropertyCardWithCarousel(props: {
             )}
           </div>
           <div className="bg-gray-100 p-6 min-h-[240px] flex flex-col justify-between">
-            <Link
-              as={NextLink}
-              color="foreground"
-              underline="hover"
-              href={`/inmuebles/${props.path}`}
-              className="text-2xl cursor-pointer mb-5"
-            >
+            <Link color="foreground" href={`/inmuebles/${props.path}`} className="text-2xl cursor-pointer mb-5">
               {textShortener(props.title, 90)}
             </Link>
 
@@ -98,7 +91,7 @@ export function PropertyCardWithCarousel(props: {
       )}
       {props.viewStyle === 'list' && (
         <div className="flex w-full mb-5 max-h-[400px]">
-          <div className="navigation-wrapper max-w-[300px]">
+          <div className="navigation-wrapper max-w-[300px] relative">
             <div ref={sliderRef} className="keen-slider">
               {props.images.map((image) => (
                 <CarouselCard key={image} image={image} position="horizontal" />
@@ -117,13 +110,7 @@ export function PropertyCardWithCarousel(props: {
           </div>
           <div className="bg-gray-100 p-6 w-full rounded-tr rounded-br min-h-[290px] flex flex-col justify-between">
             <div>
-              <Link
-                as={NextLink}
-                color="foreground"
-                underline="hover"
-                href={`/inmuebles/${props.path}`}
-                className="text-2xl cursor-pointer mb-5"
-              >
+              <Link color="foreground" href={`/inmuebles/${props.path}`} className="text-2xl cursor-pointer mb-5">
                 {textShortener(props.title, 100)}
               </Link>
               <div className="flex gap-5 mb-4">

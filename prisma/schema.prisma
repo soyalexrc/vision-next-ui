@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model AppConfig {
+  id          String @id @default(cuid())
+  code        String
+  valie       String
+  description String
+}
+
+model TemporalId {
+  id String @id @default(cuid())
+}
+
+model DeleteFileRequest {
+  id       String @id @default(cuid())
+  path     String
+  username String
+  userId   String
+  type     String
+}
+
+model Property {
+  id                     String                 @id @default(cuid())
+  generalInformation     GeneralInformation?
+  locationInformation    LocationInformation?
+  negotiationInformation NegotiationInfomation?
+  documentsInformation   DocumentsInformation?
+  userId                 String
+  owner                  String?
+  attributes             Json[]
+  distribution           Json[]
+  services               Service[]
+  adjacencies            Json[]
+  equipment              Json[]
+  furnishedAreas         String[]
+  statusHistory          PropertyStatusEntry[]
+}
+
+model DocumentsInformation {
+  id                         String   @id @default(cuid())
+  propertyId                 String   @unique
+  property                   Property @relation(fields: [propertyId], references: [id])
+  propertyDoc                Boolean
+  CIorRIF                    Boolean
+  ownerCIorRIF               Boolean
+  spouseCIorRIF              Boolean
+  isCatastralRecordSameOwner Boolean
+  condominiumSolvency        Boolean
+  mainProperty               Boolean
+  mortgageRelease            String
+  condominiumSolvencyDetails String
+  power                      String
+  successionDeclaration      String
+  courtRulings               String
+  catastralRecordYear        String
+  attorneyEmail              String
+  attorneyPhone              String
+  attorneyFirstName          String
+  attorneyLastName           String
+}
+
+model GeneralInformation {
+  id                         String   @id @default(cuid())
+  propertyId                 String   @unique
+  property                   Property @relation(fields: [propertyId], references: [id])
+  status                     String
+  code                       String
+  footageGround              String
+  footageBuilding            String
+  publicationTitle           String
+  description                String
+  propertyType               String
+  propertyCondition          String
+  handoverKeys               Boolean
+  termsAndConditionsAccepted Boolean
+  antiquity                  String
+  zoning                     String
+  amountOfFloors             String
+  propertiesPerFloor         String
+  typeOfWork                 String
+  isFurnished                Boolean
+  isOccupiedByPeople         Boolean
+}
+
+model LocationInformation {
+  id                     String   @id @default(cuid())
+  propertyId             String   @unique
+  property               Property @relation(fields: [propertyId], references: [id])
+  location               String
+  nomenclature           String
+  tower                  String
+  amountOfFloors         String
+  isClosedStreet         String
+  country                String
+  state                  String
+  municipality           String
+  urbanization           String
+  avenue                 String
+  street                 String
+  buildingShoppingCenter String
+  buildingNumber         String
+  floor                  String
+  referencePoint         String
+  howToGet               String
+  trunkNumber            String
+  trunkLevel             String
+  parkingNumber          String
+  parkingLevel           String
+  city                   String
+}
+
+model NegotiationInfomation {
+  id                    String   @id @default(cuid())
+  propertyId            String   @unique
+  property              Property @relation(fields: [propertyId], references: [id])
+  price                 String
+  minimumNegotiation    String
+  client                String
+  realStateAdviser      String
+  reasonToSellOrRent    String
+  ally                  String?
+  externalAdviser       String?
+  partOfPayment         String
+  mouthToMouth          Boolean
+  realStateGroups       Boolean
+  realStateWebPages     Boolean
+  socialMedia           Boolean
+  publicationOnBuilding Boolean
+  operationType         String
+  propertyExclusivity   String
+  ownerPaysCommission   String
+  rentCommission        String
+  sellCommission        String
+}
+
+model PropertyStatusEntry {
+  id         String   @id @default(cuid())
+  propertyId String   @unique
+  property   Property @relation(fields: [propertyId], references: [id])
+  username   String
+  status     String
+  comments   String
+}
+
+model PropertyAttribute {
+  id    String @id @default(cuid())
+  value String
+}
+
+model Attribute {
+  id           String @id @default(cuid())
+  propertyType String
+  formType     String
+  label        String
+  category     String
+  placeholder  String
+  options      String
+  value        String
+}
+
+model Service {
+  id          String       @id @default(cuid())
+  subServices SubService[]
+  title       String
+  propertyId  String       @unique
+  property    Property     @relation(fields: [propertyId], references: [id])
+}
+
+model SubService {
+  id        String   @id @default(cuid())
+  service   String
+  serviceId String   @unique
+  Service   Service? @relation(fields: [serviceId], references: [id])
+}

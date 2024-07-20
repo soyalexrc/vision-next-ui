@@ -30,12 +30,15 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   const urlParams = new URLSearchParams(filteredQuery.toString());
   const host = headers().get('host') as string;
   const prefix = process.env.NODE_ENV !== 'production' ? 'http://' : 'https://';
-  const properties = await fetch(`${prefix + host}/api/inmuebles?${urlParams}`, {
-    cache: 'no-store',
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((data) => data.json());
-  return <DataTable columns={columns} data={properties} />;
+  if (host && prefix) {
+    const properties = await fetch(`${prefix + host}/api/inmuebles?${urlParams}`, {
+      cache: 'no-store',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((data) => data.json());
+    return <DataTable columns={columns} data={properties} />;
+  }
+  return null;
 }

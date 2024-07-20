@@ -29,7 +29,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
   const host = headers().get('host') as string;
-  const prefix = process.env.NODE_ENV !== 'production' ? 'http://' : 'https://';
+  const prefix = process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
   if (host && prefix) {
     const properties = await fetch(`${prefix + host}/api/inmuebles?${urlParams}`, {
       cache: 'no-store',

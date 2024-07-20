@@ -1,7 +1,6 @@
 import { columns, DataTable } from '@/components/property/admin/table';
 import { Suspense } from 'react';
 import { TableFilters } from '@/components/property/admin';
-import { headers } from 'next/headers';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -28,10 +27,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const host = headers().get('host') as string;
-  const prefix = process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
-  console.log(prefix);
-  const properties = await fetch(`${prefix + host}/api/inmuebles?${urlParams}`, {
+  const properties = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {

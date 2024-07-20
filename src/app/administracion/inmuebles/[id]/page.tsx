@@ -1,11 +1,7 @@
 import PropertyForm from '@/components/property/admin/PropertyForm';
-import { headers } from 'next/headers';
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const host = headers().get('host') as string;
-  const prefix = process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
-  console.log(prefix);
-  const data = await fetch(`${prefix + host}/api/inmuebles/${params.id}`, {
+  const data = await fetch(`${process.env.HOST_URL}/api/inmuebles/${params.id}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {

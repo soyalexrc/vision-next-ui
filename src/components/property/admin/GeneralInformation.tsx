@@ -47,7 +47,7 @@ export function GeneralInformation() {
           <FormItem>
             <FormLabel>Codigo</FormLabel>
             <FormControl>
-              <Input placeholder="Codigo" {...field} />
+              <Input disabled placeholder="Codigo" {...field} />
             </FormControl>
             <FormDescription>This is your public display name.</FormDescription>
             <FormMessage />

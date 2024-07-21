@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
+import {getNewVinmId} from "@/actions/property";
 
 type Props = {
   data?: FullProperty;
@@ -125,11 +126,18 @@ export default function PropertyForm({ data }: Props) {
     form.setValue('generalInformation', data.generalInformation);
     form.setValue('locationInformation', data.locationInformation);
     form.setValue('negotiationInformation', data.negotiationInformation);
+  } else {
+    setNewVinmId();
   }
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the admin values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+  }
+
+  async function setNewVinmId() {
+    const id = await getNewVinmId();
+    form.setValue('generalInformation.code', id);
   }
 
   return (

@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model AppConfig {
@@ -29,25 +29,24 @@ model DeleteFileRequest {
 
 model Property {
   id                     String                 @id @default(cuid())
+  userId                 String
+  owner                  String?
+  distribution           Json[]
+  adjacencies            Json[]
+  equipment              Json[]
+  attributes             Json[]
+  furnishedAreas         String[]
+  documentsInformation   DocumentsInformation?
   generalInformation     GeneralInformation?
   locationInformation    LocationInformation?
   negotiationInformation NegotiationInfomation?
-  documentsInformation   DocumentsInformation?
-  userId                 String
-  owner                  String?
-  attributes             Json[]
-  distribution           Json[]
-  services               Service[]
-  adjacencies            Json[]
-  equipment              Json[]
-  furnishedAreas         String[]
-  statusHistory          PropertyStatusEntry[]
+  statusHistory          PropertyStatusEntry?
+  services               Service?
 }
 
 model DocumentsInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
-  property                   Property @relation(fields: [propertyId], references: [id])
   propertyDoc                Boolean
   CIorRIF                    Boolean
   ownerCIorRIF               Boolean
@@ -65,17 +64,16 @@ model DocumentsInformation {
   attorneyPhone              String
   attorneyFirstName          String
   attorneyLastName           String
+  property                   Property @relation(fields: [propertyId], references: [id])
 }
 
 model GeneralInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
-  property                   Property @relation(fields: [propertyId], references: [id])
   status                     String
   code                       String
   footageGround              String
   footageBuilding            String
-  publicationTitle           String
   description                String
   propertyType               String
   propertyCondition          String
@@ -88,12 +86,13 @@ model GeneralInformation {
   typeOfWork                 String
   isFurnished                Boolean
   isOccupiedByPeople         Boolean
+  publicationTitle           String
+  property                   Property @relation(fields: [propertyId], references: [id])
 }
 
 model LocationInformation {
   id                     String   @id @default(cuid())
   propertyId             String   @unique
-  property               Property @relation(fields: [propertyId], references: [id])
   location               String
   nomenclature           String
   tower                  String
@@ -115,19 +114,16 @@ model LocationInformation {
   parkingNumber          String
   parkingLevel           String
   city                   String
+  property               Property @relation(fields: [propertyId], references: [id])
 }
 
 model NegotiationInfomation {
   id                    String   @id @default(cuid())
   propertyId            String   @unique
-  property              Property @relation(fields: [propertyId], references: [id])
   price                 String
   minimumNegotiation    String
   client                String
-  realStateAdviser      String
   reasonToSellOrRent    String
-  ally                  String?
-  externalAdviser       String?
   partOfPayment         String
   mouthToMouth          Boolean
   realStateGroups       Boolean
@@ -139,15 +135,19 @@ model NegotiationInfomation {
   ownerPaysCommission   String
   rentCommission        String
   sellCommission        String
+  ally                  String?
+  externalAdviser       String?
+  realStateAdviser      String
+  property              Property @relation(fields: [propertyId], references: [id])
 }
 
 model PropertyStatusEntry {
   id         String   @id @default(cuid())
   propertyId String   @unique
-  property   Property @relation(fields: [propertyId], references: [id])
   username   String
   status     String
   comments   String
+  property   Property @relation(fields: [propertyId], references: [id])
 }
 
 model PropertyAttribute {
@@ -167,24 +167,31 @@ model Attribute {
 }
 
 model Service {
-  id          String       @id @default(cuid())
-  subServices SubService[]
+  id          String      @id @default(cuid())
   title       String
-  propertyId  String       @unique
-  property    Property     @relation(fields: [propertyId], references: [id])
+  propertyId  String      @unique
+  property    Property    @relation(fields: [propertyId], references: [id])
+  subServices SubService?
 }
 
 model SubService {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   service   String
-  serviceId String   @unique
-  Service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String  @unique
+  Service   Service @relation(fields: [serviceId], references: [id])
 }
 
 model Categories {
   id          Int     @id @default(autoincrement())
   title       String
+  description String?
   titlePlural String
   isFeatured  Boolean
-  description String?
+}
+
+model SocialMediaLink {
+  id       Int    @id @default(autoincrement())
+  title    String
+  href     String
+  iconName String
 }

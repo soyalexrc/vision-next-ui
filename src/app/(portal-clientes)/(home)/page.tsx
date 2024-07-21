@@ -5,12 +5,16 @@ import ContactUsBanner from '@/components/ContactUsBanner';
 import FeaturedProperties from '@/components/FeaturedProperties';
 import ServicesBanner from '@/components/ServicesBanner';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const categories = await fetch(`${process.env.HOST_URL}/api/categories`, {
+    cache: 'force-cache',
+    method: 'GET',
+  }).then((res) => res.json());
   return (
     <div className={`flex  min-h-screen flex-col items-center justify-between`}>
       <Banner />
       <Searcher />
-      <CategoriesCarousel />
+      <CategoriesCarousel categories={categories} />
       <ContactUsBanner />
       <FeaturedProperties />
       <ServicesBanner />

@@ -2,8 +2,14 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
+import { Categories } from '@prisma/client';
 
-export default function CategoriesCarousel() {
+type Props = {
+  categories: Categories[];
+}
+
+export default function CategoriesCarousel({ categories  }: Props) {
+  console.log(categories);
   const [loaded, setLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 

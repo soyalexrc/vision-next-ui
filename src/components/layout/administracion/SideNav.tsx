@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs/server';
 import { AllowedRoute } from '@/lib/interfaces/Menu';
 import MenuItem from '@/components/layout/administracion/MenuItem';
+import Image from 'next/image';
 
 export default async function Sidenav() {
   const user = await currentUser();
@@ -11,7 +12,8 @@ export default async function Sidenav() {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/administracion" className="flex items-center gap-2 font-semibold">
-            <span className="">Vision Inmobiliaria - Admin</span>
+            <Image src="/vision-icon.png" alt="Logo de vision inmobiliaria" width={30} height={30} />
+            <span className="">Vision Inmobiliaria</span>
           </Link>
         </div>
         <div className="flex-1">

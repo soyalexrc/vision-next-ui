@@ -55,7 +55,8 @@ export function VisualsInformation() {
           dispatch(activateLoading({ type: 'UPLOAD', text: `Subiendo imagen...` }));
           const fileRef = ref(storage, `${path}/${file.name}`);
           const snapshot = await uploadBytes(fileRef, file);
-          dispatch(addImage(snapshot.ref.fullPath));
+          const image = await getDownloadURL(snapshot.ref);
+          dispatch(addImage(image));
           toast.success(`Se cargo: ${fileRef.name} con exito!`);
         }
         setTimeout(() => {

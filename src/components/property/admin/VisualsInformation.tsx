@@ -13,6 +13,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } 
 import {
   addImage,
   removeImage,
+  reorderImages,
   selectImagesLoading,
   selectPropertyImages,
 } from '@/lib/store/features/propertyImages/state/propertyImagesSlice';
@@ -22,6 +23,7 @@ export function VisualsInformation() {
   const images = useAppSelector(selectPropertyImages);
   const loading = useAppSelector(selectImagesLoading);
   const { status } = useAppSelector(selectStatusUploading);
+  const [draggedIndex, setDraggedIndex] = useState<any>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { getValues } = useFormContext();
@@ -65,13 +67,34 @@ export function VisualsInformation() {
     }
   }
 
+  const handleDragOver = (e: any) => {
+    e.preventDefault(); // Allow dropping within the list
+  };
+
+  const handleDragStart = (e: any, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.setData('text/plain', index); // Store index for reference
+  };
+
+  const handleDrop = (e: any, index: number) => {
+    const newImages = [...images]; // Create a copy of the image array
+    if (draggedIndex !== null && draggedIndex !== index) {
+      const [removed] = newImages.splice(draggedIndex, 1);
+      newImages.splice(index, 0, removed);
+      console.log(images);
+      console.log(newImages);
+      dispatch(reorderImages(newImages)); // Dispatch action to update Redux store
+    }
+    setDraggedIndex(null); // Reset dragged index
+  };
+
   return (
     <div>
       <h1 className="text-4xl mb-4">Visuales</h1>
       {loading.status ? (
         <p>{loading.text}</p>
       ) : (
-        <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
+        <div className="flex gap-4 flex-wrap justify-center lg:justify-start" onDragOver={handleDragOver}>
           <div
             onClick={() => inputRef.current?.click()}
             className="cursor-pointer border-2 border-dashed rounded-xl border-gray-200 flex gap-2 p-2 sm:p-0 items-center w-full sm:w-[220px] sm:h-[220px] justify-center "
@@ -84,10 +107,10 @@ export function VisualsInformation() {
             )}
             {status && <FileUploadingLoader />}
           </div>
-          {images.map((image) => (
+          {images.map((image, index) => (
             <ContextMenu key={image}>
-              <ContextMenuTrigger>
-                <div className="border-2 rounded-xl border-gray-200 p-2 w-[220px] h-[220px]" key={image}>
+              <ContextMenuTrigger draggable onDragStart={(e) => handleDragStart(e, index)} onDrop={(e) => handleDrop(e, index)}>
+                <div className="border-2 cursor-grab rounded-xl border-gray-200 p-2 w-[220px] h-[220px]" key={image}>
                   <Image alt="Imagen de propiedad" width={200} height={200} style={{ height: '100%' }} src={image} />
                 </div>
               </ContextMenuTrigger>

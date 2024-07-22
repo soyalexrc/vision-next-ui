@@ -37,11 +37,14 @@ export const propertyImagesReducer = createSlice({
     wipeLoadingState: (state) => {
       state.loading = { text: '', status: false };
     },
+    reorderImages(state, action) {
+      state.images = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addImage, removeImage, updateLoadingState, wipeLoadingState, wipeImages } = propertyImagesReducer.actions;
+export const { addImage, reorderImages, removeImage, updateLoadingState, wipeLoadingState, wipeImages } = propertyImagesReducer.actions;
 
 export const selectPropertyImages = (state: RootState) => state.propertyImages.images;
 export const selectImagesLoading = (state: RootState) => state.propertyImages.loading;

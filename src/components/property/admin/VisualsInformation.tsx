@@ -102,7 +102,7 @@ export function VisualsInformation() {
             {status && <FileUploadingLoader />}
           </div>
           {images.map((image) => (
-            <ContextMenu>
+            <ContextMenu key={image}>
               <ContextMenuTrigger>
                 <div className="border-2 rounded-xl border-gray-200 p-2 w-[220px] h-[220px]" key={image}>
                   <Image alt="Imagen de propiedad" width={200} height={200} style={{ height: '100%' }} src={image} />

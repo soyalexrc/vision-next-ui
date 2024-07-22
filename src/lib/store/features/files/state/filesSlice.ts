@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/lib/store';
 
-export interface PatientsState {
+export interface FilesState {
   loading: Loading;
 }
 
@@ -11,7 +11,7 @@ type Loading = {
   type: 'UPLOAD' | 'REMOVE';
 };
 
-const initialState: PatientsState = {
+const initialState: FilesState = {
   loading: {
     status: false,
     text: '',

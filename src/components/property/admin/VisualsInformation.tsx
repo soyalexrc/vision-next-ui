@@ -10,43 +10,31 @@ import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/components/ui/context-menu';
+import {
+  addImage,
+  removeImage,
+  selectImagesLoading,
+  selectPropertyImages,
+} from '@/lib/store/features/propertyImages/state/propertyImagesSlice';
 
 export function VisualsInformation() {
   const dispatch = useAppDispatch();
+  const images = useAppSelector(selectPropertyImages);
+  const loading = useAppSelector(selectImagesLoading);
   const { status } = useAppSelector(selectStatusUploading);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const { getValues } = useFormContext();
-  const [images, setImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+
   const propertyCode = getValues('generalInformation.code');
   const path = `Servicio Inmobiliario/inmuebles/${propertyCode}/imagenes`;
 
-  async function getStorageData(showLoader = true) {
-    try {
-      showLoader && setLoading(true);
-      const imagesUrls: string[] = [];
-      const { items } = await listAll(ref(storage, path));
-      for (const item of items) {
-        const imageRef = ref(storage, item.fullPath);
-        const downloadUrl = await getDownloadURL(imageRef);
-        imagesUrls.push(downloadUrl);
-      }
-      setImages(imagesUrls);
-      console.log('here');
-      showLoader && setLoading(false);
-    } catch (err) {
-      console.log(err);
-      showLoader && setLoading(false);
-    }
-  }
-
-  async function removeImage(image: string) {
+  async function removeImageFromFirebase(image: string) {
     try {
       dispatch(activateLoading({ type: 'REMOVE', text: `Eliminando imagen...` }));
       const fileRef = ref(storage, image);
       await deleteObject(fileRef);
-      await getStorageData(false);
+      dispatch(removeImage(image));
       setTimeout(() => {
         dispatch(turnOffLoading());
         toast.success(`Se elimino: ${fileRef.name} con exito!`);
@@ -65,10 +53,9 @@ export function VisualsInformation() {
           dispatch(activateLoading({ type: 'UPLOAD', text: `Subiendo imagen...` }));
           const fileRef = ref(storage, `${path}/${file.name}`);
           const snapshot = await uploadBytes(fileRef, file);
-          console.log(snapshot);
+          dispatch(addImage(snapshot.ref.fullPath));
           toast.success(`Se cargo: ${fileRef.name} con exito!`);
         }
-        await getStorageData(false);
         setTimeout(() => {
           dispatch(turnOffLoading());
         }, 1000);
@@ -78,15 +65,11 @@ export function VisualsInformation() {
     }
   }
 
-  useEffect(() => {
-    getStorageData();
-  }, []);
-
   return (
     <div>
       <h1 className="text-4xl mb-4">Visuales</h1>
-      {loading ? (
-        <p>Cargando archivos...</p>
+      {loading.status ? (
+        <p>{loading.text}</p>
       ) : (
         <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
           <div
@@ -109,7 +92,7 @@ export function VisualsInformation() {
                 </div>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem className="gap-2 px-3 " onClick={() => removeImage(image)}>
+                <ContextMenuItem className="gap-2 px-3 " onClick={() => removeImageFromFirebase(image)}>
                   <Trash2 />
                   Eliminar
                 </ContextMenuItem>

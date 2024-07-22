@@ -9,12 +9,16 @@ import {
   NegotiationInformation as NegotiationInformationComponent,
   VisualsInformation,
 } from '@/components/property/admin';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
+import { getDownloadURL, listAll, ref } from '@firebase/storage';
+import storage from '@/lib/firebase/storage';
+import { useAppDispatch } from '@/lib/store/hooks';
+import { addImage, updateLoadingState, wipeLoadingState } from '@/lib/store/features/propertyImages/state/propertyImagesSlice';
 
 type Props = {
   data?: FullProperty;
@@ -116,7 +120,7 @@ const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', '
 
 export default function PropertyForm({ data }: Props) {
   const [section, setSection] = useState<string>('General');
-
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -125,9 +129,16 @@ export default function PropertyForm({ data }: Props) {
     form.setValue('generalInformation', data.generalInformation);
     form.setValue('locationInformation', data.locationInformation);
     form.setValue('negotiationInformation', data.negotiationInformation);
-  } else {
-    setNewVinmId();
   }
+
+  useEffect(() => {
+    if (!data) {
+      setNewVinmId();
+    } else {
+      getImagesFromStorage(data.generalInformation.code);
+    }
+  }, []);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the admin values.
     // ✅ This will be type-safe and validated.
@@ -140,6 +151,25 @@ export default function PropertyForm({ data }: Props) {
       method: 'GET',
     }).then((res) => res.json());
     form.setValue('generalInformation.code', id);
+    await getImagesFromStorage(id);
+  }
+
+  async function getImagesFromStorage(propertyCode: string) {
+    try {
+      console.log('here');
+      dispatch(updateLoadingState({ status: true, text: 'Cargando imagenes...' }));
+      const path = `Servicio Inmobiliario/inmuebles/${propertyCode}/imagenes`;
+      const { items } = await listAll(ref(storage, path));
+      for (const item of items) {
+        const imageRef = ref(storage, item.fullPath);
+        const downloadUrl = await getDownloadURL(imageRef);
+        dispatch(addImage(downloadUrl));
+      }
+      dispatch(wipeLoadingState());
+    } catch (err) {
+      console.log(err);
+      dispatch(wipeLoadingState());
+    }
   }
 
   return (

@@ -18,7 +18,12 @@ import { Form } from '@/components/ui/form';
 import { getDownloadURL, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
-import { addImage, updateLoadingState, wipeLoadingState } from '@/lib/store/features/propertyImages/state/propertyImagesSlice';
+import {
+  addDocument,
+  addImage,
+  updateLoadingState,
+  wipeImagesAndDocuments,
+} from '@/lib/store/features/files/state/filesSlice';
 
 type Props = {
   data?: FullProperty;
@@ -132,10 +137,12 @@ export default function PropertyForm({ data }: Props) {
   }
 
   useEffect(() => {
+    dispatch(wipeImagesAndDocuments());
     if (!data) {
       setNewVinmId();
     } else {
       getImagesFromStorage(data.generalInformation.code);
+      getDocumentsFromStorage(data.generalInformation.code);
     }
   }, []);
 
@@ -152,12 +159,12 @@ export default function PropertyForm({ data }: Props) {
     }).then((res) => res.json());
     form.setValue('generalInformation.code', id);
     await getImagesFromStorage(id);
+    await getDocumentsFromStorage(id);
   }
 
   async function getImagesFromStorage(propertyCode: string) {
     try {
-      console.log('here');
-      dispatch(updateLoadingState({ status: true, text: 'Cargando imagenes...' }));
+      dispatch(updateLoadingState({ status: true, text: 'Cargando imagenes...', type: 'images' }));
       const path = `Servicio Inmobiliario/inmuebles/${propertyCode}/imagenes`;
       const { items } = await listAll(ref(storage, path));
       for (const item of items) {
@@ -165,10 +172,25 @@ export default function PropertyForm({ data }: Props) {
         const downloadUrl = await getDownloadURL(imageRef);
         dispatch(addImage(downloadUrl));
       }
-      dispatch(wipeLoadingState());
+      dispatch(updateLoadingState({ type: 'images', status: false, text: '' }));
     } catch (err) {
       console.log(err);
-      dispatch(wipeLoadingState());
+      dispatch(updateLoadingState({ type: 'images', status: false, text: '' }));
+    }
+  }
+  async function getDocumentsFromStorage(propertyCode: string) {
+    try {
+      dispatch(updateLoadingState({ status: true, text: 'Cargando documentos...', type: 'documents' }));
+      const path = `Servicio Inmobiliario/inmuebles/${propertyCode}/documentos`;
+      const { items } = await listAll(ref(storage, path));
+      for (const item of items) {
+        const documentRef = ref(storage, item.fullPath);
+        dispatch(addDocument({ name: documentRef.name, fullPath: documentRef.fullPath }));
+      }
+      dispatch(updateLoadingState({ type: 'documents', status: false, text: '' }));
+    } catch (err) {
+      console.log(err);
+      dispatch(updateLoadingState({ type: 'documents', status: false, text: '' }));
     }
   }
 

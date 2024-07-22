@@ -1,11 +1,10 @@
 'use client';
 import { useFormContext } from 'react-hook-form';
-import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from '@firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { PlusCircle, Trash2 } from 'lucide-react';
-import { activateLoading, selectStatusUploading, turnOffLoading } from '@/lib/store/features/files/state/filesSlice';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
@@ -14,9 +13,12 @@ import {
   addImage,
   removeImage,
   reorderImages,
-  selectImagesLoading,
   selectPropertyImages,
-} from '@/lib/store/features/propertyImages/state/propertyImagesSlice';
+  activateLoading,
+  selectStatusUploading,
+  turnOffLoading,
+  selectImagesLoading,
+} from '@/lib/store/features/files/state/filesSlice';
 
 export function VisualsInformation() {
   const dispatch = useAppDispatch();

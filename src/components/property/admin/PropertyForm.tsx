@@ -15,7 +15,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
-import {getNewVinmId} from "@/actions/property";
 
 type Props = {
   data?: FullProperty;
@@ -136,7 +135,10 @@ export default function PropertyForm({ data }: Props) {
   }
 
   async function setNewVinmId() {
-    const id = await getNewVinmId();
+    console.log(process.env.NEXT_PUBLIC_HOST_URL);
+    const { id } = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/inmuebles/getNewCodeId`, {
+      method: 'GET',
+    }).then((res) => res.json());
     form.setValue('generalInformation.code', id);
   }
 

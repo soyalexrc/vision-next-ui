@@ -42,6 +42,7 @@ export function GeneralInformation() {
       />
       <FormField
         control={control}
+        defaultValue={''}
         name="generalInformation.code"
         render={({ field }) => (
           <FormItem>

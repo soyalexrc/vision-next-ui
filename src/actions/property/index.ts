@@ -158,24 +158,3 @@ export async function getProperties(): Promise<Property[]> {
   }
 }
 
-export async function getNewVinmId(): Promise<string> {
-  try {
-    let newVinmId: string = '';
-    const amountOfProperties = await prisma.property.count();
-    switch (String(amountOfProperties + 1).length) {
-      case 1:
-        newVinmId = `VINM_00${amountOfProperties + 1}`;
-        break;
-      case 2:
-        newVinmId = `VINM_0${amountOfProperties + 1}`;
-        break;
-      case 3:
-        newVinmId = `VINM_${amountOfProperties + 1}`;
-        break;
-    }
-    return newVinmId;
-  } catch (err) {
-    console.log(err);
-    return `Ocurrio un error: ${JSON.stringify(err)}`;
-  }
-}

@@ -1,7 +1,5 @@
-import { clerkClient, clerkMiddleware, createRouteMatcher, currentUser } from '@clerk/nextjs/server';
+import { clerkClient, clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
-import {NextURL} from "next/dist/server/web/next-url";
 
 type Route = { path: string; title: string };
 

@@ -1,5 +1,5 @@
 'use client';
-import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation } from '@prisma/client';
+import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation, Attribute } from '@prisma/client';
 import {
   AttributesInformation,
   DistributionAndEquipmentInformation,
@@ -12,22 +12,29 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { getDownloadURL, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
-import {
-  addDocument,
-  addImage,
-  updateLoadingState,
-  wipeImagesAndDocuments,
-} from '@/lib/store/features/files/state/filesSlice';
+import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } from '@/lib/store/features/files/state/filesSlice';
 
 type Props = {
   data?: FullProperty;
+  attributes: Attribute[];
 };
+
+export interface AttributeForm {
+  formType: string;
+  id: string;
+  attributeId: number;
+  options?: string;
+  placeholder?: string;
+  label: string;
+  valueType: string;
+  value: any;
+}
 
 interface FullProperty extends Property {
   negotiationInformation: NegotiationInfomation;
@@ -37,6 +44,15 @@ interface FullProperty extends Property {
 }
 
 const formSchema = z.object({
+  attributes: z.array(
+    z.object({
+      attributeId: z.number(),
+      formType: z.string(),
+      label: z.string(),
+      placeholder: z.string().nullable(),
+      value: z.any().optional(),
+    }),
+  ),
   generalInformation: z.object({
     status: z.string(),
     code: z.string(),
@@ -123,11 +139,15 @@ const formSchema = z.object({
 
 const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', 'Negociacion', 'Atributos', 'Documentos'];
 
-export default function PropertyForm({ data }: Props) {
+export default function PropertyForm({ data, attributes }: Props) {
   const [section, setSection] = useState<string>('General');
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+  });
+  const { append } = useFieldArray({
+    control: form.control,
+    name: 'attributes',
   });
 
   if (data) {
@@ -140,6 +160,7 @@ export default function PropertyForm({ data }: Props) {
     dispatch(wipeImagesAndDocuments());
     if (!data) {
       setNewVinmId();
+      appendAttributes();
     } else {
       getImagesFromStorage(data.generalInformation.code);
       getDocumentsFromStorage(data.generalInformation.code);
@@ -192,6 +213,12 @@ export default function PropertyForm({ data }: Props) {
       console.log(err);
       dispatch(updateLoadingState({ type: 'documents', status: false, text: '' }));
     }
+  }
+
+  function appendAttributes() {
+    attributes.forEach((item) => {
+      append({ ...item, attributeId: item.id, value: item.formType === 'check' ? false : '' });
+    });
   }
 
   return (

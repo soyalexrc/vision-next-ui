@@ -8,19 +8,17 @@ import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import {
   activateLoading,
   addDocument,
-  addImage,
   PropertyDocument,
   removeDocument,
-  removeImage,
   selectDocumentsLoading,
   selectPropertyDocuments,
   selectStatusUploading,
   turnOffLoading,
 } from '@/lib/store/features/files/state/filesSlice';
-import { File, PlusCircle, Trash, Trash2, View } from 'lucide-react';
+import { File, PlusCircle, Trash2 } from 'lucide-react';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
 import React, { useRef } from 'react';
-import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import { deleteObject, ref, uploadBytes } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { toast } from 'sonner';
 

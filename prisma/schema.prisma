@@ -28,21 +28,23 @@ model DeleteFileRequest {
 }
 
 model Property {
-  id                     String                 @id @default(cuid())
-  userId                 String
-  owner                  String?
-  distribution           Json[]
-  adjacencies            Json[]
-  equipment              Json[]
-  images                 String[]
-  attributes             Json[]
-  furnishedAreas         String[]
-  documentsInformation   DocumentsInformation?
-  generalInformation     GeneralInformation?
-  locationInformation    LocationInformation?
-  negotiationInformation NegotiationInfomation?
-  statusHistory          PropertyStatusEntry?
-  services               Service?
+  id                      String                    @id @default(cuid())
+  userId                  String
+  owner                   String?
+  distribution            Json[]
+  adjacencies             Adjacency[]
+  equipment               Json[]
+  images                  String[]
+  attributes              Attribute[]
+  furnishedAreas          String[]
+  documentsInformation    DocumentsInformation?
+  generalInformation      GeneralInformation?
+  locationInformation     LocationInformation?
+  negotiationInformation  NegotiationInfomation?
+  statusHistory           PropertyStatusEntry?
+  services                Service?
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+  AttributesOnProperties  AttributesOnProperties[]
 }
 
 model DocumentsInformation {
@@ -151,20 +153,26 @@ model PropertyStatusEntry {
   property   Property @relation(fields: [propertyId], references: [id])
 }
 
-model PropertyAttribute {
-  id    String @id @default(cuid())
-  value String
+model AttributesOnProperties {
+  property    Property  @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  attribute   Attribute @relation(fields: [attribyteId], references: [id])
+  attribyteId Int
+  createdAt   DateTime  @default(now())
+  value       String
+
+  @@id([propertyId, attribyteId])
 }
 
 model Attribute {
-  id           String @id @default(cuid())
-  propertyType String
-  formType     String
-  label        String
-  category     String
-  placeholder  String
-  options      String
-  value        String
+  id                     Int                      @id @default(autoincrement())
+  formType               FormTypes
+  label                  String
+  placeholder            String?
+  options                String?
+  valueType              FormValueTypes
+  properties             Property[]
+  AttributesOnProperties AttributesOnProperties[]
 }
 
 model Service {
@@ -195,4 +203,34 @@ model SocialMediaLink {
   title    String
   href     String
   iconName String
+}
+
+model Adjacency {
+  id                      Int                       @id @default(autoincrement())
+  title                   String
+  description             String?
+  properties              Property[]
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+}
+
+model AdjacenciesOnProperties {
+  property    Property  @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
+  adjacencyId Int
+  createdAt   DateTime  @default(now())
+
+  @@id([propertyId, adjacencyId])
+}
+
+enum FormTypes {
+  check
+  text
+  select
+}
+
+enum FormValueTypes {
+  string
+  boolean
+  number
 }

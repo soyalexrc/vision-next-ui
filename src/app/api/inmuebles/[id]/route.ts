@@ -3,7 +3,6 @@ import prisma from '@/lib/db/prisma';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    console.log(params.id);
     const property = await prisma.property.findUnique({
       where: {
         id: params.id,

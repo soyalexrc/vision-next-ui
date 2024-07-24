@@ -29,7 +29,7 @@ export function AttributesInformation() {
               defaultValue={false}
               name={`attributes.${index}.value`}
               render={({ field }) => (
-                <FormItem className="col-span-4 mt-5">
+                <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 mt-5">
                   <FormLabel>{label}</FormLabel>
                   <FormControl>
                     <Input placeholder={placeholder ?? ''} {...field} />
@@ -47,7 +47,7 @@ export function AttributesInformation() {
               defaultValue={false}
               name={`attributes.${index}.value`}
               render={({ field }) => (
-                <FormItem className="col-span-4 flex flex-col justify-end">
+                <FormItem className="col-span-12 md:col-span-6 mt-5 lg:col-span-4 flex flex-col justify-end">
                   <FormLabel>{label}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={value}>
                     <FormControl>
@@ -76,7 +76,7 @@ export function AttributesInformation() {
               defaultValue={false}
               name={`attributes.${index}.value`}
               render={({ field }) => (
-                <FormItem className="flex gap-2 items-end col-span-3">
+                <FormItem className="flex gap-2 items-end col-span-12 md:col-span-6 lg:col-span-3">
                   <FormControl>
                     <Checkbox className="cursor-pointer" onCheckedChange={field.onChange} defaultChecked={value} {...field} />
                   </FormControl>

@@ -28,6 +28,7 @@ import { getDownloadURL, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
 import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } from '@/lib/store/features/files/state/filesSlice';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   data?: FullProperty;
@@ -285,14 +286,27 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
     });
   }
 
+  function handleStep(action: 'next' | 'prev') {
+    const length = options.length;
+    const index = options.indexOf(section);
+    console.log(index);
+    console.log(length);
+    if (action === 'prev') {
+      if (index === 0) return;
+      setSection(options[index - 1]);
+    } else {
+      if (index === length - 1) return;
+      setSection(options[index + 1]);
+    }
+  }
 
   return (
     <div className="p-4">
-      <div className="flex justify-end">
-        <div>
+      <div className="flex justify-end w-full">
+        <div className="w-full lg:w-[200px] border-b-2 border-gray-200 lg:border-none pb-5">
           <p className="font-bold text-sm mb-1">Estas viendo</p>
           <Select value={section} onValueChange={setSection}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="">
               <SelectValue placeholder="Seccion de propiedad" />
             </SelectTrigger>
             <SelectContent>
@@ -309,15 +323,34 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
-          {section === 'Atributos' && <AttributesInformation />}
-          {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'General' && <GeneralInformationComponent />}
           {section === 'Ubicacion' && <LocationInformationComponent />}
+          {section === 'Atributos' && <AttributesInformation />}
           {section === 'Visuales' && <VisualsInformation />}
           {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
+          {section === 'Documentos' && <DocumentsInformationComponent />}
         </form>
       </Form>
+      <div className="flex justify-center gap-3 mt-10">
+        <Button
+          type="button"
+          disabled={section === 'General'}
+          className="w-full lg:w-auto"
+          variant="outline"
+          onClick={() => handleStep('prev')}
+        >
+          Anterior
+        </Button>
+        <Button
+          type="button"
+          disabled={section === 'Documentos'}
+          className="w-full lg:w-auto bg-red-900"
+          onClick={() => handleStep('next')}
+        >
+          Siguiente
+        </Button>
+      </div>
     </div>
   );
 }

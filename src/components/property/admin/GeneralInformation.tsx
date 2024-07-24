@@ -36,7 +36,7 @@ export function GeneralInformation() {
               <FormControl>
                 <Textarea placeholder="Descripcion" {...field} />
               </FormControl>
-              <FormDescription>Este es la descripcion de el inmueble y aparecera en las busquedas de google.</FormDescription>
+              <FormDescription>Este es la descripcion de el inmueble. Tambien aparecera en las busquedas de google.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

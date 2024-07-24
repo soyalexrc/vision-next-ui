@@ -142,8 +142,8 @@ export default function Property() {
         </div>
       </div>
 
-      <div className="lg:px-24 grid gap-10 grid-cols-1 lg:grid-cols-12">
-        <div className="lg:col-span-9 border-b-1 pb-5 lg:border-none lg:pb-0">
+      <div className="lg:px-24 grid gap-10 grid-cols-12">
+        <div className="col-span-12 lg:col-span-9 border-b-1 pb-5 lg:border-none lg:pb-0">
           <div className="px-4">
             <h3 className="text-3xl my-10">Descripcion</h3>
             <p>{property.generalInformation.description}</p>
@@ -156,16 +156,16 @@ export default function Property() {
 
           <div className="px-4">
             <h3 className="text-3xl my-10">Caracteristicas</h3>
-            <div className="grid lg:gap-x-20 gap-y-6 grid-cols-1 lg:grid-cols-12">
+            <div className="grid gap-x-8 gap-y-6 grid-cols-2">
               {property.attributes
                 .filter((attr: any) => attr.value !== null)
                 .map((attr: any) => (
-                  <div key={attr.id} className="col-span-6 flex justify-between border-b-1 pb-2">
+                  <div key={attr.id} className="col-span-2 md:col-span-1 flex justify-between border-b-1 pb-2">
                     <p className="text-sm">{attr.label}</p>
                     {attr.formType === 'check' ? (
                       <CheckIcon width={25} height={25} fill="green" />
                     ) : (
-                      <span className=" font-bold">{attr.value.toString()}</span>
+                      <span className="font-bold">{attr.value.toString()}</span>
                     )}
                   </div>
                 ))}
@@ -174,7 +174,7 @@ export default function Property() {
 
           <div>
             <h3 className="px-4 text-3xl my-10">Galeria</h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-2">
               {property &&
                 property.images &&
                 property.images.length > 0 &&
@@ -215,7 +215,7 @@ export default function Property() {
             </p>
           </div>
         </div>
-        <div className="px-4 lg:col-span-3">
+        <div className="col-span-12 lg:col-span-3">
           <h3 className="text-2xl text-center mb-3">Contactanos</h3>
           <p className="text-sm text-center lg:text-left">
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.

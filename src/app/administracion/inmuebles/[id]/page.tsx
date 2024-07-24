@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   }).then((res) => res.json());
 
-  const attributes = await fetch(`${process.env.HOST_URL}/api/inmuebles/attributes/getAll`, {
+  const essentials = await fetch(`${process.env.HOST_URL}/api/inmuebles/getEssentials`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
@@ -17,5 +17,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   }).then((res) => res.json());
 
-  return <PropertyForm data={data} attributes={attributes} />;
+  return <PropertyForm data={data} essentials={essentials} />;
 }

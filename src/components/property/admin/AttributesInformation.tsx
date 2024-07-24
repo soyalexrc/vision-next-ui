@@ -8,7 +8,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AttributeForm } from '@/components/property/admin/PropertyForm';
 
 export function AttributesInformation() {
-  const { control, register, getValues } = useFormContext();
+  const { control } = useFormContext();
 
   const { fields } = useFieldArray({
     control,

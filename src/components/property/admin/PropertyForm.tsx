@@ -1,5 +1,14 @@
 'use client';
-import { NegotiationInfomation, Property, GeneralInformation, DocumentsInformation, LocationInformation, Attribute } from '@prisma/client';
+import {
+  NegotiationInfomation,
+  Property,
+  GeneralInformation,
+  DocumentsInformation,
+  LocationInformation,
+  Attribute,
+  Equipment,
+  Utility,
+} from '@prisma/client';
 import {
   AttributesInformation,
   DistributionAndEquipmentInformation,
@@ -22,8 +31,31 @@ import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } fro
 
 type Props = {
   data?: FullProperty;
-  attributes: Attribute[];
+  essentials: {
+    attributes: Attribute[];
+    equipments: Equipment[];
+    utilities: Utility[];
+  };
 };
+
+export interface UtilityForm {
+  id: string;
+  utilityId: number;
+  title: string;
+  description?: string;
+  additionalInformation?: string;
+  value: boolean;
+}
+
+export interface EquipmentForm {
+  id: string;
+  equipmentId: number;
+  title: string;
+  description?: string;
+  brand?: string;
+  additionalInformation?: string;
+  value: boolean;
+}
 
 export interface AttributeForm {
   formType: string;
@@ -50,6 +82,25 @@ const formSchema = z.object({
       formType: z.string(),
       label: z.string(),
       placeholder: z.string().nullable(),
+      value: z.any().optional(),
+    }),
+  ),
+  equipments: z.array(
+    z.object({
+      equipmentId: z.number(),
+      title: z.string(),
+      brand: z.string().nullable().optional(),
+      additionalInformation: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
+      value: z.any().optional(),
+    }),
+  ),
+  utilities: z.array(
+    z.object({
+      utilityId: z.number(),
+      title: z.string(),
+      additionalInformation: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
       value: z.any().optional(),
     }),
   ),
@@ -137,18 +188,17 @@ const formSchema = z.object({
   }),
 });
 
-const options = ['General', 'Ubicacion', 'Visuales', 'Distribucion y Equipos', 'Negociacion', 'Atributos', 'Documentos'];
+const options = ['General', 'Ubicacion', 'Atributos', 'Visuales', 'Distribucion, Equipos y Servicios', 'Negociacion', 'Documentos'];
 
-export default function PropertyForm({ data, attributes }: Props) {
+export default function PropertyForm({ data, essentials: { utilities, attributes, equipments } }: Props) {
   const [section, setSection] = useState<string>('General');
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const { append } = useFieldArray({
-    control: form.control,
-    name: 'attributes',
-  });
+  const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
+  const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
+  const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
 
   if (data) {
     form.setValue('generalInformation', data.generalInformation);
@@ -161,6 +211,8 @@ export default function PropertyForm({ data, attributes }: Props) {
     if (!data) {
       setNewVinmId();
       appendAttributes();
+      appendEquipments();
+      appendUtilities();
     } else {
       getImagesFromStorage(data.generalInformation.code);
       getDocumentsFromStorage(data.generalInformation.code);
@@ -217,9 +269,22 @@ export default function PropertyForm({ data, attributes }: Props) {
 
   function appendAttributes() {
     attributes.forEach((item) => {
-      append({ ...item, attributeId: item.id, value: item.formType === 'check' ? false : '' });
+      appendAttribute({ ...item, attributeId: item.id, value: item.formType === 'check' ? false : '' });
     });
   }
+
+  function appendEquipments() {
+    equipments.forEach((item) => {
+      appendEquipment({ ...item, equipmentId: item.id, value: false, additionalInformation: '', brand: '' });
+    });
+  }
+
+  function appendUtilities() {
+    utilities.forEach((item) => {
+      appendUtility({ ...item, utilityId: item.id, value: false });
+    });
+  }
+
 
   return (
     <div className="p-4">
@@ -249,7 +314,7 @@ export default function PropertyForm({ data, attributes }: Props) {
           {section === 'General' && <GeneralInformationComponent />}
           {section === 'Ubicacion' && <LocationInformationComponent />}
           {section === 'Visuales' && <VisualsInformation />}
-          {section === 'Distribucion y Equipos' && <DistributionAndEquipmentInformation />}
+          {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
         </form>
       </Form>

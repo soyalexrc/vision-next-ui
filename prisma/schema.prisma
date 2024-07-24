@@ -33,7 +33,6 @@ model Property {
   owner                   String?
   distribution            Json[]
   adjacencies             Adjacency[]
-  equipment               Json[]
   images                  String[]
   attributes              Attribute[]
   furnishedAreas          String[]
@@ -42,9 +41,10 @@ model Property {
   locationInformation     LocationInformation?
   negotiationInformation  NegotiationInfomation?
   statusHistory           PropertyStatusEntry?
-  services                Service?
   AdjacenciesOnProperties AdjacenciesOnProperties[]
   AttributesOnProperties  AttributesOnProperties[]
+  UtilitiesOnProperties   UtilitiesOnProperties[]
+  EquipmentsOnProperties  EquipmentsOnProperties[]
 }
 
 model DocumentsInformation {
@@ -178,8 +178,6 @@ model Attribute {
 model Service {
   id          String      @id @default(cuid())
   title       String
-  propertyId  String      @unique
-  property    Property    @relation(fields: [propertyId], references: [id])
   subServices SubService?
 }
 
@@ -221,6 +219,43 @@ model AdjacenciesOnProperties {
   createdAt   DateTime  @default(now())
 
   @@id([propertyId, adjacencyId])
+}
+
+model Utility {
+  id                    Int                     @id @default(autoincrement())
+  title                 String
+  description           String?
+  UtilitiesOnProperties UtilitiesOnProperties[]
+}
+
+model UtilitiesOnProperties {
+  property              Property @relation(fields: [propertyId], references: [id])
+  propertyId            String
+  utility               Utility  @relation(fields: [utilityId], references: [id])
+  utilityId             Int
+  createdAt             DateTime @default(now())
+  additionalInformation String?
+
+  @@id([propertyId, utilityId])
+}
+
+model Equipment {
+  id                     Int                      @id @default(autoincrement())
+  title                  String
+  description            String?
+  EquipmentsOnProperties EquipmentsOnProperties[]
+}
+
+model EquipmentsOnProperties {
+  property              Property  @relation(fields: [propertyId], references: [id])
+  propertyId            String
+  equipment             Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId           Int
+  createdAt             DateTime  @default(now())
+  brand                 String?
+  additionalInformation String?
+
+  @@id([propertyId, equipmentId])
 }
 
 enum FormTypes {

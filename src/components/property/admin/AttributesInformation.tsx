@@ -15,6 +15,8 @@ export function AttributesInformation() {
     name: 'attributes',
   });
 
+  // TODO agregar la posibilidad de crear un atributo
+
   return (
     <div className="grid grid-cols-12 gap-2">
       {fields.map((arrayField, index) => {
@@ -50,7 +52,7 @@ export function AttributesInformation() {
                   <Select onValueChange={field.onChange} defaultValue={value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecciona una opcion"/>
+                        <SelectValue placeholder="Selecciona una opcion" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

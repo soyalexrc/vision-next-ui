@@ -19,6 +19,7 @@ export function DistributionAndEquipmentInformation() {
     control,
     name: 'utilities',
   });
+  // TODO agregar la posibilidad de crear un equipo / utilidad
 
   return (
     <div>

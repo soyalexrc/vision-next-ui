@@ -89,122 +89,129 @@ interface FullProperty extends Property {
 
 const formSchema = z.object({
   attributes: z.array(
-    z.object({
-      attributeId: z.number(),
-      formType: z.string(),
-      label: z.string(),
-      placeholder: z.string().nullable(),
-      value: z.any().optional(),
-    }),
+    z
+      .object({
+        attributeId: z.number(),
+        formType: z.string(),
+        label: z.string(),
+        placeholder: z.string().nullable(),
+        value: z.any().optional(),
+      })
+      .optional(),
   ),
   equipments: z.array(
-    z.object({
-      equipmentId: z.number(),
-      title: z.string(),
-      brand: z.string().nullable().optional(),
-      additionalInformation: z.string().nullable().optional(),
-      description: z.string().nullable().optional(),
-      value: z.any().optional(),
-    }),
+    z
+      .object({
+        equipmentId: z.number(),
+        title: z.string(),
+        brand: z.string().nullable().optional(),
+        additionalInformation: z.string().nullable().optional(),
+        description: z.string().nullable().optional(),
+        value: z.any().optional(),
+      })
+      .optional(),
   ),
   utilities: z.array(
-    z.object({
-      utilityId: z.number(),
-      title: z.string(),
-      additionalInformation: z.string().nullable().optional(),
-      description: z.string().nullable().optional(),
-      value: z.any().optional(),
-    }),
+    z
+      .object({
+        utilityId: z.number(),
+        title: z.string(),
+        additionalInformation: z.string().nullable().optional(),
+        description: z.string().nullable().optional(),
+        value: z.any().optional(),
+      })
+      .optional(),
   ),
   adjacencies: z.array(
-    z.object({
-      adjacencyId: z.number(),
-      title: z.string(),
-      description: z.string().nullable().optional(),
-      value: z.any().optional(),
-    }),
+    z
+      .object({
+        adjacencyId: z.number(),
+        title: z.string(),
+        description: z.string().nullable().optional(),
+        value: z.any().optional(),
+      })
+      .optional(),
   ),
   generalInformation: z.object({
-    status: z.string(),
     code: z.string(),
-    footageGround: z.string(),
-    footageBuilding: z.string(),
-    description: z.string(),
-    propertyType: z.string(),
-    propertyCondition: z.string(),
-    handoverKeys: z.boolean(),
-    termsAndConditionsAccepted: z.boolean(),
-    antiquity: z.string(),
-    zoning: z.string(),
-    amountOfFloors: z.string(),
+    footageGround: z.string({ required_error: 'Este campo es requerido' }),
+    footageBuilding: z.string({ required_error: 'Este campo es requerido' }),
+    description: z.string({ required_error: 'Este campo es requerido' }),
+    propertyType: z.string({ required_error: 'Este campo es requerido' }),
+    propertyCondition: z.string().optional(),
+    handoverKeys: z.boolean().optional(),
+    termsAndConditionsAccepted: z.boolean().optional(),
+    antiquity: z.string().optional(),
+    zoning: z.string().optional(),
+    amountOfFloors: z.string().optional(),
     publicationTitle: z.string(),
-    propertiesPerFloor: z.string(),
-    typeOfWork: z.string(),
-    isFurnished: z.boolean(),
-    isOccupiedByPeople: z.boolean(),
+    propertiesPerFloor: z.string().optional(),
+    typeOfWork: z.string().optional(),
+    isFurnished: z.boolean().optional(),
+    isOccupiedByPeople: z.boolean().optional(),
   }),
   locationInformation: z.object({
-    urbanization: z.string(),
-    state: z.string(),
-    amountOfFloors: z.string(),
-    trunkNumber: z.string(),
-    location: z.string(),
-    referencePoint: z.string(),
-    nomenclature: z.string(),
-    municipality: z.string(),
-    parkingLevel: z.string(),
-    buildingShoppingCenter: z.string(),
-    avenue: z.string(),
-    parkingNumber: z.string(),
-    buildingNumber: z.string(),
-    tower: z.string(),
-    country: z.string(),
-    city: z.string(),
-    howToGet: z.string(),
-    street: z.string(),
-    floor: z.string(),
-    trunkLevel: z.string(),
-    isClosedStreet: z.string(),
+    urbanization: z.string().optional(),
+    state: z.string({ required_error: 'Este campo es requerido' }),
+    amountOfFloors: z.string().optional(),
+    trunkNumber: z.string().optional(),
+    location: z.string().optional(),
+    referencePoint: z.string().optional(),
+    nomenclature: z.string().optional(),
+    municipality: z.string().optional(),
+    parkingLevel: z.string().optional(),
+    buildingShoppingCenter: z.string().optional(),
+    avenue: z.string().optional(),
+    parkingNumber: z.string().optional(),
+    buildingNumber: z.string().optional(),
+    tower: z.string().optional(),
+    country: z.string({ required_error: 'Este campo es requerido' }),
+    city: z.string({ required_error: 'Este campo es requerido' }),
+    howToGet: z.string().optional(),
+    street: z.string().optional(),
+    floor: z.string().optional(),
+    trunkLevel: z.string().optional(),
+    isClosedStreet: z.string().optional(),
   }),
   negotiationInformation: z.object({
-    socialMedia: z.boolean(),
+    socialMedia: z.boolean().optional(),
     ally: z.string().optional().nullable(),
     client: z.string().optional(),
-    partOfPayment: z.string(),
-    minimumNegotiation: z.string(),
+    partOfPayment: z.string().optional(),
+    minimumNegotiation: z.string().optional(),
     externalAdviser: z.string().optional().nullable(),
-    rentCommission: z.string(),
-    reasonToSellOrRent: z.string(),
-    price: z.string(),
-    realStateGroups: z.boolean(),
-    ownerPaysCommission: z.string(),
-    realStateWebPages: z.boolean(),
-    mouthToMouth: z.boolean(),
-    operationType: z.string(),
-    propertyExclusivity: z.string(),
-    publicationOnBuilding: z.boolean(),
-    realStateAdviser: z.string(),
-    sellCommission: z.string(),
+    rentCommission: z.string().optional(),
+    reasonToSellOrRent: z.string().optional(),
+    price: z.string({ required_error: 'Este campo es requerido' }),
+    realStateGroups: z.boolean().optional(),
+    ownerPaysCommission: z.string().optional(),
+    realStateWebPages: z.boolean().optional(),
+    mouthToMouth: z.boolean().optional(),
+    operationType: z.string({ required_error: 'Este campo es requerido' }),
+    propertyExclusivity: z.string({ required_error: 'Este campo es requerido' }),
+    publicationOnBuilding: z.boolean().optional(),
+    realStateAdviser: z.string().optional(),
+    sellCommission: z.string().optional(),
   }),
   documentsInformation: z.object({
     owner: z.string().optional().nullable(),
-    successionDeclaration: z.string(),
-    isCatastralRecordSameOwner: z.boolean(),
-    attorneyEmail: z.string(),
-    catastralRecordYear: z.string(),
-    condominiumSolvency: z.boolean(),
-    CIorRIF: z.boolean(),
-    power: z.string(),
-    attorneyFirstName: z.string(),
-    attorneyPhone: z.string(),
-    attorneyLastName: z.string(),
-    courtRulings: z.string(),
-    spouseCIorRIF: z.boolean(),
-    ownerCIorRIF: z.boolean(),
-    mainProperty: z.boolean(),
-    condominiumSolvencyDetails: z.string(),
-    mortgageRelease: z.string(),
-    propertyDoc: z.boolean(),
+    successionDeclaration: z.string().optional(),
+    isCatastralRecordSameOwner: z.boolean().optional(),
+    attorneyEmail: z.string().optional(),
+    catastralRecordYear: z.string().optional(),
+    condominiumSolvency: z.boolean().optional(),
+    CIorRIF: z.boolean().optional(),
+    power: z.string().optional(),
+    attorneyFirstName: z.string().optional(),
+    attorneyPhone: z.string().optional(),
+    attorneyLastName: z.string().optional(),
+    courtRulings: z.string().optional(),
+    spouseCIorRIF: z.boolean().optional(),
+    ownerCIorRIF: z.boolean().optional(),
+    mainProperty: z.boolean().optional(),
+    condominiumSolvencyDetails: z.string().optional(),
+    mortgageRelease: z.string().optional(),
+    propertyDoc: z.boolean().optional(),
   }),
 });
 
@@ -366,31 +373,32 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
           {section === 'Negociacion' && <NegotiationInformationComponent />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'Vista previa' && <PreviewProperty />}
+
+          <div className="flex justify-center gap-3 mt-10">
+            {section === 'Vista previa' && (
+              <Button type="submit" className="w-full lg:w-auto bg-red-900">
+                Guardar cambios
+              </Button>
+            )}
+            {section !== 'Vista previa' && (
+              <>
+                <Button
+                  type="button"
+                  disabled={section === 'General'}
+                  className="w-full lg:w-auto"
+                  variant="outline"
+                  onClick={() => handleStep('prev')}
+                >
+                  Anterior
+                </Button>
+                <Button type="button" className="w-full lg:w-auto bg-red-900" onClick={() => handleStep('next')}>
+                  Siguiente
+                </Button>
+              </>
+            )}
+          </div>
         </form>
       </Form>
-      <div className="flex justify-center gap-3 mt-10">
-        {section === 'Vista previa' && (
-          <Button type="button" className="w-full lg:w-auto bg-red-900" onClick={() => handleStep('prev')}>
-            Guardar cambios
-          </Button>
-        )}
-        {section !== 'Vista previa' && (
-          <>
-            <Button
-              type="button"
-              disabled={section === 'General'}
-              className="w-full lg:w-auto"
-              variant="outline"
-              onClick={() => handleStep('prev')}
-            >
-              Anterior
-            </Button>
-            <Button type="button" className="w-full lg:w-auto bg-red-900" onClick={() => handleStep('next')}>
-              Siguiente
-            </Button>
-          </>
-        )}
-      </div>
     </div>
   );
 }

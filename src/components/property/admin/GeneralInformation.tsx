@@ -34,7 +34,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 my-5">
               <FormLabel>Descripcion</FormLabel>
               <FormControl>
-                <Textarea placeholder="Descripcion" {...field} />
+                <Textarea className="min-h-[150px]" placeholder="Descripcion" {...field} />
               </FormControl>
               <FormDescription>Este es la descripcion de el inmueble. Tambien aparecera en las busquedas de google.</FormDescription>
               <FormMessage />
@@ -50,7 +50,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Codigo</FormLabel>
               <FormControl>
-                <Input disabled placeholder="Codigo" {...field} />
+                <Input disabled {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,7 +64,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de propiedad</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,7 +77,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de mercado</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +90,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Metraje de terreno</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,7 +103,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Metraje de construccion</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +116,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Antiguedad</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +129,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Zonificacion</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -142,7 +142,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Cantidad de pisos</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,7 +155,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Propiedades por piso</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -168,7 +168,7 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de obra</FormLabel>
               <FormControl>
-                <Input placeholder="Codigo" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -183,7 +183,6 @@ export function GeneralInformation() {
                 <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Se entregaron las llaves a vision inmobiliaria?</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -196,7 +195,6 @@ export function GeneralInformation() {
                 <Checkbox defaultChecked={field.value} onCheckedChange={field.onChange} {...field} />
               </FormControl>
               <FormLabel>Se aceptan los terminos y condiciones de la ficha tecnica</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -209,7 +207,6 @@ export function GeneralInformation() {
                 <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Esta ocupado por personas?</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -222,7 +219,6 @@ export function GeneralInformation() {
                 <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Esta amoblado?</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />

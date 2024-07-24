@@ -343,7 +343,6 @@ export function DocumentsInformation() {
                 <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>A nombre de propietario</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -358,7 +357,6 @@ export function DocumentsInformation() {
                   <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Vivienda principal</FormLabel>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -373,7 +371,6 @@ export function DocumentsInformation() {
                 <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>Solvencia de condominio y otros</FormLabel>
-              <FormMessage />
             </FormItem>
           )}
         />

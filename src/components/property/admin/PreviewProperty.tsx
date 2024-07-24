@@ -64,8 +64,17 @@ export default function PreviewProperty() {
       <div className="grid grid-cols-12 mt-5">
         {/*  title - short location - ref (code) */}
         <div className="col-span-12 lg:col-span-8 ">
+          {operationType ? (
+            <Badge variant="outline" className="border-red-900 text-red-900 lg:hidden mb-2">
+              {operationType}
+            </Badge>
+          ) : (
+            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+              Agregar tipo de operacion
+            </div>
+          )}
           {publicationTitle ? (
-            <p className="text-3xl">{publicationTitle}, </p>
+            <p className="text-3xl">{publicationTitle}</p>
           ) : (
             <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
               Agregar titulo de publicacion
@@ -98,16 +107,18 @@ export default function PreviewProperty() {
         </div>
         {/*  operationType - price */}
         <div className="col-span-12 lg:col-span-4 flex justify-end">
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-col items-center mt-5 lg:mt-0 lg:items-end w-full gap-2">
             {operationType ? (
-              <Badge>{operationType}</Badge>
+              <Badge variant="outline" className="border-red-900 text-red-900 hidden lg:block">
+                {operationType}
+              </Badge>
             ) : (
               <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
                 Agregar tipo de operacion
               </div>
             )}
             {price ? (
-              <p className="text-3xl text-red-900">{price}, </p>
+              <p className="text-3xl text-red-900">$ {price}</p>
             ) : (
               <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
                 Agregar precio
@@ -115,23 +126,29 @@ export default function PreviewProperty() {
             )}
           </div>
         </div>
-        <div className="col-span-12 flex justify-center gap-3 my-5 border-b-4 pb-5">
+        <div className="col-span-12 flex items-center justify-center gap-3 my-5 border-b-4 pb-5">
           {footageGround ? (
-            <Badge>{footageGround}</Badge>
+            <>
+              <p className="text-gray-500 font-bold text-xs">{footageGround} m2</p>
+              <span>-</span>
+            </>
           ) : (
             <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar metraje de terreno
             </div>
           )}
           {footageBuilding ? (
-            <Badge>{footageBuilding}</Badge>
+            <>
+              <p className="text-gray-500 font-bold text-xs">{footageBuilding} m2</p>
+              <span>-</span>
+            </>
           ) : (
             <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar metraje de construccion
             </div>
           )}
           {avenue ? (
-            <Badge>{avenue}</Badge>
+            <p className="text-gray-500 font-bold text-xs">{avenue}</p>
           ) : (
             <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar avenida
@@ -143,7 +160,7 @@ export default function PreviewProperty() {
       <div className="grid grid-cols-12 gap-5">
         {/*  Descrition - distribution - utilities - attributes - images - location */}
         <div className="col-span-12 lg:col-span-9">
-          <p className="text-2xl my-4">Descripcion</p>
+          <p className="text-2xl my-8">Descripcion</p>
           {description ? (
             <p>{description}</p>
           ) : (
@@ -151,11 +168,11 @@ export default function PreviewProperty() {
               Agregar descripcion
             </div>
           )}
-          <p className="text-2xl my-4">Comentarios de distribucion</p>
+          <p className="text-2xl my-8">Comentarios de distribucion</p>
           <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
             Agregar comentarios de distribucion
           </div>
-          <p className="text-2xl my-4">Caracteristicas</p>
+          <p className="text-2xl my-8 ">Caracteristicas</p>
           {attributes.some((item) => {
             const { value } = item as AttributeForm;
             return value;
@@ -182,7 +199,7 @@ export default function PreviewProperty() {
               Agregar atributos / caracteristicas
             </div>
           )}
-          <p className="text-2xl my-4">Servicios</p>
+          <p className="text-2xl my-8 ">Servicios</p>
           {utilities.some((item) => {
             const { value } = item as UtilityForm;
             return value;
@@ -209,7 +226,7 @@ export default function PreviewProperty() {
             </div>
           )}
 
-          <p className="text-2xl my-4">Equipos</p>
+          <p className="text-2xl my-8 ">Equipos</p>
           {equipments.some((item) => {
             const { value } = item as EquipmentForm;
             return value;
@@ -237,13 +254,25 @@ export default function PreviewProperty() {
             </div>
           )}
 
-          <p className="text-2xl my-4">Galeria</p>
-          <div className="grid grid-cols-4 gap-2">
-            {images.map((image: string) => (
-              <img className="w-full h-[150px] lg:h-[200px] object-cover rounded cursor-zoom-in" key={image} src={image} alt="" />
-            ))}
-          </div>
-          <p className="text-2xl my-4">Ubicacion y adyacencias</p>
+          <p className="text-2xl my-8 ">Galeria</p>
+          {images.length > 0 && (
+            <div className="grid grid-cols-12 gap-2">
+              {images.map((image: string) => (
+                <img
+                  className="w-full col-span-12 sm:col-span-6 lg:col-span-4 h-[200px] object-cover rounded cursor-zoom-in"
+                  key={image}
+                  src={image}
+                  alt=""
+                />
+              ))}
+            </div>
+          )}
+          {images.length < 1 && (
+            <div className="border-2 border-dashed border-gray-300 h-[150px] lg:h-[200px] w-[200px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+              Agregar imagenes
+            </div>
+          )}
+          <p className="text-2xl my-8 ">Ubicacion y adyacencias</p>
           <p>
             {municipality ? (
               municipality + ', '

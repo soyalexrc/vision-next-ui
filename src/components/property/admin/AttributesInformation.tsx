@@ -45,7 +45,7 @@ export function AttributesInformation() {
               defaultValue={false}
               name={`attributes.${index}.value`}
               render={({ field }) => (
-                <FormItem className="col-span-4">
+                <FormItem className="col-span-4 flex flex-col justify-end">
                   <FormLabel>{label}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={value}>
                     <FormControl>
@@ -76,16 +76,15 @@ export function AttributesInformation() {
               render={({ field }) => (
                 <FormItem className="flex gap-2 items-end col-span-3">
                   <FormControl>
-                    <Checkbox onCheckedChange={field.onChange} defaultChecked={value} {...field} />
+                    <Checkbox className="cursor-pointer" onCheckedChange={field.onChange} defaultChecked={value} {...field} />
                   </FormControl>
-                  <FormLabel>{label}</FormLabel>
+                  <FormLabel className="cursor-pointer">{label}</FormLabel>
                 </FormItem>
               )}
             />
           );
         }
       })}
-      <button onClick={() => console.log(getValues('attributes'))}>check status</button>
     </div>
   );
 }

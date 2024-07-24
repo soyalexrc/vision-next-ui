@@ -90,7 +90,7 @@ export default function Property() {
   // }
 
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       <div className="w-full h-[300px] lg:h-[500px] relative">
         <Image
           fill
@@ -156,7 +156,7 @@ export default function Property() {
 
           <div className="px-4">
             <h3 className="text-3xl my-10">Caracteristicas</h3>
-            <div className="grid gap-x-8 gap-y-6 grid-cols-2">
+            <div className="grid gap-x-8 grid-cols-2">
               {property.attributes
                 .filter((attr: any) => attr.value !== null)
                 .map((attr: any) => (
@@ -250,6 +250,6 @@ export default function Property() {
       {/*  render={{ slide: NextJsImage }}*/}
       {/*  plugins={[Zoom]}*/}
       {/*/>*/}
-    </main>
+    </div>
   );
 }

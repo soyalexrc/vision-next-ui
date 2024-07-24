@@ -24,7 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </div>
       </div>
       <Header />
-      {children}
+      <main className="pt-[6.5rem]">
+          {children}
+      </main>
       <Footer socialMediaLinks={socialMedia} />
     </>
   );

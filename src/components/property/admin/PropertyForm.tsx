@@ -8,6 +8,7 @@ import {
   Attribute,
   Equipment,
   Utility,
+  Adjacency,
 } from '@prisma/client';
 import {
   AttributesInformation,
@@ -29,7 +30,7 @@ import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
 import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } from '@/lib/store/features/files/state/filesSlice';
 import { Button } from '@/components/ui/button';
-import PreviewProperty from "@/components/property/admin/PreviewProperty";
+import PreviewProperty from '@/components/property/admin/PreviewProperty';
 
 type Props = {
   data?: FullProperty;
@@ -37,6 +38,7 @@ type Props = {
     attributes: Attribute[];
     equipments: Equipment[];
     utilities: Utility[];
+    adjacencies: Adjacency[];
   };
 };
 
@@ -46,6 +48,14 @@ export interface UtilityForm {
   title: string;
   description?: string;
   additionalInformation?: string;
+  value: boolean;
+}
+
+export interface AdjacencyForm {
+  id: string;
+  adjacencyId: number;
+  title: string;
+  description?: string;
   value: boolean;
 }
 
@@ -102,6 +112,14 @@ const formSchema = z.object({
       utilityId: z.number(),
       title: z.string(),
       additionalInformation: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
+      value: z.any().optional(),
+    }),
+  ),
+  adjacencies: z.array(
+    z.object({
+      adjacencyId: z.number(),
+      title: z.string(),
       description: z.string().nullable().optional(),
       value: z.any().optional(),
     }),
@@ -201,7 +219,7 @@ const options = [
   'Vista previa',
 ];
 
-export default function PropertyForm({ data, essentials: { utilities, attributes, equipments } }: Props) {
+export default function PropertyForm({ data, essentials: { utilities, attributes, equipments, adjacencies } }: Props) {
   const [section, setSection] = useState<string>('General');
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -210,6 +228,7 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
   const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
+  const { append: appendAdjacency } = useFieldArray({ control: form.control, name: 'adjacencies' });
 
   if (data) {
     form.setValue('generalInformation', data.generalInformation);
@@ -224,6 +243,7 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
       appendAttributes();
       appendEquipments();
       appendUtilities();
+      appendAdjacencies();
     } else {
       getImagesFromStorage(data.generalInformation.code);
       getDocumentsFromStorage(data.generalInformation.code);
@@ -293,6 +313,12 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
   function appendUtilities() {
     utilities.forEach((item) => {
       appendUtility({ ...item, utilityId: item.id, value: false });
+    });
+  }
+
+  function appendAdjacencies() {
+    adjacencies.forEach((item) => {
+      appendAdjacency({ ...item, adjacencyId: item.id, value: false });
     });
   }
 

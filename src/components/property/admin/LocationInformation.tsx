@@ -1,13 +1,22 @@
 'use client';
-import { useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { AdjacencyForm } from '@/components/property/admin/PropertyForm';
+import { Checkbox } from '@/components/ui/checkbox';
+import React from 'react';
 
 export function LocationInformation() {
   const { control } = useFormContext();
+
+  const { fields: adjacencies } = useFieldArray({
+    control,
+    name: 'adjacencies',
+  });
+
   return (
     <div>
-      <h1 className="text-4xl mb-4">Informacion de ubicacion</h1>
+      <h1 className="text-4xl mb-4">Informacion de ubicacion </h1>
       <div className="grid grid-cols-12 gap-4">
         <FormField
           control={control}
@@ -243,6 +252,28 @@ export function LocationInformation() {
             </FormItem>
           )}
         />
+      </div>
+      <h2 className="text-2xl text-center mb-5 pt-5 mt-10 border-t-2 border-gray-100">Adyacencias</h2>
+      <div className="grid grid-cols-12 gap-2">
+        {adjacencies.map((item, index) => {
+          const { id, title, value } = item as AdjacencyForm;
+          return (
+            <FormField
+              key={id}
+              control={control}
+              defaultValue={false}
+              name={`adjacencies.${index}.value`}
+              render={({ field }) => (
+                <FormItem className="flex gap-2 items-end col-span-12 md:col-span-6 lg:col-span-3">
+                  <FormControl>
+                    <Checkbox className="cursor-pointer" onCheckedChange={field.onChange} defaultChecked={value} {...field} />
+                  </FormControl>
+                  <FormLabel className="cursor-pointer">{title}</FormLabel>
+                </FormItem>
+              )}
+            />
+          );
+        })}
       </div>
     </div>
   );

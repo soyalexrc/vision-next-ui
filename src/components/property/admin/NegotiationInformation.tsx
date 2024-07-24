@@ -179,7 +179,7 @@ export function NegotiationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex gap-2 items-end">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Redes sociales</FormLabel>
               <FormMessage />
@@ -192,7 +192,7 @@ export function NegotiationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex gap-2 items-end">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Paginas de inmuebles</FormLabel>
               <FormMessage />
@@ -205,7 +205,7 @@ export function NegotiationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex gap-2 items-end">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Grupos inmobiliarios</FormLabel>
               <FormMessage />
@@ -218,7 +218,7 @@ export function NegotiationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex gap-2 items-end">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Boca a boca</FormLabel>
               <FormMessage />
@@ -231,7 +231,7 @@ export function NegotiationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex gap-2 items-end">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Aviso en fachada</FormLabel>
               <FormMessage />

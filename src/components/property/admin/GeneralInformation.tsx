@@ -180,7 +180,7 @@ export function GeneralInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Se entregaron las llaves a vision inmobiliaria?</FormLabel>
               <FormMessage />
@@ -193,7 +193,7 @@ export function GeneralInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} onCheckedChange={field.onChange} {...field} />
               </FormControl>
               <FormLabel>Se aceptan los terminos y condiciones de la ficha tecnica</FormLabel>
               <FormMessage />
@@ -206,7 +206,7 @@ export function GeneralInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Esta ocupado por personas?</FormLabel>
               <FormMessage />
@@ -219,7 +219,7 @@ export function GeneralInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
               <FormLabel>Esta amoblado?</FormLabel>
               <FormMessage />

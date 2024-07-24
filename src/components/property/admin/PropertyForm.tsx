@@ -29,6 +29,7 @@ import storage from '@/lib/firebase/storage';
 import { useAppDispatch } from '@/lib/store/hooks';
 import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } from '@/lib/store/features/files/state/filesSlice';
 import { Button } from '@/components/ui/button';
+import PreviewProperty from "@/components/property/admin/PreviewProperty";
 
 type Props = {
   data?: FullProperty;
@@ -189,7 +190,16 @@ const formSchema = z.object({
   }),
 });
 
-const options = ['General', 'Ubicacion', 'Atributos', 'Visuales', 'Distribucion, Equipos y Servicios', 'Negociacion', 'Documentos'];
+const options = [
+  'General',
+  'Ubicacion',
+  'Atributos',
+  'Visuales',
+  'Distribucion, Equipos y Servicios',
+  'Negociacion',
+  'Documentos',
+  'Vista previa',
+];
 
 export default function PropertyForm({ data, essentials: { utilities, attributes, equipments } }: Props) {
   const [section, setSection] = useState<string>('General');
@@ -289,8 +299,7 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
   function handleStep(action: 'next' | 'prev') {
     const length = options.length;
     const index = options.indexOf(section);
-    console.log(index);
-    console.log(length);
+    console.log(form.getValues());
     if (action === 'prev') {
       if (index === 0) return;
       setSection(options[index - 1]);
@@ -330,26 +339,31 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
           {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
+          {section === 'Vista previa' && <PreviewProperty />}
         </form>
       </Form>
       <div className="flex justify-center gap-3 mt-10">
-        <Button
-          type="button"
-          disabled={section === 'General'}
-          className="w-full lg:w-auto"
-          variant="outline"
-          onClick={() => handleStep('prev')}
-        >
-          Anterior
-        </Button>
-        <Button
-          type="button"
-          disabled={section === 'Documentos'}
-          className="w-full lg:w-auto bg-red-900"
-          onClick={() => handleStep('next')}
-        >
-          Siguiente
-        </Button>
+        {section === 'Vista previa' && (
+          <Button type="button" className="w-full lg:w-auto bg-red-900" onClick={() => handleStep('prev')}>
+            Guardar cambios
+          </Button>
+        )}
+        {section !== 'Vista previa' && (
+          <>
+            <Button
+              type="button"
+              disabled={section === 'General'}
+              className="w-full lg:w-auto"
+              variant="outline"
+              onClick={() => handleStep('prev')}
+            >
+              Anterior
+            </Button>
+            <Button type="button" className="w-full lg:w-auto bg-red-900" onClick={() => handleStep('next')}>
+              Siguiente
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

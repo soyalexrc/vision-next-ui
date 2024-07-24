@@ -160,7 +160,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>Documento de propiedad</FormLabel>
             </FormItem>
@@ -173,7 +173,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>C.I / RIF propietario</FormLabel>
             </FormItem>
@@ -186,7 +186,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>C.I / RIF Conyuge</FormLabel>
             </FormItem>
@@ -199,7 +199,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>C.I / RIF</FormLabel>
             </FormItem>
@@ -208,7 +208,7 @@ export function DocumentsInformation() {
 
         <FormField
           control={control}
-          name="power"
+          name="documentsInformation.power"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Poder</FormLabel>
@@ -340,7 +340,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>A nombre de propietario</FormLabel>
               <FormMessage />
@@ -355,7 +355,7 @@ export function DocumentsInformation() {
             render={({ field }) => (
               <FormItem className="col-span-12 flex items-end gap-2">
                 <FormControl>
-                  <Checkbox defaultChecked={field.value} {...field} />
+                  <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Vivienda principal</FormLabel>
                 <FormMessage />
@@ -370,7 +370,7 @@ export function DocumentsInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 flex items-end gap-2">
               <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} />
+                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel>Solvencia de condominio y otros</FormLabel>
               <FormMessage />

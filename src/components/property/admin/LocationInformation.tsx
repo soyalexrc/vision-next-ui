@@ -266,7 +266,7 @@ export function LocationInformation() {
               render={({ field }) => (
                 <FormItem className="flex gap-2 items-end col-span-12 md:col-span-6 lg:col-span-3">
                   <FormControl>
-                    <Checkbox className="cursor-pointer" onCheckedChange={field.onChange} defaultChecked={value} {...field} />
+                    <Checkbox className="cursor-pointer" onCheckedChange={field.onChange} checked={value} {...field} />
                   </FormControl>
                   <FormLabel className="cursor-pointer">{title}</FormLabel>
                 </FormItem>

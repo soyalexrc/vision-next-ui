@@ -31,6 +31,7 @@ import { createUpdateProperty } from '@/actions/property';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import {
+  FilledAdjacency,
   FilledAttribute,
   FilledEquipment,
   FilledUtility, FormSectionOptions,
@@ -44,7 +45,7 @@ type Props = {
     attributes: FilledAttribute[];
     equipments: FilledEquipment[];
     utilities: FilledUtility[];
-    adjacencies: Adjacency[];
+    adjacencies: FilledAdjacency[];
   };
 };
 
@@ -57,45 +58,27 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
-    // defaultValues: {
-    //   generalInformation: {
-    //     publicationTitle: 'Oferta de casa en las quintas',
-    //     description:
-    //       '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
-    //     propertyType: 'Casa',
-    //     footageGround: '120',
-    //     footageBuilding: '100',
-    //   },
-    //   locationInformation: {
-    //     country: 'Venezuela',
-    //     city: 'Valencia',
-    //     state: 'Carabobo',
-    //     municipality: 'Naguanagua',
-    //   },
-    //   negotiationInformation: {
-    //     price: '45,000',
-    //     operationType: 'Venta',
-    //     propertyExclusivity: '15 dias',
-    //   },
-    // },
+    defaultValues: property ? {
+      generalInformation: property.generalInformation,
+      locationInformation: property.locationInformation,
+      negotiationInformation: property.negotiationInformation,
+      documentsInformation: property.documentsInformation
+    } : {},
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
   const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
   const { append: appendAdjacency } = useFieldArray({ control: form.control, name: 'adjacencies' });
 
-  if (property) {
-    form.setValue('generalInformation', property.generalInformation);
-    form.setValue('locationInformation', property.locationInformation);
-    form.setValue('negotiationInformation', property.negotiationInformation);
-    form.setValue('documentsInformation', property.documentsInformation);
-  }
-
   useEffect(() => {
     dispatch(wipeImagesAndDocuments());
     if (!property) {
       setNewVinmId();
     } else {
+      // form.setValue('generalInformation', property.generalInformation);
+      // form.setValue('locationInformation', property.locationInformation);
+      // form.setValue('negotiationInformation', property.negotiationInformation);
+      // form.setValue('documentsInformation', property.documentsInformation);
       getImagesFromStorage(property.generalInformation.code);
       getDocumentsFromStorage(property.generalInformation.code);
     }
@@ -120,7 +103,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       const { success, error } = await createUpdateProperty(values, images, false, '');
       if (success) {
         toast.success('Se registro el inmueble con exito!');
-        router.back();
+        // router.back();
       } else {
         toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
         console.log(error);
@@ -189,7 +172,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   function appendAdjacencies() {
     adjacencies.forEach((item) => {
-      appendAdjacency({ ...item, adjacencyId: item.id, value: false });
+      appendAdjacency({ ...item, adjacencyId: item.id });
     });
   }
 

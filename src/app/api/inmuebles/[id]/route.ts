@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import {FilledAttribute, FilledEquipment, FilledUtility} from "@/lib/interfaces/property/PropertyForm";
+import {FilledAdjacency, FilledAttribute, FilledEquipment, FilledUtility} from "@/lib/interfaces/property/PropertyForm";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     let filledAttributes: FilledAttribute[] = [];
     let filledUtilities: FilledUtility[] = [];
     let filledEquipments: FilledEquipment[] = [];
+    let filledAdjacencies: FilledAdjacency[] = [];
     const rawAttributes = await prisma.attribute.findMany({
       orderBy: [{ formType: 'asc' }],
     });
     const rawEquipments = await prisma.equipment.findMany();
     const rawUtilities = await prisma.utility.findMany();
-    const adjacencies = await prisma.adjacency.findMany();
+    const rawAdjacencies = await prisma.adjacency.findMany();
     const property = await prisma.property.findUnique({
       where: {
         id: params.id,
@@ -55,12 +56,20 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
           brand: foundEquipment?.brand ?? '',
         };
       });
+
+      filledAdjacencies = rawAdjacencies.map((adjacency) => {
+        const foundedAdjacency = property.AdjacenciesOnProperties.find((a) => a.adjacencyId === adjacency.id);
+        return {
+          ...adjacency,
+          value: foundedAdjacency
+        }
+      })
     }
     return NextResponse.json({
       attributes: property ? filledAttributes : rawAttributes,
       equipments: property ? filledEquipments : rawEquipments,
       utilities: property ? filledUtilities : rawUtilities,
-      adjacencies,
+      adjacencies: property ? filledAdjacencies : rawAdjacencies,
       property,
     });
   } catch (err) {

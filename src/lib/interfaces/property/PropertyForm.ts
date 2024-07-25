@@ -16,6 +16,10 @@ export interface FilledEquipment extends Utility {
     brand?: string;
 }
 
+export interface FilledAdjacency extends Adjacency {
+    value: any;
+}
+
 export interface UtilityForm {
     id: string;
     utilityId: number;

@@ -332,122 +332,6 @@ export async function createUpdateProperty(
           userId: 'admin@gmail.com',
         }
       })
-      // property = await prisma.property.update({
-      //   data: {
-      //     generalInformation: {
-      //       connect: {
-      //         id: generalInformation.id,
-      //         status: 'Publicado',
-      //         zoning: generalInformation.zoning ?? '',
-      //         typeOfWork: generalInformation.typeOfWork ?? '',
-      //         propertiesPerFloor: generalInformation.propertiesPerFloor ?? '',
-      //         propertyCondition: generalInformation.propertyCondition ?? '',
-      //         isFurnished: generalInformation.isFurnished ?? false,
-      //         propertyType: generalInformation.propertyType,
-      //         footageBuilding: generalInformation.footageBuilding,
-      //         handoverKeys: generalInformation.handoverKeys ?? false,
-      //         code: generalInformation.code,
-      //         amountOfFloors: generalInformation.amountOfFloors ?? '',
-      //         isOccupiedByPeople: generalInformation.isOccupiedByPeople ?? false,
-      //         footageGround: generalInformation.footageGround,
-      //         description: generalInformation.description,
-      //         antiquity: generalInformation.antiquity ?? '',
-      //         termsAndConditionsAccepted: generalInformation.termsAndConditionsAccepted ?? false,
-      //         publicationTitle: generalInformation.publicationTitle,
-      //       }
-      //     },
-      //     locationInformation: {
-      //       connect: {
-      //         id: locationInformation.id,
-      //         municipality: locationInformation.municipality ?? '',
-      //         state: locationInformation.state,
-      //         location: locationInformation.location ?? '',
-      //         parkingNumber: locationInformation.parkingNumber ?? '',
-      //         isClosedStreet: locationInformation.isClosedStreet ?? 'No',
-      //         trunkLevel: locationInformation.trunkLevel ?? '',
-      //         amountOfFloors: locationInformation.amountOfFloors ?? '',
-      //         street: locationInformation.street ?? '',
-      //         parkingLevel: locationInformation.parkingLevel ?? '',
-      //         tower: locationInformation.tower ?? '',
-      //         nomenclature: locationInformation.nomenclature ?? '',
-      //         howToGet: locationInformation.howToGet ?? '',
-      //         country: locationInformation.country,
-      //         trunkNumber: locationInformation.trunkNumber ?? '',
-      //         avenue: locationInformation.avenue ?? '',
-      //         floor: locationInformation.floor ?? '',
-      //         city: locationInformation.city,
-      //         referencePoint: locationInformation.referencePoint ?? '',
-      //         buildingShoppingCenter: locationInformation.buildingShoppingCenter ?? '',
-      //         buildingNumber: locationInformation.buildingNumber ?? '',
-      //         urbanization: locationInformation.urbanization ?? '',
-      //       },
-      //     },
-      //     negotiationInformation: {
-      //       connect: {
-      //         id: negotiationInformation.id,
-      //         client: negotiationInformation.client ?? '',
-      //         externalAdviser: negotiationInformation.externalAdviser,
-      //         realStateWebPages: negotiationInformation.realStateWebPages ?? false,
-      //         realStateGroups: negotiationInformation.realStateGroups ?? false,
-      //         socialMedia: negotiationInformation.socialMedia ?? false,
-      //         publicationOnBuilding: negotiationInformation.publicationOnBuilding ?? false,
-      //         price: negotiationInformation.price,
-      //         reasonToSellOrRent: negotiationInformation.reasonToSellOrRent ?? '',
-      //         mouthToMouth: negotiationInformation.mouthToMouth ?? false,
-      //         ally: negotiationInformation.ally ?? '',
-      //         propertyExclusivity: negotiationInformation.propertyExclusivity,
-      //         minimumNegotiation: negotiationInformation.minimumNegotiation ?? '',
-      //         operationType: negotiationInformation.operationType,
-      //         partOfPayment: negotiationInformation.partOfPayment ?? '',
-      //         sellCommission: negotiationInformation.sellCommission ?? '',
-      //         ownerPaysCommission: negotiationInformation.ownerPaysCommission ?? '',
-      //         realStateAdviser: negotiationInformation.realStateAdviser ?? '',
-      //         rentCommission: negotiationInformation.rentCommission ?? '',
-      //       },
-      //     },
-      //     documentsInformation: {
-      //       connect: {
-      //         id: negotiationInformation.id,
-      //         power: documentsInformation.power ?? '',
-      //         ownerCIorRIF: documentsInformation.ownerCIorRIF ?? false,
-      //         propertyDoc: documentsInformation.propertyDoc ?? false,
-      //         mainProperty: documentsInformation.mainProperty ?? false,
-      //         courtRulings: documentsInformation.courtRulings ?? '',
-      //         attorneyEmail: documentsInformation.attorneyEmail ?? '',
-      //         condominiumSolvencyDetails: documentsInformation.condominiumSolvencyDetails ?? '',
-      //         condominiumSolvency: documentsInformation.condominiumSolvency ?? false,
-      //         catastralRecordYear: documentsInformation.catastralRecordYear ?? '',
-      //         CIorRIF: documentsInformation.CIorRIF ?? false,
-      //         mortgageRelease: documentsInformation.mortgageRelease ?? '',
-      //         isCatastralRecordSameOwner: documentsInformation.isCatastralRecordSameOwner ?? false,
-      //         spouseCIorRIF: documentsInformation.spouseCIorRIF ?? false,
-      //         attorneyFirstName: documentsInformation.attorneyFirstName ?? '',
-      //         attorneyLastName: documentsInformation.attorneyLastName ?? '',
-      //         attorneyPhone: documentsInformation.attorneyPhone ?? '',
-      //         successionDeclaration: documentsInformation.successionDeclaration ?? '',
-      //       },
-      //     },
-      //     userId: 'admin1234@gmail.com',
-      //     id,
-      //     AdjacenciesOnProperties: {
-      //       connectOrCreate: {
-      //         where: {
-      //           propertyId: id,
-      //         },
-      //         create: validAdjacencies.map((adjacency: any) => {
-      //           const { adjacencyId } = adjacency as AdjacencyForm;
-      //           return {
-      //             adjacency: {
-      //               connect: {
-      //                 id: adjacencyId,
-      //               },
-      //             },
-      //           };
-      //         }),
-      //       }
-      //     }
-      //   }
-      // });
     } else {
       property = await prisma.property.create({
         data: {
@@ -551,7 +435,7 @@ export async function createUpdateProperty(
           images,
           distribution: [],
           AdjacenciesOnProperties: {
-            create: validAdjacencies.map((adjacency: any) => {
+            create: validAdjacencies.map((adjacency) => {
               const { adjacencyId } = adjacency as AdjacencyForm;
               return {
                 adjacency: {
@@ -563,7 +447,7 @@ export async function createUpdateProperty(
             }),
           },
           AttributesOnProperties: {
-            create: validAttributes.map((attribute: any) => {
+            create: validAttributes.map((attribute) => {
               const { value, attributeId } = attribute as AttributeForm;
               return {
                 value: typeof value !== 'string' ? String(value) : value,
@@ -576,7 +460,7 @@ export async function createUpdateProperty(
             }),
           },
           EquipmentsOnProperties: {
-            create: validEquipments.map((equipment: any) => {
+            create: validEquipments.map((equipment) => {
               const { equipmentId, brand, additionalInformation } = equipment as EquipmentForm;
               return {
                 brand,
@@ -590,7 +474,7 @@ export async function createUpdateProperty(
             }),
           },
           UtilitiesOnProperties: {
-            create: validUtilities.map((utility: any) => {
+            create: validUtilities.map((utility) => {
               const { utilityId, additionalInformation } = utility as UtilityForm;
               return {
                 additionalInformation,

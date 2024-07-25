@@ -27,10 +27,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { getDownloadURL, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-import { useAppDispatch } from '@/lib/store/hooks';
-import { addDocument, addImage, updateLoadingState, wipeImagesAndDocuments } from '@/lib/store/features/files/state/filesSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
+import {
+  addDocument,
+  addImage,
+  selectPropertyImages,
+  updateLoadingState,
+  wipeImagesAndDocuments,
+} from '@/lib/store/features/files/state/filesSlice';
 import { Button } from '@/components/ui/button';
 import PreviewProperty from '@/components/property/admin/PreviewProperty';
+import { createProperty } from '@/actions/property';
 
 type Props = {
   data?: FullProperty;
@@ -87,7 +94,7 @@ interface FullProperty extends Property {
   locationInformation: LocationInformation;
 }
 
-const formSchema = z.object({
+export const PropertyFormSchema = z.object({
   attributes: z.array(
     z
       .object({
@@ -229,8 +236,31 @@ const options = [
 export default function PropertyForm({ data, essentials: { utilities, attributes, equipments, adjacencies } }: Props) {
   const [section, setSection] = useState<string>('General');
   const dispatch = useAppDispatch();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const images = useAppSelector(selectPropertyImages);
+
+  const form = useForm<z.infer<typeof PropertyFormSchema>>({
+    resolver: zodResolver(PropertyFormSchema),
+    // defaultValues: {
+    //   generalInformation: {
+    //     publicationTitle: 'Oferta de casa en las quintas',
+    //     description:
+    //       '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
+    //     propertyType: 'Casa',
+    //     footageGround: '120',
+    //     footageBuilding: '100',
+    //   },
+    //   locationInformation: {
+    //     country: 'Venezuela',
+    //     city: 'Valencia',
+    //     state: 'Carabobo',
+    //     municipality: 'Naguanagua',
+    //   },
+    //   negotiationInformation: {
+    //     price: '45,000',
+    //     operationType: 'Venta',
+    //     propertyExclusivity: '15 dias',
+    //   },
+    // },
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
@@ -257,14 +287,15 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
     }
   }, []);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the admin values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof PropertyFormSchema>) {
+    const { success, error } = await createProperty(values, images);
+    if (success) {
+    } else {
+      console.log(error);
+    }
   }
 
   async function setNewVinmId() {
-    console.log(process.env.NEXT_PUBLIC_HOST_URL);
     const { id } = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/inmuebles/getNewCodeId`, {
       method: 'GET',
     }).then((res) => res.json());

@@ -155,12 +155,13 @@ model PropertyStatusEntry {
 }
 
 model AttributesOnProperties {
-  property    Property  @relation(fields: [propertyId], references: [id])
+  property    Property       @relation(fields: [propertyId], references: [id])
   propertyId  String
-  attribute   Attribute @relation(fields: [attribyteId], references: [id])
+  attribute   Attribute      @relation(fields: [attribyteId], references: [id])
   attribyteId Int
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime       @default(now())
   value       String
+  valueType   FormValueTypes @default(string)
 
   @@id([propertyId, attribyteId])
 }
@@ -171,7 +172,6 @@ model Attribute {
   label                  String
   placeholder            String?
   options                String?
-  valueType              FormValueTypes
   properties             Property[]
   AttributesOnProperties AttributesOnProperties[]
 }

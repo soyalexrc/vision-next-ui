@@ -285,9 +285,9 @@ export async function createProperty(
         },
         AttributesOnProperties: {
           create: validAttributes.map((attribute) => {
-            const { value, attributeId, valueType } = attribute as AttributeForm;
+            const { value, attributeId } = attribute as AttributeForm;
             return {
-              value: valueType !== 'text' ? String(value) : value,
+              value: typeof value !== 'string' ? String(value) : value,
               attribute: {
                 connect: {
                   id: attributeId,

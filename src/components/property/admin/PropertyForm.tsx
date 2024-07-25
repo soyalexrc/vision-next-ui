@@ -1,15 +1,5 @@
 'use client';
-import {
-  NegotiationInfomation,
-  Property,
-  GeneralInformation,
-  DocumentsInformation,
-  LocationInformation,
-  Attribute,
-  Equipment,
-  Utility,
-  Adjacency,
-} from '@prisma/client';
+import { Property, Attribute, Equipment, Utility, Adjacency } from '@prisma/client';
 import {
   AttributesInformation,
   DistributionAndEquipmentInformation,
@@ -38,16 +28,22 @@ import {
 import { Button } from '@/components/ui/button';
 import PreviewProperty from '@/components/property/admin/PreviewProperty';
 import { createProperty } from '@/actions/property';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 type Props = {
-  data?: FullProperty;
-  essentials: {
-    attributes: Attribute[];
+  data: {
+    property?: FullProperty;
+    attributes: FilledAttribute[];
     equipments: Equipment[];
     utilities: Utility[];
     adjacencies: Adjacency[];
   };
 };
+
+export interface FilledAttribute extends Attribute {
+  value: any;
+}
 
 export interface UtilityForm {
   id: string;
@@ -83,15 +79,120 @@ export interface AttributeForm {
   options?: string;
   placeholder?: string;
   label: string;
-  valueType: string;
   value: any;
 }
 
 interface FullProperty extends Property {
-  negotiationInformation: NegotiationInfomation;
-  generalInformation: GeneralInformation;
-  documentsInformation: DocumentsInformation;
-  locationInformation: LocationInformation;
+  negotiationInformation: {
+    socialMedia?: boolean;
+    ally?: string;
+    client?: string;
+    partOfPayment?: string;
+    minimumNegotiation?: string;
+    externalAdviser?: string;
+    rentCommission?: string;
+    reasonToSellOrRent?: string;
+    price: string;
+    realStateGroups?: boolean;
+    ownerPaysCommission?: string;
+    realStateWebPages?: boolean;
+    mouthToMouth?: boolean;
+    operationType: string;
+    propertyExclusivity: string;
+    publicationOnBuilding?: boolean;
+    realStateAdviser?: string;
+    sellCommission?: string;
+  };
+  generalInformation: {
+    code: string;
+    footageGround: string;
+    footageBuilding: string;
+    description: string;
+    propertyType: string;
+    propertyCondition?: string;
+    handoverKeys?: boolean;
+    termsAndConditionsAccepted?: boolean;
+    antiquity?: string;
+    zoning?: string;
+    amountOfFloors?: string;
+    publicationTitle: string;
+    propertiesPerFloor?: string;
+    typeOfWork?: string;
+    isFurnished?: boolean;
+    isOccupiedByPeople?: boolean;
+  };
+  documentsInformation: {
+    owner?: string;
+    successionDeclaration?: string;
+    isCatastralRecordSameOwner?: boolean;
+    attorneyEmail?: string;
+    catastralRecordYear?: string;
+    condominiumSolvency?: boolean;
+    CIorRIF?: boolean;
+    power?: string;
+    attorneyFirstName?: string;
+    attorneyPhone?: string;
+    attorneyLastName?: string;
+    courtRulings?: string;
+    spouseCIorRIF?: boolean;
+    ownerCIorRIF?: boolean;
+    mainProperty?: boolean;
+    condominiumSolvencyDetails?: string;
+    mortgageRelease?: string;
+    propertyDoc?: boolean;
+  };
+  locationInformation: {
+    urbanization?: string;
+    state: string;
+    amountOfFloors?: string;
+    trunkNumber?: string;
+    location?: string;
+    referencePoint?: string;
+    nomenclature?: string;
+    municipality?: string;
+    parkingLevel?: string;
+    buildingShoppingCenter?: string;
+    avenue?: string;
+    parkingNumber?: string;
+    buildingNumber?: string;
+    tower?: string;
+    country: string;
+    city: string;
+    howToGet?: string;
+    street?: string;
+    floor?: string;
+    trunkLevel?: string;
+    isClosedStreet?: string;
+  };
+  AttributesOnProperties: {
+    propertyId: string;
+    attributeId: number;
+    createdAt: Date;
+    value: string;
+    attribute: Attribute;
+  }[];
+  UtilitiesOnProperties: {
+    propertyId: string;
+    utilityId: number;
+    createdAt: Date;
+    additionalInformation: string;
+    utility: Utility;
+  }[];
+  EquipmentsOnProperties: {
+    propertyId: string;
+    equipmentId: number;
+    createdAt: Date;
+    brand: string;
+    equipment: Equipment;
+    additionalInformation: string;
+  }[];
+  AdjacenciesOnProperties: {
+    propertyId: string;
+    adjacencyId: number;
+    createdAt: Date;
+    adjacency: Adjacency;
+    additionalInformation: string;
+  }[];
 }
 
 export const PropertyFormSchema = z.object({
@@ -233,64 +334,71 @@ const options = [
   'Vista previa',
 ];
 
-export default function PropertyForm({ data, essentials: { utilities, attributes, equipments, adjacencies } }: Props) {
+export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
   const [section, setSection] = useState<string>('General');
   const dispatch = useAppDispatch();
   const images = useAppSelector(selectPropertyImages);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
-    // defaultValues: {
-    //   generalInformation: {
-    //     publicationTitle: 'Oferta de casa en las quintas',
-    //     description:
-    //       '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
-    //     propertyType: 'Casa',
-    //     footageGround: '120',
-    //     footageBuilding: '100',
-    //   },
-    //   locationInformation: {
-    //     country: 'Venezuela',
-    //     city: 'Valencia',
-    //     state: 'Carabobo',
-    //     municipality: 'Naguanagua',
-    //   },
-    //   negotiationInformation: {
-    //     price: '45,000',
-    //     operationType: 'Venta',
-    //     propertyExclusivity: '15 dias',
-    //   },
-    // },
+    defaultValues: {
+      generalInformation: {
+        publicationTitle: 'Oferta de casa en las quintas',
+        description:
+          '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
+        propertyType: 'Casa',
+        footageGround: '120',
+        footageBuilding: '100',
+      },
+      locationInformation: {
+        country: 'Venezuela',
+        city: 'Valencia',
+        state: 'Carabobo',
+        municipality: 'Naguanagua',
+      },
+      negotiationInformation: {
+        price: '45,000',
+        operationType: 'Venta',
+        propertyExclusivity: '15 dias',
+      },
+    },
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
   const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
   const { append: appendAdjacency } = useFieldArray({ control: form.control, name: 'adjacencies' });
 
-  if (data) {
-    form.setValue('generalInformation', data.generalInformation);
-    form.setValue('locationInformation', data.locationInformation);
-    form.setValue('negotiationInformation', data.negotiationInformation);
+  if (property) {
+    form.setValue('generalInformation', property.generalInformation);
+    form.setValue('locationInformation', property.locationInformation);
+    form.setValue('negotiationInformation', property.negotiationInformation);
+    form.setValue('documentsInformation', property.documentsInformation);
   }
 
   useEffect(() => {
     dispatch(wipeImagesAndDocuments());
-    if (!data) {
+    if (!property) {
       setNewVinmId();
-      appendAttributes();
-      appendEquipments();
-      appendUtilities();
-      appendAdjacencies();
     } else {
-      getImagesFromStorage(data.generalInformation.code);
-      getDocumentsFromStorage(data.generalInformation.code);
+      getImagesFromStorage(property.generalInformation.code);
+      getDocumentsFromStorage(property.generalInformation.code);
     }
+
+    appendAttributes();
+    appendEquipments();
+    appendUtilities();
+    appendAdjacencies();
+    console.log(attributes);
   }, []);
 
   async function onSubmit(values: z.infer<typeof PropertyFormSchema>) {
     const { success, error } = await createProperty(values, images);
     if (success) {
+      toast.success('Se registro el inmueble con exito!');
+      router.back();
     } else {
+      toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
       console.log(error);
     }
   }
@@ -338,7 +446,7 @@ export default function PropertyForm({ data, essentials: { utilities, attributes
 
   function appendAttributes() {
     attributes.forEach((item) => {
-      appendAttribute({ ...item, attributeId: item.id, value: item.formType === 'check' ? false : '' });
+      appendAttribute({ ...item, attributeId: item.id, value: item.formType === 'check' ? Boolean(item.value) : item.value });
     });
   }
 

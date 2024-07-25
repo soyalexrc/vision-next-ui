@@ -9,13 +9,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   }).then((res) => res.json());
 
-  const essentials = await fetch(`${process.env.HOST_URL}/api/inmuebles/getEssentials`, {
-    cache: 'no-store',
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((res) => res.json());
-
-  return <PropertyForm data={data} essentials={essentials} />;
+  return <PropertyForm data={data} />;
 }

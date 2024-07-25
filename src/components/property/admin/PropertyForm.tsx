@@ -27,312 +27,27 @@ import {
 } from '@/lib/store/features/files/state/filesSlice';
 import { Button } from '@/components/ui/button';
 import PreviewProperty from '@/components/property/admin/PreviewProperty';
-import { createProperty } from '@/actions/property';
+import { createUpdateProperty } from '@/actions/property';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import {
+  FilledAttribute,
+  FilledEquipment,
+  FilledUtility, FormSectionOptions,
+  FullProperty,
+  PropertyFormSchema
+} from "@/lib/interfaces/property/PropertyForm";
 
 type Props = {
   data: {
     property?: FullProperty;
     attributes: FilledAttribute[];
-    equipments: Equipment[];
-    utilities: Utility[];
+    equipments: FilledEquipment[];
+    utilities: FilledUtility[];
     adjacencies: Adjacency[];
   };
 };
 
-export interface FilledAttribute extends Attribute {
-  value: any;
-}
-
-export interface UtilityForm {
-  id: string;
-  utilityId: number;
-  title: string;
-  description?: string;
-  additionalInformation?: string;
-  value: boolean;
-}
-
-export interface AdjacencyForm {
-  id: string;
-  adjacencyId: number;
-  title: string;
-  description?: string;
-  value: boolean;
-}
-
-export interface EquipmentForm {
-  id: string;
-  equipmentId: number;
-  title: string;
-  description?: string;
-  brand?: string;
-  additionalInformation?: string;
-  value: boolean;
-}
-
-export interface AttributeForm {
-  formType: string;
-  id: string;
-  attributeId: number;
-  options?: string;
-  placeholder?: string;
-  label: string;
-  value: any;
-}
-
-interface FullProperty extends Property {
-  negotiationInformation: {
-    socialMedia?: boolean;
-    ally?: string;
-    client?: string;
-    partOfPayment?: string;
-    minimumNegotiation?: string;
-    externalAdviser?: string;
-    rentCommission?: string;
-    reasonToSellOrRent?: string;
-    price: string;
-    realStateGroups?: boolean;
-    ownerPaysCommission?: string;
-    realStateWebPages?: boolean;
-    mouthToMouth?: boolean;
-    operationType: string;
-    propertyExclusivity: string;
-    publicationOnBuilding?: boolean;
-    realStateAdviser?: string;
-    sellCommission?: string;
-  };
-  generalInformation: {
-    code: string;
-    footageGround: string;
-    footageBuilding: string;
-    description: string;
-    propertyType: string;
-    propertyCondition?: string;
-    handoverKeys?: boolean;
-    termsAndConditionsAccepted?: boolean;
-    antiquity?: string;
-    zoning?: string;
-    amountOfFloors?: string;
-    publicationTitle: string;
-    propertiesPerFloor?: string;
-    typeOfWork?: string;
-    isFurnished?: boolean;
-    isOccupiedByPeople?: boolean;
-  };
-  documentsInformation: {
-    owner?: string;
-    successionDeclaration?: string;
-    isCatastralRecordSameOwner?: boolean;
-    attorneyEmail?: string;
-    catastralRecordYear?: string;
-    condominiumSolvency?: boolean;
-    CIorRIF?: boolean;
-    power?: string;
-    attorneyFirstName?: string;
-    attorneyPhone?: string;
-    attorneyLastName?: string;
-    courtRulings?: string;
-    spouseCIorRIF?: boolean;
-    ownerCIorRIF?: boolean;
-    mainProperty?: boolean;
-    condominiumSolvencyDetails?: string;
-    mortgageRelease?: string;
-    propertyDoc?: boolean;
-  };
-  locationInformation: {
-    urbanization?: string;
-    state: string;
-    amountOfFloors?: string;
-    trunkNumber?: string;
-    location?: string;
-    referencePoint?: string;
-    nomenclature?: string;
-    municipality?: string;
-    parkingLevel?: string;
-    buildingShoppingCenter?: string;
-    avenue?: string;
-    parkingNumber?: string;
-    buildingNumber?: string;
-    tower?: string;
-    country: string;
-    city: string;
-    howToGet?: string;
-    street?: string;
-    floor?: string;
-    trunkLevel?: string;
-    isClosedStreet?: string;
-  };
-  AttributesOnProperties: {
-    propertyId: string;
-    attributeId: number;
-    createdAt: Date;
-    value: string;
-    attribute: Attribute;
-  }[];
-  UtilitiesOnProperties: {
-    propertyId: string;
-    utilityId: number;
-    createdAt: Date;
-    additionalInformation: string;
-    utility: Utility;
-  }[];
-  EquipmentsOnProperties: {
-    propertyId: string;
-    equipmentId: number;
-    createdAt: Date;
-    brand: string;
-    equipment: Equipment;
-    additionalInformation: string;
-  }[];
-  AdjacenciesOnProperties: {
-    propertyId: string;
-    adjacencyId: number;
-    createdAt: Date;
-    adjacency: Adjacency;
-    additionalInformation: string;
-  }[];
-}
-
-export const PropertyFormSchema = z.object({
-  attributes: z.array(
-    z
-      .object({
-        attributeId: z.number(),
-        formType: z.string(),
-        label: z.string(),
-        placeholder: z.string().nullable(),
-        value: z.any().optional(),
-      })
-      .optional(),
-  ),
-  equipments: z.array(
-    z
-      .object({
-        equipmentId: z.number(),
-        title: z.string(),
-        brand: z.string().nullable().optional(),
-        additionalInformation: z.string().nullable().optional(),
-        description: z.string().nullable().optional(),
-        value: z.any().optional(),
-      })
-      .optional(),
-  ),
-  utilities: z.array(
-    z
-      .object({
-        utilityId: z.number(),
-        title: z.string(),
-        additionalInformation: z.string().nullable().optional(),
-        description: z.string().nullable().optional(),
-        value: z.any().optional(),
-      })
-      .optional(),
-  ),
-  adjacencies: z.array(
-    z
-      .object({
-        adjacencyId: z.number(),
-        title: z.string(),
-        description: z.string().nullable().optional(),
-        value: z.any().optional(),
-      })
-      .optional(),
-  ),
-  generalInformation: z.object({
-    code: z.string(),
-    footageGround: z.string({ required_error: 'Este campo es requerido' }),
-    footageBuilding: z.string({ required_error: 'Este campo es requerido' }),
-    description: z.string({ required_error: 'Este campo es requerido' }),
-    propertyType: z.string({ required_error: 'Este campo es requerido' }),
-    propertyCondition: z.string().optional(),
-    handoverKeys: z.boolean().optional(),
-    termsAndConditionsAccepted: z.boolean().optional(),
-    antiquity: z.string().optional(),
-    zoning: z.string().optional(),
-    amountOfFloors: z.string().optional(),
-    publicationTitle: z.string(),
-    propertiesPerFloor: z.string().optional(),
-    typeOfWork: z.string().optional(),
-    isFurnished: z.boolean().optional(),
-    isOccupiedByPeople: z.boolean().optional(),
-  }),
-  locationInformation: z.object({
-    urbanization: z.string().optional(),
-    state: z.string({ required_error: 'Este campo es requerido' }),
-    amountOfFloors: z.string().optional(),
-    trunkNumber: z.string().optional(),
-    location: z.string().optional(),
-    referencePoint: z.string().optional(),
-    nomenclature: z.string().optional(),
-    municipality: z.string().optional(),
-    parkingLevel: z.string().optional(),
-    buildingShoppingCenter: z.string().optional(),
-    avenue: z.string().optional(),
-    parkingNumber: z.string().optional(),
-    buildingNumber: z.string().optional(),
-    tower: z.string().optional(),
-    country: z.string({ required_error: 'Este campo es requerido' }),
-    city: z.string({ required_error: 'Este campo es requerido' }),
-    howToGet: z.string().optional(),
-    street: z.string().optional(),
-    floor: z.string().optional(),
-    trunkLevel: z.string().optional(),
-    isClosedStreet: z.string().optional(),
-  }),
-  negotiationInformation: z.object({
-    socialMedia: z.boolean().optional(),
-    ally: z.string().optional().nullable(),
-    client: z.string().optional(),
-    partOfPayment: z.string().optional(),
-    minimumNegotiation: z.string().optional(),
-    externalAdviser: z.string().optional().nullable(),
-    rentCommission: z.string().optional(),
-    reasonToSellOrRent: z.string().optional(),
-    price: z.string({ required_error: 'Este campo es requerido' }),
-    realStateGroups: z.boolean().optional(),
-    ownerPaysCommission: z.string().optional(),
-    realStateWebPages: z.boolean().optional(),
-    mouthToMouth: z.boolean().optional(),
-    operationType: z.string({ required_error: 'Este campo es requerido' }),
-    propertyExclusivity: z.string({ required_error: 'Este campo es requerido' }),
-    publicationOnBuilding: z.boolean().optional(),
-    realStateAdviser: z.string().optional(),
-    sellCommission: z.string().optional(),
-  }),
-  documentsInformation: z.object({
-    owner: z.string().optional().nullable(),
-    successionDeclaration: z.string().optional(),
-    isCatastralRecordSameOwner: z.boolean().optional(),
-    attorneyEmail: z.string().optional(),
-    catastralRecordYear: z.string().optional(),
-    condominiumSolvency: z.boolean().optional(),
-    CIorRIF: z.boolean().optional(),
-    power: z.string().optional(),
-    attorneyFirstName: z.string().optional(),
-    attorneyPhone: z.string().optional(),
-    attorneyLastName: z.string().optional(),
-    courtRulings: z.string().optional(),
-    spouseCIorRIF: z.boolean().optional(),
-    ownerCIorRIF: z.boolean().optional(),
-    mainProperty: z.boolean().optional(),
-    condominiumSolvencyDetails: z.string().optional(),
-    mortgageRelease: z.string().optional(),
-    propertyDoc: z.boolean().optional(),
-  }),
-});
-
-const options = [
-  'General',
-  'Ubicacion',
-  'Atributos',
-  'Visuales',
-  'Distribucion, Equipos y Servicios',
-  'Negociacion',
-  'Documentos',
-  'Vista previa',
-];
 
 export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
   const [section, setSection] = useState<string>('General');
@@ -342,27 +57,27 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
-    defaultValues: {
-      generalInformation: {
-        publicationTitle: 'Oferta de casa en las quintas',
-        description:
-          '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
-        propertyType: 'Casa',
-        footageGround: '120',
-        footageBuilding: '100',
-      },
-      locationInformation: {
-        country: 'Venezuela',
-        city: 'Valencia',
-        state: 'Carabobo',
-        municipality: 'Naguanagua',
-      },
-      negotiationInformation: {
-        price: '45,000',
-        operationType: 'Venta',
-        propertyExclusivity: '15 dias',
-      },
-    },
+    // defaultValues: {
+    //   generalInformation: {
+    //     publicationTitle: 'Oferta de casa en las quintas',
+    //     description:
+    //       '¡Tu hogar ideal te espera! Esta espaciosa casa de [Metros cuadrados] m², ubicada en el corazón de [Barrio], es perfecta para familias que buscan comodidad y tranquilidad. Con amplios espacios llenos de luz natural, un jardín cuidado y una distribución funcional, podrás disfrutar de momentos inolvidables junto a tus seres queridos. Imagina las tardes de barbecue en el patio, los juegos de los niños en el jardín y las reuniones familiares en el acogedor living.',
+    //     propertyType: 'Casa',
+    //     footageGround: '120',
+    //     footageBuilding: '100',
+    //   },
+    //   locationInformation: {
+    //     country: 'Venezuela',
+    //     city: 'Valencia',
+    //     state: 'Carabobo',
+    //     municipality: 'Naguanagua',
+    //   },
+    //   negotiationInformation: {
+    //     price: '45,000',
+    //     operationType: 'Venta',
+    //     propertyExclusivity: '15 dias',
+    //   },
+    // },
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
@@ -389,17 +104,27 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     appendEquipments();
     appendUtilities();
     appendAdjacencies();
-    console.log(attributes);
   }, []);
 
   async function onSubmit(values: z.infer<typeof PropertyFormSchema>) {
-    const { success, error } = await createProperty(values, images);
-    if (success) {
-      toast.success('Se registro el inmueble con exito!');
-      router.back();
+    if (property) {
+      const { success, error } = await createUpdateProperty(values, images, true, property.id);
+      if (success) {
+        toast.success('Se actualizo el inmueble con exito!');
+        // router.back();
+      } else {
+        toast.error(`Ocurrio un error al intentar actualizar el inmueble: ${error}`);
+        console.log(error);
+      }
     } else {
-      toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
-      console.log(error);
+      const { success, error } = await createUpdateProperty(values, images, false, '');
+      if (success) {
+        toast.success('Se registro el inmueble con exito!');
+        router.back();
+      } else {
+        toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
+        console.log(error);
+      }
     }
   }
 
@@ -452,13 +177,13 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   function appendEquipments() {
     equipments.forEach((item) => {
-      appendEquipment({ ...item, equipmentId: item.id, value: false, additionalInformation: '', brand: '' });
+      appendEquipment({ ...item, equipmentId: item.id });
     });
   }
 
   function appendUtilities() {
     utilities.forEach((item) => {
-      appendUtility({ ...item, utilityId: item.id, value: false });
+      appendUtility({ ...item, utilityId: item.id });
     });
   }
 
@@ -469,15 +194,15 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   }
 
   function handleStep(action: 'next' | 'prev') {
-    const length = options.length;
-    const index = options.indexOf(section);
+    const length = FormSectionOptions.length;
+    const index = FormSectionOptions.indexOf(section);
     console.log(form.getValues());
     if (action === 'prev') {
       if (index === 0) return;
-      setSection(options[index - 1]);
+      setSection(FormSectionOptions[index - 1]);
     } else {
       if (index === length - 1) return;
-      setSection(options[index + 1]);
+      setSection(FormSectionOptions[index + 1]);
     }
   }
 
@@ -492,7 +217,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {options.map((opt) => (
+                {FormSectionOptions.map((opt) => (
                   <SelectItem key={opt} value={opt}>
                     {opt}
                   </SelectItem>

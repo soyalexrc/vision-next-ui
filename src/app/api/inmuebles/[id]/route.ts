@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import { FilledAttribute } from '@/components/property/admin/PropertyForm';
+import {FilledAttribute, FilledEquipment, FilledUtility} from "@/lib/interfaces/property/PropertyForm";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     let filledAttributes: FilledAttribute[] = [];
+    let filledUtilities: FilledUtility[] = [];
+    let filledEquipments: FilledEquipment[] = [];
     const rawAttributes = await prisma.attribute.findMany({
       orderBy: [{ formType: 'asc' }],
     });
-    const equipments = await prisma.equipment.findMany();
-    const utilities = await prisma.utility.findMany();
+    const rawEquipments = await prisma.equipment.findMany();
+    const rawUtilities = await prisma.utility.findMany();
     const adjacencies = await prisma.adjacency.findMany();
     const property = await prisma.property.findUnique({
       where: {
@@ -28,14 +30,39 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     });
     if (property) {
       filledAttributes = rawAttributes.map((attribute) => {
-        const foundAttribute = property?.AttributesOnProperties.find((a) => a.attribyteId === attribute.id);
+        const foundAttribute = property.AttributesOnProperties.find((a) => a.attribyteId === attribute.id);
         return {
           ...attribute,
           value: attribute.formType === 'check' ? Boolean(foundAttribute?.value) ?? false : foundAttribute?.value ?? '',
         };
       });
+
+      filledUtilities = rawUtilities.map((utility) => {
+        const foundUtility = property.UtilitiesOnProperties.find((u) => u.utilityId === utility.id);
+        return {
+          ...utility,
+          value: foundUtility,
+          additionalInformation: foundUtility?.additionalInformation ?? '',
+        };
+      });
+
+      filledEquipments = rawEquipments.map((equipment) => {
+        const foundEquipment = property.EquipmentsOnProperties.find((p) => p.equipmentId === equipment.id);
+        return {
+          ...equipment,
+          additionalInformation: foundEquipment?.additionalInformation ?? '',
+          value: foundEquipment,
+          brand: foundEquipment?.brand ?? '',
+        };
+      });
     }
-    return NextResponse.json({ attributes: property ? filledAttributes : rawAttributes, equipments, utilities, adjacencies, property });
+    return NextResponse.json({
+      attributes: property ? filledAttributes : rawAttributes,
+      equipments: property ? filledEquipments : rawEquipments,
+      utilities: property ? filledUtilities : rawUtilities,
+      adjacencies,
+      property,
+    });
   } catch (err) {
     console.log(err);
   }

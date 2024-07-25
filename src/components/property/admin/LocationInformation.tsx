@@ -2,9 +2,9 @@
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { AdjacencyForm } from '@/components/property/admin/PropertyForm';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
+import {AdjacencyForm} from "@/lib/interfaces/property/PropertyForm";
 
 export function LocationInformation() {
   const { control } = useFormContext();

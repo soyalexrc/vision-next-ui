@@ -1,14 +1,14 @@
 'use client';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { EquipmentForm } from '@/components/property/admin/PropertyForm';
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
 import { Input } from '@/components/ui/input';
+import {EquipmentForm} from "@/lib/interfaces/property/PropertyForm";
 
 export function DistributionAndEquipmentInformation() {
-  const { control, register, getValues } = useFormContext();
+  const { control, register } = useFormContext();
 
   const { fields: equipmentFields } = useFieldArray({
     control,

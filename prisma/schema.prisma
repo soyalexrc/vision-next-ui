@@ -30,9 +30,10 @@ model DeleteFileRequest {
 model Property {
   id                      String                    @id @default(cuid())
   userId                  String
-  owner                   String?
   distribution            Json[]
   adjacencies             Adjacency[]
+  utilities               Utility[]
+  equipments              Equipment[]
   images                  String[]
   attributes              Attribute[]
   furnishedAreas          String[]
@@ -50,45 +51,45 @@ model Property {
 model DocumentsInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
-  propertyDoc                Boolean
-  CIorRIF                    Boolean
-  ownerCIorRIF               Boolean
-  spouseCIorRIF              Boolean
-  isCatastralRecordSameOwner Boolean
-  condominiumSolvency        Boolean
-  mainProperty               Boolean
-  mortgageRelease            String
-  condominiumSolvencyDetails String
-  power                      String
-  successionDeclaration      String
-  courtRulings               String
-  catastralRecordYear        String
-  attorneyEmail              String
-  attorneyPhone              String
-  attorneyFirstName          String
-  attorneyLastName           String
+  propertyDoc                Boolean  @default(false)
+  CIorRIF                    Boolean  @default(false)
+  ownerCIorRIF               Boolean  @default(false)
+  spouseCIorRIF              Boolean  @default(false)
+  isCatastralRecordSameOwner Boolean  @default(false)
+  condominiumSolvency        Boolean  @default(false)
+  mainProperty               Boolean  @default(false)
+  mortgageRelease            String?
+  condominiumSolvencyDetails String?
+  power                      String?
+  successionDeclaration      String?
+  courtRulings               String?
+  catastralRecordYear        String?
+  attorneyEmail              String?
+  attorneyPhone              String?
+  attorneyFirstName          String?
+  attorneyLastName           String?
   property                   Property @relation(fields: [propertyId], references: [id])
 }
 
 model GeneralInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
-  status                     String
+  status                     String?
   code                       String
   footageGround              String
   footageBuilding            String
   description                String
   propertyType               String
-  propertyCondition          String
-  handoverKeys               Boolean
-  termsAndConditionsAccepted Boolean
-  antiquity                  String
-  zoning                     String
-  amountOfFloors             String
-  propertiesPerFloor         String
-  typeOfWork                 String
-  isFurnished                Boolean
-  isOccupiedByPeople         Boolean
+  propertyCondition          String?
+  handoverKeys               Boolean  @default(false)
+  termsAndConditionsAccepted Boolean  @default(false)
+  antiquity                  String?
+  zoning                     String?
+  amountOfFloors             String?
+  propertiesPerFloor         String?
+  typeOfWork                 String?
+  isFurnished                Boolean  @default(false)
+  isOccupiedByPeople         Boolean  @default(false)
   publicationTitle           String
   property                   Property @relation(fields: [propertyId], references: [id])
 }
@@ -96,26 +97,26 @@ model GeneralInformation {
 model LocationInformation {
   id                     String   @id @default(cuid())
   propertyId             String   @unique
-  location               String
-  nomenclature           String
-  tower                  String
-  amountOfFloors         String
-  isClosedStreet         String
+  location               String?
+  nomenclature           String?
+  tower                  String?
+  amountOfFloors         String?
+  isClosedStreet         String?
   country                String
   state                  String
-  municipality           String
-  urbanization           String
-  avenue                 String
-  street                 String
-  buildingShoppingCenter String
-  buildingNumber         String
-  floor                  String
-  referencePoint         String
-  howToGet               String
-  trunkNumber            String
-  trunkLevel             String
-  parkingNumber          String
-  parkingLevel           String
+  municipality           String?
+  urbanization           String?
+  avenue                 String?
+  street                 String?
+  buildingShoppingCenter String?
+  buildingNumber         String?
+  floor                  String?
+  referencePoint         String?
+  howToGet               String?
+  trunkNumber            String?
+  trunkLevel             String?
+  parkingNumber          String?
+  parkingLevel           String?
   city                   String
   property               Property @relation(fields: [propertyId], references: [id])
 }
@@ -124,23 +125,23 @@ model NegotiationInfomation {
   id                    String   @id @default(cuid())
   propertyId            String   @unique
   price                 String
-  minimumNegotiation    String
-  client                String
-  reasonToSellOrRent    String
-  partOfPayment         String
-  mouthToMouth          Boolean
-  realStateGroups       Boolean
-  realStateWebPages     Boolean
-  socialMedia           Boolean
-  publicationOnBuilding Boolean
+  minimumNegotiation    String?
+  client                String?
+  reasonToSellOrRent    String?
+  partOfPayment         String?
+  mouthToMouth          Boolean  @default(false)
+  realStateGroups       Boolean  @default(false)
+  realStateWebPages     Boolean  @default(false)
+  socialMedia           Boolean  @default(false)
+  publicationOnBuilding Boolean  @default(false)
   operationType         String
   propertyExclusivity   String
-  ownerPaysCommission   String
-  rentCommission        String
-  sellCommission        String
+  ownerPaysCommission   String?
+  rentCommission        String?
+  sellCommission        String?
   ally                  String?
   externalAdviser       String?
-  realStateAdviser      String
+  realStateAdviser      String?
   property              Property @relation(fields: [propertyId], references: [id])
 }
 
@@ -225,6 +226,7 @@ model Utility {
   id                    Int                     @id @default(autoincrement())
   title                 String
   description           String?
+  properties            Property[]
   UtilitiesOnProperties UtilitiesOnProperties[]
 }
 
@@ -244,6 +246,7 @@ model Equipment {
   title                  String
   description            String?
   EquipmentsOnProperties EquipmentsOnProperties[]
+  properties             Property[]
 }
 
 model EquipmentsOnProperties {

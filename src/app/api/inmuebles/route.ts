@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
       publicationTitle: row.generalInformation?.publicationTitle,
+      image: row.images[0] ?? '/vision-icon.png',
       id: row.id,
     }));
 

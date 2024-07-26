@@ -80,7 +80,6 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
       <>
         {properties.map((property: any) => (
           <PropertyCardWithCarousel
-            viewStyle="list"
             images={property.images}
             key={property.id}
             path={property.slug}

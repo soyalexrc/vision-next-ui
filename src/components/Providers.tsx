@@ -1,12 +1,10 @@
 'use client';
-
-import { Provider } from 'react-redux';
-import { store } from '@/lib/store';
+import { UiConfigProvider } from '@/lib/context/UiConfigContext';
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const Providers = ({ children }: Props) => {
-  return <Provider store={store}>{children}</Provider>;
+  return <UiConfigProvider>{children}</UiConfigProvider>;
 };

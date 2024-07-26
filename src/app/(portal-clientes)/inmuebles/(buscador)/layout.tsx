@@ -1,10 +1,3 @@
-'use client';
-import React, { useState } from 'react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Filter, LayoutGrid, List } from 'lucide-react';
-import { PropertyCardWithCarousel } from '@/components/PropertyCard';
-import formatPropertyTitle from '@/utils/format-property-title';
 import {
   Pagination,
   PaginationContent,
@@ -14,13 +7,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
-import { Input } from '@/components/ui/input';
-import { PROPERTY_TYPES } from '@/utils/data/property-types';
-
-const animals = [{ label: 'sample', value: 2 }];
+import { FiltersConfig } from '@/components/property/FiltersConfig';
+import { Toolbar } from '@/components/property/Toolbar';
+import PropertyListWrapper from '@/components/property/PropertyListWrapper';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -44,9 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/*toolbar*/}
           <Toolbar />
           {/* Properties */}
-          {/*<div className={`${viewStyle === 'grid' && 'grid'} gap-4 grid-cols-1 lg:grid-cols-2 `}>*/}
-          <div className={`gap-4 grid-cols-1 lg:grid-cols-2 `}>{children}</div>
-
+          <PropertyListWrapper>{children}</PropertyListWrapper>
           <div className="flex justify-end mt-10">
             <Pagination>
               <PaginationContent>
@@ -67,185 +54,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function FiltersConfig() {
-  const [state, setState] = useState<string>('');
-  const [municipality, setMunicipality] = useState<string>('');
-  const [municipalitiesList, setMunicipalitiesList] = useState<string[]>([]);
-  const [propertyType, setPropertyType] = useState<string>('');
-  const [operationType, setOperationType] = useState<string>('');
-
-  const updateQuery = () => {
-    // const updatedSearchParams = new URLSearchParams(searchParams?.toString());
-    // updatedSearchParams.set('pagina', encodeURI(currentPage));
-    // updatedSearchParams.set('limite', encodeURI(pageLimit));
-    // updatedSearchParams.set('estado', encodeURI(state));
-    // updatedSearchParams.set('municipalidad', encodeURI(municipality));
-    // updatedSearchParams.set('tipo_de_operacion', encodeURI(operationType));
-    // updatedSearchParams.set('tipo_de_inmueble', encodeURI(propertyType));
-    //
-    // router.push('/inmuebles' + '?' + updatedSearchParams.toString());
-  };
-
-  function handleChangeLocation(value: string) {
-    setState(value);
-    if (value === '') setMunicipalitiesList([]);
-    if (value === 'Caracas') setMunicipalitiesList(LOCATIONS_DETAIL.caracas);
-    if (value === 'Carabobo') setMunicipalitiesList(LOCATIONS_DETAIL.carabobo);
-    if (value === 'Cojedes') setMunicipalitiesList(LOCATIONS_DETAIL.cojedes);
-    if (value === 'Aragua') setMunicipalitiesList(LOCATIONS_DETAIL.aragua);
-  }
-  return (
-    <div className="my-5">
-      <p className="font-bold text-sm mb-1">Estado</p>
-      <Select value={state} onValueChange={handleChangeLocation}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Estado</SelectLabel>
-            {LOCATIONS.map((location) => (
-              <SelectItem value={location} key={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Municipio</p>
-      <Select value={municipality} onValueChange={setMunicipality}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Municipio</SelectLabel>
-            {municipalitiesList.map((location) => (
-              <SelectItem value={location} key={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Precio</p>
-
-      <div className="mb-4 grid grid-cols-12 justify-items-center items-center">
-        <Input className="col-span-5" type="text" placeholder="Desde" />
-        <div className="col-span-2">-</div>
-        <Input className="col-span-5" type="text" placeholder="Hasta" />
-      </div>
-
-      <p className="font-bold text-sm mb-1">Inmueble</p>
-      <Select value={propertyType} onValueChange={setPropertyType}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Tipo de inmueble</SelectLabel>
-            {PROPERTY_TYPES.map((propertyType) => (
-              <SelectItem value={propertyType} key={propertyType}>
-                {propertyType}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Tipo de operacion</p>
-      <Select value={operationType} onValueChange={setOperationType}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Tipo de operacion</SelectLabel>
-            <SelectItem value="Venta">Venta</SelectItem>
-            <SelectItem value="Alquiler">Alquiler</SelectItem>
-            <SelectItem value="Traspaso de fondo">Traspaso de fondo</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Buscar por codigo de referencia</p>
-
-      <Input className="mb-4" type="text" placeholder="Buscar por codigo" />
-
-      <div className="flex justify-center">
-        <Button onClick={updateQuery} size="lg" className="bg-red-900 text-white w-full">
-          Buscar
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function Toolbar() {
-  const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('grid');
-  const [showFilters, setShowFilters] = useState(false);
-
-  return (
-    <div className="flex justify-between items-center px-4 mb-4">
-      <div>
-        <p className="font-bold text-sm mb-1">Ordenar por</p>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Seleccionar" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Ordenar por</SelectLabel>
-              {animals.map((animal) => (
-                <SelectItem value={animal.value.toString()} key={animal.value}>
-                  {animal.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="lg:hidden">
-        <Button variant="ghost" onClick={() => setShowFilters(true)} className="bg-red-900" aria-label="Like">
-          <Filter height={25} width={25} className="text-white" />
-        </Button>
-      </div>
-      <div className="gap-4 hidden lg:flex">
-        <Button
-          onClick={() => setViewStyle('grid')}
-          variant="ghost"
-          className={`hover:bg-red-900 ${viewStyle === 'grid' ? 'bg-red-900' : 'bg-gray-200'}`}
-          aria-label="Like"
-        >
-          <LayoutGrid height={30} width={30} className={`hover:text-white ${viewStyle === 'grid' ? 'text-white' : 'text-gray-600'}`} />
-        </Button>
-        <Button
-          onClick={() => setViewStyle('list')}
-          variant="ghost"
-          className={`hover:bg-red-900 ${viewStyle === 'list' ? 'bg-red-900' : 'bg-gray-200'}`}
-          aria-label="Like"
-        >
-          <List height={30} width={30} className={`hover:text-white ${viewStyle === 'list' ? 'text-white' : 'text-gray-600'}`} />
-        </Button>
-      </div>
-      <Sheet open={showFilters} onOpenChange={setShowFilters}>
-        <SheetContent side="bottom" className="h-[600px]">
-          <ScrollArea className="h-full">
-            <SheetHeader>
-              <SheetTitle className="my-2">Filtros de busqueda</SheetTitle>
-              <div className="px-2">
-                <FiltersConfig />
-              </div>
-            </SheetHeader>
-          </ScrollArea>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 }

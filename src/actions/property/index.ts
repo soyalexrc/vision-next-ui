@@ -204,7 +204,7 @@ export async function createUpdateProperty(
           userId: 'admin@gmail.com',
         },
       });
-      revalidatePath(`${process.env.HOST_URL}/inmuebles/${property.slug}`);
+      revalidatePath(`/inmuebles/${property.slug}`);
     } else {
       await prisma.property.create({
         data: {

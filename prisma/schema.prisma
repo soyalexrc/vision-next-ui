@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model AppConfig {
@@ -28,155 +28,248 @@ model DeleteFileRequest {
 }
 
 model Property {
-  id                     String                 @id @default(cuid())
-  generalInformation     GeneralInformation?
-  locationInformation    LocationInformation?
-  negotiationInformation NegotiationInfomation?
-  documentsInformation   DocumentsInformation?
-  userId                 String
-  owner                  String?
-  attributes             Json[]
-  distribution           Json[]
-  services               Service[]
-  adjacencies            Json[]
-  equipment              Json[]
-  furnishedAreas         String[]
-  statusHistory          PropertyStatusEntry[]
+  id                      String                    @id @default(cuid())
+  userId                  String
+  distribution            Json[]
+  adjacencies             Adjacency[]
+  utilities               Utility[]
+  equipments              Equipment[]
+  slug                    String                    @unique
+  images                  String[]
+  attributes              Attribute[]
+  furnishedAreas          String[]
+  documentsInformation    DocumentsInformation?
+  generalInformation      GeneralInformation?
+  locationInformation     LocationInformation?
+  negotiationInformation  NegotiationInfomation?
+  statusHistory           PropertyStatusEntry?
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+  AttributesOnProperties  AttributesOnProperties[]
+  UtilitiesOnProperties   UtilitiesOnProperties[]
+  EquipmentsOnProperties  EquipmentsOnProperties[]
 }
 
 model DocumentsInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
+  propertyDoc                Boolean  @default(false)
+  CIorRIF                    Boolean  @default(false)
+  ownerCIorRIF               Boolean  @default(false)
+  spouseCIorRIF              Boolean  @default(false)
+  isCatastralRecordSameOwner Boolean  @default(false)
+  condominiumSolvency        Boolean  @default(false)
+  mainProperty               Boolean  @default(false)
+  mortgageRelease            String?
+  condominiumSolvencyDetails String?
+  power                      String?
+  successionDeclaration      String?
+  courtRulings               String?
+  catastralRecordYear        String?
+  attorneyEmail              String?
+  attorneyPhone              String?
+  attorneyFirstName          String?
+  attorneyLastName           String?
   property                   Property @relation(fields: [propertyId], references: [id])
-  propertyDoc                Boolean
-  CIorRIF                    Boolean
-  ownerCIorRIF               Boolean
-  spouseCIorRIF              Boolean
-  isCatastralRecordSameOwner Boolean
-  condominiumSolvency        Boolean
-  mainProperty               Boolean
-  mortgageRelease            String
-  condominiumSolvencyDetails String
-  power                      String
-  successionDeclaration      String
-  courtRulings               String
-  catastralRecordYear        String
-  attorneyEmail              String
-  attorneyPhone              String
-  attorneyFirstName          String
-  attorneyLastName           String
 }
 
 model GeneralInformation {
   id                         String   @id @default(cuid())
   propertyId                 String   @unique
-  property                   Property @relation(fields: [propertyId], references: [id])
-  status                     String
+  status                     String?
   code                       String
   footageGround              String
   footageBuilding            String
-  publicationTitle           String
   description                String
   propertyType               String
-  propertyCondition          String
-  handoverKeys               Boolean
-  termsAndConditionsAccepted Boolean
-  antiquity                  String
-  zoning                     String
-  amountOfFloors             String
-  propertiesPerFloor         String
-  typeOfWork                 String
-  isFurnished                Boolean
-  isOccupiedByPeople         Boolean
+  propertyCondition          String?
+  handoverKeys               Boolean  @default(false)
+  termsAndConditionsAccepted Boolean  @default(false)
+  antiquity                  String?
+  zoning                     String?
+  amountOfFloors             String?
+  propertiesPerFloor         String?
+  typeOfWork                 String?
+  isFurnished                Boolean  @default(false)
+  isOccupiedByPeople         Boolean  @default(false)
+  publicationTitle           String
+  property                   Property @relation(fields: [propertyId], references: [id])
 }
 
 model LocationInformation {
   id                     String   @id @default(cuid())
   propertyId             String   @unique
-  property               Property @relation(fields: [propertyId], references: [id])
-  location               String
-  nomenclature           String
-  tower                  String
-  amountOfFloors         String
-  isClosedStreet         String
+  location               String?
+  nomenclature           String?
+  tower                  String?
+  amountOfFloors         String?
+  isClosedStreet         String?
   country                String
   state                  String
-  municipality           String
-  urbanization           String
-  avenue                 String
-  street                 String
-  buildingShoppingCenter String
-  buildingNumber         String
-  floor                  String
-  referencePoint         String
-  howToGet               String
-  trunkNumber            String
-  trunkLevel             String
-  parkingNumber          String
-  parkingLevel           String
+  municipality           String?
+  urbanization           String?
+  avenue                 String?
+  street                 String?
+  buildingShoppingCenter String?
+  buildingNumber         String?
+  floor                  String?
+  referencePoint         String?
+  howToGet               String?
+  trunkNumber            String?
+  trunkLevel             String?
+  parkingNumber          String?
+  parkingLevel           String?
   city                   String
+  property               Property @relation(fields: [propertyId], references: [id])
 }
 
 model NegotiationInfomation {
   id                    String   @id @default(cuid())
   propertyId            String   @unique
-  property              Property @relation(fields: [propertyId], references: [id])
   price                 String
-  minimumNegotiation    String
-  client                String
-  realStateAdviser      String
-  reasonToSellOrRent    String
-  ally                  String?
-  externalAdviser       String?
-  partOfPayment         String
-  mouthToMouth          Boolean
-  realStateGroups       Boolean
-  realStateWebPages     Boolean
-  socialMedia           Boolean
-  publicationOnBuilding Boolean
+  minimumNegotiation    String?
+  client                String?
+  reasonToSellOrRent    String?
+  partOfPayment         String?
+  mouthToMouth          Boolean  @default(false)
+  realStateGroups       Boolean  @default(false)
+  realStateWebPages     Boolean  @default(false)
+  socialMedia           Boolean  @default(false)
+  publicationOnBuilding Boolean  @default(false)
   operationType         String
   propertyExclusivity   String
-  ownerPaysCommission   String
-  rentCommission        String
-  sellCommission        String
+  ownerPaysCommission   String?
+  rentCommission        String?
+  sellCommission        String?
+  ally                  String?
+  externalAdviser       String?
+  realStateAdviser      String?
+  property              Property @relation(fields: [propertyId], references: [id])
 }
 
 model PropertyStatusEntry {
   id         String   @id @default(cuid())
   propertyId String   @unique
-  property   Property @relation(fields: [propertyId], references: [id])
   username   String
   status     String
   comments   String
+  property   Property @relation(fields: [propertyId], references: [id])
 }
 
-model PropertyAttribute {
-  id    String @id @default(cuid())
-  value String
+model AttributesOnProperties {
+  property    Property       @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  attribute   Attribute      @relation(fields: [attribyteId], references: [id])
+  attribyteId Int
+  createdAt   DateTime       @default(now())
+  value       String
+  valueType   FormValueTypes @default(string)
+
+  @@id([propertyId, attribyteId])
 }
 
 model Attribute {
-  id           String @id @default(cuid())
-  propertyType String
-  formType     String
-  label        String
-  category     String
-  placeholder  String
-  options      String
-  value        String
+  id                     Int                      @id @default(autoincrement())
+  formType               FormTypes
+  label                  String
+  placeholder            String?
+  options                String?
+  properties             Property[]
+  AttributesOnProperties AttributesOnProperties[]
 }
 
 model Service {
-  id          String       @id @default(cuid())
-  subServices SubService[]
+  id          String      @id @default(cuid())
   title       String
-  propertyId  String       @unique
-  property    Property     @relation(fields: [propertyId], references: [id])
+  subServices SubService?
 }
 
 model SubService {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   service   String
-  serviceId String   @unique
-  Service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String  @unique
+  Service   Service @relation(fields: [serviceId], references: [id])
+}
+
+model Categories {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  titlePlural String
+  isFeatured  Boolean
+}
+
+model SocialMediaLink {
+  id       Int    @id @default(autoincrement())
+  title    String
+  href     String
+  iconName String
+}
+
+model Adjacency {
+  id                      Int                       @id @default(autoincrement())
+  title                   String
+  description             String?
+  properties              Property[]
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+}
+
+model AdjacenciesOnProperties {
+  property    Property  @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
+  adjacencyId Int
+  createdAt   DateTime  @default(now())
+
+  @@id([propertyId, adjacencyId])
+}
+
+model Utility {
+  id                    Int                     @id @default(autoincrement())
+  title                 String
+  description           String?
+  properties            Property[]
+  UtilitiesOnProperties UtilitiesOnProperties[]
+}
+
+model UtilitiesOnProperties {
+  property              Property @relation(fields: [propertyId], references: [id])
+  propertyId            String
+  utility               Utility  @relation(fields: [utilityId], references: [id])
+  utilityId             Int
+  createdAt             DateTime @default(now())
+  additionalInformation String?
+
+  @@id([propertyId, utilityId])
+}
+
+model Equipment {
+  id                     Int                      @id @default(autoincrement())
+  title                  String
+  description            String?
+  EquipmentsOnProperties EquipmentsOnProperties[]
+  properties             Property[]
+}
+
+model EquipmentsOnProperties {
+  property              Property  @relation(fields: [propertyId], references: [id])
+  propertyId            String
+  equipment             Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId           Int
+  createdAt             DateTime  @default(now())
+  brand                 String?
+  additionalInformation String?
+
+  @@id([propertyId, equipmentId])
+}
+
+enum FormTypes {
+  check
+  text
+  select
+}
+
+enum FormValueTypes {
+  string
+  boolean
+  number
 }

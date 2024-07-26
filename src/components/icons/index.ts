@@ -10,3 +10,4 @@ export * from './UnorderedList';
 export * from './Check';
 export * from './Delete';
 export * from './Upload';
+export * from './SelectIcon';

@@ -1,7 +1,7 @@
-'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { TiktokIcon, FacebookIcon, InstagramIcon, WhatsappIcon, MailIcon, MapPointIcon } from '../icons';
+import { SocialMediaLink } from '@prisma/client';
+import { SelectIcon } from '@/components/icons';
 
 const footerLinks = [
   {
@@ -30,7 +30,7 @@ const footerLinks = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({ socialMediaLinks }: { socialMediaLinks: SocialMediaLink[] }) {
   return (
     <footer className="border-t-8 border-red-opacity mt-10 pt-5">
       <div className="lg:grid gap-4 grid-cols-12 px-5">
@@ -61,60 +61,12 @@ export default function Footer() {
         </div>
         <div className="col-span-3">
           <h3 className="text-xl my-10">Contáctanos</h3>
-          <Link
-            href="https://www.tiktok.com/@somosvisioninmobiliaria"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer"
-            color="foreground"
-          >
-            <TiktokIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">@somosvisioninmobiliaria</small>
-          </Link>
-          <Link
-            href="https://www.instagram.com/somosvisioninmobiliaria/"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer hover:underline"
-            color="foreground"
-          >
-            <InstagramIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">@somosvisioninmobiliaria</small>
-          </Link>
-          <Link
-            href="https://www.facebook.com/Somosvisioninmobiliaria/"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer hover:underline"
-            color="foreground"
-          >
-            <FacebookIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">@Somosvisioninmobiliaria</small>
-          </Link>
-          <Link
-            href="https://wa.me/584244095149"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer hover:underline"
-            color="foreground"
-          >
-            <WhatsappIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">(0424) - 409 51 49</small>
-          </Link>
-          <Link
-            href="mailto:ventas@visioninmobiliaria.com.ve"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer hover:underline"
-            color="foreground"
-          >
-            <MailIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">ventas@visioninmobiliaria.com.ve</small>
-          </Link>
-          <Link
-            href="https://www.google.com/maps/place/Visi%C3%B3n+Inmobiliaria/@10.2444275,-68.0105401,17z/data=!3m1!4b1!4m5!3m4!1s0x8e805d6ea2ff11a9:0x454dae0b7a50bc4b!8m2!3d10.244425!4d-68.0083623"
-            target="_blank"
-            className="mb-3 flex gap-2 items-center cursor-pointer hover:underline"
-            color="foreground"
-          >
-            <MapPointIcon width={30} height={30} fill="rgb(97, 3, 33)" />
-            <small className="font-bold text-inherit">Direccion</small>
-          </Link>
+          {socialMediaLinks.map((link) => (
+            <Link key={link.id} href={link.href} target="_blank" className="mb-3 flex gap-2 items-center cursor-pointer" color="foreground">
+              <SelectIcon icon={link.iconName} />
+              <small className="font-bold text-inherit">{link.title}</small>
+            </Link>
+          ))}
         </div>
       </div>
 

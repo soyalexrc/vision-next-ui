@@ -22,7 +22,7 @@ export type PropertyPreview = {
   price: number;
   code: string;
   publicationTitle: string;
-  image: string;
+  images: string[];
 };
 
 export const columns: ColumnDef<PropertyPreview>[] = [
@@ -34,7 +34,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     accessorKey: 'image',
     header: 'Imagen',
     cell: ({ cell }) => {
-      const image = cell.row.original.image;
+      const image = cell.row.original.images[0];
       return <Image src={image} width={50} height={50} className="max-h-[50px]" alt="Imagen de inmueble" />;
     },
   },

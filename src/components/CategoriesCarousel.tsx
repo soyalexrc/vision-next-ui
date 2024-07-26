@@ -3,14 +3,23 @@ import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
 
-export default function CategoriesCarousel() {
+type Props = {
+  categories: {
+    title: string;
+    isFeatured: boolean;
+    description?: string;
+    titlePlural: string;
+    id: number;
+  }[];
+};
+
+export default function CategoriesCarousel({ categories }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       slideChanged(slider) {
-        console.log('slide changed');
         setCurrentSlide(slider.track.details.rel);
       },
       created() {
@@ -53,13 +62,15 @@ export default function CategoriesCarousel() {
       <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu propiedad ideal</h2>
       <div className="navigation-wrapper relative">
         <div ref={sliderRef} className="keen-slider">
-          <CarouselCard title="Locales comerciales" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Oficinas" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Propiedades vacacionales" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Apartamentos" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Casas, Townhouse, Quintas" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Galpones" image="/home/lifestyle-banner-1.jpg" />
-          <CarouselCard title="Otras porpiedades" image="/home/lifestyle-banner-1.jpg" />
+          {categories.map((category) => (
+            <CarouselCard key={category.id} title={category.titlePlural} image="/home/lifestyle-banner-1.jpg" />
+          ))}
+          {/*<CarouselCard title="Oficinas" image="/home/lifestyle-banner-1.jpg" />*/}
+          {/*<CarouselCard title="Propiedades vacacionales" image="/home/lifestyle-banner-1.jpg" />*/}
+          {/*<CarouselCard title="Apartamentos" image="/home/lifestyle-banner-1.jpg" />*/}
+          {/*<CarouselCard title="Casas, Townhouse, Quintas" image="/home/lifestyle-banner-1.jpg" />*/}
+          {/*<CarouselCard title="Galpones" image="/home/lifestyle-banner-1.jpg" />*/}
+          {/*<CarouselCard title="Otras porpiedades" image="/home/lifestyle-banner-1.jpg" />*/}
         </div>
         {loaded && instanceRef.current && (
           <>

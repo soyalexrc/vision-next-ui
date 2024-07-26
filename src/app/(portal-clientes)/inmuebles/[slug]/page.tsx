@@ -59,61 +59,8 @@ export default async function Property({ params }: Props) {
   //   setOpenGallery(true);
   // }
 
-  // const property = {
-  //   images: ['/home/latestElements/latest-1.jpg', '/home/latestElements/latest-2.jpg', '/home/latestElements/latest-3.jpg'],
-  //   publicationTitle: 'Casa en el parral, cercanias XYZ',
-  //
-  //   price: '50000',
-  //
-  //   locationInformation: {
-  //     city: 'Valencia',
-  //     state: 'Carabobo',
-  //     country: 'Venezuela',
-  //     location: 'Av 123, paseo la castellana 456',
-  //     municipality: '',
-  //     avenue: '',
-  //     street: '',
-  //     isClosedStreet: 'Si',
-  //     referencePoint: '',
-  //     howToGet: '',
-  //   },
-  //   generalInformation: {
-  //     code: 'VINM_001',
-  //     footageGround: '45',
-  //     footageBuilding: '500',
-  //     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-  //   Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-  //   when an unknown printer took a galley of type and scrambled it to make a type
-  //   specimen book. It has survived not only five centuries, but also the leap into
-  //   electronic typesetting, remaining essentially unchanged. It was popularised in
-  //   the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-  //   and more recently with desktop publishing software like Aldus PageMaker including
-  //   versions of Lorem Ipsum.`,
-  //     operationType: 'Venta',
-  //     propertyType: 'Apartamentp',
-  //     distributionComments: '',
-  //   },
-  //   negotiationInformation: {
-  //     price: '50000',
-  //   },
-  //   attributes: [
-  //     {
-  //       id: 1,
-  //       formType: 'check',
-  //       label: 'Tiene estacionamiento?',
-  //       value: 'si',
-  //     },
-  //     {
-  //       id: 2,
-  //       formType: 'text',
-  //       label: 'Numero de muebles',
-  //       value: '4',
-  //     },
-  //   ],
-  // };
-
   const property = await fetch(`${process.env.HOST_URL}/api/inmuebles/getBySlug/${params.slug}`, {
-    cache: 'no-store',
+    cache: 'force-cache',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

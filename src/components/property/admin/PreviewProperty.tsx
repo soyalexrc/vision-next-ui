@@ -23,7 +23,6 @@ export default function PreviewProperty({ goToSection }: Props) {
   const propertyType = getValues('generalInformation.propertyType');
   const description = getValues('generalInformation.description');
   const code = getValues('generalInformation.code');
-  const footageGround = getValues('generalInformation.footageGround');
   const footageBuilding = getValues('generalInformation.footageBuilding');
   const avenue = getValues('locationInformation.avenue');
   const street = getValues('locationInformation.street');

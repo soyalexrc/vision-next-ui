@@ -29,8 +29,6 @@ export async function createUpdateProperty(
     const validEquipments = equipments.filter((item) => item?.value);
     const validUtilities = utilities.filter((item) => item?.value);
 
-    let property;
-
     if (update) {
       await prisma.attributesOnProperties.deleteMany({
         where: { propertyId: id },
@@ -44,7 +42,7 @@ export async function createUpdateProperty(
       await prisma.adjacenciesOnProperties.deleteMany({
         where: { propertyId: id },
       });
-      property = await prisma.property.update({
+      await prisma.property.update({
         where: { id },
         data: {
           generalInformation: {
@@ -192,7 +190,7 @@ export async function createUpdateProperty(
         },
       });
     } else {
-      property = await prisma.property.create({
+      await prisma.property.create({
         data: {
           slug: slugify(generalInformation.publicationTitle, {
             lower: true,

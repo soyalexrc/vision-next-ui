@@ -4,7 +4,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
-import {AdjacencyForm} from "@/lib/interfaces/property/PropertyForm";
+import { AdjacencyForm } from '@/lib/interfaces/property/PropertyForm';
 
 export function LocationInformation() {
   const { control } = useFormContext();

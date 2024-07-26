@@ -5,7 +5,7 @@ import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/for
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import {EquipmentForm} from "@/lib/interfaces/property/PropertyForm";
+import { EquipmentForm } from '@/lib/interfaces/property/PropertyForm';
 
 export function DistributionAndEquipmentInformation() {
   const { control, register } = useFormContext();

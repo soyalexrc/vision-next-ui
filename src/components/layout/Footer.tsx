@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SocialMediaLink } from '@prisma/client';
-import {SelectIcon} from "@/components/icons";
+import { SelectIcon } from '@/components/icons';
 
 const footerLinks = [
   {

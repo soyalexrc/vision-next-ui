@@ -33,10 +33,12 @@ import {
   FilledAdjacency,
   FilledAttribute,
   FilledEquipment,
-  FilledUtility, FormSection, FormSectionOptions,
+  FilledUtility,
+  FormSection,
+  FormSectionOptions,
   FullProperty,
-  PropertyFormSchema
-} from "@/lib/interfaces/property/PropertyForm";
+  PropertyFormSchema,
+} from '@/lib/interfaces/property/PropertyForm';
 
 type Props = {
   data: {
@@ -48,7 +50,6 @@ type Props = {
   };
 };
 
-
 export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
   const [section, setSection] = useState<FormSection>('General');
   const dispatch = useAppDispatch();
@@ -57,12 +58,14 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
-    defaultValues: property ? {
-      generalInformation: property.generalInformation,
-      locationInformation: property.locationInformation,
-      negotiationInformation: property.negotiationInformation,
-      documentsInformation: property.documentsInformation
-    } : {},
+    defaultValues: property
+      ? {
+          generalInformation: property.generalInformation,
+          locationInformation: property.locationInformation,
+          negotiationInformation: property.negotiationInformation,
+          documentsInformation: property.documentsInformation,
+        }
+      : {},
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });

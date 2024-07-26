@@ -21,7 +21,6 @@ import { Filter, LayoutGrid, List } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-
 interface Props {
   properties: any;
   total: any;
@@ -33,7 +32,6 @@ export function PropertiesContent({ properties }: Props) {
   // const [currentPage, setCurrentPage] = useState<string>('1');
   // const [pageLimit, setPageLimit] = useState<string>('10');
 
-
   // useEffect(() => {
   //   setCurrentPage(searchParams?.get('pagina') ?? '1');
   //   setPageLimit(searchParams?.get('limite') ?? '10');
@@ -43,12 +41,5 @@ export function PropertiesContent({ properties }: Props) {
   //   setOperationType(searchParams?.get('tipo_de_operacion') ?? '');
   // }, [searchParams]);
 
-  return (
-      <div>
-
-
-
-      </div>
-  );
+  return <div></div>;
 }
-

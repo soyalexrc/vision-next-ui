@@ -9,7 +9,9 @@ export async function GET(req: NextRequest) {
     const data = await prisma.property.findMany({
       include: {
         negotiationInformation: { select: { price: true, operationType: true } },
-        generalInformation: { select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, description: true } },
+        generalInformation: {
+          select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, description: true },
+        },
       },
       skip: (page - 1) * size,
       take: size,
@@ -27,7 +29,6 @@ export async function GET(req: NextRequest) {
       description: row.generalInformation?.description,
       images: row.images ?? ['/vision-icon.png'],
     }));
-
 
     return NextResponse.json(formattedData);
   } catch (err) {

@@ -10,7 +10,7 @@ export async function createUpdateProperty(
   form: z.infer<typeof PropertyFormSchema>,
   images: string[],
   update: boolean,
-  id: string
+  id: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const {
@@ -31,20 +31,19 @@ export async function createUpdateProperty(
 
     let property;
 
-
     if (update) {
       await prisma.attributesOnProperties.deleteMany({
-        where: { propertyId: id }
-      })
+        where: { propertyId: id },
+      });
       await prisma.utilitiesOnProperties.deleteMany({
-        where: { propertyId: id }
-      })
+        where: { propertyId: id },
+      });
       await prisma.equipmentsOnProperties.deleteMany({
-        where: { propertyId: id }
-      })
+        where: { propertyId: id },
+      });
       await prisma.adjacenciesOnProperties.deleteMany({
-        where: { propertyId: id }
-      })
+        where: { propertyId: id },
+      });
       property = await prisma.property.update({
         where: { id },
         data: {
@@ -190,8 +189,8 @@ export async function createUpdateProperty(
             }),
           },
           userId: 'admin@gmail.com',
-        }
-      })
+        },
+      });
     } else {
       property = await prisma.property.create({
         data: {

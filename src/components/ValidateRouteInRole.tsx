@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import {redirect, usePathname, useRouter} from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   children: React.ReactNode;

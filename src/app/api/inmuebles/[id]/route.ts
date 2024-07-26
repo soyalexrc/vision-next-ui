@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
-import {FilledAdjacency, FilledAttribute, FilledEquipment, FilledUtility} from "@/lib/interfaces/property/PropertyForm";
+import { FilledAdjacency, FilledAttribute, FilledEquipment, FilledUtility } from '@/lib/interfaces/property/PropertyForm';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -61,9 +61,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         const foundedAdjacency = property.AdjacenciesOnProperties.find((a) => a.adjacencyId === adjacency.id);
         return {
           ...adjacency,
-          value: foundedAdjacency
-        }
-      })
+          value: foundedAdjacency,
+        };
+      });
     }
     return NextResponse.json({
       attributes: property ? filledAttributes : rawAttributes,

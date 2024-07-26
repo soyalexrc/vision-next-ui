@@ -5,7 +5,7 @@ import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import {AttributeForm} from "@/lib/interfaces/property/PropertyForm";
+import { AttributeForm } from '@/lib/interfaces/property/PropertyForm';
 
 export function AttributesInformation() {
   const { control } = useFormContext();

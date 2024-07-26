@@ -8,9 +8,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
-import { AdjacencyForm, AttributeForm, EquipmentForm, UtilityForm } from '@/components/property/admin/PropertyForm';
+import { AdjacencyForm, AttributeForm, EquipmentForm, FormSection, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import slugify from 'slugify';
 
-export default function PreviewProperty() {
+type Props = {
+  goToSection: (section: FormSection) => void;
+};
+
+export default function PreviewProperty({ goToSection }: Props) {
   const images = useAppSelector(selectPropertyImages);
   const { control, getValues } = useFormContext();
 
@@ -53,12 +58,43 @@ export default function PreviewProperty() {
 
   return (
     <div>
+      {/* URL slug */}
+
+      <div className="flex justify-center">
+        <div
+            className="border-2 border-gray-200 rounded-full py-2 px-5 mb-4 overflow-x-auto whitespace-nowrap w-[300px] sm:w-[500px] lg:w-[700px] xl:w-[900px]">
+          <p>
+            https://visioninmobiliaria.com.ve/inmuebles/
+            {publicationTitle && (
+                <span className="text-red-900 font-bold">
+              {slugify(publicationTitle, {
+                lower: true,
+                trim: true,
+                replacement: '-',
+              })}
+            </span>
+            )}
+            {
+                !publicationTitle &&
+                <span
+                    onClick={() => goToSection('General')}
+                    className=" ml-4 border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+                Agregar titulo de publicacion
+              </span>
+            }
+          </p>
+        </div>
+      </div>
+
       {/*    Image */}
       <div className="w-full border-4 border-dashed border-gray-300 relative h-[150px] lg:h-[300px]">
-        {images.length > 0 && <img src={images[0]} className="w-full object-cover w-full h-full" alt="Imagen principal de publicacion" />}
+        {images.length > 0 &&
+            <img src={images[0]} className="w-full object-cover w-full h-full" alt="Imagen principal de publicacion"/>}
         <div className="absolute z-20 top-0 left-0 w-full h-full bg-black opacity-50"></div>
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-40">
-          <Button className="bg-white text-black hover:bg-red-900 hover:text-white">Ir a configuracion de imagenes</Button>
+          <Button onClick={() => goToSection('Visuales')}
+                  className="bg-white text-black hover:bg-red-900 hover:text-white">Ir a configuracion de
+            imagenes</Button>
         </div>
       </div>
       <div className="grid grid-cols-12 mt-5">
@@ -69,14 +105,14 @@ export default function PreviewProperty() {
               {operationType}
             </Badge>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+            <div onClick={() => goToSection('Negociacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar tipo de operacion
             </div>
           )}
           {publicationTitle ? (
             <p className="text-3xl">{publicationTitle}</p>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
+            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
               Agregar titulo de publicacion
             </div>
           )}
@@ -84,21 +120,21 @@ export default function PreviewProperty() {
             {city ? (
               <p className="text-lg">{city}, </p>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
+              <div onClick={() => goToSection('Ubicacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
                 Agregar ciudad
               </div>
             )}
             {state ? (
               <p className="text-lg">{state}, </p>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
+              <div onClick={() => goToSection('Ubicacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
                 Agregar estado
               </div>
             )}
             {country ? (
               <p className="text-lg">{country}</p>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
+              <div onClick={() => goToSection('Ubicacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-sm">
                 Agregar pais
               </div>
             )}
@@ -113,14 +149,14 @@ export default function PreviewProperty() {
                 {operationType}
               </Badge>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+              <div onClick={() => goToSection('Negociacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
                 Agregar tipo de operacion
               </div>
             )}
             {price ? (
               <p className="text-3xl text-red-900">$ {price}</p>
             ) : (
-              <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
+              <div onClick={() => goToSection('Negociacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xl">
                 Agregar precio
               </div>
             )}
@@ -133,7 +169,7 @@ export default function PreviewProperty() {
               <span>-</span>
             </>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar metraje de terreno
             </div>
           )}
@@ -143,14 +179,14 @@ export default function PreviewProperty() {
               <span>-</span>
             </>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar metraje de construccion
             </div>
           )}
           {avenue ? (
             <p className="text-gray-500 font-bold text-xs">{avenue}</p>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+            <div onClick={() => goToSection('Ubicacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
               Agregar avenida
             </div>
           )}
@@ -164,12 +200,12 @@ export default function PreviewProperty() {
           {description ? (
             <p>{description}</p>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
               Agregar descripcion
             </div>
           )}
           <p className="text-2xl my-8">Comentarios de distribucion</p>
-          <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+          <div onClick={() => goToSection('Distribucion, Equipos y Servicios')} className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
             Agregar comentarios de distribucion
           </div>
           <p className="text-2xl my-8 ">Caracteristicas</p>
@@ -195,7 +231,7 @@ export default function PreviewProperty() {
               })}
             </div>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+            <div onClick={() => goToSection('Atributos')} className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
               Agregar atributos / caracteristicas
             </div>
           )}
@@ -221,7 +257,7 @@ export default function PreviewProperty() {
               })}
             </div>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+            <div onClick={() => goToSection('Distribucion, Equipos y Servicios')} className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
               Agregar servicios / utilidades
             </div>
           )}
@@ -249,7 +285,7 @@ export default function PreviewProperty() {
               })}
             </div>
           ) : (
-            <div className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+            <div onClick={() => goToSection('Distribucion, Equipos y Servicios')} className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
               Agregar equipos
             </div>
           )}
@@ -268,7 +304,7 @@ export default function PreviewProperty() {
             </div>
           )}
           {images.length < 1 && (
-            <div className="border-2 border-dashed border-gray-300 h-[150px] lg:h-[200px] w-[200px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
+            <div onClick={() => goToSection('Visuales')} className="border-2 border-dashed border-gray-300 h-[150px] lg:h-[200px] w-[200px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer">
               Agregar imagenes
             </div>
           )}
@@ -277,26 +313,26 @@ export default function PreviewProperty() {
             {municipality ? (
               municipality + ', '
             ) : (
-              <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar municipio</span>
+              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar municipio</span>
             )}
-            {city ? city + ', ' : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar ciudad</span>}
-            {state ? state + ', ' : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar estado</span>}
-            {country ? country + ', ' : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar pais</span>}
+            {city ? city + ', ' : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar ciudad</span>}
+            {state ? state + ', ' : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar estado</span>}
+            {country ? country + ', ' : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar pais</span>}
           </p>
           <p className="mt-3">
             <b>Av:</b>
-            {avenue ? avenue : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar avenida</span>}
+            {avenue ? avenue : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar avenida</span>}
           </p>
           <p className="mt-3">
             <b>Calle:</b>{' '}
-            {street ? street : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar calle</span>}
+            {street ? street : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar calle</span>}
           </p>
           <p className="mt-3">
             <b>Es calle cerrada ?:</b>{' '}
             {isClosedStreet ? (
               isClosedStreet
             ) : (
-              <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar valor</span>
+              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar valor</span>
             )}
           </p>
           <p className="mt-3">
@@ -304,12 +340,12 @@ export default function PreviewProperty() {
             {referencePoint ? (
               referencePoint
             ) : (
-              <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar punto de referencia</span>
+              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar punto de referencia</span>
             )}
           </p>
           <p className="mt-3">
             <b>Como llegar: </b>
-            {howToGet ? howToGet : <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar valor</span>}
+            {howToGet ? howToGet : <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar valor</span>}
           </p>
           <div className="mt-3">
             <p className="font-bold mb-2">Adyacencias: </p>
@@ -330,7 +366,7 @@ export default function PreviewProperty() {
                 })}
               </div>
             ) : (
-              <span className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar adyacencias</span>
+              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">Agregar adyacencias</span>
             )}
           </div>
         </div>

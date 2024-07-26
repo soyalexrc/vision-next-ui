@@ -307,7 +307,9 @@ export const PropertyFormSchema = z.object({
     }),
 });
 
-export const FormSectionOptions = [
+export type FormSection = 'General' | 'Ubicacion' | 'Atributos' | 'Visuales' | 'Distribucion, Equipos y Servicios' | 'Negociacion' | 'Documentos' | 'Vista previa'
+
+export const FormSectionOptions: FormSection[] = [
     'General',
     'Ubicacion',
     'Atributos',

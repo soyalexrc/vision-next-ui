@@ -34,6 +34,7 @@ model Property {
   adjacencies             Adjacency[]
   utilities               Utility[]
   equipments              Equipment[]
+  slug                    String
   images                  String[]
   attributes              Attribute[]
   furnishedAreas          String[]

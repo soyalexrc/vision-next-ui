@@ -1,5 +1,4 @@
 'use client';
-import { Property, Attribute, Equipment, Utility, Adjacency } from '@prisma/client';
 import {
   AttributesInformation,
   DistributionAndEquipmentInformation,
@@ -34,7 +33,7 @@ import {
   FilledAdjacency,
   FilledAttribute,
   FilledEquipment,
-  FilledUtility, FormSectionOptions,
+  FilledUtility, FormSection, FormSectionOptions,
   FullProperty,
   PropertyFormSchema
 } from "@/lib/interfaces/property/PropertyForm";
@@ -51,7 +50,7 @@ type Props = {
 
 
 export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
-  const [section, setSection] = useState<string>('General');
+  const [section, setSection] = useState<FormSection>('General');
   const dispatch = useAppDispatch();
   const images = useAppSelector(selectPropertyImages);
   const router = useRouter();
@@ -194,7 +193,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       <div className="flex justify-end w-full">
         <div className="w-full lg:w-[200px] border-b-2 border-gray-200 lg:border-none pb-5">
           <p className="font-bold text-sm mb-1">Estas viendo</p>
-          <Select value={section} onValueChange={setSection}>
+          <Select value={section} onValueChange={(value) => setSection(value as FormSection)}>
             <SelectTrigger className="">
               <SelectValue placeholder="Seccion de propiedad" />
             </SelectTrigger>
@@ -219,7 +218,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
-          {section === 'Vista previa' && <PreviewProperty />}
+          {section === 'Vista previa' && <PreviewProperty goToSection={setSection} />}
 
           <div className="flex justify-center gap-3 mt-10">
             {section === 'Vista previa' && (

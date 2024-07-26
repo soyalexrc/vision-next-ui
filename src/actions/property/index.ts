@@ -4,6 +4,7 @@ import prisma from '@/lib/db/prisma';
 import { z } from 'zod';
 import slugify from 'slugify';
 import { AdjacencyForm, AttributeForm, EquipmentForm, PropertyFormSchema, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { revalidatePath } from 'next/cache';
 // import { revalidatePath } from 'next/cache';
 
 export async function createUpdateProperty(
@@ -12,6 +13,20 @@ export async function createUpdateProperty(
   update: boolean,
   id: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (images.length < 1) {
+    return {
+      success: false,
+      error: 'Deben agregarse imagenes para la propiedad',
+    };
+  }
+
+  if (isNaN(Number(form.negotiationInformation.price))) {
+    return {
+      success: false,
+      error: `Ingresa un valor de precio correcto. Valor ingresado: $${form.negotiationInformation.price}`,
+    };
+  }
+
   try {
     const {
       attributes,
@@ -42,7 +57,7 @@ export async function createUpdateProperty(
       await prisma.adjacenciesOnProperties.deleteMany({
         where: { propertyId: id },
       });
-      await prisma.property.update({
+      const property = await prisma.property.update({
         where: { id },
         data: {
           generalInformation: {
@@ -189,6 +204,7 @@ export async function createUpdateProperty(
           userId: 'admin@gmail.com',
         },
       });
+      revalidatePath(`${process.env.HOST_URL}/inmuebles/${property.slug}`);
     } else {
       await prisma.property.create({
         data: {

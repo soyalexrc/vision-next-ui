@@ -39,6 +39,7 @@ import {
   FullProperty,
   PropertyFormSchema,
 } from '@/lib/interfaces/property/PropertyForm';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type Props = {
   data: {
@@ -94,7 +95,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         toast.success('Se actualizo el inmueble con exito!');
         router.back();
       } else {
-        toast.error(`Ocurrio un error al intentar actualizar el inmueble: ${error}`);
+        toast.error(`Ocurrio un error al intentar actualizar el inmueble`);
         console.log(error);
       }
     } else {
@@ -103,7 +104,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         toast.success('Se registro el inmueble con exito!');
         router.back();
       } else {
-        toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
+        toast.error(`Ocurrio un error al intentar registrar el inmueble`);
         console.log(error);
       }
     }
@@ -186,6 +187,21 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     }
   }
 
+  function formatErrorSection(key: string) {
+    switch (key) {
+      case 'generalInformation':
+        return 'Informacion General';
+      case 'locationInformation':
+        return 'Informacion de Ubicacion';
+      case 'negotiationInformation':
+        return 'Informacion de Negociacion';
+      case 'documentsInformation':
+        return 'Informacion de Documentos';
+      default:
+        return key;
+    }
+  }
+
   return (
     <div className="p-4">
       <div className="flex justify-end w-full">
@@ -218,10 +234,29 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'Vista previa' && <PreviewProperty goToSection={setSection} />}
 
+          {Object.keys(form.formState.errors).length > 0 && (
+            <Alert variant="destructive" className="mt-5">
+              <AlertTitle>Existen errores en las siguientes secciones del formulario</AlertTitle>
+              <AlertDescription>
+                <ul>
+                  {Object.keys(form.formState.errors).map((key) => (
+                    <li key={key}>
+                      <span className="mr-2">*</span>
+                      <span>{formatErrorSection(key)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div className="flex justify-center gap-3 mt-10">
             {section === 'Vista previa' && (
-              <Button type="submit" className="w-full lg:w-auto bg-red-900">
-                Guardar cambios
+              <Button disabled={form.formState.isSubmitting} type="submit" className="w-full lg:w-auto bg-red-900">
+                {form.formState.isSubmitting && (
+                  <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
+                )}
+                {form.formState.isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
               </Button>
             )}
             {section !== 'Vista previa' && (

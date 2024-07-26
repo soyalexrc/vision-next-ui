@@ -232,7 +232,7 @@ export const PropertyFormSchema = z.object({
     antiquity: z.string().optional(),
     zoning: z.string().optional(),
     amountOfFloors: z.string().optional(),
-    publicationTitle: z.string(),
+    publicationTitle: z.string({ required_error: 'Este campo es requerido' }),
     propertiesPerFloor: z.string().optional(),
     typeOfWork: z.string().optional(),
     isFurnished: z.boolean().optional(),

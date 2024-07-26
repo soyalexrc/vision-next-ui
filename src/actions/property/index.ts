@@ -31,7 +31,6 @@ export async function createUpdateProperty(
 
     let property;
 
-    console.log(form);
 
     if (update) {
       await prisma.attributesOnProperties.deleteMany({
@@ -357,7 +356,6 @@ export async function createUpdateProperty(
       });
     }
 
-    console.log(property);
     return { success: true, error: undefined };
   } catch (err) {
     console.log(err);

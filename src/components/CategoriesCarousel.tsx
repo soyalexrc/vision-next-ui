@@ -20,7 +20,6 @@ export default function CategoriesCarousel({ categories }: Props) {
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       slideChanged(slider) {
-        console.log('slide changed');
         setCurrentSlide(slider.track.details.rel);
       },
       created() {

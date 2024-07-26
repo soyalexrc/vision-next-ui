@@ -119,7 +119,6 @@ export default async function Property({ params }: Props) {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json());
-  console.log(property);
 
   // if (error.error) {
   //   return (

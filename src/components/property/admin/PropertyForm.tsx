@@ -174,7 +174,6 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   function handleStep(action: 'next' | 'prev') {
     const length = FormSectionOptions.length;
     const index = FormSectionOptions.indexOf(section);
-    console.log(form.getValues());
     if (action === 'prev') {
       if (index === 0) return;
       setSection(FormSectionOptions[index - 1]);

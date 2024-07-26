@@ -28,7 +28,6 @@ export async function GET(req: NextRequest) {
       images: row.images ?? ['/vision-icon.png'],
     }));
 
-    console.log(formattedData);
 
     return NextResponse.json(formattedData);
   } catch (err) {

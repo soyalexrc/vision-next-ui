@@ -42,7 +42,6 @@ export function PropertyCardWithCarousel(props: {
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       slideChanged(slider) {
-        console.log('slide changed');
         setCurrentSlide(slider.track.details.rel);
       },
       created() {

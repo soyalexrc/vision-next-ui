@@ -84,8 +84,6 @@ export function VisualsInformation() {
     if (draggedIndex !== null && draggedIndex !== index) {
       const [removed] = newImages.splice(draggedIndex, 1);
       newImages.splice(index, 0, removed);
-      console.log(images);
-      console.log(newImages);
       dispatch(reorderImages(newImages)); // Dispatch action to update Redux store
     }
     setDraggedIndex(null); // Reset dragged index

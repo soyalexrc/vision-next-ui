@@ -28,7 +28,6 @@ export default function UploadActionsButtons() {
           dispatch(activateLoading({ type: 'UPLOAD', text: `Se esta subiendo ${file.name}...` }));
           const fileRef = ref(storage, `${basePath}/${file.name}`);
           const snapshot = await uploadBytes(fileRef, file);
-          console.log(snapshot);
           toast.success(`Se cargo: ${fileRef.name} con exito!`);
         }
         router.refresh();

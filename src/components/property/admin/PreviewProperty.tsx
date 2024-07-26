@@ -20,6 +20,7 @@ export default function PreviewProperty({ goToSection }: Props) {
   const { control, getValues } = useFormContext();
 
   const publicationTitle = getValues('generalInformation.publicationTitle');
+  const propertyType = getValues('generalInformation.propertyType');
   const description = getValues('generalInformation.description');
   const code = getValues('generalInformation.code');
   const footageGround = getValues('generalInformation.footageGround');
@@ -163,16 +164,6 @@ export default function PreviewProperty({ goToSection }: Props) {
           </div>
         </div>
         <div className="col-span-12 flex items-center justify-center gap-3 my-5 border-b-4 pb-5">
-          {footageGround ? (
-            <>
-              <p className="text-gray-500 font-bold text-xs">{footageGround} m2</p>
-              <span>-</span>
-            </>
-          ) : (
-            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
-              Agregar metraje de terreno
-            </div>
-          )}
           {footageBuilding ? (
             <>
               <p className="text-gray-500 font-bold text-xs">{footageBuilding} m2</p>
@@ -183,11 +174,21 @@ export default function PreviewProperty({ goToSection }: Props) {
               Agregar metraje de construccion
             </div>
           )}
-          {avenue ? (
-            <p className="text-gray-500 font-bold text-xs">{avenue}</p>
+          {propertyType ? (
+            <>
+              <p className="text-gray-500 font-bold text-xs">{propertyType}</p>
+              <span>-</span>
+            </>
           ) : (
-            <div onClick={() => goToSection('Ubicacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
-              Agregar avenida
+            <div onClick={() => goToSection('General')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+              Agregar tipo de propiedad
+            </div>
+          )}
+          {operationType ? (
+            <p className="text-gray-500 font-bold text-xs">{operationType}</p>
+          ) : (
+            <div onClick={() => goToSection('Negociacion')} className="border-2 border-dashed border-gray-300 w-fit px-4 py-1 text-gray-600 cursor-pointer text-xs">
+              Agregar tipo de operacion
             </div>
           )}
         </div>

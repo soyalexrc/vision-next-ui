@@ -1,5 +1,8 @@
 // import { http } from '@/utils/axios';
 import { PropertiesContent } from '@/inmuebles/components';
+import { PropertyCardWithCarousel } from '@/components/PropertyCard';
+import formatPropertyTitle from '@/utils/format-property-title';
+import React from 'react';
 
 // async function getProperties(searchParams: any): Promise<any> {
 //   try {
@@ -21,8 +24,12 @@ import { PropertiesContent } from '@/inmuebles/components';
 //   } catch (err) {}
 // }
 
-export default function Home() {
-  const properties = [
+type SearchParams = {
+  [key: string]: string | string[] | undefined;
+};
+
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const staticProperties = [
     {
       images: ['/home/latestElements/latest-1.jpg', '/home/latestElements/latest-2.jpg', '/home/latestElements/latest-3.jpg'],
       publicationTitle: 'Casa en el parral, cercanias XYZ',
@@ -50,9 +57,40 @@ export default function Home() {
   //   router.replace(router.asPath);
   // };
 
-  return (
-    <div>
-      <PropertiesContent properties={properties} total={55} />
-    </div>
-  );
+  const filteredQuery = new URLSearchParams();
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (value) {
+      filteredQuery.set(key, value as string);
+    }
+  }
+
+  const urlParams = new URLSearchParams(filteredQuery.toString());
+  const properties = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
+    cache: 'no-store',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((data) => data.json());
+
+  if (!properties) {
+    return <div>no se encontraron propiedades...</div>;
+  } else {
+    return (
+      <>
+        {properties.map((property: any) => (
+          <PropertyCardWithCarousel
+            viewStyle="list"
+            images={property.images}
+            key={property.id}
+            path={property.slug}
+            title={property.publicationTitle}
+            description={property.description}
+            price={property.price}
+            featured={[property.footageBuilding, property.operationType, property.propertyType]}
+          />
+        ))}
+      </>
+    );
+  }
 }

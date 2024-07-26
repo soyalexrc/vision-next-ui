@@ -31,6 +31,8 @@ export async function createUpdateProperty(
 
     let property;
 
+    console.log(form);
+
     if (update) {
       await prisma.attributesOnProperties.deleteMany({
         where: { propertyId: id }
@@ -48,9 +50,7 @@ export async function createUpdateProperty(
         where: { id },
         data: {
           generalInformation: {
-            connect: {
-              id: generalInformation.id,
-              status: 'Publicado',
+            update: {
               zoning: generalInformation.zoning ?? '',
               typeOfWork: generalInformation.typeOfWork ?? '',
               propertiesPerFloor: generalInformation.propertiesPerFloor ?? '',
@@ -70,8 +70,7 @@ export async function createUpdateProperty(
             },
           },
           locationInformation: {
-            connect: {
-              id: locationInformation.id,
+            update: {
               municipality: locationInformation.municipality ?? '',
               state: locationInformation.state,
               location: locationInformation.location ?? '',
@@ -96,8 +95,7 @@ export async function createUpdateProperty(
             },
           },
           negotiationInformation: {
-            connect: {
-              id: negotiationInformation.id,
+            update: {
               client: negotiationInformation.client ?? '',
               externalAdviser: negotiationInformation.externalAdviser,
               realStateWebPages: negotiationInformation.realStateWebPages ?? false,
@@ -119,8 +117,7 @@ export async function createUpdateProperty(
             },
           },
           documentsInformation: {
-            connect: {
-              id: documentsInformation.id,
+            update: {
               power: documentsInformation.power ?? '',
               ownerCIorRIF: documentsInformation.ownerCIorRIF ?? false,
               propertyDoc: documentsInformation.propertyDoc ?? false,

@@ -74,10 +74,6 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     if (!property) {
       setNewVinmId();
     } else {
-      // form.setValue('generalInformation', property.generalInformation);
-      // form.setValue('locationInformation', property.locationInformation);
-      // form.setValue('negotiationInformation', property.negotiationInformation);
-      // form.setValue('documentsInformation', property.documentsInformation);
       getImagesFromStorage(property.generalInformation.code);
       getDocumentsFromStorage(property.generalInformation.code);
     }
@@ -93,7 +89,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       const { success, error } = await createUpdateProperty(values, images, true, property.id);
       if (success) {
         toast.success('Se actualizo el inmueble con exito!');
-        // router.back();
+        router.back();
       } else {
         toast.error(`Ocurrio un error al intentar actualizar el inmueble: ${error}`);
         console.log(error);
@@ -102,7 +98,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       const { success, error } = await createUpdateProperty(values, images, false, '');
       if (success) {
         toast.success('Se registro el inmueble con exito!');
-        // router.back();
+        router.back();
       } else {
         toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
         console.log(error);

@@ -1,12 +1,11 @@
-'use client';
+// 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 // import Lightbox from 'yet-another-react-lightbox';
 // import NextJsImage from '@/components/lightbox/NextJsImage';
-import { useState } from 'react';
+// import { useState } from 'react';
 // import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 // import formatSlides from '@/utils/getSlides';
-import formatPropertyTitle from '@/utils/format-property-title';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
 import { Badge } from '@/components/ui/badge';
@@ -14,71 +13,112 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import prisma from '@/lib/db/prisma';
+import { Metadata } from 'next';
 
-export default function Property() {
-  const [openGallery, setOpenGallery] = useState(false);
-  const [imgIndex, setImgIndex] = useState(0);
+type Props = {
+  params: { slug: string };
+};
 
-  console.log(openGallery, imgIndex);
+export async function generateStaticParams() {
+  return prisma.property.findMany({ select: { slug: true } });
+}
 
-  function handleOpenGallery(index: number) {
-    setImgIndex(index);
-    setOpenGallery(true);
-  }
-
-  const property = {
-    images: ['/home/latestElements/latest-1.jpg', '/home/latestElements/latest-2.jpg', '/home/latestElements/latest-3.jpg'],
-    publicationTitle: 'Casa en el parral, cercanias XYZ',
-
-    price: '50000',
-
-    locationInformation: {
-      city: 'Valencia',
-      state: 'Carabobo',
-      country: 'Venezuela',
-      location: 'Av 123, paseo la castellana 456',
-      municipality: '',
-      avenue: '',
-      street: '',
-      isClosedStreet: 'Si',
-      referencePoint: '',
-      howToGet: '',
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const property = await prisma.property.findUnique({
+    where: { slug: params.slug },
+    include: {
+      generalInformation: { select: { publicationTitle: true, description: true } },
+      locationInformation: { select: { country: true } },
     },
-    generalInformation: {
-      code: 'VINM_001',
-      footageGround: '45',
-      footageBuilding: '500',
-      description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-    when an unknown printer took a galley of type and scrambled it to make a type 
-    specimen book. It has survived not only five centuries, but also the leap into 
-    electronic typesetting, remaining essentially unchanged. It was popularised in 
-    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-    and more recently with desktop publishing software like Aldus PageMaker including 
-    versions of Lorem Ipsum.`,
-      operationType: 'Venta',
-      propertyType: 'Apartamentp',
-      distributionComments: '',
+  });
+  return {
+    title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
+    description: property?.generalInformation?.description ?? 'Descripcion de el inmueble',
+    openGraph: {
+      title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
+      description: property?.generalInformation?.description ?? 'Descripcion de el inmueble',
+      images: property?.images ?? [],
+      type: 'website',
+      url: process.env.HOST_URL + '/inmuebles/' + params.slug,
+      countryName: property?.locationInformation?.country ?? 'Venezuela',
+      siteName: process.env.HOST_URL,
+      locale: 'es_VE',
     },
-    negotiationInformation: {
-      price: '50000',
-    },
-    attributes: [
-      {
-        id: 1,
-        formType: 'check',
-        label: 'Tiene estacionamiento?',
-        value: 'si',
-      },
-      {
-        id: 2,
-        formType: 'text',
-        label: 'Numero de muebles',
-        value: '4',
-      },
-    ],
   };
+}
 
+export default async function Property({ params }: Props) {
+  // const [openGallery, setOpenGallery] = useState(false);
+  // const [imgIndex, setImgIndex] = useState(0);
+  //
+  // console.log(openGallery, imgIndex);
+  //
+  // function handleOpenGallery(index: number) {
+  //   setImgIndex(index);
+  //   setOpenGallery(true);
+  // }
+
+  // const property = {
+  //   images: ['/home/latestElements/latest-1.jpg', '/home/latestElements/latest-2.jpg', '/home/latestElements/latest-3.jpg'],
+  //   publicationTitle: 'Casa en el parral, cercanias XYZ',
+  //
+  //   price: '50000',
+  //
+  //   locationInformation: {
+  //     city: 'Valencia',
+  //     state: 'Carabobo',
+  //     country: 'Venezuela',
+  //     location: 'Av 123, paseo la castellana 456',
+  //     municipality: '',
+  //     avenue: '',
+  //     street: '',
+  //     isClosedStreet: 'Si',
+  //     referencePoint: '',
+  //     howToGet: '',
+  //   },
+  //   generalInformation: {
+  //     code: 'VINM_001',
+  //     footageGround: '45',
+  //     footageBuilding: '500',
+  //     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+  //   Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+  //   when an unknown printer took a galley of type and scrambled it to make a type
+  //   specimen book. It has survived not only five centuries, but also the leap into
+  //   electronic typesetting, remaining essentially unchanged. It was popularised in
+  //   the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+  //   and more recently with desktop publishing software like Aldus PageMaker including
+  //   versions of Lorem Ipsum.`,
+  //     operationType: 'Venta',
+  //     propertyType: 'Apartamentp',
+  //     distributionComments: '',
+  //   },
+  //   negotiationInformation: {
+  //     price: '50000',
+  //   },
+  //   attributes: [
+  //     {
+  //       id: 1,
+  //       formType: 'check',
+  //       label: 'Tiene estacionamiento?',
+  //       value: 'si',
+  //     },
+  //     {
+  //       id: 2,
+  //       formType: 'text',
+  //       label: 'Numero de muebles',
+  //       value: '4',
+  //     },
+  //   ],
+  // };
+
+  const property = await fetch(`${process.env.HOST_URL}/api/inmuebles/getBySlug/${params.slug}`, {
+    cache: 'no-store',
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json());
   console.log(property);
 
   // if (error.error) {
@@ -88,23 +128,16 @@ export default function Property() {
   //     </div>
   //   );
   // }
-
   return (
     <div className="min-h-screen">
       <div className="w-full h-[300px] lg:h-[500px] relative">
-        <Image
-          fill
-          priority
-          alt="Property image"
-          className="top-0 left-0 w-full h-full object-cover"
-          src="/home/latestElements/latest-1.jpg"
-        />
+        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />
       </div>
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="lg:px-24">
           <div className="hidden lg:grid grid-cols-12">
             <div className="col-span-8">
-              <h1 className="text-4xl">{formatPropertyTitle(property.publicationTitle)}</h1>
+              <h1 className="text-4xl">{property.publicationTitle}</h1>
               <h2 className="text-2xl mt-3">
                 {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}{' '}
               </h2>
@@ -112,7 +145,7 @@ export default function Property() {
             </div>
             <div className="col-span-4 flex flex-col items-end">
               <Badge className="border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
-                {property.generalInformation.operationType}
+                {property.negotiationInformation.operationType}
               </Badge>
               {/*<h2 className='text-xl'>{property.generalInformation.operationType}</h2>*/}
               <h3 className="text-4xl mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
@@ -120,10 +153,10 @@ export default function Property() {
           </div>
           <div className="lg:hidden px-4">
             <Badge className="border-red-900 select-none hover:bg-transparent text-red-900 bg-transparent mb-5">
-              {property.generalInformation.operationType}
+              {property.negotiationInformation.operationType}
             </Badge>
 
-            <h1 className="text-2xl">{formatPropertyTitle(property.publicationTitle)}</h1>
+            <h1 className="text-2xl">{property.generalInformation.publicationTitle}</h1>
             <span>-</span>
             <h2 className="text-lg mt-3">
               {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}
@@ -134,9 +167,15 @@ export default function Property() {
           </div>
           <div className="mt-5">
             <div className="flex gap-5 justify-center ">
-              <small>{property.generalInformation.footageGround} m2</small>
-              <small className="border-x-1 border-gray-400 px-4">{property.generalInformation.footageBuilding} m2</small>
-              <small>{property.locationInformation.location}</small>
+              <Badge variant="outline" className="text-red-900 border-red-900">
+                {property.generalInformation.footageGround} m2
+              </Badge>
+              <Badge variant="outline" className="text-red-900 border-red-900 px-4">
+                {property.generalInformation.propertyType}
+              </Badge>
+              <Badge variant="outline" className="text-red-900 border-red-900">
+                {property.negotiationInformation.operationType}
+              </Badge>
             </div>
           </div>
         </div>
@@ -151,24 +190,22 @@ export default function Property() {
 
           <div className="px-4">
             <h3 className="text-3xl my-10">Comentarios de distribucion</h3>
-            <p>{property.generalInformation.distributionComments}</p>
+            <p>- - -</p>
           </div>
 
           <div className="px-4">
             <h3 className="text-3xl my-10">Caracteristicas</h3>
             <div className="grid gap-x-8 grid-cols-2">
-              {property.attributes
-                .filter((attr: any) => attr.value !== null)
-                .map((attr: any) => (
-                  <div key={attr.id} className="col-span-2 md:col-span-1 flex justify-between border-b-1 pb-2">
-                    <p className="text-sm">{attr.label}</p>
-                    {attr.formType === 'check' ? (
-                      <CheckIcon width={25} height={25} fill="green" />
-                    ) : (
-                      <span className="font-bold">{attr.value.toString()}</span>
-                    )}
-                  </div>
-                ))}
+              {property.AttributesOnProperties.map((relation: any) => (
+                <div key={relation.attributeId} className="col-span-2 md:col-span-1 flex justify-between border-b-1 pb-2">
+                  <p className="text-sm">{relation.attribute.label}</p>
+                  {relation.attribute.formType === 'check' ? (
+                    <CheckIcon width={25} height={25} fill="green" />
+                  ) : (
+                    <span className="font-bold">{relation.attribute.value.toString()}</span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -178,13 +215,14 @@ export default function Property() {
               {property &&
                 property.images &&
                 property.images.length > 0 &&
-                property.images.map((image: string, index: number) => (
-                  <img
-                    onClick={() => handleOpenGallery(index)}
+                property.images.map((image: string) => (
+                  <Image
+                    width={200}
+                    height={200}
                     className="w-full h-[150px] lg:h-[200px] object-cover rounded cursor-zoom-in"
                     key={image}
                     src={image}
-                    alt=""
+                    alt="Imagen de propiedad"
                   />
                 ))}
             </div>
@@ -193,7 +231,7 @@ export default function Property() {
             <h3 className="text-3xl my-10">Ubicacion</h3>
             <p>
               {property.locationInformation.municipality}, {property.locationInformation.city}, {property.locationInformation.state},{' '}
-              {property.locationInformation.country}{' '}
+              {property.locationInformation.country}
             </p>
             <p>
               <b>Av:</b> {property.locationInformation.avenue}
@@ -202,7 +240,6 @@ export default function Property() {
               <b>Calle:</b> {property.locationInformation.street}
             </p>
             <p>
-              {' '}
               <b>Es calle cerrada ?:</b> {property.locationInformation.isClosedStreet}
             </p>
             <p>

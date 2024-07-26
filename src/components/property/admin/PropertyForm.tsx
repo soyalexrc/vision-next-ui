@@ -104,7 +104,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         toast.success('Se registro el inmueble con exito!');
         router.back();
       } else {
-        toast.error(`Ocurrio un error al intentar registrar el inmueble`);
+        toast.error(`Ocurrio un error al intentar registrar el inmueble: ${error}`);
         console.log(error);
       }
     }

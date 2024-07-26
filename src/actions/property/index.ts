@@ -13,6 +13,20 @@ export async function createUpdateProperty(
   update: boolean,
   id: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (images.length < 1) {
+    return {
+      success: false,
+      error: 'Deben agregarse imagenes para la propiedad',
+    };
+  }
+
+  if (isNaN(Number(form.negotiationInformation.price))) {
+    return {
+      success: false,
+      error: `Ingresa un valor de precio correcto. Valor ingresado: $${form.negotiationInformation.price}`,
+    };
+  }
+
   try {
     const {
       attributes,

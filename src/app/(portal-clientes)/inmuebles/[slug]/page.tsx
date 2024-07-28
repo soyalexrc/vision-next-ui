@@ -28,17 +28,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const property = await prisma.property.findUnique({
     where: { slug: params.slug },
     include: {
-      generalInformation: { select: { publicationTitle: true, description: true } },
+      generalInformation: { select: { publicationTitle: true, description: true, propertyType: true } },
       locationInformation: { select: { country: true } },
+      negotiationInformation: { select: { operationType: true } },
     },
   });
   return {
     title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
-    description: property?.generalInformation?.description ?? 'Descripcion de el inmueble',
+    description: property?.generalInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+    alternates: {
+      canonical: process.env.HOST_URL + '/inmuebles/' + params.slug,
+    },
+    applicationName: 'Vision inmobiliaria venezuela',
+    authors: [
+      { url: 'https://alexleonardo.dev', name: 'Alex Rodriguez' },
+      { url: 'https://lsmsinergy.com', name: 'LSM Synergy company' },
+    ],
+    category: property?.negotiationInformation?.operationType + ' de inmuebles',
+    keywords: [
+      property?.negotiationInformation?.operationType ?? 'Venta',
+      property?.generalInformation?.propertyType ?? 'Casa',
+      `${property?.negotiationInformation?.operationType ?? 'Venta'} de ${property?.generalInformation?.propertyType ?? 'Casa'}`,
+      `${property?.negotiationInformation?.operationType ?? 'Venta'} de ${
+        property?.generalInformation?.propertyType ?? 'Casa'
+      } en venezuela`,
+      'Inmuebles',
+      'Inmuebles en venezuela',
+    ],
+    creator: 'Vision inmobiliaria venezuela',
+    manifest: 'https://visioninmobiliaria.com.ve/manifest.json',
+    publisher: 'Vision inmobiliaria venezuela',
     openGraph: {
       title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
-      description: property?.generalInformation?.description ?? 'Descripcion de el inmueble',
-      images: property?.images ?? [],
+      description: property?.generalInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+      images: property?.images ? property.images.map((image) => ({ url: image, alt: 'Imagen de inmueble' })) : [],
       type: 'website',
       url: process.env.HOST_URL + '/inmuebles/' + params.slug,
       countryName: property?.locationInformation?.country ?? 'Venezuela',
@@ -80,37 +103,44 @@ export default async function Property({ params }: Props) {
         <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />
       </div>
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
-        <div className="lg:px-24">
-          <div className="hidden lg:grid grid-cols-12">
-            <div className="col-span-8">
-              <h1 className="text-4xl">{property.publicationTitle}</h1>
-              <h2 className="text-2xl mt-3">
+        <div className="px-4 lg:px-24">
+          <div className="grid grid-cols-12">
+            <div className="col-span-12">
+              <Badge className="lg:hidden mb-5 border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
+                {property.negotiationInformation.operationType}
+              </Badge>
+            </div>
+            <div className="col-span-12 lg:col-span-8">
+              <h1 className="text-2xl lg:text-4xl">{property.generalInformation.publicationTitle}</h1>
+              <h2 className="text-lg lg:text-2xl mt-3">
                 {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}{' '}
               </h2>
               <h3 className="text-lg mt-3">REF - {property.generalInformation.code}</h3>
             </div>
-            <div className="col-span-4 flex flex-col items-end">
-              <Badge className="border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
+            <div className="col-span-12 mt-3 lg:hidden">
+              <h3 className="text-4xl text-center mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
+            </div>
+            <div className="col-span-4 hidden lg:flex flex-col items-end">
+              <Badge className="hidden lg:block border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
                 {property.negotiationInformation.operationType}
               </Badge>
-              {/*<h2 className='text-xl'>{property.generalInformation.operationType}</h2>*/}
               <h3 className="text-4xl mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
             </div>
           </div>
-          <div className="lg:hidden px-4">
-            <Badge className="border-red-900 select-none hover:bg-transparent text-red-900 bg-transparent mb-5">
-              {property.negotiationInformation.operationType}
-            </Badge>
+          {/*<div className="lg:hidden px-4">*/}
+          {/*  <Badge className="border-red-900 select-none hover:bg-transparent text-red-900 bg-transparent mb-5">*/}
+          {/*    {property.negotiationInformation.operationType}*/}
+          {/*  </Badge>*/}
 
-            <h1 className="text-2xl">{property.generalInformation.publicationTitle}</h1>
-            <span>-</span>
-            <h2 className="text-lg mt-3">
-              {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}
-            </h2>
-            <h3 className="text-md mt-3">REF - {property.generalInformation.code}</h3>
+          {/*  <h2 className="text-2xl">{property.generalInformation.publicationTitle}</h2>*/}
+          {/*  <span>-</span>*/}
+          {/*  <h2 className="text-lg mt-3">*/}
+          {/*    {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}*/}
+          {/*  </h2>*/}
+          {/*  <h3 className="text-md mt-3">REF - {property.generalInformation.code}</h3>*/}
 
-            <h2 className="text-3xl text-center mt-3 text-red-900">$ {property.negotiationInformation.price}</h2>
-          </div>
+          {/*  <h2 className="text-3xl text-center mt-3 text-red-900">$ {property.negotiationInformation.price}</h2>*/}
+          {/*</div>*/}
           <div className="mt-5">
             <div className="flex gap-5 justify-center ">
               <Badge variant="outline" className="text-red-900 border-red-900">

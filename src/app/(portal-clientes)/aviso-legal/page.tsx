@@ -1,7 +1,3 @@
 export default function Page() {
-    return (
-        <div>
-            Pagina de aviso legal
-        </div>
-    )
+  return <div>Pagina de aviso legal</div>;
 }

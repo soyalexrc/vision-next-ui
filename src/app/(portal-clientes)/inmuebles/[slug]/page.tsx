@@ -39,11 +39,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: process.env.HOST_URL + '/inmuebles/' + params.slug,
     },
-    applicationName: 'Vision inmobiliaria venezuela',
-    authors: [
-      { url: 'https://alexleonardo.dev', name: 'Alex Rodriguez' },
-      { url: 'https://lsmsinergy.com', name: 'LSM Synergy company' },
-    ],
     category: property?.negotiationInformation?.operationType + ' de inmuebles',
     keywords: [
       property?.negotiationInformation?.operationType ?? 'Venta',
@@ -55,9 +50,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'Inmuebles',
       'Inmuebles en venezuela',
     ],
-    creator: 'Vision inmobiliaria venezuela',
-    manifest: 'https://visioninmobiliaria.com.ve/manifest.json',
-    publisher: 'Vision inmobiliaria venezuela',
     openGraph: {
       title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
       description: property?.generalInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',

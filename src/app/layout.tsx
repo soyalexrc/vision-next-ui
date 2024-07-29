@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     description: `¿Buscas comprar, vender o alquilar una propiedad en Venezuela? En Vision Inmobiliria te ofrecemos un servicio personalizado y profesional. Tasaciones, trámites legales, asesoría inmobiliaria y más.`,
     type: 'website',
     images: {
-      url: '/about/about-image-2.jpg',
+      url: 'https://firebasestorage.googleapis.com/v0/b/vision-inmobiliaria-636c6.appspot.com/o/Archivos%20generales%20del%20sistema%20(NO%20ELIMINAR)%2Fasesor-comercial.jpg?alt=media&token=0e82e01c-868f-463b-8ee6-c2d647a96480',
       type: 'image/jpg',
       alt: 'imagen de oficina de vision inmobiliaria venezuela',
       height: 630,

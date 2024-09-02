@@ -73,7 +73,7 @@ export default function CategoriesCarousel({ categories }: Props) {
 
             <Arrow
               onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-              disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
+              disabled={currentSlide === instanceRef.current?.track?.details?.slides?.length - 1}
             />
           </>
         )}

@@ -2,15 +2,10 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
+import { Categories } from '@prisma/client';
 
 type Props = {
-  categories: {
-    title: string;
-    isFeatured: boolean;
-    description?: string;
-    titlePlural: string;
-    id: number;
-  }[];
+  categories: Categories[];
 };
 
 export default function CategoriesCarousel({ categories }: Props) {

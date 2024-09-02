@@ -11,7 +11,7 @@ datasource db {
 model AppConfig {
   id          String @id @default(cuid())
   code        String
-  valie       String
+  value       String
   description String
 }
 
@@ -31,24 +31,24 @@ model Property {
   id                      String                    @id @default(cuid())
   userId                  String
   distribution            Json[]
-  adjacencies             Adjacency[]
-  utilities               Utility[]
-  equipments              Equipment[]
   slug                    String                    @unique
   images                  String[]
-  attributes              Attribute[]
   furnishedAreas          String[]
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+  AttributesOnProperties  AttributesOnProperties[]
   documentsInformation    DocumentsInformation?
+  EquipmentsOnProperties  EquipmentsOnProperties[]
   generalInformation      GeneralInformation?
   locationInformation     LocationInformation?
   negotiationInformation  NegotiationInfomation?
   statusHistory           PropertyStatusEntry?
-  AdjacenciesOnProperties AdjacenciesOnProperties[]
-  AttributesOnProperties  AttributesOnProperties[]
   UtilitiesOnProperties   UtilitiesOnProperties[]
-  EquipmentsOnProperties  EquipmentsOnProperties[]
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
+  adjacencies             Adjacency[]               @relation("AdjacencyToProperty")
+  attributes              Attribute[]               @relation("AttributeToProperty")
+  equipments              Equipment[]               @relation("EquipmentToProperty")
+  utilities               Utility[]                 @relation("PropertyToUtility")
 }
 
 model DocumentsInformation {
@@ -158,13 +158,13 @@ model PropertyStatusEntry {
 }
 
 model AttributesOnProperties {
-  property    Property       @relation(fields: [propertyId], references: [id])
   propertyId  String
-  attribute   Attribute      @relation(fields: [attribyteId], references: [id])
   attribyteId Int
   createdAt   DateTime       @default(now())
   value       String
   valueType   FormValueTypes @default(string)
+  attribute   Attribute      @relation(fields: [attribyteId], references: [id])
+  property    Property       @relation(fields: [propertyId], references: [id])
 
   @@id([propertyId, attribyteId])
 }
@@ -175,8 +175,8 @@ model Attribute {
   label                  String
   placeholder            String?
   options                String?
-  properties             Property[]
   AttributesOnProperties AttributesOnProperties[]
+  properties             Property[]               @relation("AttributeToProperty")
 }
 
 model Service {
@@ -211,16 +211,16 @@ model Adjacency {
   id                      Int                       @id @default(autoincrement())
   title                   String
   description             String?
-  properties              Property[]
   AdjacenciesOnProperties AdjacenciesOnProperties[]
+  properties              Property[]                @relation("AdjacencyToProperty")
 }
 
 model AdjacenciesOnProperties {
-  property    Property  @relation(fields: [propertyId], references: [id])
   propertyId  String
-  adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
   adjacencyId Int
   createdAt   DateTime  @default(now())
+  adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
+  property    Property  @relation(fields: [propertyId], references: [id])
 
   @@id([propertyId, adjacencyId])
 }
@@ -229,17 +229,17 @@ model Utility {
   id                    Int                     @id @default(autoincrement())
   title                 String
   description           String?
-  properties            Property[]
   UtilitiesOnProperties UtilitiesOnProperties[]
+  properties            Property[]              @relation("PropertyToUtility")
 }
 
 model UtilitiesOnProperties {
-  property              Property @relation(fields: [propertyId], references: [id])
   propertyId            String
-  utility               Utility  @relation(fields: [utilityId], references: [id])
   utilityId             Int
   createdAt             DateTime @default(now())
   additionalInformation String?
+  property              Property @relation(fields: [propertyId], references: [id])
+  utility               Utility  @relation(fields: [utilityId], references: [id])
 
   @@id([propertyId, utilityId])
 }
@@ -249,17 +249,17 @@ model Equipment {
   title                  String
   description            String?
   EquipmentsOnProperties EquipmentsOnProperties[]
-  properties             Property[]
+  properties             Property[]               @relation("EquipmentToProperty")
 }
 
 model EquipmentsOnProperties {
-  property              Property  @relation(fields: [propertyId], references: [id])
   propertyId            String
-  equipment             Equipment @relation(fields: [equipmentId], references: [id])
   equipmentId           Int
   createdAt             DateTime  @default(now())
   brand                 String?
   additionalInformation String?
+  equipment             Equipment @relation(fields: [equipmentId], references: [id])
+  property              Property  @relation(fields: [propertyId], references: [id])
 
   @@id([propertyId, equipmentId])
 }

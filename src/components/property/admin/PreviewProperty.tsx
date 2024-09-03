@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
 import { AdjacencyForm, AttributeForm, EquipmentForm, FormSection, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
 import slugify from 'slugify';
+import formatCurrency from "@/utils/format-currency";
 
 type Props = {
   goToSection: (section: FormSection) => void;
@@ -170,7 +171,7 @@ export default function PreviewProperty({ goToSection }: Props) {
               </div>
             )}
             {price ? (
-              <p className="text-3xl text-red-900">$ {price}</p>
+              <p className="text-3xl text-red-900">{formatCurrency(price)}</p>
             ) : (
               <div
                 onClick={() => goToSection('Negociacion')}
@@ -363,13 +364,13 @@ export default function PreviewProperty({ goToSection }: Props) {
                 Agregar municipio
               </span>
             )}
-            {city ? (
-              city + ', '
-            ) : (
-              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">
-                Agregar ciudad
-              </span>
-            )}
+            {/*{city ? (*/}
+            {/*  city + ', '*/}
+            {/*) : (*/}
+            {/*  <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">*/}
+            {/*    Agregar ciudad*/}
+            {/*  </span>*/}
+            {/*)}*/}
             {state ? (
               state + ', '
             ) : (
@@ -436,12 +437,12 @@ export default function PreviewProperty({ goToSection }: Props) {
             )}
           </p>
           <div className="mt-3">
-            <p className="font-bold mb-2">Adyacencias: </p>
+            <p className="font-bold mb-4 text-center">Adyacencias </p>
             {adjacencies.some((item) => {
               const { value } = item as AdjacencyForm;
               return value;
             }) ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap justify-center gap-2">
                 {adjacencies.map((item) => {
                   const { title, id, value } = item as AdjacencyForm;
                   if (value) {

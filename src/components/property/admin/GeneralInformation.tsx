@@ -4,6 +4,8 @@ import { Input } from '@/components/ui/input';
 import { useFormContext } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React from 'react';
 
 export function GeneralInformation() {
   const { control } = useFormContext();
@@ -63,26 +65,78 @@ export function GeneralInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de propiedad</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem key="Apartamento" value="Apartamento">
+                    Apartamento
+                  </SelectItem>
+                  <SelectItem key="Local Comercial" value="Local Comercial">
+                    Local Comercial
+                  </SelectItem>
+                  <SelectItem key="Galpon" value="Galpon">
+                    Galpon
+                  </SelectItem>
+                  <SelectItem key="Terreno" value="Terreno">
+                    Terreno
+                  </SelectItem>
+                  <SelectItem key="Oficina" value="Oficina">
+                    Oficina
+                  </SelectItem>
+                  <SelectItem key="Casa" value="Casa">
+                    Casa
+                  </SelectItem>
+                  <SelectItem key="Townhouse" value="Townhouse">
+                    Townhouse
+                  </SelectItem>
+                  <SelectItem key="Penthouse" value="Penthouse">
+                    Penthouse
+                  </SelectItem>
+                  <SelectItem key="Apartoquinta" value="Apartoquinta">
+                    Apartoquinta
+                  </SelectItem>
+                  <SelectItem key="Casa Quinta" value="Casa Quinta">
+                    Casa Quinta
+                  </SelectItem>
+                  <SelectItem key="Fondo de Comercio" value="Fondo de Comercio">
+                    Fondo de Comercio
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="generalInformation.propertyCondition"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de mercado</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem key="Mercado Primario" value="Mercado Primario">
+                    Mercado Primario
+                  </SelectItem>
+
+                  <SelectItem key="Mercado Secundario" value="Mercado Secundario">
+                    Mercado Secundario
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="generalInformation.footageGround"
@@ -161,16 +215,29 @@ export function GeneralInformation() {
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="generalInformation.typeOfWork"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Tipo de obra</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem key="Obra gris" value="Obra gris">
+                    Obra gris
+                  </SelectItem>
+
+                  <SelectItem key="Obra blanca" value="Obra blanca">
+                    Obra blanca
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />

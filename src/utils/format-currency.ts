@@ -4,7 +4,7 @@ function formatCurrency(str: string) {
 
   if (isNaN(number)) {
     // Handle the case where the input is not a valid number
-    return 'Invalid number';
+    return 'Numero invalido';
   }
 
   return (

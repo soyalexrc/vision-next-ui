@@ -13,6 +13,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     method: 'GET',
   }).then((res) => res.json());
 
+  console.log(socialMedia)
+
   return (
     <Providers>
       <div className="w-full fixed z-50">

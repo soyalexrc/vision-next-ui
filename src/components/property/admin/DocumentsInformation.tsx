@@ -18,7 +18,7 @@ import {
 import { File, PlusCircle, Trash2 } from 'lucide-react';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
 import React, { useRef } from 'react';
-import { deleteObject, ref, uploadBytes } from '@firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -66,6 +66,16 @@ export function DocumentsInformation() {
     }
   }
 
+  async function handleDocumentClick(doc: PropertyDocument) {
+    try {
+      const fileRef = ref(storage, doc.fullPath);
+      const url = await getDownloadURL(fileRef);
+      window.open(url, '_blank');
+    } catch (err) {
+      console.error('Error opening document:', err);
+    }
+  }
+
   return (
     <div>
       <h1 className="text-4xl mb-4">Informacion de documentacion</h1>
@@ -80,12 +90,12 @@ export function DocumentsInformation() {
               <FormItem className="col-span-9">
                 <FormLabel>Propietario</FormLabel>
                 <FormControl>
-                  <Input placeholder="Seleccionar un propietario" {...field} />
+                  <Input disabled placeholder="Seleccionar un propietario" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
               <div className="col-span-3 flex items-end">
-                <Button type="button" className="bg-red-900 w-full flex gap-2">
+                <Button type="button" className="bg-red-900 w-full flex gap-2" disabled>
                   <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
                   <p className="hidden lg:block">Nuevo propietario</p>
                 </Button>
@@ -396,7 +406,7 @@ export function DocumentsInformation() {
             <div key={doc.fullPath} className="flex items-center justify-between p-4 border-b-2 border-gray-100">
               <div className="flex items-center gap-2">
                 <File />
-                <p>{doc.name}</p>
+                <p className='hover:underline cursor-pointer hover:text-blue-600' onClick={() => handleDocumentClick(doc)}>{doc.name}</p>
               </div>
               <Trash2 onClick={() => removeDocumentFromFirebase(doc)} color="red" className="cursor-pointer" />
             </div>

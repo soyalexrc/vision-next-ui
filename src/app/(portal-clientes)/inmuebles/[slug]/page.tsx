@@ -168,7 +168,10 @@ export default async function Page({ params }: Props) {
             <h3 className="text-3xl my-10">Caracteristicas</h3>
             <div className="grid gap-x-8 grid-cols-2">
               {property.AttributesOnProperties.map((relation: any) => (
-                <div key={relation.attributeId} className="col-span-2 md:col-span-1 flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
+                <div
+                  key={relation.attributeId}
+                  className="col-span-2 md:col-span-1 flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2"
+                >
                   <p className="text-sm">{relation.attribute.label}</p>
                   {relation.attribute.formType === 'check' ? (
                     <CheckIcon width={25} height={25} fill="green" />

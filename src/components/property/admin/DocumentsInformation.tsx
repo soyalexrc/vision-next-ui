@@ -406,7 +406,9 @@ export function DocumentsInformation() {
             <div key={doc.fullPath} className="flex items-center justify-between p-4 border-b-2 border-gray-100">
               <div className="flex items-center gap-2">
                 <File />
-                <p className='hover:underline cursor-pointer hover:text-blue-600' onClick={() => handleDocumentClick(doc)}>{doc.name}</p>
+                <p className="hover:underline cursor-pointer hover:text-blue-600" onClick={() => handleDocumentClick(doc)}>
+                  {doc.name}
+                </p>
               </div>
               <Trash2 onClick={() => removeDocumentFromFirebase(doc)} color="red" className="cursor-pointer" />
             </div>

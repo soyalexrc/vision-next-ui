@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
 import { AdjacencyForm, AttributeForm, EquipmentForm, FormSection, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
 import slugify from 'slugify';
-import formatCurrency from "@/utils/format-currency";
+import formatCurrency from '@/utils/format-currency';
 
 type Props = {
   goToSection: (section: FormSection) => void;

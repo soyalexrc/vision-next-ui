@@ -1,11 +1,18 @@
 'use client';
 import { useFormContext } from 'react-hook-form';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import formatCurrency from '@/utils/format-currency';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React from 'react';
 
 export function NegotiationInformation() {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
+
+  const watchedPrice = watch('negotiationInformation.price');
+  const watchedMinimumNegotiation = watch('negotiationInformation.minimumNegotiation');
+
   return (
     <div>
       <h1 className="text-4xl mb-4">Informacion de negociacion</h1>
@@ -20,6 +27,7 @@ export function NegotiationInformation() {
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormDescription>{formatCurrency(watchedPrice)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -46,6 +54,7 @@ export function NegotiationInformation() {
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormDescription>{formatCurrency(watchedMinimumNegotiation)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -70,7 +79,17 @@ export function NegotiationInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Asesor Vision</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Select disabled onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona una opcion" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Si">Si</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,7 +102,18 @@ export function NegotiationInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Tipo de operacion</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona una opcion" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Venta">Venta</SelectItem>
+                    <SelectItem value="Alquiler">Alquiler</SelectItem>
+                    <SelectItem value="Traspaso">Traspaso</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +126,18 @@ export function NegotiationInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Exclusividad</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona una opcion" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="30 dias">30 dias</SelectItem>
+                    <SelectItem value="45 dias">45 dias</SelectItem>
+                    <SelectItem value="60 dias">60 dias</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -107,9 +148,19 @@ export function NegotiationInformation() {
           name="negotiationInformation.ownerPaysCommission"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Propietario paga comision</FormLabel>
+              <FormLabel>Propietario paga comision?</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona una opcion" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Si">Si</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -151,7 +202,7 @@ export function NegotiationInformation() {
             <FormItem className="col-span-12 md:col-span-6">
               <FormLabel>Aliado</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -164,14 +215,14 @@ export function NegotiationInformation() {
             <FormItem className="col-span-12 md:col-span-6">
               <FormLabel>Captacion asesor externo</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <h2 className="text-2xl my-4 text-center col-span-12">EL propietario autoriza publicar en:</h2>
+        <h2 className="text-2xl my-4 text-center col-span-12">El propietario autoriza publicar en:</h2>
 
         <FormField
           control={control}

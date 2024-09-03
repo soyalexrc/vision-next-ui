@@ -33,5 +33,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(formattedData);
   } catch (err) {
     console.error(err);
+    return NextResponse.json({ error: 'Error al obtener los inmuebles' }, { status: 500 });
   }
 }

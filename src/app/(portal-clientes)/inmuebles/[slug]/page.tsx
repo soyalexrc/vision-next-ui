@@ -15,6 +15,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
+import { AdjacencyForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { AdjacenciesOnProperties } from '@prisma/client';
 
 type Props = {
   params: { slug: string };
@@ -63,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Property({ params }: Props) {
+export default async function Page({ params }: Props) {
   // const [openGallery, setOpenGallery] = useState(false);
   // const [imgIndex, setImgIndex] = useState(0);
   //
@@ -89,6 +91,7 @@ export default async function Property({ params }: Props) {
   //     </div>
   //   );
   // }
+
   return (
     <div className="min-h-screen">
       <div className="w-full h-[300px] lg:h-[500px] relative">
@@ -105,7 +108,7 @@ export default async function Property({ params }: Props) {
             <div className="col-span-12 lg:col-span-8">
               <h1 className="text-2xl lg:text-4xl">{property.generalInformation.publicationTitle}</h1>
               <h2 className="text-lg lg:text-2xl mt-3">
-                {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}{' '}
+                {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}{' '}
               </h2>
               <h3 className="text-lg mt-3">REF - {property.generalInformation.code}</h3>
             </div>
@@ -156,16 +159,16 @@ export default async function Property({ params }: Props) {
             <p>{property.generalInformation.description}</p>
           </div>
 
-          <div className="px-4">
-            <h3 className="text-3xl my-10">Comentarios de distribucion</h3>
-            <p>- - -</p>
-          </div>
+          {/*<div className="px-4">*/}
+          {/*  <h3 className="text-3xl my-10">Comentarios de distribucion</h3>*/}
+          {/*  <p>- - -</p>*/}
+          {/*</div>*/}
 
           <div className="px-4">
             <h3 className="text-3xl my-10">Caracteristicas</h3>
             <div className="grid gap-x-8 grid-cols-2">
               {property.AttributesOnProperties.map((relation: any) => (
-                <div key={relation.attributeId} className="col-span-2 md:col-span-1 flex justify-between border-b-1 pb-2">
+                <div key={relation.attributeId} className="col-span-2 md:col-span-1 flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
                   <p className="text-sm">{relation.attribute.label}</p>
                   {relation.attribute.formType === 'check' ? (
                     <CheckIcon width={25} height={25} fill="green" />
@@ -175,6 +178,61 @@ export default async function Property({ params }: Props) {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/*{utilities.some((item) => {*/}
+          {/*  const { value } = item as UtilityForm;*/}
+          {/*  return value;*/}
+          {/*}) ? (*/}
+          {/*    <div>*/}
+          {/*      {utilities.map((item) => {*/}
+          {/*        const { title, id, value, additionalInformation } = item as UtilityForm;*/}
+          {/*        if (value) {*/}
+          {/*          return (*/}
+          {/*              <div key={id} className="flex justify-between border-b-2 border-gray-100 pb-2 mb-2">*/}
+          {/*                <p className="text-sm">*/}
+          {/*                  {title}*/}
+          {/*                  {additionalInformation && <span className="text-gray-400 font-bold">: ({additionalInformation})</span>}*/}
+          {/*                </p>*/}
+          {/*                <CheckIcon width={25} height={25} fill="green" />*/}
+          {/*              </div>*/}
+          {/*          );*/}
+          {/*        }*/}
+          {/*      })}*/}
+          {/*    </div>*/}
+          {/*) : (*/}
+          {/*    <div*/}
+          {/*        onClick={() => goToSection('Distribucion, Equipos y Servicios')}*/}
+          {/*        className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"*/}
+          {/*    >*/}
+          {/*      Agregar servicios / utilidades*/}
+          {/*    </div>*/}
+          {/*)}*/}
+
+          <div className="px-4">
+            <h3 className="text-3xl my-10">Servicios</h3>
+            {property.UtilitiesOnProperties.map((relation: any) => (
+              <div key={relation.utilityId} className="flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
+                <p className="text-sm">
+                  {relation.utility.title}
+                  {relation.additionalInformation && <span className="text-gray-400 font-bold">: ({relation.additionalInformation})</span>}
+                </p>
+                <CheckIcon width={25} height={25} fill="green" />
+              </div>
+            ))}
+          </div>
+
+          <div className="px-4">
+            <h3 className="text-3xl my-10">Equipos</h3>
+            {property.EquipmentsOnProperties.map((relation: any) => (
+              <div key={relation.equipmentId} className="flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
+                <p className="text-sm">
+                  {relation.equipment.title}
+                  {relation.additionalInformation && <span className="text-gray-400 font-bold">: ({relation.additionalInformation})</span>}
+                </p>
+                <CheckIcon width={25} height={25} fill="green" />
+              </div>
+            ))}
           </div>
 
           <div>
@@ -196,10 +254,9 @@ export default async function Property({ params }: Props) {
             </div>
           </div>
           <div className="px-4">
-            <h3 className="text-3xl my-10">Ubicacion</h3>
+            <h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>
             <p>
-              {property.locationInformation.municipality}, {property.locationInformation.city}, {property.locationInformation.state},{' '}
-              {property.locationInformation.country}
+              {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}
             </p>
             <p>
               <b>Av:</b> {property.locationInformation.avenue}
@@ -218,6 +275,16 @@ export default async function Property({ params }: Props) {
               <b>Como llegar: </b>
               {property.locationInformation.howToGet}
             </p>
+          </div>
+          <div className="px-4 mt-2">
+            <p className="font-bold mb-4 ">Adyacencias:</p>
+            <div className="flex flex-wrap justify-center md:justify-start gap-2">
+              {property.AdjacenciesOnProperties.map((item: any) => (
+                <Badge key={item.adjacencyId} className="text-sm" variant="secondary">
+                  {item.adjacency.title}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
         <div className="col-span-12 lg:col-span-3">

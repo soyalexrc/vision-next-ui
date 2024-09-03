@@ -66,7 +66,15 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           negotiationInformation: property.negotiationInformation,
           documentsInformation: property.documentsInformation,
         }
-      : {},
+      : {
+          locationInformation: {
+            country: 'Venezuela',
+          },
+          negotiationInformation: {
+            price: '0',
+            minimumNegotiation: '0',
+          },
+        },
   });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
@@ -201,6 +209,8 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         return key;
     }
   }
+
+  console.log(property);
 
   return (
     <div className="p-4">

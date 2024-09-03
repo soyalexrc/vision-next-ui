@@ -3,16 +3,29 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AdjacencyForm } from '@/lib/interfaces/property/PropertyForm';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
 
 export function LocationInformation() {
-  const { control } = useFormContext();
+  const { control, setValue, getValues } = useFormContext();
+  const [municipalities, setMunicipalities] = useState<string[]>([]);
 
   const { fields: adjacencies } = useFieldArray({
     control,
     name: 'adjacencies',
   });
+
+  function onChangeLocationState(value: string) {
+    setMunicipalities(value === 'Cojedes' ? LOCATIONS_DETAIL.cojedes : value === 'Carabobo' ? LOCATIONS_DETAIL.carabobo : []);
+    setValue('locationInformation.state', value);
+  }
+
+  useEffect(() => {
+    const state = getValues('locationInformation.state');
+    setMunicipalities(state === 'Cojedes' ? LOCATIONS_DETAIL.cojedes : state === 'Carabobo' ? LOCATIONS_DETAIL.carabobo : []);
+  }, []);
 
   return (
     <div>
@@ -22,54 +35,77 @@ export function LocationInformation() {
           control={control}
           name="locationInformation.country"
           render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+            <FormItem className="col-span-12 md:col-span-6 lg:col-span-4">
               <FormLabel>Pais</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="locationInformation.city"
-          render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Ciudad</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <FormField
           control={control}
           name="locationInformation.state"
           render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+            <FormItem className="col-span-12 md:col-span-6 lg:col-span-4">
               <FormLabel>Estado</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select onValueChange={onChangeLocationState} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {LOCATIONS.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="locationInformation.municipality"
           render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+            <FormItem className="col-span-12 md:col-span-6 lg:col-span-4">
               <FormLabel>Municipio</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select disabled={municipalities.length < 1} onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {municipalities.map((municipality) => (
+                    <SelectItem key={municipality} value={municipality}>
+                      {municipality}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
+
+        {/*<FormField*/}
+        {/*  control={control}*/}
+        {/*  name="locationInformation.city"*/}
+        {/*  render={({ field }) => (*/}
+        {/*    <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">*/}
+        {/*      <FormLabel>Ciudad</FormLabel>*/}
+        {/*      <FormControl>*/}
+        {/*        <Input {...field} />*/}
+        {/*      </FormControl>*/}
+        {/*      <FormMessage />*/}
+        {/*    </FormItem>*/}
+        {/*  )}*/}
+        {/*/>*/}
         <FormField
           control={control}
           name="locationInformation.urbanization"
@@ -141,10 +177,17 @@ export function LocationInformation() {
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Es una calle cerrada?</FormLabel>
-              <FormControl>
-                <Input placeholder="Si, No " {...field} />
-              </FormControl>
-              <FormMessage />
+              <Select disabled={municipalities.length < 1} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona una opcion" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Si">Si</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />

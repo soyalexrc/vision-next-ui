@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 export function TableFilters() {
   const router = useRouter();
@@ -17,14 +18,19 @@ export function TableFilters() {
   }
 
   return (
-    <div className="flex mb-4 gap-4">
+    <div className="flex flex-col md:flex-row mb-4 gap-4">
       <Input
         placeholder="Buscar por codigo o nombre"
         value={query}
         onChange={({ target: { value } }) => setQuery(value)}
-        className="max-w-sm"
+        className="w-full md:max-w-sm"
       />
       <Button onClick={search}>Buscar</Button>
+      <span className="mx-auto h-[30px] md:h-auto"></span>
+      <Button variant="outline" className="flex gap-2" onClick={() => router.push('inmuebles/nuevo')}>
+        <Plus />
+        Nuevo inmueble
+      </Button>
     </div>
   );
 }

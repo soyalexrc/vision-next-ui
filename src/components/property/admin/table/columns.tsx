@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, MoreHorizontal, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +14,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import Link from 'next/link';
+import formatCurrency from '@/utils/format-currency';
+import { toast } from 'sonner';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -52,12 +54,21 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         </Button>
       );
     },
+    cell: ({ cell }) => {
+      const price = cell.row.original.price ?? 0;
+      return formatCurrency(price.toString());
+    },
   },
 
   {
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
+
+      function copyCode() {
+        navigator.clipboard.writeText(property.code);
+        toast.success('Se copio el codigo en el porta papeles');
+      }
 
       return (
         <DropdownMenu>
@@ -69,12 +80,15 @@ export const columns: ColumnDef<PropertyPreview>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(property.code)}>Copiar codigo</DropdownMenuItem>
-            <DropdownMenuSeparator />
             <Link href={`/administracion/inmuebles/${property.id}`}>
               <DropdownMenuItem>Ver detalle</DropdownMenuItem>
             </Link>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={copyCode}>Copiar codigo</DropdownMenuItem>
+            <DropdownMenuItem disabled className="text-destructive flex gap-2">
+              <Trash size={20} />
+              Eliminar
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

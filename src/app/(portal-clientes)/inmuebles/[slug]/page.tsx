@@ -15,8 +15,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
-import { AdjacencyForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
-import { AdjacenciesOnProperties } from '@prisma/client';
 
 type Props = {
   params: { slug: string };

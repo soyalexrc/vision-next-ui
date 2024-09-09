@@ -15,7 +15,7 @@ export default function Page({ searchParams }: { searchParams: SearchParams }) {
         <TableWrapper query={searchParams} />
       </Suspense>
     </div>
-  )
+  );
 }
 
 async function TableWrapper({ query }: { query: SearchParams }) {
@@ -37,4 +37,3 @@ async function TableWrapper({ query }: { query: SearchParams }) {
 
   return <DataTable columns={columns} data={properties} />;
 }
-

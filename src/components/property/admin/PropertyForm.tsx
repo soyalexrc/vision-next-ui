@@ -210,8 +210,6 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     }
   }
 
-  console.log(property);
-
   return (
     <div className="p-4">
       <div className="flex justify-end w-full">

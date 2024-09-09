@@ -7,5 +7,6 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (err) {
     console.error(err);
+    return NextResponse.json('Ocurrio un error', { status: 500 });
   }
 }

@@ -1,3 +1,22 @@
+import { z } from 'zod';
+
+export interface ShortUser {
+  id: string;
+  createdAt: number;
+  updatedAt: number;
+  imageUrl: string;
+  hasImage: boolean;
+  lastSignInAt: number;
+  username: string;
+  firstName: null;
+  lastName: null;
+  publicMetadata: PublicMetadata;
+  privateMetadata: EMetadata;
+  phoneNumber: string;
+  role: string;
+  email: string;
+}
+
 export interface ClerkUser {
   id: string;
   passwordEnabled: boolean;
@@ -49,11 +68,21 @@ export interface EMetadata {}
 
 export interface PublicMetadata {
   role: string;
-  type: string;
-  service: MetadataService;
+  allowedRoutes: MetadataAllowedRoutes[];
 }
 
-export interface MetadataService {
+export interface MetadataAllowedRoutes {
+  path: string;
   title: string;
-  value: string;
 }
+
+export const UserFormSchema = z.object({
+  firstName: z.string(),
+  id: z.string().optional(),
+  lastName: z.string(),
+  password: z.string().optional(),
+  username: z.string(),
+  phoneNumber: z.string(),
+  email: z.string().email(),
+  role: z.string(),
+});

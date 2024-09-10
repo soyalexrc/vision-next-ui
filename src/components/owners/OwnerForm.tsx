@@ -134,11 +134,10 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
             <FormField
               control={form.control}
               name="isInvestor"
-              defaultValue={false}
               render={({ field }) => (
                 <FormItem className="col-span-2 flex items-end gap-2">
                   <FormControl>
-                    <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
+                    <Checkbox defaultChecked={field.value} onCheckedChange={(checked) => field.onChange(checked)} />
                   </FormControl>
                   <FormLabel>Es inversor</FormLabel>
                 </FormItem>

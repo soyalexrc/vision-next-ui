@@ -22,7 +22,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { deleteUser } from '@/actions/user';
 import { toast } from 'sonner';
-import { revalidatePath } from 'next/cache';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

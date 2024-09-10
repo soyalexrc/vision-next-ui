@@ -35,6 +35,5 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-
   return <DataTable columns={columns} data={data} />;
 }

@@ -5,8 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import AllyForm from '@/components/allies/AllyForm';
-import ExternalAdviserForm from '@/components/externalAdvisers/ExternalAdviserForm';
 import OwnerForm from '@/components/owners/OwnerForm';
 
 export function TableFilters() {

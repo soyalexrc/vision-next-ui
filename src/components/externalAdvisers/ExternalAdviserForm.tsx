@@ -2,58 +2,57 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { ShortUser, UserFormSchema } from '@/lib/interfaces/User';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { createUser, updateUser } from '@/actions/user';
+import { AllyFormSchema } from '@/lib/interfaces/Ally';
+import { Ally, ExternalAdviser } from '@prisma/client';
+import { createAlly, updateAlly } from '@/actions/ally';
+import { ExternalAdviserFormSchema } from '@/lib/interfaces/ExternalAdviser';
+import { createExternalAdviser, updateExternalAdviser } from '@/actions/external-adviser';
 
 type Props = {
-  data: ShortUser;
+  data: ExternalAdviser;
   onCloseModal?: () => void;
 };
 
-export default function UserForm({ data, onCloseModal }: Props) {
+export default function ExternalAdviserForm({ data, onCloseModal }: Props) {
   const router = useRouter();
-  console.log(data);
 
-  const form = useForm<z.infer<typeof UserFormSchema>>({
-    resolver: zodResolver(UserFormSchema),
+  const form = useForm<z.infer<typeof ExternalAdviserFormSchema>>({
+    resolver: zodResolver(ExternalAdviserFormSchema),
     defaultValues: {
-      firstName: data.firstName ?? '',
-      lastName: data.lastName ?? '',
-      username: data.username ?? '',
+      name: data.name ?? '',
+      lastname: data.lastname ?? '',
       phoneNumber: data.phoneNumber ?? '',
+      realStateCompanyName: data.realStateCompanyName ?? '',
       email: data.email ?? '',
-      role: data.role ?? '',
-      password: '',
-      id: data.id ?? '',
+      id: data.id ?? -1,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof UserFormSchema>) {
-    if (values.id) {
-      const { success, error } = await updateUser(values);
+  async function onSubmit(values: z.infer<typeof ExternalAdviserFormSchema>) {
+    if (values.id && values.id > 0) {
+      const { success, error } = await updateExternalAdviser(values);
       if (success) {
-        toast.success('Se actualizo el usuario con exito!');
+        toast.success('Se actualizo el asesor externo con exito!');
         router.refresh();
         onCloseModal ? onCloseModal() : null;
       } else {
-        toast.error(`Ocurrio un error al intentar actualizar el usuario: ${error}`);
+        toast.error(`Ocurrio un error al intentar actualizar el asesor externo: ${error}`);
         console.log(error);
       }
     } else {
-      const { success, error } = await createUser(values);
+      const { success, error } = await createExternalAdviser(values);
       if (success) {
-        toast.success('Se registro el usuario con exito!');
+        toast.success('Se registro el asesor externo con exito!');
         router.refresh();
         onCloseModal ? onCloseModal() : null;
       } else {
-        toast.error(`Ocurrio un error al intentar registrar el usuario: ${error}`);
+        toast.error(`Ocurrio un error al intentar registrar el asesor externo: ${error}`);
         console.log(error);
       }
     }
@@ -61,16 +60,16 @@ export default function UserForm({ data, onCloseModal }: Props) {
 
   function formatErrorSection(key: string) {
     switch (key) {
-      case 'firstName':
+      case 'name':
         return 'Nombre';
-      case 'lastName':
+      case 'lastname':
         return 'Apellido';
       case 'email':
         return 'Correo electronico';
-      case 'username':
-        return 'Nombre de usuario';
-      case 'role':
-        return 'Rol de usuario';
+      case 'phoneNumber':
+        return 'Numero de telefono';
+      case 'realStateCompanyName':
+        return 'Nombre de inmobiliaria';
       default:
         return key;
     }
@@ -83,7 +82,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
           <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FormItem className="col-span-1">
                   <FormLabel>Nombre</FormLabel>
@@ -96,7 +95,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="lastname"
               render={({ field }) => (
                 <FormItem className="col-span-1">
                   <FormLabel>Apellido</FormLabel>
@@ -114,9 +113,9 @@ export default function UserForm({ data, onCloseModal }: Props) {
                 <FormItem className="col-span-2">
                   <FormLabel>Correo electronico</FormLabel>
                   <FormControl>
-                    <Input disabled={!!data.id} {...field} />
+                    <Input {...field} />
                   </FormControl>
-                  <FormDescription>Este es el correo electronico de acceso.</FormDescription>
+                  <FormMessage />
                   <FormMessage />
                 </FormItem>
               )}
@@ -136,66 +135,13 @@ export default function UserForm({ data, onCloseModal }: Props) {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="realStateCompanyName"
               render={({ field }) => (
                 <FormItem className="col-span-2">
-                  <FormLabel>Nombre de usuario</FormLabel>
+                  <FormLabel>Nombre de inmobiliaria</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Contrasena</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Este campo es opcional (Los usuarios pueden configurar su propia contrasena al iniciar sesion)
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Rol de usuario</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona una opcion" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem key="Administrador" value="Administrador">
-                        Administrador
-                      </SelectItem>
-                      <SelectItem key="Asesor inmobiliario vision" value="Asesor inmobiliario vision">
-                        Asesor inmobiliario vision
-                      </SelectItem>
-                      <SelectItem key="Asesor inmobiliario" value="Asesor inmobiliario">
-                        Asesor inmobiliario
-                      </SelectItem>
-                      <SelectItem key="Coordinador de servicios" value="Coordinador de servicios">
-                        Coordinador de servicios
-                      </SelectItem>
-                      <SelectItem key="Administrador de empresa" value="Administrador de empresa">
-                        Administrador de empresa
-                      </SelectItem>
-                      <SelectItem key="Asistente operativo" value="Asistente operativo">
-                        Asistente operativo
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

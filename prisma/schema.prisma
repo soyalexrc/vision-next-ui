@@ -200,6 +200,80 @@ model Categories {
   isFeatured  Boolean
 }
 
+model Owner {
+  id          Int     @id @default(autoincrement())
+  name        String
+  lastname    String
+  isInvestor  Boolean
+  email       String
+  phoneNumber String
+}
+
+model Ally {
+  id          Int    @id @default(autoincrement())
+  name        String
+  lastname    String
+  email       String
+  phoneNumber String
+}
+
+model Client {
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  usageProperty        String
+  referrer             String
+  contactFrom          String
+  requirementStatus    String
+  phone                String
+  propertyOfInterest   String
+  propertyLocation     String
+  typeOfCapture        String
+  aspiredPrice         String
+  typeOfBusiness       String
+  note                 String
+  isPotentialInvestor  Boolean
+  zonesOfInterest      Json
+  essentialFeatures    Json
+  amountOfPeople       Int
+  amountOfPets         Int
+  amountOfYounger      Int
+  arrivingDate         DateTime?
+  checkoutDate         DateTime?
+  amountOfNights       Int
+  reasonOfStay         String
+  usageOfProperty      String
+  typeOfPerson         String
+  personEntry          String
+  personHeadquarters   String
+  personLocation       String
+  specificRequirement  String
+  location             String
+  company              String
+  remodeledAreas       String
+  propertyDistribution String
+  m2                   String
+  occupation           String
+  userFullName         String
+  userId               String
+  serviceName          String
+  serviceId            String
+  subServiceName       String
+  subServiceId         String
+  username             String
+  interestDate         DateTime?
+  appointmentDate      DateTime?
+  inspectionDate       DateTime?
+}
+
+model ExternalAdviser {
+  id                   Int    @id @default(autoincrement())
+  name                 String
+  lastname             String
+  email                String
+  phoneNumber          String
+  realStateCompanyName String
+}
+
 model SocialMediaLink {
   id       Int    @id @default(autoincrement())
   title    String

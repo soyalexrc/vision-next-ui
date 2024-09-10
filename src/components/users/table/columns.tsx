@@ -55,6 +55,18 @@ export const columns: ColumnDef<ShortUser>[] = [
     header: 'Usuario',
   },
   {
+    accessorKey: 'phone',
+    header: 'Telefono/s',
+    cell: ({ cell }) => {
+      const phoneNumber = cell.row.original.phoneNumber;
+      return (
+        <ul>
+          <li className="underline">{phoneNumber}</li>
+        </ul>
+      );
+    },
+  },
+  {
     accessorKey: 'role',
     header: 'Rol',
     cell: ({ cell }) => {

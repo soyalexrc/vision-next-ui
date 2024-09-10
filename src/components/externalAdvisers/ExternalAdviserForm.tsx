@@ -8,9 +8,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
-import { AllyFormSchema } from '@/lib/interfaces/Ally';
-import { Ally, ExternalAdviser } from '@prisma/client';
-import { createAlly, updateAlly } from '@/actions/ally';
+import { ExternalAdviser } from '@prisma/client';
 import { ExternalAdviserFormSchema } from '@/lib/interfaces/ExternalAdviser';
 import { createExternalAdviser, updateExternalAdviser } from '@/actions/external-adviser';
 

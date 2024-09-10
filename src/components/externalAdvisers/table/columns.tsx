@@ -17,9 +17,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { Ally, ExternalAdviser } from '@prisma/client';
-import AllyForm from '@/components/allies/AllyForm';
-import { deleteAlly } from '@/actions/ally';
+import { ExternalAdviser } from '@prisma/client';
 import ExternalAdviserForm from '@/components/externalAdvisers/ExternalAdviserForm';
 import { deleteExternalAdviser } from '@/actions/external-adviser';
 

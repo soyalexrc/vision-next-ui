@@ -27,7 +27,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const properties = await fetch(`${process.env.HOST_URL}/api/usuarios?${urlParams}`, {
+  const users = await fetch(`${process.env.HOST_URL}/api/usuarios?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
@@ -35,5 +35,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-  return <DataTable columns={columns} data={properties} />;
+  console.log('usuarios encontrados, ', users);
+
+  return <DataTable columns={columns} data={users} />;
 }

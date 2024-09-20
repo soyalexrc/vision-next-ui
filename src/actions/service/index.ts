@@ -17,7 +17,7 @@ export async function getServices(): Promise<{ success: boolean; error?: string;
     console.error(error);
     return {
       success: false,
-      error: JSON.stringify(error),
+      error: 'Ocurrio un error al cargar los servicios, intentelo de nuevo. ' + JSON.stringify(error),
       data: [],
     };
   }
@@ -38,7 +38,7 @@ export async function getSubServices(parentId: number): Promise<{ success: boole
     console.error(error);
     return {
       success: false,
-      error: JSON.stringify(error),
+      error: 'Ocurrio un error al cargar las operaciones, intentelo de nuevo. ' + JSON.stringify(error),
       data: [],
     };
   }

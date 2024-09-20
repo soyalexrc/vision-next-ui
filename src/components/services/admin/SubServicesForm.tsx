@@ -11,7 +11,7 @@ import { SubServiceFormSchema } from '@/lib/interfaces/Service';
 import { Pencil, Trash2, XCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { createSubService, deleteSubService, updateSubService } from '@/actions/service';
+import { createSubService, deleteSubService, getSubServices, updateSubService } from '@/actions/service';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,6 +47,7 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
   const [serviceForEdition, setServiceForEdition] = useState<SubService>({ id: 0, service: '', serviceId: 0 });
   const [parentService, setParentService] = useState<Service>(defaultService ?? { id: 0, title: '' });
   const [subServices, setSubServices] = useState<SubService[]>(data);
+  const [loadingSubServices, setLoadingSubServices] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof SubServiceFormSchema>) {
     console.log(values);
@@ -93,9 +94,6 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
     }
   }
 
-  console.log(parentService);
-  console.log(form.getValues());
-
   function handleEditSelection(service: SubService) {
     setServiceForEdition(service);
     form.setValue('id', service.id);
@@ -110,10 +108,19 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
     setServiceForEdition({ id: 0, service: '', serviceId: 0 });
   }
 
-  function handleSelectParentService(value: string) {
+  async function handleSelectParentService(value: string) {
+    setLoadingSubServices(true);
     const service = services.find((s) => s.title === value)!;
     form.setValue('parentId', service.id);
     setParentService(service);
+    const { success, error, data } = await getSubServices(service.id);
+    if (success) {
+      setSubServices(data);
+      setLoadingSubServices(false);
+    } else {
+      toast.error(error);
+      setLoadingSubServices(false);
+    }
   }
 
   useEffect(() => {
@@ -139,7 +146,15 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
           ))}
         </SelectContent>
       </Select>
-      {data.length < 1 && (
+      {loadingSubServices && (
+        <div className="my-5">
+          <div className="p-12 flex flex-col items-center justify-center gap-2">
+            <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-400">Cargando operaciones...</p>
+          </div>
+        </div>
+      )}
+      {!loadingSubServices && subServices.length < 1 && (
         <div className="my-5">
           <div className="p-12 bg-muted rounded-xl">
             <p className="text-gray-400">No existen operaciones bajo este servicio.</p>
@@ -147,49 +162,50 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
         </div>
       )}
       <div className="max-h-[300px] overflow-auto mt-5">
-        {data.map((service) => (
-          <div
-            key={service.id}
-            className={`flex items-center justify-between p-2 rounded ${service.id === serviceForEdition.id && 'bg-muted'}`}
-          >
-            <span className="text-accent-foreground">{service.service}</span>
-            <div className="flex items-center">
-              {service.id !== serviceForEdition.id && (
-                <Button variant="ghost" size="icon" onClick={() => handleEditSelection(service)}>
-                  <Pencil className="h-4 w-4" />
-                  <span className="sr-only">Edit</span>
-                </Button>
-              )}
-              {service.id === serviceForEdition.id && (
-                <Button variant="ghost" size="icon" onClick={clearEditSelection}>
-                  <XCircle className="h-4 w-4" />
-                  <span className="sr-only">Cancel</span>
-                </Button>
-              )}
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <Button variant="ghost" size="icon">
-                    <Trash2 className="h-4 w-4" />
-                    <span className="sr-only">Delete</span>
+        {!loadingSubServices &&
+          subServices.map((service) => (
+            <div
+              key={service.id}
+              className={`flex items-center justify-between p-2 rounded ${service.id === serviceForEdition.id && 'bg-muted'}`}
+            >
+              <span className="text-accent-foreground">{service.service}</span>
+              <div className="flex items-center">
+                {service.id !== serviceForEdition.id && (
+                  <Button variant="ghost" size="icon" onClick={() => handleEditSelection(service)}>
+                    <Pencil className="h-4 w-4" />
+                    <span className="sr-only">Edit</span>
                   </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Esta seguro de eliminar la operacion ({service.service})?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
-                      servidores.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDeleteSubService(service.id)}>Continuar</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                )}
+                {service.id === serviceForEdition.id && (
+                  <Button variant="ghost" size="icon" onClick={clearEditSelection}>
+                    <XCircle className="h-4 w-4" />
+                    <span className="sr-only">Cancel</span>
+                  </Button>
+                )}
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button variant="ghost" size="icon">
+                      <Trash2 className="h-4 w-4" />
+                      <span className="sr-only">Delete</span>
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Esta seguro de eliminar la operacion ({service.service})?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
+                        servidores.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDeleteSubService(service.id)}>Continuar</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <Separator className="my-4" />
       {parentService.id !== 0 && (

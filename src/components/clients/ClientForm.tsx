@@ -115,6 +115,8 @@ export default function ClientForm({ data }: Props) {
     if (success) {
       setServiceList(services);
       callSubServices(watchedServiceName!, services);
+    } else {
+      toast.error(error);
     }
   }
 
@@ -124,6 +126,8 @@ export default function ClientForm({ data }: Props) {
       const { data: services, error, success } = await getSubServices(service.id);
       if (success) {
         setSubServiceList(services);
+      } else {
+        toast.error(error);
       }
     } else {
       return;

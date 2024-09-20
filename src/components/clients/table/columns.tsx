@@ -2,9 +2,6 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Pencil, Trash } from 'lucide-react';
-
-// import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +16,6 @@ import {
 import { toast } from 'sonner';
 import { Client } from '@prisma/client';
 import { deleteClient } from '@/actions/client';
-import ClientForm from '@/components/clients/ClientForm';
 import Link from 'next/link';
 
 // This type is used to define the shape of our data.

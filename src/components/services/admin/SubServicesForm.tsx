@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Service, SubService } from '@prisma/client';
-import { ServiceFormSchema, SubServiceFormSchema } from '@/lib/interfaces/Service';
+import { SubServiceFormSchema } from '@/lib/interfaces/Service';
 import { Pencil, Trash2, XCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { createService, createSubService, deleteService, deleteSubService, updateService, updateSubService } from '@/actions/service';
+import { createSubService, deleteSubService, updateSubService } from '@/actions/service';
 import {
   AlertDialog,
   AlertDialogAction,

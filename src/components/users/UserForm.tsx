@@ -51,6 +51,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
       if (success) {
         toast.success('Se registro el usuario con exito!');
         router.refresh();
+        router.refresh();
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el usuario: ${error}`);

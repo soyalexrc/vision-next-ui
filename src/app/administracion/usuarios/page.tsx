@@ -35,7 +35,5 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-  console.log('usuarios encontrados, ', users);
-
   return <DataTable columns={columns} data={users} />;
 }

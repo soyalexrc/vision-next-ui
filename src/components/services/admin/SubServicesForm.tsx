@@ -11,14 +11,7 @@ import { ServiceFormSchema, SubServiceFormSchema } from '@/lib/interfaces/Servic
 import { Pencil, Trash2, XCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import {
-  createService,
-  createSubService,
-  deleteService,
-  deleteSubService,
-  updateService,
-  updateSubService,
-} from '@/actions/service';
+import { createService, createSubService, deleteService, deleteSubService, updateService, updateSubService } from '@/actions/service';
 import {
   AlertDialog,
   AlertDialogAction,

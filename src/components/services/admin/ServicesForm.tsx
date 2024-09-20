@@ -36,7 +36,7 @@ export default function ServicesForm({ data, onDelete, onRefresh }: Props) {
     resolver: zodResolver(ServiceFormSchema),
     defaultValues: {
       id: 0,
-      title: ''
+      title: '',
     },
   });
 

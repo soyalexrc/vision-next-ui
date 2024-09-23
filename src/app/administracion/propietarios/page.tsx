@@ -8,7 +8,7 @@ type SearchParams = {
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <h1 className="text-4xl mb-4">Propietarios</h1>
       <TableFilters />
       <Suspense fallback="Loading..." key={JSON.stringify(searchParams)}>

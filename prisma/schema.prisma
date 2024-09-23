@@ -338,6 +338,73 @@ model EquipmentsOnProperties {
   @@id([propertyId, equipmentId])
 }
 
+model CashFlow {
+  id                    Int               @id @default(autoincrement())
+  client                String?
+  userName              String
+  userId                String
+  owner                 String?
+  location              String?
+  person                String?
+  date                  DateTime
+  month                 String
+  transactionType       String
+  wayToPay              String
+  service               String
+  serviceType           String?
+  taxPayer              String?
+  canon                 String?
+  guarantee             String?
+  contract              String?
+  reason                String?
+  createdBy             String
+  isTemporalTransaction Boolean?
+  temporalTransactionId Int?
+  amount                Int?
+  totalDue              Int?
+  incomeByThird         Int?
+  attachments           Int?
+  pendingToCollect      Int?
+  property              CashFlowProperty? @relation(fields: [cashFlowPropertyId], references: [id])
+  cashFlowPropertyId    Int
+}
+
+model CashFlowProperty {
+  id        Int        @id @default(autoincrement())
+  name      String
+  locatiuon String
+  CashFlows CashFlow[]
+}
+
+model ExternalPerson {
+  id     Int    @id @default(autoincrement())
+  name   String
+  source String
+}
+
+model CashFlowWayToPay {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model CashFlowCurrency {
+  id     Int    @id @default(autoincrement())
+  name   String
+  symbol String
+}
+
+model CashFlowSourceEntity {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
+model CashFlowTransactionType {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
 enum FormTypes {
   check
   text

@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Settings } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import EquipmentsForm from '@/components/property/admin/EquipmentsForm';
-import UtilityFormComponent from '@/components/property/admin/UtilityForm'
+import UtilityFormComponent from '@/components/property/admin/UtilityForm';
 
 export function DistributionAndEquipmentInformation() {
   const { control, register } = useFormContext();

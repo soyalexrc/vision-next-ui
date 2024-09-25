@@ -8,14 +8,7 @@ import { AdjacencyForm, UtilityForm } from '@/lib/interfaces/property/PropertyFo
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
 import { Separator } from '@/components/ui/separator';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Settings } from 'lucide-react';
 import AdjacencyFormComponent from '@/components/property/admin/AdjacencyForm';
 

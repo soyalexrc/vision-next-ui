@@ -156,7 +156,7 @@ export default function ClientForm({ data }: Props) {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <h1 className="text-4xl mb-4">{data.id ? 'Edicion de cliente' : 'Registro de cliente'}</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">

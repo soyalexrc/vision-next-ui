@@ -1,3 +1,5 @@
+import FormSkeleton from '@/components/ui/fiorm-skeleton';
+
 export default function Loading() {
-  return <div>loading...</div>;
+  return <FormSkeleton />;
 }

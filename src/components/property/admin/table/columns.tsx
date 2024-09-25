@@ -24,8 +24,8 @@ import {
 export type PropertyPreview = {
   id: string;
   price: number;
-  operationType: string,
-  propertyType: string,
+  operationType: string;
+  propertyType: string;
   code: string;
   publicationTitle: string;
   images: string[];

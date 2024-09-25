@@ -23,7 +23,7 @@ export function TableFilters() {
   return (
     <div className="flex flex-col md:flex-row mb-4 gap-4">
       <Input
-        placeholder="Buscar por nombre o nombre de usuario"
+        placeholder="Buscar por correo o nombre de usuario"
         value={query}
         onChange={({ target: { value } }) => setQuery(value)}
         className="w-full md:max-w-sm"

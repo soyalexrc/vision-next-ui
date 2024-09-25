@@ -10,8 +10,8 @@ export function formatVenezuelanPhoneNumber(phoneNumber: string): string {
   // Format the phone number
   const areaCode = phoneNumber.slice(0, 4);
   const firstPart = phoneNumber.slice(4, 7);
-  const secondPart = phoneNumber.slice(7, 10);
-  const thirdPart = phoneNumber.slice(10);
+  const secondPart = phoneNumber.slice(7, 9);
+  const thirdPart = phoneNumber.slice(9);
 
   return `(${areaCode}) ${firstPart} ${secondPart} ${thirdPart}`;
 }

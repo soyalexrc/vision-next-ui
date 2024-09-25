@@ -4,9 +4,6 @@ import prisma from '@/lib/db/prisma';
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const busqueda = params.get('busqueda');
-  const page = params.get('pagina');
-  const limit = params.get('limite');
-  const nroDoc = params.get('C_NRO_DOC');
 
   const whereClause: any = {};
 

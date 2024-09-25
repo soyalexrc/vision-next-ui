@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { Ally } from '@prisma/client';
 import AllyForm from '@/components/allies/AllyForm';
 import { deleteAlly } from '@/actions/ally';
+import { formatVenezuelanPhoneNumber } from '@/utils/string';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -40,7 +41,7 @@ export const columns: ColumnDef<Ally>[] = [
       const phoneNumber = cell.row.original.phoneNumber;
       return (
         <ul>
-          <li className="underline">{phoneNumber}</li>
+          <li className="underline">{formatVenezuelanPhoneNumber(phoneNumber)}</li>
         </ul>
       );
     },
@@ -77,9 +78,7 @@ export const columns: ColumnDef<Ally>[] = [
         const { success, error } = await deleteAlly(id);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          window.location.reload();
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el aliado: ${error}`);
           console.log(error);

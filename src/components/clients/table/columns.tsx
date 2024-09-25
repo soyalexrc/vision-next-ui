@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { Client } from '@prisma/client';
 import { deleteClient } from '@/actions/client';
 import Link from 'next/link';
+import { formatVenezuelanPhoneNumber } from '@/utils/string';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -26,10 +27,6 @@ export const columns: ColumnDef<Client>[] = [
     accessorKey: 'name',
     header: 'Nombre',
   },
-  // {
-  //   accessorKey: 'email',
-  //   header: 'Correo electronico',
-  // },
   {
     accessorKey: 'phone',
     header: 'Telefono',
@@ -37,15 +34,23 @@ export const columns: ColumnDef<Client>[] = [
       const phoneNumber = cell.row.original.phone;
       return (
         <ul>
-          <li className="underline">{phoneNumber}</li>
+          <li className="underline">{formatVenezuelanPhoneNumber(phoneNumber)}</li>
         </ul>
       );
     },
   },
-  // {
-  //   accessorKey: 'location',
-  //   header: 'Ubicacion',
-  // },
+  {
+    accessorKey: 'serviceName',
+    header: 'Servicio',
+  },
+  {
+    accessorKey: 'subServiceName',
+    header: 'Operacion',
+  },
+  {
+    accessorKey: 'contactFrom',
+    header: 'De donde nos contacta?',
+  },
   {
     id: 'actions',
     cell: ({ row }) => {

@@ -2,6 +2,7 @@ import { TableFilters } from '@/components/clients/TableFilters';
 import { Suspense } from 'react';
 import { columns, DataTable } from '@/components/clients/table';
 import { AlertTriangle } from 'lucide-react';
+import { TableSkeleton } from '@/components/ui/table-skeleton';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -17,7 +18,7 @@ export default function Page({ searchParams }: { searchParams: SearchParams }) {
       <div className="p-4 container mx-auto">
         <h1 className="text-4xl mb-4">Clientes</h1>
         <TableFilters />
-        <Suspense fallback="Loading..." key={JSON.stringify(searchParams)}>
+        <Suspense fallback={<TableSkeleton />} key={JSON.stringify(searchParams)}>
           <TableWrapper query={searchParams} />
         </Suspense>
       </div>

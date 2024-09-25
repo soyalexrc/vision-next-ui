@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   BarChart3,
   DollarSign,
@@ -9,30 +9,34 @@ import {
   HandCoins,
   Coins,
   Calendar,
-  GalleryVerticalEnd, ScrollText, Filter, AlertTriangle, Settings,
+  GalleryVerticalEnd,
+  ScrollText,
+  Filter,
+  AlertTriangle,
+  Settings,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Page() {
   // Mock data for stats
   const stats = [
-    { title: "Total Disponible", value: "$45,231.89", icon: DollarSign, change: "+20.1% from last month" },
-    { title: "Utilidad estimada", value: "2,350", icon: Percent, change: "+180.1% from last month" },
-    { title: "Total de ingresos", value: "12,234", icon: TrendingUp, change: "+19% from last month" },
-    { title: "Total de egresos", value: "573", icon: TrendingDown, change: "+201 since last hour" },
-    { title: "Total por pagar", value: "573", icon: HandCoins, change: "+201 since last hour" },
-    { title: "Total por cobrar", value: "573", icon: HandCoins, change: "+201 since last hour" },
-    { title: "Total ingreso a cuenta de terceros", value: "573", icon: Coins, change: "+201 since last hour" },
-  ]
+    { title: 'Total Disponible', value: '$45,231.89', icon: DollarSign, change: '+20.1% from last month' },
+    { title: 'Utilidad estimada', value: '2,350', icon: Percent, change: '+180.1% from last month' },
+    { title: 'Total de ingresos', value: '12,234', icon: TrendingUp, change: '+19% from last month' },
+    { title: 'Total de egresos', value: '573', icon: TrendingDown, change: '+201 since last hour' },
+    { title: 'Total por pagar', value: '573', icon: HandCoins, change: '+201 since last hour' },
+    { title: 'Total por cobrar', value: '573', icon: HandCoins, change: '+201 since last hour' },
+    { title: 'Total ingreso a cuenta de terceros', value: '573', icon: Coins, change: '+201 since last hour' },
+  ];
 
   // Mock data for table
   const tableData = [
-    { id: "INV001", customer: "John Doe", status: "Paid", amount: "$250.00" },
-    { id: "INV002", customer: "Jane Smith", status: "Pending", amount: "$150.00" },
-    { id: "INV003", customer: "Bob Johnson", status: "Unpaid", amount: "$350.00" },
-    { id: "INV004", customer: "Alice Brown", status: "Paid", amount: "$200.00" },
-    { id: "INV005", customer: "Charlie Davis", status: "Paid", amount: "$175.00" },
-  ]
+    { id: 'INV001', customer: 'John Doe', status: 'Paid', amount: '$250.00' },
+    { id: 'INV002', customer: 'Jane Smith', status: 'Pending', amount: '$150.00' },
+    { id: 'INV003', customer: 'Bob Johnson', status: 'Unpaid', amount: '$350.00' },
+    { id: 'INV004', customer: 'Alice Brown', status: 'Paid', amount: '$200.00' },
+    { id: 'INV005', customer: 'Charlie Davis', status: 'Paid', amount: '$175.00' },
+  ];
 
   return (
     <>
@@ -41,7 +45,6 @@ export default function Page() {
         Trabajo en progreso - Esta pagina se encuentra bajo desarrollo activo.
       </div>
       <div className="container mx-auto p-4 space-y-6">
-
         <h1 className="text-4xl mb-4">Flujo de caja</h1>
 
         <div className="flex gap-4 justify-end">
@@ -62,7 +65,7 @@ export default function Page() {
             ver cierre de caja
           </Button>
           <Button size="icon">
-            <Settings size={20}/>
+            <Settings size={20} />
           </Button>
         </div>
 
@@ -112,5 +115,5 @@ export default function Page() {
         </Card>
       </div>
     </>
-  )
+  );
 }

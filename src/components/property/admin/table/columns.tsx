@@ -24,6 +24,8 @@ import {
 export type PropertyPreview = {
   id: string;
   price: number;
+  operationType: string,
+  propertyType: string,
   code: string;
   publicationTitle: string;
   images: string[];
@@ -45,6 +47,14 @@ export const columns: ColumnDef<PropertyPreview>[] = [
   {
     accessorKey: 'publicationTitle',
     header: 'Titulo de publicacion',
+  },
+  {
+    accessorKey: 'propertyType',
+    header: 'Tipo de propiedad',
+  },
+  {
+    accessorKey: 'operationType',
+    header: 'Tipo de operacion',
   },
   {
     accessorKey: 'price',

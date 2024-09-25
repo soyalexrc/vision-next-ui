@@ -274,10 +274,12 @@ export default function ClientForm({ data }: Props) {
                 )}
               />
               <Dialog>
-                <DialogTrigger>
-                  <Button type="button" size="icon" className="w-[40px]" disabled={!serviceList}>
-                    <Settings size={18} />
-                  </Button>
+                <DialogTrigger
+                  type="button"
+                  className="w-[40px] h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary"
+                  disabled={!serviceList}
+                >
+                  <Settings size={18} />
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -314,10 +316,12 @@ export default function ClientForm({ data }: Props) {
                 )}
               />
               <Dialog>
-                <DialogTrigger>
-                  <Button type="button" size="icon" className="w-[40px]" disabled={!serviceList}>
-                    <Settings size={18} />
-                  </Button>
+                <DialogTrigger
+                  type="button"
+                  className="w-[40px] h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary"
+                  disabled={!serviceList}
+                >
+                  <Settings size={18} />
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>

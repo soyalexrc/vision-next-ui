@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Pencil, Trash } from 'lucide-react';
+import { Download, Pencil, Trash } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -91,6 +91,7 @@ export const columns: ColumnDef<Client>[] = [
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          <Download size={16} className="cursor-pointer" />
         </div>
       );
     },

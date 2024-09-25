@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Pencil, Trash } from 'lucide-react';
+import { ArrowUpDown, Download, Pencil, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -99,6 +99,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          <Download size={16} className="cursor-pointer" />
         </div>
       );
     },

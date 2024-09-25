@@ -4,15 +4,31 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import React, { useEffect, useState } from 'react';
-import { AdjacencyForm } from '@/lib/interfaces/property/PropertyForm';
+import { AdjacencyForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
+import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Settings } from 'lucide-react';
+import AdjacencyFormComponent from '@/components/property/admin/AdjacencyForm';
 
 export function LocationInformation() {
   const { control, setValue, getValues } = useFormContext();
   const [municipalities, setMunicipalities] = useState<string[]>([]);
 
-  const { fields: adjacencies } = useFieldArray({
+  const {
+    fields: adjacencies,
+    update,
+    remove,
+    append,
+  } = useFieldArray({
     control,
     name: 'adjacencies',
   });
@@ -296,7 +312,34 @@ export function LocationInformation() {
           )}
         />
       </div>
-      <h2 className="text-2xl text-center mb-5 pt-5 mt-10 border-t-2 border-gray-100">Adyacencias</h2>
+      <Separator className="mb-5 mt-10" />
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="text-2xl">Adyacencias</h2>
+        <Dialog>
+          <DialogTrigger
+            type="button"
+            className="w-[40px] h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary"
+          >
+            <Settings size={18} />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confguracion de adyacencias</DialogTitle>
+              <DialogDescription>Aqui podras agregar, editar y eliminar adyacencias de manera rapida.</DialogDescription>
+            </DialogHeader>
+            <AdjacencyFormComponent
+              data={adjacencies as AdjacencyForm[]}
+              onAppend={(values) => {
+                append({
+                  ...values,
+                });
+              }}
+              onUpdate={update}
+              onRemove={remove}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className="grid grid-cols-12 gap-2">
         {adjacencies.map((item, index) => {
           const { id, title, value } = item as AdjacencyForm;

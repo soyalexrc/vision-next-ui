@@ -6,11 +6,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AttributeForm } from '@/lib/interfaces/property/PropertyForm';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Settings } from 'lucide-react';
+import AttributeFormComponent from '@/components/property/admin/AttributeForm';
 
 export function AttributesInformation() {
   const { control } = useFormContext();
 
-  const { fields } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: 'attributes',
   });
@@ -19,6 +22,34 @@ export function AttributesInformation() {
 
   return (
     <div className="grid grid-cols-12 gap-2">
+      <div className="flex justify-between col-span-12 items-center">
+        <h2 className="text-2xl mb-4 col-span-12">Atributos</h2>
+        <Dialog>
+          <DialogTrigger
+            type="button"
+            className="w-fit mb-5 px-5 h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary col-span-12"
+          >
+            <Settings size={18} />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confguracion de atributos</DialogTitle>
+              <DialogDescription>Aqui podras agregar, editar y eliminar equipos de manera rapida.</DialogDescription>
+            </DialogHeader>
+            <AttributeFormComponent
+              data={fields as AttributeForm[]}
+              onAppend={(values) => {
+                append({
+                  ...values,
+                });
+              }}
+              onUpdate={update}
+              onRemove={remove}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+
       {fields.map((arrayField, index) => {
         const { id, formType, label, placeholder, options, value } = arrayField as AttributeForm;
         if (formType === 'text') {
@@ -26,13 +57,13 @@ export function AttributesInformation() {
             <FormField
               key={id}
               control={control}
-              defaultValue={false}
+              defaultValue=""
               name={`attributes.${index}.value`}
               render={({ field }) => (
                 <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 mt-5">
                   <FormLabel>{label}</FormLabel>
                   <FormControl>
-                    <Input placeholder={placeholder ?? ''} {...field} />
+                    <Input placeholder={placeholder || ''} {...field} />
                   </FormControl>
                 </FormItem>
               )}

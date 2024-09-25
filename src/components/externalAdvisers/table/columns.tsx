@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { ExternalAdviser } from '@prisma/client';
 import ExternalAdviserForm from '@/components/externalAdvisers/ExternalAdviserForm';
 import { deleteExternalAdviser } from '@/actions/external-adviser';
+import { formatVenezuelanPhoneNumber } from '@/utils/string';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -40,7 +41,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
       const phoneNumber = cell.row.original.phoneNumber;
       return (
         <ul>
-          <li className="underline">{phoneNumber}</li>
+          <li className="underline">{formatVenezuelanPhoneNumber(phoneNumber)}</li>
         </ul>
       );
     },
@@ -65,13 +66,12 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const adviser = row.original;
+
       async function handleDeleteAlly(id: number) {
         const { success, error } = await deleteExternalAdviser(id);
         if (success) {
           toast.success('Se elimino el asesor externo con exito!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
+          window.location.reload();
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el asesor externo: ${error}`);
           console.log(error);

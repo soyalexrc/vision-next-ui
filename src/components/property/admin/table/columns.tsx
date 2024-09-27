@@ -1,27 +1,31 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal, Trash } from 'lucide-react';
+import { ArrowUpDown, Download, Pencil, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import Link from 'next/link';
 import formatCurrency from '@/utils/format-currency';
-import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type PropertyPreview = {
   id: string;
   price: number;
+  operationType: string;
+  propertyType: string;
   code: string;
   publicationTitle: string;
   images: string[];
@@ -45,6 +49,14 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     header: 'Titulo de publicacion',
   },
   {
+    accessorKey: 'propertyType',
+    header: 'Tipo de propiedad',
+  },
+  {
+    accessorKey: 'operationType',
+    header: 'Tipo de operacion',
+  },
+  {
     accessorKey: 'price',
     header: ({ column }) => {
       return (
@@ -64,33 +76,31 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
-
-      function copyCode() {
-        navigator.clipboard.writeText(property.code);
-        toast.success('Se copio el codigo en el porta papeles');
-      }
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <Link href={`/administracion/inmuebles/${property.id}`}>
-              <DropdownMenuItem>Ver detalle</DropdownMenuItem>
-            </Link>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={copyCode}>Copiar codigo</DropdownMenuItem>
-            <DropdownMenuItem disabled className="text-destructive flex gap-2">
-              <Trash size={20} />
-              Eliminar
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex gap-2">
+          <Link href={`/administracion/inmuebles/${property.id}`}>
+            <Pencil size={16} className="text-blue-500" />
+          </Link>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Trash size={16} className="text-destructive" />
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Esta seguro de eliminar el inmueble ({property.code})?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
+                  servidores.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={() => {}}>Continuar</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Download size={16} className="cursor-pointer" />
+        </div>
       );
     },
   },

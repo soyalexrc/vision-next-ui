@@ -1,6 +1,8 @@
 import { TableFilters } from '@/components/users/TableFilters';
 import { Suspense } from 'react';
 import { columns, DataTable } from '@/components/users/table';
+import { AlertTriangle } from 'lucide-react';
+import { TableSkeleton } from '@/components/ui/table-skeleton';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -8,13 +10,19 @@ type SearchParams = {
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <div className="p-4">
-      <h1 className="text-4xl mb-4">Usuarios</h1>
-      <TableFilters />
-      <Suspense fallback="Loading..." key={JSON.stringify(searchParams)}>
-        <TableWrapper query={searchParams} />
-      </Suspense>
-    </div>
+    <>
+      <div className="bg-yellow-500 text-black p-2 text-center">
+        <AlertTriangle className="inline-block mr-2" />
+        Trabajo en progreso - Esta pagina se encuentra bajo desarrollo activo.
+      </div>
+      <div className="p-4 container mx-auto">
+        <h1 className="text-4xl mb-4">Usuarios</h1>
+        <TableFilters />
+        <Suspense fallback={<TableSkeleton />} key={JSON.stringify(searchParams)}>
+          <TableWrapper query={searchParams} />
+        </Suspense>
+      </div>
+    </>
   );
 }
 
@@ -27,7 +35,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const properties = await fetch(`${process.env.HOST_URL}/api/usuarios?${urlParams}`, {
+  const users = await fetch(`${process.env.HOST_URL}/api/usuarios?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
@@ -35,5 +43,5 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-  return <DataTable columns={columns} data={properties} />;
+  return <DataTable columns={columns} data={users} />;
 }

@@ -20,7 +20,7 @@ export function TableFilters() {
   return (
     <div className="flex flex-col md:flex-row mb-4 gap-4">
       <Input
-        placeholder="Buscar por codigo o nombre"
+        placeholder="Buscar por codigo o titulo, tipo de propiedad u operacion"
         value={query}
         onChange={({ target: { value } }) => setQuery(value)}
         className="w-full md:max-w-sm"

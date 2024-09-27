@@ -1,6 +1,8 @@
 import { columns, DataTable } from '@/components/property/admin/table';
 import { Suspense } from 'react';
 import { TableFilters } from '@/components/property/admin';
+import { AlertTriangle } from 'lucide-react';
+import { TableSkeleton } from '@/components/ui/table-skeleton';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -8,13 +10,19 @@ type SearchParams = {
 
 export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <div className="p-4">
-      <h1 className="text-4xl mb-4">Inmuebles</h1>
-      <TableFilters />
-      <Suspense fallback="Loading..." key={JSON.stringify(searchParams)}>
-        <TableWrapper query={searchParams} />
-      </Suspense>
-    </div>
+    <>
+      <div className="bg-yellow-500 text-black p-2 text-center">
+        <AlertTriangle className="inline-block mr-2" />
+        Trabajo en progreso - Esta pagina se encuentra bajo desarrollo activo.
+      </div>
+      <div className="p-4 container mx-auto">
+        <h1 className="text-4xl mb-4">Inmuebles</h1>
+        <TableFilters />
+        <Suspense fallback={<TableSkeleton />} key={JSON.stringify(searchParams)}>
+          <TableWrapper query={searchParams} />
+        </Suspense>
+      </div>
+    </>
   );
 }
 

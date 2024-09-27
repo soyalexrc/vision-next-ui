@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { deleteUser } from '@/actions/user';
 import { toast } from 'sonner';
-import { revalidatePath } from 'next/cache';
+import { formatVenezuelanPhoneNumber } from '@/utils/string';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -53,6 +53,18 @@ export const columns: ColumnDef<ShortUser>[] = [
   {
     accessorKey: 'username',
     header: 'Usuario',
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Telefono/s',
+    cell: ({ cell }) => {
+      const phoneNumber = cell.row.original.phoneNumber;
+      return (
+        <ul>
+          <li className="underline">{formatVenezuelanPhoneNumber(phoneNumber)}</li>
+        </ul>
+      );
+    },
   },
   {
     accessorKey: 'role',
@@ -93,9 +105,7 @@ export const columns: ColumnDef<ShortUser>[] = [
         const { success, error } = await deleteUser(id);
         if (success) {
           toast.success('Se elimino el usuario con exito!');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          window.location.reload();
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el usuario: ${error}`);
           console.log(error);

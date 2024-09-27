@@ -211,7 +211,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <div className="flex justify-end w-full">
         <div className="w-full lg:w-[200px] border-b-2 border-gray-200 lg:border-none pb-5">
           <p className="font-bold text-sm mb-1">Estas viendo</p>

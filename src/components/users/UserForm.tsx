@@ -51,6 +51,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
       if (success) {
         toast.success('Se registro el usuario con exito!');
         router.refresh();
+        router.refresh();
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el usuario: ${error}`);
@@ -61,14 +62,16 @@ export default function UserForm({ data, onCloseModal }: Props) {
 
   function formatErrorSection(key: string) {
     switch (key) {
-      case 'generalInformation':
-        return 'Informacion General';
-      case 'locationInformation':
-        return 'Informacion de Ubicacion';
-      case 'negotiationInformation':
-        return 'Informacion de Negociacion';
-      case 'documentsInformation':
-        return 'Informacion de Documentos';
+      case 'firstName':
+        return 'Nombre';
+      case 'lastName':
+        return 'Apellido';
+      case 'email':
+        return 'Correo electronico';
+      case 'username':
+        return 'Nombre de usuario';
+      case 'role':
+        return 'Rol de usuario';
       default:
         return key;
     }
@@ -145,21 +148,22 @@ export default function UserForm({ data, onCloseModal }: Props) {
                 </FormItem>
               )}
             />
-            {!data.id && (
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="col-span-2">
-                    <FormLabel>Contrasena</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Contrasena</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Este campo es opcional (Los usuarios pueden configurar su propia contrasena al iniciar sesion)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="role"
@@ -193,6 +197,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />

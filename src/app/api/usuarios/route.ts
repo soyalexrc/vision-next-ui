@@ -1,11 +1,23 @@
-import { NextResponse } from 'next/server';
-import { clerkClient } from '@clerk/nextjs/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { clerkClient, User } from '@clerk/nextjs/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams;
+  const busqueda = params.get('busqueda');
+
+  let users: any;
   try {
-    const users = await clerkClient.users.getUserList();
+    if (busqueda) {
+      users = await clerkClient.users.getUserList({
+        emailAddress: [busqueda],
+        username: [busqueda],
+      });
+    } else {
+      users = await clerkClient.users.getUserList();
+    }
+
     return NextResponse.json(
-      users.data.map((user) => ({
+      users.data.map((user: User) => ({
         id: user.id,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,

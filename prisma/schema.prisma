@@ -180,15 +180,15 @@ model Attribute {
 }
 
 model Service {
-  id          String      @id @default(cuid())
-  title       String
-  subServices SubService?
+  id          Int          @id @default(autoincrement())
+  title       String       @unique
+  subServices SubService[]
 }
 
 model SubService {
-  id        String  @id @default(cuid())
-  service   String
-  serviceId String  @unique
+  id        Int     @id @default(autoincrement())
+  service   String  @unique
+  serviceId Int
   Service   Service @relation(fields: [serviceId], references: [id])
 }
 
@@ -198,6 +198,80 @@ model Categories {
   description String?
   titlePlural String
   isFeatured  Boolean
+}
+
+model Owner {
+  id          Int     @id @default(autoincrement())
+  name        String
+  lastname    String
+  isInvestor  Boolean
+  email       String
+  phoneNumber String
+}
+
+model Ally {
+  id          Int    @id @default(autoincrement())
+  name        String
+  lastname    String
+  email       String
+  phoneNumber String
+}
+
+model Client {
+  id                   Int       @id @default(autoincrement())
+  name                 String
+  usageProperty        String?
+  referrer             String?
+  contactFrom          String
+  requirementStatus    String?
+  phone                String
+  propertyOfInterest   String?
+  propertyLocation     String?
+  typeOfCapture        String?
+  aspiredPrice         String?
+  typeOfBusiness       String?
+  note                 String?
+  isPotentialInvestor  Boolean?
+  zonesOfInterest      String[]
+  essentialFeatures    String[]
+  amountOfPeople       Int?
+  amountOfPets         Int?
+  amountOfYounger      Int?
+  arrivingDate         DateTime?
+  checkoutDate         DateTime?
+  amountOfNights       Int?
+  reasonOfStay         String?
+  usageOfProperty      String?
+  typeOfPerson         String?
+  personEntry          String?
+  personHeadquarters   String?
+  personLocation       String?
+  specificRequirement  String?
+  location             String?
+  company              String?
+  remodeledAreas       String?
+  propertyDistribution String?
+  m2                   String?
+  occupation           String?
+  userFullName         String?
+  userId               String?
+  serviceName          String?
+  serviceId            String?
+  subServiceName       String?
+  subServiceId         String?
+  username             String?
+  interestDate         DateTime?
+  appointmentDate      DateTime?
+  inspectionDate       DateTime?
+}
+
+model ExternalAdviser {
+  id                   Int    @id @default(autoincrement())
+  name                 String
+  lastname             String
+  email                String
+  phoneNumber          String
+  realStateCompanyName String
 }
 
 model SocialMediaLink {
@@ -262,6 +336,73 @@ model EquipmentsOnProperties {
   property              Property  @relation(fields: [propertyId], references: [id])
 
   @@id([propertyId, equipmentId])
+}
+
+model CashFlow {
+  id                    Int               @id @default(autoincrement())
+  client                String?
+  userName              String
+  userId                String
+  owner                 String?
+  location              String?
+  person                String?
+  date                  DateTime
+  month                 String
+  transactionType       String
+  wayToPay              String
+  service               String
+  serviceType           String?
+  taxPayer              String?
+  canon                 String?
+  guarantee             String?
+  contract              String?
+  reason                String?
+  createdBy             String
+  isTemporalTransaction Boolean?
+  temporalTransactionId Int?
+  amount                Int?
+  totalDue              Int?
+  incomeByThird         Int?
+  attachments           Int?
+  pendingToCollect      Int?
+  property              CashFlowProperty? @relation(fields: [cashFlowPropertyId], references: [id])
+  cashFlowPropertyId    Int
+}
+
+model CashFlowProperty {
+  id        Int        @id @default(autoincrement())
+  name      String
+  locatiuon String
+  CashFlows CashFlow[]
+}
+
+model ExternalPerson {
+  id     Int    @id @default(autoincrement())
+  name   String
+  source String
+}
+
+model CashFlowWayToPay {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model CashFlowCurrency {
+  id     Int    @id @default(autoincrement())
+  name   String
+  symbol String
+}
+
+model CashFlowSourceEntity {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
+model CashFlowTransactionType {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
 }
 
 enum FormTypes {

@@ -5,17 +5,32 @@ import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/for
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import { EquipmentForm } from '@/lib/interfaces/property/PropertyForm';
+import { EquipmentForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { Separator } from '@/components/ui/separator';
+import { Settings } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import EquipmentsForm from '@/components/property/admin/EquipmentsForm';
+import UtilityFormComponent from '@/components/property/admin/UtilityForm';
 
 export function DistributionAndEquipmentInformation() {
   const { control, register } = useFormContext();
 
-  const { fields: equipmentFields } = useFieldArray({
+  const {
+    fields: equipmentFields,
+    update: updateEquipment,
+    remove: removeEquipment,
+    append: appendEquipment,
+  } = useFieldArray({
     control,
     name: 'equipments',
   });
 
-  const { fields: utilityFields } = useFieldArray({
+  const {
+    fields: utilityFields,
+    update: updateUtility,
+    remove: removeUtility,
+    append: appendUtility,
+  } = useFieldArray({
     control,
     name: 'utilities',
   });
@@ -23,7 +38,33 @@ export function DistributionAndEquipmentInformation() {
 
   return (
     <div className="grid grid-cols-12 gap-y-2">
-      <h2 className="text-2xl mb-4 col-span-12">Equipos</h2>
+      <div className="flex justify-between col-span-12 items-center">
+        <h2 className="text-2xl mb-4 col-span-12">Equipos</h2>
+        <Dialog>
+          <DialogTrigger
+            type="button"
+            className="w-[40px] h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary"
+          >
+            <Settings size={18} />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confguracion de equipos</DialogTitle>
+              <DialogDescription>Aqui podras agregar, editar y eliminar equipos de manera rapida.</DialogDescription>
+            </DialogHeader>
+            <EquipmentsForm
+              data={equipmentFields as EquipmentForm[]}
+              onAppend={(values) => {
+                appendEquipment({
+                  ...values,
+                });
+              }}
+              onUpdate={updateEquipment}
+              onRemove={removeEquipment}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
       {equipmentFields.map((field, index) => {
         const { id, title } = field as EquipmentForm;
         return (
@@ -60,11 +101,38 @@ export function DistributionAndEquipmentInformation() {
         );
       })}
 
-      <div className="my-5" />
+      <Separator className="my-5 col-span-12" />
 
-      <h2 className="text-2xl mb-4 col-span-12">Servicios / Utilidades</h2>
+      <div className="flex justify-between col-span-12 items-center">
+        <h2 className="text-2xl mb-4 col-span-12">Servicios / Utilidades</h2>
+        <Dialog>
+          <DialogTrigger
+            type="button"
+            className="w-[40px] h-[40px] text-primary-foreground flex items-center justify-center rounded-md bg-primary"
+          >
+            <Settings size={18} />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confguracion de servicios (utilidades)</DialogTitle>
+              <DialogDescription>Aqui podras agregar, editar y eliminar servicios (utilidades) de manera rapida.</DialogDescription>
+            </DialogHeader>
+            <UtilityFormComponent
+              data={utilityFields as UtilityForm[]}
+              onAppend={(values) => {
+                appendUtility({
+                  ...values,
+                });
+              }}
+              onUpdate={updateUtility}
+              onRemove={removeUtility}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+
       {utilityFields.map((field, index) => {
-        const { value, id, title } = field as EquipmentForm;
+        const { value, id, title } = field as UtilityForm;
         return (
           <FormField
             key={id}

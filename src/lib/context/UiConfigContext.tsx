@@ -12,7 +12,7 @@ export const useUiConfig = () => useContext(UiConfigContext);
 
 export const UiConfigProvider = ({ children }: { children: React.ReactNode }) => {
   const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('list');
-
+  console.log('here');
   const value = {
     viewStyle,
     setViewStyle,

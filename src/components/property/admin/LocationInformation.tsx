@@ -120,7 +120,7 @@ export function LocationInformation() {
           name="locationInformation.urbanization"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6">
-              <FormLabel>Urbanizacion / Sector</FormLabel>
+              <FormLabel>Urbanización / Sector</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

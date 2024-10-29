@@ -17,12 +17,12 @@ export default async function SignInPage() {
       <div className="hidden lg:flex col-span-7 bg-gray-100 items-center justify-center">
         <p>informacion sobre el sistema (carousel animado, etc...)</p>
       </div>
-      <div className="col-span-12 lg:col-span-5 p-12 flex justify-center relative">
-        <Link href="/">
-          <Button variant="vision" className="absolute top-0 left-0 right-0">
-            Volver a el portal inmobiliario
-          </Button>
-        </Link>
+      <div className="col-span-12 lg:col-span-5 px-12 flex justify-center relative">
+        {/*<Link href="/">*/}
+        {/*  <Button variant="vision" className="absolute top-0 left-0 right-0">*/}
+        {/*    Volver a el portal inmobiliario*/}
+        {/*  </Button>*/}
+        {/*</Link>*/}
         <div>
           <div className="flex justify-center">
             <LoginAnimation />

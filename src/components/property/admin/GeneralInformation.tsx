@@ -249,7 +249,7 @@ export function GeneralInformation() {
               <FormControl>
                 <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
-              <FormLabel>Se entregaron las llaves a vision inmobiliaria?</FormLabel>
+              <FormLabel>El propietario nos facilitó un juego de llaves</FormLabel>
             </FormItem>
           )}
         />
@@ -261,7 +261,7 @@ export function GeneralInformation() {
               <FormControl>
                 <Checkbox defaultChecked={field.value} onCheckedChange={field.onChange} {...field} />
               </FormControl>
-              <FormLabel>Se aceptan los terminos y condiciones de la ficha tecnica</FormLabel>
+              <FormLabel>El propietario aceptó los términos y condiciones de trabajo mediante la ficha técnica</FormLabel>
             </FormItem>
           )}
         />
@@ -273,22 +273,22 @@ export function GeneralInformation() {
               <FormControl>
                 <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
               </FormControl>
-              <FormLabel>Esta ocupado por personas?</FormLabel>
+              <FormLabel>La propiedad está ocupada por personas</FormLabel>
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="generalInformation.isFurnished"
-          render={({ field }) => (
-            <FormItem className="col-span-12 flex items-end gap-2">
-              <FormControl>
-                <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />
-              </FormControl>
-              <FormLabel>Esta amoblado?</FormLabel>
-            </FormItem>
-          )}
-        />
+        {/*<FormField*/}
+        {/*  control={control}*/}
+        {/*  name="generalInformation.isFurnished"*/}
+        {/*  render={({ field }) => (*/}
+        {/*    <FormItem className="col-span-12 flex items-end gap-2">*/}
+        {/*      <FormControl>*/}
+        {/*        <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} {...field} />*/}
+        {/*      </FormControl>*/}
+        {/*      <FormLabel>Esta amoblado?</FormLabel>*/}
+        {/*    </FormItem>*/}
+        {/*  )}*/}
+        {/*/>*/}
       </div>
     </div>
   );

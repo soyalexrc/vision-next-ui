@@ -11,8 +11,8 @@ datasource db {
 model AppConfig {
   id          String @id @default(cuid())
   code        String
-  value       String
   description String
+  value       String
 }
 
 model TemporalId {
@@ -30,11 +30,11 @@ model DeleteFileRequest {
 model Property {
   id                      String                    @id @default(cuid())
   userId                  String
-  distribution            Json[]
-  slug                    String                    @unique
   images                  String[]
-  furnishedAreas          String[]
+  distribution            Json[]
   createdAt               DateTime                  @default(now())
+  furnishedAreas          String[]
+  slug                    String                    @unique
   updatedAt               DateTime                  @updatedAt
   AdjacenciesOnProperties AdjacenciesOnProperties[]
   AttributesOnProperties  AttributesOnProperties[]
@@ -170,24 +170,24 @@ model AttributesOnProperties {
 }
 
 model Attribute {
-  id                     Int                      @id @default(autoincrement())
-  formType               FormTypes
   label                  String
   placeholder            String?
   options                String?
+  id                     Int                      @id @default(autoincrement())
+  formType               FormTypes
   AttributesOnProperties AttributesOnProperties[]
   properties             Property[]               @relation("AttributeToProperty")
 }
 
 model Service {
-  id          Int          @id @default(autoincrement())
   title       String       @unique
+  id          Int          @id @default(autoincrement())
   subServices SubService[]
 }
 
 model SubService {
-  id        Int     @id @default(autoincrement())
   service   String  @unique
+  id        Int     @id @default(autoincrement())
   serviceId Int
   Service   Service @relation(fields: [serviceId], references: [id])
 }
@@ -232,8 +232,6 @@ model Client {
   typeOfBusiness       String?
   note                 String?
   isPotentialInvestor  Boolean?
-  zonesOfInterest      String[]
-  essentialFeatures    String[]
   amountOfPeople       Int?
   amountOfPets         Int?
   amountOfYounger      Int?
@@ -263,6 +261,8 @@ model Client {
   interestDate         DateTime?
   appointmentDate      DateTime?
   inspectionDate       DateTime?
+  zonesOfInterest      String[]
+  essentialFeatures    String[]
 }
 
 model ExternalAdviser {
@@ -339,7 +339,7 @@ model EquipmentsOnProperties {
 }
 
 model CashFlow {
-  id                    Int               @id @default(autoincrement())
+  id                    Int              @id @default(autoincrement())
   client                String?
   userName              String
   userId                String
@@ -365,8 +365,8 @@ model CashFlow {
   incomeByThird         Int?
   attachments           Int?
   pendingToCollect      Int?
-  property              CashFlowProperty? @relation(fields: [cashFlowPropertyId], references: [id])
   cashFlowPropertyId    Int
+  property              CashFlowProperty @relation(fields: [cashFlowPropertyId], references: [id])
 }
 
 model CashFlowProperty {

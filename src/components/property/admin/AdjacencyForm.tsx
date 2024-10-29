@@ -196,19 +196,19 @@ export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Pr
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Descripcion de adyacencia (opcional)</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/*<FormField*/}
+            {/*  control={form.control}*/}
+            {/*  name="description"*/}
+            {/*  render={({ field }) => (*/}
+            {/*    <FormItem className="flex-1">*/}
+            {/*      <FormLabel>Descripcion de adyacencia (opcional)</FormLabel>*/}
+            {/*      <FormControl>*/}
+            {/*        <Input {...field} />*/}
+            {/*      </FormControl>*/}
+            {/*      <FormMessage />*/}
+            {/*    </FormItem>*/}
+            {/*  )}*/}
+            {/*/>*/}
             <div className=" hidden sm:block mt-2">
               <Button disabled={submitting} onClick={() => onSubmit(form.getValues())} type="button" className="w-full bg-red-900">
                 {submitting && <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>}

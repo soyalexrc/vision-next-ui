@@ -2,8 +2,6 @@ import LoginAnimation from '@/components/auth/LoginAnimation';
 import { SignIn } from '@clerk/nextjs';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 export default async function SignInPage() {
   const user = await currentUser();

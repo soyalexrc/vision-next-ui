@@ -314,7 +314,7 @@ export function DocumentsInformation() {
 
         <div className="col-span-12 my-5 border-b-2 border-gray-100" />
 
-        <h2 className="text-2xl my-4 text-center col-span-12">{getValues('negotiationInformation.operationType')} de propiedad</h2>
+        <h2 className="text-2xl my-4 text-center col-span-12">Datos de la propiedad</h2>
 
         <FormField
           control={control}

@@ -211,7 +211,7 @@ export function DocumentsInformation() {
               <FormControl>
                 <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
               </FormControl>
-              <FormLabel>C.I / RIF</FormLabel>
+              <FormLabel>C.I / RIF Apoderado</FormLabel>
             </FormItem>
           )}
         />
@@ -314,7 +314,7 @@ export function DocumentsInformation() {
 
         <div className="col-span-12 my-5 border-b-2 border-gray-100" />
 
-        <h2 className="text-2xl my-4 text-center col-span-12">{getValues('negotiationInformation.operationType')} de propiedad</h2>
+        <h2 className="text-2xl my-4 text-center col-span-12">Datos de la propiedad</h2>
 
         <FormField
           control={control}
@@ -372,22 +372,22 @@ export function DocumentsInformation() {
           />
         )}
 
-        <FormField
-          control={control}
-          name="documentsInformation.condominiumSolvency"
-          render={({ field }) => (
-            <FormItem className="col-span-12 flex items-end gap-2">
-              <FormControl>
-                <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />
-              </FormControl>
-              <FormLabel>Solvencia de condominio y otros</FormLabel>
-            </FormItem>
-          )}
-        />
+        {/*<FormField*/}
+        {/*  control={control}*/}
+        {/*  name="documentsInformation.condominiumSolvency"*/}
+        {/*  render={({ field }) => (*/}
+        {/*    <FormItem className="col-span-12 flex items-end gap-2">*/}
+        {/*      <FormControl>*/}
+        {/*        <Checkbox defaultChecked={field.value} {...field} onCheckedChange={field.onChange} />*/}
+        {/*      </FormControl>*/}
+        {/*      <FormLabel>Solvencia de condominio y otros</FormLabel>*/}
+        {/*    </FormItem>*/}
+        {/*  )}*/}
+        {/*/>*/}
 
         <div className="col-span-12 my-5 border-b-2 border-gray-100" />
 
-        <h2 className="text-2xl my-4 text-center col-span-12">Otros documentos</h2>
+        <h2 className="text-2xl my-4 text-center col-span-12">Cargar documentos</h2>
         {loadingDocuments.status && <p>{loadingDocuments.text}</p>}
         <div
           onClick={() => inputRef.current?.click()}

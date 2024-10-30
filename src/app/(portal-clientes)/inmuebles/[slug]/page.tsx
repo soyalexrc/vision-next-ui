@@ -254,31 +254,31 @@ export default async function Page({ params }: Props) {
                 ))}
             </div>
           </div>
-          <div className="px-4">
-            <h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>
+          <div className="px-4 my-10">
+            {/*<h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>*/}
             <p>
               {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}
             </p>
-            <p>
-              <b>Av:</b> {property.locationInformation.avenue}
-            </p>
-            <p>
-              <b>Calle:</b> {property.locationInformation.street}
-            </p>
-            <p>
-              <b>Es calle cerrada ?:</b> {property.locationInformation.isClosedStreet}
-            </p>
-            <p>
-              <b>Punto de referencia: </b>
-              {property.locationInformation.referencePoint}
-            </p>
-            <p>
-              <b>Como llegar: </b>
-              {property.locationInformation.howToGet}
-            </p>
+            {/*<p>*/}
+            {/*  <b>Av:</b> {property.locationInformation.avenue}*/}
+            {/*</p>*/}
+            {/*<p>*/}
+            {/*  <b>Calle:</b> {property.locationInformation.street}*/}
+            {/*</p>*/}
+            {/*<p>*/}
+            {/*  <b>Es calle cerrada ?:</b> {property.locationInformation.isClosedStreet}*/}
+            {/*</p>*/}
+            {/*<p>*/}
+            {/*  <b>Punto de referencia: </b>*/}
+            {/*  {property.locationInformation.referencePoint}*/}
+            {/*</p>*/}
+            {/*<p>*/}
+            {/*  <b>Como llegar: </b>*/}
+            {/*  {property.locationInformation.howToGet}*/}
+            {/*</p>*/}
           </div>
           <div className="px-4 mt-2">
-            <p className="font-bold mb-4 ">Adyacencias:</p>
+            {/*<p className="font-bold mb-4 ">Adyacencias:</p>*/}
             <div className="flex flex-wrap justify-center md:justify-start gap-2">
               {property.AdjacenciesOnProperties.map((item: any) => (
                 <Badge key={item.adjacencyId} className="text-sm" variant="secondary">

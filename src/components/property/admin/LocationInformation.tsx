@@ -120,7 +120,7 @@ export function LocationInformation() {
           name="locationInformation.urbanization"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6">
-              <FormLabel>Urbanizacion</FormLabel>
+              <FormLabel>Urbanización / Sector</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -159,7 +159,7 @@ export function LocationInformation() {
           name="locationInformation.location"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6">
-              <FormLabel>Ubicacion</FormLabel>
+              <FormLabel>Nombre de Residencia/ Centro Comercial/ Edificio/ Complejo</FormLabel>
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>
@@ -185,7 +185,7 @@ export function LocationInformation() {
           name="locationInformation.isClosedStreet"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Es una calle cerrada?</FormLabel>
+              <FormLabel>¿Se encuentra en calle cerrada?</FormLabel>
               <Select disabled={municipalities.length < 1} onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger>
@@ -244,7 +244,7 @@ export function LocationInformation() {
           name="locationInformation.howToGet"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Como llegar?</FormLabel>
+              <FormLabel>Especificar cómo llegar</FormLabel>
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>

@@ -39,7 +39,7 @@ export function DistributionAndEquipmentInformation() {
   return (
     <div className="grid grid-cols-12 gap-y-2">
       <div className="flex justify-between col-span-12 items-center">
-        <h2 className="text-2xl mb-4 col-span-12">Equipos</h2>
+        <h2 className="text-2xl mb-4 col-span-12">Equipos y Mobiliario</h2>
         <Dialog>
           <DialogTrigger
             type="button"
@@ -49,8 +49,8 @@ export function DistributionAndEquipmentInformation() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Confguracion de equipos</DialogTitle>
-              <DialogDescription>Aqui podras agregar, editar y eliminar equipos de manera rapida.</DialogDescription>
+              <DialogTitle>Confguracion de equipos y mobiliario</DialogTitle>
+              <DialogDescription>Aqui podras agregar, editar y eliminar equipos y mobiliario de manera rapida.</DialogDescription>
             </DialogHeader>
             <EquipmentsForm
               data={equipmentFields as EquipmentForm[]}

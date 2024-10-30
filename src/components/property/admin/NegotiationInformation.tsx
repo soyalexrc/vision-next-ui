@@ -97,6 +97,19 @@ export function NegotiationInformation() {
         />
         <FormField
           control={control}
+          name="negotiationInformation.ally"
+          render={({ field }) => (
+            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+              <FormLabel>Aliado</FormLabel>
+              <FormControl>
+                <Input disabled {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
           name="negotiationInformation.operationType"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
@@ -194,20 +207,6 @@ export function NegotiationInformation() {
         />
 
         <h2 className="text-2xl my-4 text-center col-span-12">Datos de captacion externa</h2>
-
-        <FormField
-          control={control}
-          name="negotiationInformation.ally"
-          render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6">
-              <FormLabel>Aliado</FormLabel>
-              <FormControl>
-                <Input disabled {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={control}
           name="negotiationInformation.externalAdviser"

@@ -4,7 +4,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import React, { useEffect, useState } from 'react';
-import { AdjacencyForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { AdjacencyForm } from '@/lib/interfaces/property/PropertyForm';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
 import { Separator } from '@/components/ui/separator';

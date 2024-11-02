@@ -32,6 +32,7 @@ import { useRouter } from 'next/navigation';
 import {
   FilledAdjacency,
   FilledAttribute,
+  FilledDistribution,
   FilledEquipment,
   FilledUtility,
   FormSection,
@@ -46,12 +47,13 @@ type Props = {
     property?: FullProperty;
     attributes: FilledAttribute[];
     equipments: FilledEquipment[];
+    distributions: FilledDistribution[];
     utilities: FilledUtility[];
     adjacencies: FilledAdjacency[];
   };
 };
 
-export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
+export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities, distributions } }: Props) {
   const [section, setSection] = useState<FormSection>('General');
   const dispatch = useAppDispatch();
   const images = useAppSelector(selectPropertyImages);
@@ -76,6 +78,9 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           },
         },
   });
+
+  console.log(form.formState);
+  const { append: appendDistribution } = useFieldArray({ control: form.control, name: 'distributions' });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
   const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
@@ -93,6 +98,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     appendAttributes();
     appendEquipments();
     appendUtilities();
+    appendDistributions();
     appendAdjacencies();
   }, []);
 
@@ -177,6 +183,12 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     });
   }
 
+  function appendDistributions() {
+    distributions.forEach((item) => {
+      appendDistribution({ ...item, distributionId: item.id });
+    });
+  }
+
   function appendAdjacencies() {
     adjacencies.forEach((item) => {
       appendAdjacency({ ...item, adjacencyId: item.id });
@@ -235,9 +247,9 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
           {section === 'General' && <GeneralInformationComponent />}
           {section === 'Ubicacion' && <LocationInformationComponent />}
-          {section === 'Atributos' && <AttributesInformation />}
+          {section === 'Atributos y Distribucion' && <AttributesInformation />}
           {section === 'Visuales' && <VisualsInformation />}
-          {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
+          {section === 'Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'Vista previa' && <PreviewProperty goToSection={setSection} />}

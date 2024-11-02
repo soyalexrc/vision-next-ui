@@ -59,6 +59,19 @@ export const columns: ColumnDef<Owner>[] = [
     },
   },
   {
+    accessorKey: 'birthdate',
+    header: 'Fecha de nacimiento',
+    cell: ({ cell }) => {
+      const data: any = cell.row.original.birthdate;
+      const birthdate = data ? data?.substring(0, 10) : '';
+      return (
+        <ul>
+          <li>{birthdate}</li>
+        </ul>
+      );
+    },
+  },
+  {
     accessorKey: 'isInvestor',
     header: 'Inversionista',
     cell: ({ cell }) => {
@@ -89,7 +102,7 @@ export const columns: ColumnDef<Owner>[] = [
             </DialogTrigger>
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
-                <DialogTitle className="text-center text-2xl">Editar aliado</DialogTitle>
+                <DialogTitle className="text-center text-2xl">Editar propietario</DialogTitle>
                 <OwnerForm data={owner} />
               </DialogHeader>
             </DialogContent>

@@ -5,6 +5,7 @@ export const OwnersFormSchema = z.object({
   name: z.string().min(3, 'Minimo 3 caracteres'),
   lastname: z.string().min(3, 'Minimo 3 caracteres'),
   phoneNumber: z.string().min(9),
+  birthdate: z.date().optional(),
   isInvestor: z.boolean(),
   email: z.string().email({ message: 'Email invalido' }),
 });

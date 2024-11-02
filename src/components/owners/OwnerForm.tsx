@@ -13,6 +13,12 @@ import { OwnersFormSchema } from '@/lib/interfaces/Owner';
 import { createOwner, updateOwner } from '@/actions/owner';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale/es';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
 
 type Props = {
   data: Owner;
@@ -28,6 +34,7 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
       name: data.name ?? '',
       lastname: data.lastname ?? '',
       phoneNumber: data.phoneNumber ?? '',
+      birthdate: data.birthdate ?? undefined,
       isInvestor: data.isInvestor ?? false,
       email: data.email ?? '',
       id: data.id ?? -1,
@@ -126,6 +133,35 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
                   <FormLabel>Numero de telefono</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="birthdate"
+              render={({ field }) => (
+                <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+                  <FormLabel>Fecha de nacimiento</FormLabel>
+                  <FormControl>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            type="button"
+                            variant={'outline'}
+                            className={cn('w-full pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
+                          >
+                            {field.value ? format(field.value, 'PPP', { locale: es }) : <span>Seleccionar fecha</span>}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar mode="single" locale={es} selected={field.value} onSelect={field.onChange} initialFocus />
+                      </PopoverContent>
+                    </Popover>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

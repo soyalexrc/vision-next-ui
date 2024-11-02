@@ -161,7 +161,7 @@ export function NegotiationInformation() {
           name="negotiationInformation.ownerPaysCommission"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Propietario paga comision?</FormLabel>
+              <FormLabel>¿Propietario paga comision?</FormLabel>
               <FormControl>
                 <Select onValueChange={field.onChange}>
                   <FormControl>

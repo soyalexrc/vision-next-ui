@@ -29,8 +29,6 @@ export default function PreviewProperty({ goToSection }: Props) {
   const street = getValues('locationInformation.street');
   const isClosedStreet = getValues('locationInformation.isClosedStreet');
   const municipality = getValues('locationInformation.municipality');
-  const referencePoint = getValues('locationInformation.referencePoint');
-  const howToGet = getValues('locationInformation.howToGet');
   const operationType = getValues('negotiationInformation.operationType');
   const price = getValues('negotiationInformation.price');
   const city = getValues('locationInformation.city');
@@ -238,7 +236,7 @@ export default function PreviewProperty({ goToSection }: Props) {
           )}
           <p className="text-2xl my-8">Comentarios de distribucion</p>
           <div
-            onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+            onClick={() => goToSection('Atributos y Distribucion')}
             className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
           >
             Agregar comentarios de distribucion
@@ -267,7 +265,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Atributos')}
+              onClick={() => goToSection('Atributos y Distribucion')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar atributos / caracteristicas
@@ -296,7 +294,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+              onClick={() => goToSection('Equipos y Servicios')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar servicios / utilidades
@@ -327,7 +325,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+              onClick={() => goToSection('Equipos y Servicios')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar equipos
@@ -407,7 +405,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             )}
           </p>
           <p className="mt-3">
-            <b>Es calle cerrada ?:</b>{' '}
+            <b>¿Se encuentra en calle cerrada?:</b>{' '}
             {isClosedStreet ? (
               isClosedStreet
             ) : (
@@ -416,26 +414,26 @@ export default function PreviewProperty({ goToSection }: Props) {
               </span>
             )}
           </p>
-          <p className="mt-3">
-            <b>Punto de referencia: </b>
-            {referencePoint ? (
-              referencePoint
-            ) : (
-              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">
-                Agregar punto de referencia
-              </span>
-            )}
-          </p>
-          <p className="mt-3">
-            <b>Como llegar: </b>
-            {howToGet ? (
-              howToGet
-            ) : (
-              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">
-                Agregar valor
-              </span>
-            )}
-          </p>
+          {/*<p className="mt-3">*/}
+          {/*  <b>Punto de referencia: </b>*/}
+          {/*  {referencePoint ? (*/}
+          {/*    referencePoint*/}
+          {/*  ) : (*/}
+          {/*    <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">*/}
+          {/*      Agregar punto de referencia*/}
+          {/*    </span>*/}
+          {/*  )}*/}
+          {/*</p>*/}
+          {/*<p className="mt-3">*/}
+          {/*  <b>Como llegar: </b>*/}
+          {/*  {howToGet ? (*/}
+          {/*    howToGet*/}
+          {/*  ) : (*/}
+          {/*    <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">*/}
+          {/*      Agregar valor*/}
+          {/*    </span>*/}
+          {/*  )}*/}
+          {/*</p>*/}
           <div className="mt-3">
             <p className="font-bold mb-4 text-center">Adyacencias </p>
             {adjacencies.some((item) => {

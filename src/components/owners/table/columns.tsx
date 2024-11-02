@@ -21,8 +21,6 @@ import { Owner } from '@prisma/client';
 import OwnerForm from '@/components/owners/OwnerForm';
 import { deleteOwner } from '@/actions/owner';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale/es';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

@@ -5,7 +5,7 @@ import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { AttributeForm, DistributionForm, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { AttributeForm, DistributionForm } from '@/lib/interfaces/property/PropertyForm';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Settings } from 'lucide-react';
 import AttributeFormComponent from '@/components/property/admin/AttributeForm';

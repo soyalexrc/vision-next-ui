@@ -34,7 +34,6 @@ type Props = {
 };
 
 export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof AttributeFormSchema>>({
     resolver: zodResolver(AttributeFormSchema),
     defaultValues: {
@@ -45,6 +44,7 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
       options: '',
     },
   });
+  const watchedFormType = form.watch('formType');
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [attributeForEdition, setAttributeForEdition] = useState<AttributeForm>({
     attributeId: 0,
@@ -224,34 +224,19 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="placeholder"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Descripcion de atributo (opcional)</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="options"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>opciones de atributo (opcional)</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription>Escribir opciones separados por #</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            {/*<FormField*/}
+            {/*  control={form.control}*/}
+            {/*  name="placeholder"*/}
+            {/*  render={({ field }) => (*/}
+            {/*    <FormItem className="flex-1">*/}
+            {/*      <FormLabel>Descripcion de atributo (opcional)</FormLabel>*/}
+            {/*      <FormControl>*/}
+            {/*        <Input {...field} />*/}
+            {/*      </FormControl>*/}
+            {/*      <FormMessage />*/}
+            {/*    </FormItem>*/}
+            {/*  )}*/}
+            {/*/>*/}
             <FormField
               control={form.control}
               name="formType"
@@ -279,6 +264,23 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
                 </FormItem>
               )}
             />
+
+            {watchedFormType === 'select' && (
+              <FormField
+                control={form.control}
+                name="options"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>opciones de atributo (opcional)</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Escribir opciones separados por #</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <div className=" hidden sm:block mt-2">
               <Button disabled={submitting} onClick={() => onSubmit(form.getValues())} type="button" className="w-full bg-red-900">

@@ -35,6 +35,10 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
     header: 'Apellido',
   },
   {
+    accessorKey: 'realStateCompanyName',
+    header: 'Iinmobiliaria',
+  },
+  {
     accessorKey: 'phoneNumber',
     header: 'Telefono',
     cell: ({ cell }) => {
@@ -57,10 +61,6 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
         </ul>
       );
     },
-  },
-  {
-    accessorKey: 'realStateCompanyName',
-    header: 'Nombre de inmobiliaria',
   },
   {
     id: 'actions',
@@ -86,7 +86,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
             </DialogTrigger>
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
-                <DialogTitle className="text-center text-2xl">Editar aliado</DialogTitle>
+                <DialogTitle className="text-center text-2xl">Editar asesor</DialogTitle>
                 <ExternalAdviserForm data={adviser} />
               </DialogHeader>
             </DialogContent>

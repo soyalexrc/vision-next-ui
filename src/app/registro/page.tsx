@@ -9,7 +9,7 @@ export default function SignUpPage() {
     <div className="grid place-items-center h-screen">
       <Card className="p-5">
         <CardHeader>
-          <CardTitle>Eres miembro de Vision Inmobiliaria?</CardTitle>
+          <CardTitle>¿Eres miembro de Vision Inmobiliaria?</CardTitle>
           <CardDescription>Si ves este mensaje es porque aun no tienes acceso con un correo o nombre de usuario.</CardDescription>
         </CardHeader>
         <CardContent className="text-center">

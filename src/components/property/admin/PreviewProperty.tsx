@@ -407,7 +407,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             )}
           </p>
           <p className="mt-3">
-            <b>Es calle cerrada ?:</b>{' '}
+            <b>¿Se encuentra en calle cerrada?:</b>{' '}
             {isClosedStreet ? (
               isClosedStreet
             ) : (
@@ -416,26 +416,26 @@ export default function PreviewProperty({ goToSection }: Props) {
               </span>
             )}
           </p>
-          <p className="mt-3">
-            <b>Punto de referencia: </b>
-            {referencePoint ? (
-              referencePoint
-            ) : (
-              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">
-                Agregar punto de referencia
-              </span>
-            )}
-          </p>
-          <p className="mt-3">
-            <b>Como llegar: </b>
-            {howToGet ? (
-              howToGet
-            ) : (
-              <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">
-                Agregar valor
-              </span>
-            )}
-          </p>
+          {/*<p className="mt-3">*/}
+          {/*  <b>Punto de referencia: </b>*/}
+          {/*  {referencePoint ? (*/}
+          {/*    referencePoint*/}
+          {/*  ) : (*/}
+          {/*    <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">*/}
+          {/*      Agregar punto de referencia*/}
+          {/*    </span>*/}
+          {/*  )}*/}
+          {/*</p>*/}
+          {/*<p className="mt-3">*/}
+          {/*  <b>Como llegar: </b>*/}
+          {/*  {howToGet ? (*/}
+          {/*    howToGet*/}
+          {/*  ) : (*/}
+          {/*    <span onClick={() => goToSection('Ubicacion')} className="mx-2 border-2 border-gray-300 border-dashed text-xs px-2 py-1">*/}
+          {/*      Agregar valor*/}
+          {/*    </span>*/}
+          {/*  )}*/}
+          {/*</p>*/}
           <div className="mt-3">
             <p className="font-bold mb-4 text-center">Adyacencias </p>
             {adjacencies.some((item) => {

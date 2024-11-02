@@ -89,7 +89,7 @@ export const columns: ColumnDef<Owner>[] = [
             </DialogTrigger>
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
-                <DialogTitle className="text-center text-2xl">Editar aliado</DialogTitle>
+                <DialogTitle className="text-center text-2xl">Editar propietario</DialogTitle>
                 <OwnerForm data={owner} />
               </DialogHeader>
             </DialogContent>

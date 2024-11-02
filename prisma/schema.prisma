@@ -201,12 +201,13 @@ model Categories {
 }
 
 model Owner {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   lastname    String
   isInvestor  Boolean
   email       String
   phoneNumber String
+  birthdate   DateTime?
 }
 
 model Ally {

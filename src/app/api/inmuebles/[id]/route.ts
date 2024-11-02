@@ -9,7 +9,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     let filledEquipments: FilledEquipment[] = [];
     let filledAdjacencies: FilledAdjacency[] = [];
     const rawAttributes = await prisma.attribute.findMany({
-      orderBy: [{ formType: 'asc' }],
+      orderBy: [{ formType: 'asc' }, { label: 'asc' }],
     });
     const rawEquipments = await prisma.equipment.findMany();
     const rawUtilities = await prisma.utility.findMany();

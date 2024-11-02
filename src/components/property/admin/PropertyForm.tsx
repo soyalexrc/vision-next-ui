@@ -235,9 +235,9 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
           {section === 'General' && <GeneralInformationComponent />}
           {section === 'Ubicacion' && <LocationInformationComponent />}
-          {section === 'Atributos' && <AttributesInformation />}
+          {section === 'Atributos y Distribucion' && <AttributesInformation />}
           {section === 'Visuales' && <VisualsInformation />}
-          {section === 'Distribucion, Equipos y Servicios' && <DistributionAndEquipmentInformation />}
+          {section === 'Equipos y Servicios' && <DistributionAndEquipmentInformation />}
           {section === 'Negociacion' && <NegotiationInformationComponent />}
           {section === 'Documentos' && <DocumentsInformationComponent />}
           {section === 'Vista previa' && <PreviewProperty goToSection={setSection} />}

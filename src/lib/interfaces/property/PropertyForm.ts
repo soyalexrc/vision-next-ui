@@ -309,9 +309,9 @@ export const PropertyFormSchema = z.object({
 export type FormSection =
   | 'General'
   | 'Ubicacion'
-  | 'Atributos'
+  | 'Atributos y Distribucion'
   | 'Visuales'
-  | 'Distribucion, Equipos y Servicios'
+  | 'Equipos y Servicios'
   | 'Negociacion'
   | 'Documentos'
   | 'Vista previa';
@@ -319,9 +319,9 @@ export type FormSection =
 export const FormSectionOptions: FormSection[] = [
   'General',
   'Ubicacion',
-  'Atributos',
+  'Atributos y Distribucion',
   'Visuales',
-  'Distribucion, Equipos y Servicios',
+  'Equipos y Servicios',
   'Negociacion',
   'Documentos',
   'Vista previa',

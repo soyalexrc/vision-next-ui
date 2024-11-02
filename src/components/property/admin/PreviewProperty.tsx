@@ -29,8 +29,6 @@ export default function PreviewProperty({ goToSection }: Props) {
   const street = getValues('locationInformation.street');
   const isClosedStreet = getValues('locationInformation.isClosedStreet');
   const municipality = getValues('locationInformation.municipality');
-  const referencePoint = getValues('locationInformation.referencePoint');
-  const howToGet = getValues('locationInformation.howToGet');
   const operationType = getValues('negotiationInformation.operationType');
   const price = getValues('negotiationInformation.price');
   const city = getValues('locationInformation.city');
@@ -238,7 +236,7 @@ export default function PreviewProperty({ goToSection }: Props) {
           )}
           <p className="text-2xl my-8">Comentarios de distribucion</p>
           <div
-            onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+            onClick={() => goToSection('Atributos y Distribucion')}
             className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
           >
             Agregar comentarios de distribucion
@@ -267,7 +265,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Atributos')}
+              onClick={() => goToSection('Atributos y Distribucion')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar atributos / caracteristicas
@@ -296,7 +294,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+              onClick={() => goToSection('Equipos y Servicios')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar servicios / utilidades
@@ -327,7 +325,7 @@ export default function PreviewProperty({ goToSection }: Props) {
             </div>
           ) : (
             <div
-              onClick={() => goToSection('Distribucion, Equipos y Servicios')}
+              onClick={() => goToSection('Equipos y Servicios')}
               className="border-2 border-dashed border-gray-300 h-[150px] flex items-center justify-center px-4 py-1 text-gray-600 cursor-pointer"
             >
               Agregar equipos

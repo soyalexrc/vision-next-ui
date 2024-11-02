@@ -5,7 +5,7 @@ import {
   FilledAttribute,
   FilledDistribution,
   FilledEquipment,
-  FilledUtility
+  FilledUtility,
 } from '@/lib/interfaces/property/PropertyForm';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {

@@ -31,7 +31,8 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import {
   FilledAdjacency,
-  FilledAttribute, FilledDistribution,
+  FilledAttribute,
+  FilledDistribution,
   FilledEquipment,
   FilledUtility,
   FormSection,

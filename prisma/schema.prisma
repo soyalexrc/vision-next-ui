@@ -28,27 +28,29 @@ model DeleteFileRequest {
 }
 
 model Property {
-  id                      String                    @id @default(cuid())
-  userId                  String
-  images                  String[]
-  distribution            Json[]
-  createdAt               DateTime                  @default(now())
-  furnishedAreas          String[]
-  slug                    String                    @unique
-  updatedAt               DateTime                  @updatedAt
-  AdjacenciesOnProperties AdjacenciesOnProperties[]
-  AttributesOnProperties  AttributesOnProperties[]
-  documentsInformation    DocumentsInformation?
-  EquipmentsOnProperties  EquipmentsOnProperties[]
-  generalInformation      GeneralInformation?
-  locationInformation     LocationInformation?
-  negotiationInformation  NegotiationInfomation?
-  statusHistory           PropertyStatusEntry?
-  UtilitiesOnProperties   UtilitiesOnProperties[]
-  adjacencies             Adjacency[]               @relation("AdjacencyToProperty")
-  attributes              Attribute[]               @relation("AttributeToProperty")
-  equipments              Equipment[]               @relation("EquipmentToProperty")
-  utilities               Utility[]                 @relation("PropertyToUtility")
+  id                        String                      @id @default(cuid())
+  userId                    String
+  images                    String[]
+  distribution              Json[]
+  createdAt                 DateTime                    @default(now())
+  furnishedAreas            String[]
+  slug                      String                      @unique
+  updatedAt                 DateTime                    @updatedAt
+  AdjacenciesOnProperties   AdjacenciesOnProperties[]
+  DistributionsOnProperties DistributionsOnProperties[]
+  AttributesOnProperties    AttributesOnProperties[]
+  documentsInformation      DocumentsInformation?
+  EquipmentsOnProperties    EquipmentsOnProperties[]
+  generalInformation        GeneralInformation?
+  locationInformation       LocationInformation?
+  negotiationInformation    NegotiationInfomation?
+  statusHistory             PropertyStatusEntry?
+  UtilitiesOnProperties     UtilitiesOnProperties[]
+  adjacencies               Adjacency[]                 @relation("AdjacencyToProperty")
+  attributes                Attribute[]                 @relation("AttributeToProperty")
+  equipments                Equipment[]                 @relation("EquipmentToProperty")
+  utilities                 Utility[]                   @relation("PropertyToUtility")
+  distributions             Distribution[]              @relation("PropertyToDistribution")
 }
 
 model DocumentsInformation {
@@ -120,7 +122,7 @@ model LocationInformation {
   trunkLevel             String?
   parkingNumber          String?
   parkingLevel           String?
-  city                   String
+  city                   String?
   property               Property @relation(fields: [propertyId], references: [id])
 }
 
@@ -317,6 +319,25 @@ model UtilitiesOnProperties {
   utility               Utility  @relation(fields: [utilityId], references: [id])
 
   @@id([propertyId, utilityId])
+}
+
+model Distribution {
+  id                        Int                         @id @default(autoincrement())
+  title                     String
+  description               String?
+  DistributionsOnProperties DistributionsOnProperties[]
+  properties                Property[]                  @relation("PropertyToDistribution")
+}
+
+model DistributionsOnProperties {
+  propertyId            String
+  distributionId        Int
+  createdAt             DateTime     @default(now())
+  additionalInformation String?
+  property              Property     @relation(fields: [propertyId], references: [id])
+  distribution          Distribution @relation(fields: [distributionId], references: [id])
+
+  @@id([propertyId, distributionId])
 }
 
 model Equipment {

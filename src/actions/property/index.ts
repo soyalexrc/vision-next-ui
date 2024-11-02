@@ -3,7 +3,14 @@
 import prisma from '@/lib/db/prisma';
 import { z } from 'zod';
 import slugify from 'slugify';
-import { AdjacencyForm, AttributeForm, EquipmentForm, PropertyFormSchema, UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import {
+  AdjacencyForm,
+  AttributeForm,
+  DistributionForm,
+  EquipmentForm,
+  PropertyFormSchema,
+  UtilityForm,
+} from '@/lib/interfaces/property/PropertyForm';
 import { revalidatePath } from 'next/cache';
 // import { revalidatePath } from 'next/cache';
 
@@ -31,6 +38,7 @@ export async function createUpdateProperty(
     const {
       attributes,
       equipments,
+      distributions,
       utilities,
       locationInformation,
       generalInformation,
@@ -43,6 +51,7 @@ export async function createUpdateProperty(
     const validAttributes = attributes.filter((item) => item?.value);
     const validEquipments = equipments.filter((item) => item?.value);
     const validUtilities = utilities.filter((item) => item?.value);
+    const validDistributions = distributions.filter((item) => item?.value);
 
     if (update) {
       await prisma.attributesOnProperties.deleteMany({
@@ -98,7 +107,7 @@ export async function createUpdateProperty(
               trunkNumber: locationInformation.trunkNumber ?? '',
               avenue: locationInformation.avenue ?? '',
               floor: locationInformation.floor ?? '',
-              city: locationInformation.city,
+              city: locationInformation.city ?? '',
               referencePoint: locationInformation.referencePoint ?? '',
               buildingShoppingCenter: locationInformation.buildingShoppingCenter ?? '',
               buildingNumber: locationInformation.buildingNumber ?? '',
@@ -201,6 +210,19 @@ export async function createUpdateProperty(
               };
             }),
           },
+          DistributionsOnProperties: {
+            create: validDistributions.map((distribution: any) => {
+              const { distributionId, additionalInformation } = distribution as DistributionForm;
+              return {
+                additionalInformation,
+                distribution: {
+                  connect: {
+                    id: distributionId,
+                  },
+                },
+              };
+            }),
+          },
           userId: 'admin@gmail.com',
         },
       });
@@ -252,7 +274,7 @@ export async function createUpdateProperty(
               trunkNumber: locationInformation.trunkNumber ?? '',
               avenue: locationInformation.avenue ?? '',
               floor: locationInformation.floor ?? '',
-              city: locationInformation.city,
+              city: locationInformation.city ?? '',
               referencePoint: locationInformation.referencePoint ?? '',
               buildingShoppingCenter: locationInformation.buildingShoppingCenter ?? '',
               buildingNumber: locationInformation.buildingNumber ?? '',

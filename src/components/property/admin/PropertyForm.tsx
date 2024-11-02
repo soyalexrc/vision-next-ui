@@ -31,7 +31,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import {
   FilledAdjacency,
-  FilledAttribute,
+  FilledAttribute, FilledDistribution,
   FilledEquipment,
   FilledUtility,
   FormSection,
@@ -46,12 +46,13 @@ type Props = {
     property?: FullProperty;
     attributes: FilledAttribute[];
     equipments: FilledEquipment[];
+    distributions: FilledDistribution[];
     utilities: FilledUtility[];
     adjacencies: FilledAdjacency[];
   };
 };
 
-export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities } }: Props) {
+export default function PropertyForm({ data: { property, attributes, equipments, adjacencies, utilities, distributions } }: Props) {
   const [section, setSection] = useState<FormSection>('General');
   const dispatch = useAppDispatch();
   const images = useAppSelector(selectPropertyImages);
@@ -76,6 +77,9 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           },
         },
   });
+
+  console.log(form.formState);
+  const { append: appendDistribution } = useFieldArray({ control: form.control, name: 'distributions' });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });
   const { append: appendUtility } = useFieldArray({ control: form.control, name: 'utilities' });
@@ -93,6 +97,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     appendAttributes();
     appendEquipments();
     appendUtilities();
+    appendDistributions();
     appendAdjacencies();
   }, []);
 
@@ -174,6 +179,12 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   function appendUtilities() {
     utilities.forEach((item) => {
       appendUtility({ ...item, utilityId: item.id });
+    });
+  }
+
+  function appendDistributions() {
+    distributions.forEach((item) => {
+      appendDistribution({ ...item, distributionId: item.id });
     });
   }
 

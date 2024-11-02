@@ -1,4 +1,4 @@
-import { Adjacency, Attribute, Equipment, Property, Utility } from '@prisma/client';
+import { Adjacency, Attribute, Distribution, Equipment, Property, Utility } from '@prisma/client';
 import { z } from 'zod';
 
 export interface FilledAttribute extends Attribute {
@@ -20,9 +20,22 @@ export interface FilledAdjacency extends Adjacency {
   value: any;
 }
 
+export interface FilledDistribution extends Distribution {
+  value: any;
+}
+
 export interface UtilityForm {
   id: string;
   utilityId: number;
+  title: string;
+  description?: string;
+  additionalInformation?: string;
+  value: boolean;
+}
+
+export interface DistributionForm {
+  id: string;
+  distributionId: number;
   title: string;
   description?: string;
   additionalInformation?: string;
@@ -201,7 +214,18 @@ export const PropertyFormSchema = z.object({
   utilities: z.array(
     z
       .object({
-        utilityId: z.number(),
+        utilityId: z.number().optional(),
+        title: z.string().optional(),
+        additionalInformation: z.string().nullable().optional(),
+        description: z.string().nullable().optional(),
+        value: z.any().optional(),
+      })
+      .optional(),
+  ),
+  distributions: z.array(
+    z
+      .object({
+        distributionId: z.number(),
         title: z.string(),
         additionalInformation: z.string().nullable().optional(),
         description: z.string().nullable().optional(),
@@ -255,7 +279,7 @@ export const PropertyFormSchema = z.object({
     buildingNumber: z.string().optional(),
     tower: z.string().optional(),
     country: z.string({ required_error: 'Este campo es requerido' }),
-    city: z.string({ required_error: 'Este campo es requerido' }),
+    city: z.string({ required_error: 'Este campo es requerido' }).optional(),
     howToGet: z.string().optional(),
     street: z.string().optional(),
     floor: z.string().optional(),

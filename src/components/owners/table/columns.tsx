@@ -64,8 +64,8 @@ export const columns: ColumnDef<Owner>[] = [
     accessorKey: 'birthdate',
     header: 'Fecha de nacimiento',
     cell: ({ cell }) => {
-      const data = cell.row.original.birthdate;
-      const birthdate = data ? data.substring(0, 10) : '';
+      const data: any = cell.row.original.birthdate;
+      const birthdate = data ? data?.substring(0, 10) : '';
       return (
         <ul>
           <li>{birthdate}</li>

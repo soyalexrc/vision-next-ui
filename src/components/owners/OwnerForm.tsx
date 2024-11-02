@@ -34,7 +34,7 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
       name: data.name ?? '',
       lastname: data.lastname ?? '',
       phoneNumber: data.phoneNumber ?? '',
-      birthdate: data.birthdate ?? null,
+      birthdate: data.birthdate ?? undefined,
       isInvestor: data.isInvestor ?? false,
       email: data.email ?? '',
       id: data.id ?? -1,

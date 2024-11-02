@@ -37,8 +37,8 @@ model Property {
   slug                      String                      @unique
   updatedAt                 DateTime                    @updatedAt
   AdjacenciesOnProperties   AdjacenciesOnProperties[]
-  DistributionsOnProperties DistributionsOnProperties[]
   AttributesOnProperties    AttributesOnProperties[]
+  DistributionsOnProperties DistributionsOnProperties[]
   documentsInformation      DocumentsInformation?
   EquipmentsOnProperties    EquipmentsOnProperties[]
   generalInformation        GeneralInformation?
@@ -49,8 +49,8 @@ model Property {
   adjacencies               Adjacency[]                 @relation("AdjacencyToProperty")
   attributes                Attribute[]                 @relation("AttributeToProperty")
   equipments                Equipment[]                 @relation("EquipmentToProperty")
-  utilities                 Utility[]                   @relation("PropertyToUtility")
   distributions             Distribution[]              @relation("PropertyToDistribution")
+  utilities                 Utility[]                   @relation("PropertyToUtility")
 }
 
 model DocumentsInformation {
@@ -331,11 +331,11 @@ model Distribution {
 
 model DistributionsOnProperties {
   propertyId            String
-  distributionId        Int
   createdAt             DateTime     @default(now())
   additionalInformation String?
-  property              Property     @relation(fields: [propertyId], references: [id])
+  distributionId        Int
   distribution          Distribution @relation(fields: [distributionId], references: [id])
+  property              Property     @relation(fields: [propertyId], references: [id])
 
   @@id([propertyId, distributionId])
 }

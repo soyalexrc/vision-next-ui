@@ -43,6 +43,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         AdjacenciesOnProperties: { include: { adjacency: true } },
         EquipmentsOnProperties: { include: { equipment: true } },
         UtilitiesOnProperties: { include: { utility: true } },
+        DistributionsOnProperties: { include: { distribution: true } },
       },
     });
     if (property) {

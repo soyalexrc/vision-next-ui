@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Settings } from 'lucide-react';
 import AttributeFormComponent from '@/components/property/admin/AttributeForm';
 import { Separator } from '@/components/ui/separator';
-import UtilityFormComponent from '@/components/property/admin/UtilityForm';
+import DistributionFormComponent from '@/components/property/admin/DistributionForm';
 
 export function AttributesInformation() {
   const { control, register } = useFormContext();
@@ -48,8 +48,8 @@ export function AttributesInformation() {
               <DialogTitle>Confguracion de elementos de distribucion</DialogTitle>
               <DialogDescription>Aqui podras agregar, editar y eliminar elementos de distribucion de manera rapida.</DialogDescription>
             </DialogHeader>
-            <UtilityFormComponent
-              data={distributionFields as UtilityForm[]}
+            <DistributionFormComponent
+              data={distributionFields as DistributionForm[]}
               onAppend={(values) => {
                 appendDistribution({
                   ...values,

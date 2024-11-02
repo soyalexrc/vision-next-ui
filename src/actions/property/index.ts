@@ -386,6 +386,19 @@ export async function createUpdateProperty(
               };
             }),
           },
+          DistributionsOnProperties: {
+            create: validDistributions.map((distribution: any) => {
+              const { distributionId, additionalInformation } = distribution as DistributionForm;
+              return {
+                additionalInformation,
+                distribution: {
+                  connect: {
+                    id: distributionId,
+                  },
+                },
+              };
+            }),
+          },
           userId: 'admin@gmail.com',
         },
       });

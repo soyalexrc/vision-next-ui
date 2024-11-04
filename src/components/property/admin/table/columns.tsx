@@ -18,6 +18,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { deleteOwner } from '@/actions/owner';
+import { toast } from 'sonner';
+import { deleteProperty } from '@/actions/property';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -76,6 +79,22 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
+      async function handleDeleteProperty(id: string, imagesPaths: string[], code: string) {
+        toast.loading('Se esta eliminando el inmueble', {
+          duration: 20000,
+        });
+        const { success, error } = await deleteProperty(id, imagesPaths, code);
+        if (success) {
+          toast.success('Se elimino el inmueble con exito!');
+          toast.dismiss();
+          window.location.reload();
+        } else {
+          toast.dismiss();
+          toast.error(`Ocurrio un error al intentar eliminar el inmueble  ${error}`);
+          console.log(error);
+        }
+      }
+
       return (
         <div className="flex gap-2">
           <Link href={`/administracion/inmuebles/${property.id}`}>
@@ -90,12 +109,12 @@ export const columns: ColumnDef<PropertyPreview>[] = [
                 <AlertDialogTitle>Esta seguro de eliminar el inmueble ({property.code})?</AlertDialogTitle>
                 <AlertDialogDescription>
                   Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
-                  servidores.
+                  servidores. Incluidos datos de el inmueble, documentos e imagenes asociadas.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => {}}>Continuar</AlertDialogAction>
+                <AlertDialogAction onClick={() => handleDeleteProperty(property.id, property.images, property.code)}>Continuar</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

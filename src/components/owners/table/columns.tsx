@@ -89,7 +89,7 @@ export const columns: ColumnDef<Owner>[] = [
           toast.success('Se elimino el propietario con exito!');
           window.location.reload();
         } else {
-          toast.error(`Ocurrio un error al intentar eliminar el:propietario  ${error}`);
+          toast.error(`Ocurrio un error al intentar eliminar el propietario  ${error}`);
           console.log(error);
         }
       }

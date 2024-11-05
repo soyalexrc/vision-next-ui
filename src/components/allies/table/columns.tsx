@@ -98,7 +98,7 @@ export const columns: ColumnDef<Ally>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar aliado</DialogTitle>
-                <AllyForm data={ally} />
+                <AllyForm isForm={true} data={ally} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

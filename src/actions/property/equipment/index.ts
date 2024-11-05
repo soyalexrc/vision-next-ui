@@ -46,7 +46,6 @@ export async function updateEquipment(
 }
 
 export async function deleteEquipment(id: number): Promise<{ success: boolean; error?: string }> {
-  console.log(id);
   try {
     await prisma.equipment.delete({
       where: {

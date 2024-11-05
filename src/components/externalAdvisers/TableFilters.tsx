@@ -40,7 +40,7 @@ export function TableFilters() {
         <DialogContent className="overflow-y-auto max-h-screen">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl">Nuevo asesor externo</DialogTitle>
-            <ExternalAdviserForm data={{} as any} onCloseModal={() => setOpen(false)} />
+            <ExternalAdviserForm isForm={true} data={{} as any} onCloseModal={() => setOpen(false)} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

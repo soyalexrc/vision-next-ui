@@ -50,7 +50,6 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
   const [loadingSubServices, setLoadingSubServices] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof SubServiceFormSchema>) {
-    console.log(values);
     if (values.id !== 0) {
       const { success, error } = await updateSubService(values);
       if (success) {

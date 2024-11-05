@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function UtilityForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof UtilityFormSchema>>({
     resolver: zodResolver(UtilityFormSchema),
     defaultValues: {

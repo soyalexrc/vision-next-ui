@@ -91,7 +91,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar asesor</DialogTitle>
-                <ExternalAdviserForm data={adviser} />
+                <ExternalAdviserForm isForm={true} data={adviser} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

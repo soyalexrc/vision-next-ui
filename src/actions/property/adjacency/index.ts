@@ -46,7 +46,6 @@ export async function updateAdjacency(
 }
 
 export async function deleteAdjacency(id: number): Promise<{ success: boolean; error?: string }> {
-  console.log(id);
   try {
     await prisma.adjacency.delete({
       where: {

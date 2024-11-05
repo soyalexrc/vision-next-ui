@@ -170,7 +170,7 @@ export async function createUpdateProperty(
           negotiationInformation: {
             update: {
               client: negotiationInformation.client ?? '',
-              externalAdviser: negotiationInformation.externalAdviser,
+              externalAdviser: negotiationInformation.externalAdviser ?? '',
               realStateWebPages: negotiationInformation.realStateWebPages ?? false,
               realStateGroups: negotiationInformation.realStateGroups ?? false,
               socialMedia: negotiationInformation.socialMedia ?? false,
@@ -339,7 +339,7 @@ export async function createUpdateProperty(
           negotiationInformation: {
             create: {
               client: negotiationInformation.client ?? '',
-              externalAdviser: negotiationInformation.externalAdviser,
+              externalAdviser: negotiationInformation.externalAdviser ?? '',
               realStateWebPages: negotiationInformation.realStateWebPages ?? false,
               realStateGroups: negotiationInformation.realStateGroups ?? false,
               socialMedia: negotiationInformation.socialMedia ?? false,

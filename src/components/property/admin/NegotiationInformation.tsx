@@ -5,13 +5,86 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import formatCurrency from '@/utils/format-currency';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { PlusCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import ExternalAdviserForm from '@/components/externalAdvisers/ExternalAdviserForm';
+import { getExternalAdvisers } from '@/actions/external-adviser';
+import { Ally, ExternalAdviser } from '@prisma/client';
+import AllyForm from '@/components/allies/AllyForm';
+import { getAllies } from '@/actions/ally';
+import { useUser } from '@clerk/nextjs';
+import { getUsersFromClerk } from '@/actions/users';
+import UserForm from '@/components/users/UserForm';
 
 export function NegotiationInformation() {
   const { control, watch } = useFormContext();
 
+  const { user } = useUser();
+  const [externalAdvisersLoading, setExternalAdvisersLoading] = useState<boolean>(false);
+  const [usersLoading, setUsersLoading] = useState<boolean>(false);
+  const [alliesLoading, setAlliesLoading] = useState<boolean>(false);
+  const [openExternalAdviser, setOpenExternalAdviser] = useState<boolean>(false);
+  const [openAlly, setOpenAlly] = useState<boolean>(false);
+  const [openUser, setOpenUser] = useState<boolean>(false);
+  const [externalAdvisers, setExternalAdvisers] = useState<ExternalAdviser[]>([]);
+  const [users, setUsers] = useState<{ id: string; fullName: string; email: string }[]>([]);
+  const [allies, setAllies] = useState<Ally[]>([]);
+
   const watchedPrice = watch('negotiationInformation.price');
   const watchedMinimumNegotiation = watch('negotiationInformation.minimumNegotiation');
+
+  async function callExternalAdvisers() {
+    setExternalAdvisersLoading(true);
+    const { data } = await getExternalAdvisers();
+    setExternalAdvisersLoading(false);
+    if (data && data?.length > 0) {
+      setExternalAdvisers(data);
+    }
+  }
+
+  async function callUsers() {
+    setUsersLoading(true);
+    const { data } = await getUsersFromClerk();
+    setUsersLoading(false);
+    console.log(data);
+    if (data && data?.length > 0) {
+      setUsers(data);
+    }
+  }
+
+  async function callAllies() {
+    setAlliesLoading(true);
+    const { data } = await getAllies();
+    setAlliesLoading(false);
+    if (data && data?.length > 0) {
+      setAllies(data);
+    }
+  }
+
+  async function handleAfterCreateAdviser() {
+    setOpenExternalAdviser(false);
+    await callExternalAdvisers();
+  }
+
+  async function handleAfterCreateAlly() {
+    setOpenAlly(false);
+    await callAllies();
+  }
+
+  async function handleAfterCreateUser() {
+    setOpenUser(false);
+    await callUsers();
+  }
+
+  useEffect(() => {
+    callExternalAdvisers();
+    callAllies();
+    if (user && user.publicMetadata?.role === 'Administrador') {
+      callUsers();
+    }
+  }, []);
 
   return (
     <div>
@@ -72,42 +145,99 @@ export function NegotiationInformation() {
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="negotiationInformation.realStateAdviser"
-          render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Asesor Vision</FormLabel>
-              <FormControl>
-                <Select disabled onValueChange={field.onChange}>
+        {user && user.publicMetadata?.role === 'Administrador' && (
+          <FormField
+            control={control}
+            name="negotiationInformation.realStateAdviser"
+            render={({ field }) => (
+              <>
+                <FormItem className="col-span-9">
+                  <FormLabel>Asesor Vision</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona una opcion" />
-                    </SelectTrigger>
+                    <Select disabled={usersLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona una opcion" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {users.map((user) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.fullName} ({user.email})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Si">Si</SelectItem>
-                    <SelectItem value="No">No</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="negotiationInformation.ally"
-          render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
-              <FormLabel>Aliado</FormLabel>
-              <FormControl>
-                <Input disabled {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                  <FormMessage />
+                </FormItem>
+                <div className="col-span-3 flex items-end">
+                  <Dialog open={openUser} onOpenChange={setOpenUser}>
+                    <DialogTrigger className="w-full">
+                      <Button disabled={usersLoading} type="button" className="bg-red-900 w-full flex gap-2">
+                        <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
+                        <p className="hidden lg:block">Nuevo asesor</p>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="overflow-y-auto max-h-screen">
+                      <DialogHeader>
+                        <DialogTitle className="text-center text-2xl">Nuevo usuario</DialogTitle>
+                        <UserForm isForm={false} data={{} as any} onCloseModal={handleAfterCreateUser} />
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </>
+            )}
+          />
+        )}
+
+        <div className="col-span-12 grid grid-cols-12 gap-4">
+          <FormField
+            control={control}
+            name="negotiationInformation.ally"
+            render={({ field }) => (
+              <>
+                <FormItem className="col-span-9 ">
+                  <FormLabel>Aliado</FormLabel>
+                  <FormControl>
+                    <Select disabled={alliesLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona una opcion" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {allies.map((ally) => (
+                          <SelectItem key={ally.id} value={ally.id.toString()}>
+                            {ally.name} {ally.lastname}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+                <div className="col-span-3 flex items-end">
+                  <Dialog open={openAlly} onOpenChange={setOpenAlly}>
+                    <DialogTrigger className="w-full">
+                      <Button disabled={alliesLoading} type="button" className="bg-red-900 w-full flex gap-2">
+                        <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
+                        <p className="hidden lg:block">Nuevo aliado</p>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="overflow-y-auto max-h-screen">
+                      <DialogHeader>
+                        <DialogTitle className="text-center text-2xl">Nuevo aliado</DialogTitle>
+                        <AllyForm isForm={false} data={{} as any} onCloseModal={handleAfterCreateAlly} />
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </>
+            )}
+          />
+        </div>
         <FormField
           control={control}
           name="negotiationInformation.operationType"
@@ -211,13 +341,44 @@ export function NegotiationInformation() {
           control={control}
           name="negotiationInformation.externalAdviser"
           render={({ field }) => (
-            <FormItem className="col-span-12 md:col-span-6">
-              <FormLabel>Captacion asesor externo</FormLabel>
-              <FormControl>
-                <Input disabled {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            <>
+              <FormItem className="col-span-9 ">
+                <FormLabel>Captacion asesor externo</FormLabel>
+                <FormControl>
+                  <Select disabled={externalAdvisersLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona una opcion" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {externalAdvisers.map((adviser) => (
+                        <SelectItem key={adviser.id} value={adviser.id.toString()}>
+                          {adviser.name} {adviser.lastname} ({adviser.realStateCompanyName})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+              <div className="col-span-3 flex items-end">
+                <Dialog open={openExternalAdviser} onOpenChange={setOpenExternalAdviser}>
+                  <DialogTrigger className="w-full">
+                    <Button disabled={externalAdvisersLoading} type="button" className="bg-red-900 w-full flex gap-2">
+                      <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
+                      <p className="hidden lg:block">Nuevo Asesor externo</p>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="overflow-y-auto max-h-screen">
+                    <DialogHeader>
+                      <DialogTitle className="text-center text-2xl">Nuevo asesor externo</DialogTitle>
+                      <ExternalAdviserForm isForm={false} data={{} as any} onCloseModal={handleAfterCreateAdviser} />
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </>
           )}
         />
 

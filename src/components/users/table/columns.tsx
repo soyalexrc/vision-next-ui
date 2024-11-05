@@ -125,7 +125,7 @@ export const columns: ColumnDef<ShortUser>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar Usuario</DialogTitle>
-                <UserForm data={user} />
+                <UserForm isForm={true} data={user} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

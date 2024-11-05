@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function DistributionForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof DistributionFormSchema>>({
     resolver: zodResolver(DistributionFormSchema),
     defaultValues: {

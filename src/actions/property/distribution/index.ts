@@ -46,7 +46,6 @@ export async function updateDistribution(
 }
 
 export async function deleteDistribution(id: number): Promise<{ success: boolean; error?: string }> {
-  console.log(id);
   try {
     await prisma.distribution.delete({
       where: {

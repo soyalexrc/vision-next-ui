@@ -53,7 +53,6 @@ export async function updateAttribute(
 }
 
 export async function deleteAttribute(id: number): Promise<{ success: boolean; error?: string }> {
-  console.log(id);
   try {
     await prisma.attribute.delete({
       where: {

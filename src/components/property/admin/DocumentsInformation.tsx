@@ -17,11 +17,15 @@ import {
 } from '@/lib/store/features/files/state/filesSlice';
 import { File, PlusCircle, Trash2 } from 'lucide-react';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { getOwners } from '@/actions/owner';
+import { Owner } from '@prisma/client';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import OwnerForm from '@/components/owners/OwnerForm';
 
 export function DocumentsInformation() {
   const { control, getValues } = useFormContext();
@@ -30,7 +34,9 @@ export function DocumentsInformation() {
   const documents = useAppSelector(selectPropertyDocuments);
   const loadingDocuments = useAppSelector(selectDocumentsLoading);
   const loading = useAppSelector(selectStatusUploading);
-
+  const [owners, setOwners] = useState<Owner[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [ownersLoading, setOwnersLoading] = useState<boolean>(false);
   const propertyCode = getValues('generalInformation.code');
   const path = `Servicio Inmobiliario/inmuebles/${propertyCode}/documentos`;
 
@@ -76,6 +82,24 @@ export function DocumentsInformation() {
     }
   }
 
+  async function callOwners() {
+    setOwnersLoading(true);
+    const { data } = await getOwners();
+    setOwnersLoading(false);
+    if (data && data?.length > 0) {
+      setOwners(data);
+    }
+  }
+
+  useEffect(() => {
+    callOwners();
+  }, []);
+
+  function handleAfterCreateOwner() {
+    setOpen(false);
+    callOwners();
+  }
+
   return (
     <div>
       <h1 className="text-4xl mb-4">Informacion de documentacion</h1>
@@ -89,16 +113,37 @@ export function DocumentsInformation() {
             <>
               <FormItem className="col-span-9">
                 <FormLabel>Propietario</FormLabel>
-                <FormControl>
-                  <Input disabled placeholder="Seleccionar un propietario" {...field} />
-                </FormControl>
+                <Select disabled={ownersLoading} onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona una opcion" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {owners.map((owner: Owner) => (
+                      <SelectItem key={owner.id} value={owner.id.toString()}>
+                        {owner.name} {owner.lastname}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
               <div className="col-span-3 flex items-end">
-                <Button type="button" className="bg-red-900 w-full flex gap-2" disabled>
-                  <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
-                  <p className="hidden lg:block">Nuevo propietario</p>
-                </Button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger className="w-full">
+                    <Button disabled={ownersLoading} type="button" className="bg-red-900 w-full flex gap-2">
+                      <PlusCircle width={20} height={20} className="min-w-[20px] min-h-[20px]" />
+                      <p className="hidden lg:block">Nuevo propietario</p>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="overflow-y-auto max-h-screen">
+                    <DialogHeader>
+                      <DialogTitle className="text-center text-2xl">Nuevo propietario</DialogTitle>
+                      <OwnerForm isForm={false} data={{} as any} onCloseModal={handleAfterCreateOwner} />
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             </>
           )}
@@ -332,7 +377,7 @@ export function DocumentsInformation() {
 
         <FormField
           control={control}
-          name="documentsInformation.cadastralRecordYear"
+          name="documentsInformation.realStateTax"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
               <FormLabel>Impuesto inmobiliario</FormLabel>

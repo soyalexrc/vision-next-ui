@@ -67,8 +67,12 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
     cell: ({ row }) => {
       const adviser = row.original;
 
-      async function handleDeleteAlly(id: number) {
+      async function handleDeleteAdviser(id: number) {
+        const t = toast.loading('Se esta eliminando el asesor', {
+          duration: 20000,
+        });
         const { success, error } = await deleteExternalAdviser(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el asesor externo con exito!');
           window.location.reload();
@@ -105,7 +109,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteAlly(adviser.id)}>Continuar</AlertDialogAction>
+                <AlertDialogAction onClick={() => handleDeleteAdviser(adviser.id)}>Continuar</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -88,7 +88,11 @@ export default function UtilityForm({ data, onAppend, onUpdate, onRemove }: Prop
 
   async function handleDeleteUtility(id: number) {
     const index = data.findIndex((e) => e.utilityId === id);
+    const t = toast.loading('Se esta eliminando el servicio (utilidad)', {
+      duration: 20000,
+    });
     const { success, error } = await deleteUtility(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino el servicio (utilidad) con exito!');
       onRemove(index);

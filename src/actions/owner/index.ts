@@ -3,6 +3,23 @@
 import { z } from 'zod';
 import prisma from '@/lib/db/prisma';
 import { OwnersFormSchema } from '@/lib/interfaces/Owner';
+import { Owner } from '@prisma/client';
+
+export async function getOwners(): Promise<{ error?: string; data: Owner[] | undefined }> {
+  try {
+    const data = await prisma.owner.findMany();
+    return {
+      data,
+      error: undefined,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      data: undefined,
+      error: JSON.stringify(err),
+    };
+  }
+}
 
 export async function createOwner(form: z.infer<typeof OwnersFormSchema>): Promise<{ success: boolean; error?: string }> {
   try {

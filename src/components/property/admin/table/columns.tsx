@@ -18,7 +18,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { deleteOwner } from '@/actions/owner';
 import { toast } from 'sonner';
 import { deleteProperty } from '@/actions/property';
 
@@ -80,13 +79,13 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     cell: ({ row }) => {
       const property = row.original;
       async function handleDeleteProperty(id: string, imagesPaths: string[], code: string) {
-        toast.loading('Se esta eliminando el inmueble', {
+        const t = toast.loading('Se esta eliminando el inmueble', {
           duration: 20000,
         });
         const { success, error } = await deleteProperty(id, imagesPaths, code);
         if (success) {
           toast.success('Se elimino el inmueble con exito!');
-          toast.dismiss();
+          toast.dismiss(t);
           window.location.reload();
         } else {
           toast.dismiss();

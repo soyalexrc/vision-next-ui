@@ -75,7 +75,11 @@ export const columns: ColumnDef<Ally>[] = [
     cell: ({ row }) => {
       const ally = row.original;
       async function handleDeleteAlly(id: number) {
+        const t = toast.loading('Se esta eliminando el aliado', {
+          duration: 20000,
+        });
         const { success, error } = await deleteAlly(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
           window.location.reload();

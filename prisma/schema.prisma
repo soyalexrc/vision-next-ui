@@ -66,10 +66,12 @@ model DocumentsInformation {
   mortgageRelease            String?
   condominiumSolvencyDetails String?
   power                      String?
+  owner                      String?
   successionDeclaration      String?
   courtRulings               String?
   catastralRecordYear        String?
   attorneyEmail              String?
+  realStateTax               String?
   attorneyPhone              String?
   attorneyFirstName          String?
   attorneyLastName           String?

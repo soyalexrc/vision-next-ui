@@ -12,7 +12,7 @@ import { Owner } from '@prisma/client';
 import { OwnersFormSchema } from '@/lib/interfaces/Owner';
 import { createOwner, updateOwner } from '@/actions/owner';
 import { Checkbox } from '@/components/ui/checkbox';
-import React from 'react';
+import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -23,10 +23,12 @@ import { Calendar } from '@/components/ui/calendar';
 type Props = {
   data: Owner;
   onCloseModal?: () => void;
+  isForm?: boolean;
 };
 
-export default function OwnerForm({ data, onCloseModal }: Props) {
+export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof OwnersFormSchema>>({
     resolver: zodResolver(OwnersFormSchema),
@@ -42,8 +44,10 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof OwnersFormSchema>) {
+    setLoading(true);
     if (values.id && values.id > 0) {
       const { success, error } = await updateOwner(values);
+      setLoading(false);
       if (success) {
         toast.success('Se actualizo el propietario con exito!');
         router.refresh();
@@ -54,6 +58,7 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
       }
     } else {
       const { success, error } = await createOwner(values);
+      setLoading(false);
       if (success) {
         toast.success('Se registro el propietario con exito!');
         router.refresh();
@@ -198,12 +203,20 @@ export default function OwnerForm({ data, onCloseModal }: Props) {
           )}
 
           <div className="flex justify-center gap-3 mt-10">
-            <Button disabled={form.formState.isSubmitting} type="submit" className="w-full lg:w-auto bg-red-900">
-              {form.formState.isSubmitting && (
-                <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
-              )}
-              {form.formState.isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
-            </Button>
+            {isForm && (
+              <Button disabled={form.formState.isSubmitting} type="submit" className="w-full lg:w-auto bg-red-900">
+                {form.formState.isSubmitting && (
+                  <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
+                )}
+                {form.formState.isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
+              </Button>
+            )}
+            {!isForm && (
+              <Button onClick={() => onSubmit(form.getValues())} disabled={loading} type="button" className="w-full lg:w-auto bg-red-900">
+                {loading && <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>}
+                {loading ? 'Guardando cambios...' : 'Guardar cambios'}
+              </Button>
+            )}
           </div>
         </form>
       </Form>

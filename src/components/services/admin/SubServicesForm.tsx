@@ -75,7 +75,11 @@ export default function SubServicesForm({ data, onDelete, onRefresh, defaultServ
   }
 
   async function handleDeleteSubService(id: number) {
+    const t = toast.loading('Se esta eliminando la operacion', {
+      duration: 20000,
+    });
     const { success, error } = await deleteSubService(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino la operacion con exito!');
       onDelete(id);

@@ -14,7 +14,6 @@ import {
 import { revalidatePath } from 'next/cache';
 import { deleteObject, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
-// import { revalidatePath } from 'next/cache';
 
 async function removeFolder(fullPath: string) {
   try {
@@ -201,6 +200,8 @@ export async function createUpdateProperty(
               condominiumSolvencyDetails: documentsInformation.condominiumSolvencyDetails ?? '',
               condominiumSolvency: documentsInformation.condominiumSolvency ?? false,
               catastralRecordYear: documentsInformation.catastralRecordYear ?? '',
+              realStateTax: documentsInformation.realStateTax ?? '',
+              owner: documentsInformation.owner ?? '',
               CIorRIF: documentsInformation.CIorRIF ?? false,
               mortgageRelease: documentsInformation.mortgageRelease ?? '',
               isCatastralRecordSameOwner: documentsInformation.isCatastralRecordSameOwner ?? false,
@@ -375,6 +376,8 @@ export async function createUpdateProperty(
               condominiumSolvencyDetails: documentsInformation.condominiumSolvencyDetails ?? '',
               condominiumSolvency: documentsInformation.condominiumSolvency ?? false,
               catastralRecordYear: documentsInformation.catastralRecordYear ?? '',
+              realStateTax: documentsInformation.realStateTax ?? '',
+              owner: documentsInformation.owner ?? '',
               CIorRIF: documentsInformation.CIorRIF ?? false,
               mortgageRelease: documentsInformation.mortgageRelease ?? '',
               isCatastralRecordSameOwner: documentsInformation.isCatastralRecordSameOwner ?? false,

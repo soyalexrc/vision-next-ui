@@ -84,7 +84,11 @@ export const columns: ColumnDef<Owner>[] = [
     cell: ({ row }) => {
       const owner = row.original;
       async function handleDeleteOwner(id: number) {
+        const t = toast.loading('Se esta eliminando el propietario', {
+          duration: 20000,
+        });
         const { success, error } = await deleteOwner(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el propietario con exito!');
           window.location.reload();
@@ -103,7 +107,7 @@ export const columns: ColumnDef<Owner>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar propietario</DialogTitle>
-                <OwnerForm data={owner} />
+                <OwnerForm isForm={true} data={owner} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

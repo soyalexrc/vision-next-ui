@@ -102,7 +102,11 @@ export const columns: ColumnDef<ShortUser>[] = [
     cell: ({ row }) => {
       const user = row.original;
       async function handleDeleteUser(id: string) {
+        const t = toast.loading('Se esta eliminando el usuario', {
+          duration: 20000,
+        });
         const { success, error } = await deleteUser(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el usuario con exito!');
           window.location.reload();

@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof AdjacencyFormSchema>>({
     resolver: zodResolver(AdjacencyFormSchema),
     defaultValues: {

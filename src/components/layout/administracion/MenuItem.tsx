@@ -11,7 +11,7 @@ import {
   ContactRound,
   FileCog,
   FolderCog,
-  LayoutDashboard,
+  LayoutDashboard, Mail, MailSearch,
   SquareUserRound,
   UserRoundCog,
   UsersRound,
@@ -29,6 +29,8 @@ const menuIcons: Record<string, React.ReactNode> = {
   '/administracion/propietarios': <SquareUserRound />,
   '/administracion/calculo-de-comisiones': <Calculator />,
   '/administracion/gestion-de-archivos': <FileCog />,
+  '/administracion/contacto': <Mail />,
+  '/administracion/trabaja-con-nosotros': <MailSearch />,
 };
 
 export default function MenuItem({ route }: { route: AllowedRoute }) {

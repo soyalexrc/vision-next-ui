@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
       operationType: row.negotiationInformation?.operationType,
+      isFeatured: row.isFeatured,
       publicationTitle: row.generalInformation?.publicationTitle,
       propertyType: row.generalInformation?.propertyType,
       footageBuilding: row.generalInformation?.footageBuilding,

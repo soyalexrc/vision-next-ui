@@ -36,6 +36,25 @@ async function removeFolder(fullPath: string) {
   }
 }
 
+export async function toggleFeatured(id: string, currentValue: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    await prisma.property.update({
+      data: {
+        isFeatured: !currentValue,
+      },
+      where: { id },
+    });
+
+    return {
+      success: true,
+      error: undefined,
+    };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: JSON.stringify(err) };
+  }
+}
+
 export async function deleteProperty(id: string, imagesPaths: string[], code: string): Promise<{ success: boolean; error?: string }> {
   try {
     // eliminamos las tablas relacion
@@ -117,6 +136,9 @@ export async function createUpdateProperty(
         where: { propertyId: id },
       });
       await prisma.adjacenciesOnProperties.deleteMany({
+        where: { propertyId: id },
+      });
+      await prisma.distributionsOnProperties.deleteMany({
         where: { propertyId: id },
       });
       const property = await prisma.property.update({

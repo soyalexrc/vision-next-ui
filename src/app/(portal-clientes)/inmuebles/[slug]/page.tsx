@@ -15,6 +15,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
+import ContactForm from "@/components/contact/ContactForm";
 
 type Props = {
   params: { slug: string };
@@ -294,23 +295,7 @@ export default async function Page({ params }: Props) {
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>
           <div className="my-5">
-            <Input className="mb-4" type="text" placeholder="Nombres y apellidos" />
-            <Input className="mb-4" type="email" placeholder="Email" />
-            <Input className="mb-4" type="tel" placeholder="Telefono" />
-            <Textarea placeholder="Mensaje" className="w-full" />
-            <div className="my-5 flex gap-2 items-center">
-              <Checkbox defaultChecked />
-              <span className="text-xs">
-                He leido y acepto los{' '}
-                <Link className="text-xs" href="/public">
-                  terminos y condiciones
-                </Link>
-              </span>
-            </div>
-
-            <div className="flex justify-center">
-              <Button className="bg-red-900 text-white">Enviar informacion</Button>
-            </div>
+            <ContactForm from={property.generalInformation.code} showLabels={false} />
           </div>
         </div>
       </div>

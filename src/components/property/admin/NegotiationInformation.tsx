@@ -15,7 +15,7 @@ import { Ally, ExternalAdviser } from '@prisma/client';
 import AllyForm from '@/components/allies/AllyForm';
 import { getAllies } from '@/actions/ally';
 import { useUser } from '@clerk/nextjs';
-import { getUsersFromClerk } from '@/actions/users';
+import { getUsersFromClerk } from '@/actions/user';
 import UserForm from '@/components/users/UserForm';
 
 export function NegotiationInformation() {
@@ -48,7 +48,6 @@ export function NegotiationInformation() {
     setUsersLoading(true);
     const { data } = await getUsersFromClerk();
     setUsersLoading(false);
-    console.log(data);
     if (data && data?.length > 0) {
       setUsers(data);
     }

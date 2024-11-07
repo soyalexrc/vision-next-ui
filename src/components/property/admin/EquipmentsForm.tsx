@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function EquipmentsForm({ data, onAppend, onUpdate, onRemove }: Props) {
-
   const form = useForm<z.infer<typeof EquipmentFormSchema>>({
     resolver: zodResolver(EquipmentFormSchema),
     defaultValues: {

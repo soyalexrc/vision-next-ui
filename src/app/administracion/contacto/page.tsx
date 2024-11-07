@@ -4,7 +4,6 @@ import { columns, DataTable } from '@/components/contact/table';
 import { AlertTriangle } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 
-
 type SearchParams = {
   [key: string]: string | string[] | undefined;
 };
@@ -43,7 +42,6 @@ async function TableWrapper({ query }: { query: SearchParams }) {
       'Content-Type': 'application/json',
     },
   }).then((data) => data.json());
-
 
   return <DataTable columns={columns} data={data} />;
 }

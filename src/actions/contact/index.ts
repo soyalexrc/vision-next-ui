@@ -2,7 +2,7 @@
 import prisma from '@/lib/db/prisma';
 import { z } from 'zod';
 import { ContactFormSchema } from '@/lib/interfaces/Contact';
-import {WorkWithUsFormSchema} from "@/lib/interfaces/WorkWithUs";
+import { WorkWithUsFormSchema } from '@/lib/interfaces/WorkWithUs';
 
 export async function sendContactForm(form: z.infer<typeof ContactFormSchema>): Promise<{ error?: string; success: boolean }> {
   try {

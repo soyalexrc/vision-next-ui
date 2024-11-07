@@ -48,7 +48,6 @@ export default function ContactForm({ showLabels, from }: Props) {
     }
   }
 
-
   function formatErrorSection(key: string) {
     switch (key) {
       case 'name':

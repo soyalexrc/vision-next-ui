@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 import { ContactForm } from '@prisma/client';
 import { deleteAlly } from '@/actions/ally';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
-import {Badge} from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

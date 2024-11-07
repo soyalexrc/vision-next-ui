@@ -16,9 +16,9 @@ import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
 import ContactForm from '@/components/contact/ContactForm';
-import ImagesGrid from "@/components/property/ImagesGrid";
-import Lightbox from "@/components/property/Lightbox";
-import Gallery from "@/components/property/Gallery";
+import ImagesGrid from '@/components/property/ImagesGrid';
+import Lightbox from '@/components/property/Lightbox';
+import Gallery from '@/components/property/Gallery';
 
 type Props = {
   params: { slug: string };

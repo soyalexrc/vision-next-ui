@@ -11,7 +11,6 @@ export default async function DocumentSignature({ params }: { params: { id: stri
   const { data }: { data: GetDigitalSignatureRequestById } = await http.get(`/files/getDigitalSignatureRequestById/${params.id}`);
   // const filePath = data.data?.filePath;
 
-
   return (
     <div>
       <DigitalSignatureContent data={data} />

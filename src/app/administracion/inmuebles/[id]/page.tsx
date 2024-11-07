@@ -9,6 +9,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   }).then((res) => res.json());
 
-
   return <PropertyForm data={data} />;
 }

@@ -16,7 +16,7 @@ export default function Component({ images = [] }: ImageGridProps) {
 
   // If less than 5 images, fill the rest with placeholders
   while (gridImages.length < 5) {
-    gridImages.push('/placeholder.svg?height=400&width=400');
+    gridImages.push('/placeholder.webp');
   }
 
   function onImagePressed(index: number) {

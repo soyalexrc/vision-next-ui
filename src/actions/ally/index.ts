@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { AllyFormSchema } from '@/lib/interfaces/Ally';
 import prisma from '@/lib/db/prisma';
-import { Ally, ExternalAdviser } from '@prisma/client';
+import { Ally } from '@prisma/client';
 
 export async function getAllies(): Promise<{ error?: string; data: Ally[] | undefined }> {
   try {

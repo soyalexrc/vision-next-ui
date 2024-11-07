@@ -1,6 +1,4 @@
 // 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
 // import Lightbox from 'yet-another-react-lightbox';
 // import NextJsImage from '@/components/lightbox/NextJsImage';
 // import { useState } from 'react';
@@ -9,15 +7,10 @@ import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
 import ContactForm from '@/components/contact/ContactForm';
 import ImagesGrid from '@/components/property/ImagesGrid';
-import Lightbox from '@/components/property/Lightbox';
 import Gallery from '@/components/property/Gallery';
 
 type Props = {

@@ -118,6 +118,7 @@ export interface FullProperty extends Property {
     isCatastralRecordSameOwner?: boolean;
     attorneyEmail?: string;
     catastralRecordYear?: string;
+    realStateTax?: string;
     condominiumSolvency?: boolean;
     CIorRIF?: boolean;
     power?: string;
@@ -314,6 +315,7 @@ export const PropertyFormSchema = z.object({
     isCatastralRecordSameOwner: z.boolean().optional(),
     attorneyEmail: z.string().optional(),
     catastralRecordYear: z.string().optional(),
+    realStateTax: z.string().optional(),
     condominiumSolvency: z.boolean().optional(),
     CIorRIF: z.boolean().optional(),
     power: z.string().optional(),

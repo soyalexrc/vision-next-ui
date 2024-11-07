@@ -46,7 +46,6 @@ export async function updateUtility(
 }
 
 export async function deleteUtility(id: number): Promise<{ success: boolean; error?: string }> {
-  console.log(id);
   try {
     await prisma.utility.delete({
       where: {

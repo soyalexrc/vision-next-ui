@@ -12,7 +12,79 @@ import {
   UtilityForm,
 } from '@/lib/interfaces/property/PropertyForm';
 import { revalidatePath } from 'next/cache';
-// import { revalidatePath } from 'next/cache';
+import { deleteObject, listAll, ref } from '@firebase/storage';
+import storage from '@/lib/firebase/storage';
+
+async function removeFolder(fullPath: string) {
+  try {
+    const folderRef = ref(storage, fullPath);
+    const listResult = await listAll(folderRef);
+    if (listResult.prefixes.length > 0) {
+      const nestedFolderRef = ref(storage, listResult.prefixes[0].fullPath);
+      const nestedListResult = await listAll(nestedFolderRef);
+      for (const file of nestedListResult.items) {
+        await deleteObject(ref(storage, file.fullPath));
+      }
+      await removeFolder(fullPath);
+    } else {
+      for (const file of listResult.items) {
+        await deleteObject(ref(storage, file.fullPath));
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function toggleFeatured(id: string, currentValue: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    await prisma.property.update({
+      data: {
+        isFeatured: !currentValue,
+      },
+      where: { id },
+    });
+
+    return {
+      success: true,
+      error: undefined,
+    };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: JSON.stringify(err) };
+  }
+}
+
+export async function deleteProperty(id: string, imagesPaths: string[], code: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    // eliminamos las tablas relacion
+    await prisma.generalInformation.delete({ where: { propertyId: id } });
+    await prisma.locationInformation.delete({ where: { propertyId: id } });
+    await prisma.documentsInformation.delete({ where: { propertyId: id } });
+    await prisma.negotiationInfomation.delete({ where: { propertyId: id } });
+    await prisma.propertyStatusEntry.delete({ where: { propertyId: id } });
+    await prisma.attributesOnProperties.deleteMany({ where: { propertyId: id } });
+    await prisma.adjacenciesOnProperties.deleteMany({ where: { propertyId: id } });
+    await prisma.distributionsOnProperties.deleteMany({ where: { propertyId: id } });
+    await prisma.utilitiesOnProperties.deleteMany({ where: { propertyId: id } });
+    await prisma.equipmentsOnProperties.deleteMany({ where: { propertyId: id } });
+    const index = imagesPaths[0].indexOf(code);
+    const fullPath = imagesPaths[0].slice(0, index).concat(code);
+    await removeFolder(fullPath);
+
+    // Eliminamos la fila de property
+
+    await prisma.property.delete({ where: { id } });
+
+    return {
+      success: true,
+      error: undefined,
+    };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: JSON.stringify(err) };
+  }
+}
 
 export async function createUpdateProperty(
   form: z.infer<typeof PropertyFormSchema>,
@@ -66,6 +138,9 @@ export async function createUpdateProperty(
       await prisma.adjacenciesOnProperties.deleteMany({
         where: { propertyId: id },
       });
+      await prisma.distributionsOnProperties.deleteMany({
+        where: { propertyId: id },
+      });
       const property = await prisma.property.update({
         where: { id },
         data: {
@@ -117,7 +192,7 @@ export async function createUpdateProperty(
           negotiationInformation: {
             update: {
               client: negotiationInformation.client ?? '',
-              externalAdviser: negotiationInformation.externalAdviser,
+              externalAdviser: negotiationInformation.externalAdviser ?? '',
               realStateWebPages: negotiationInformation.realStateWebPages ?? false,
               realStateGroups: negotiationInformation.realStateGroups ?? false,
               socialMedia: negotiationInformation.socialMedia ?? false,
@@ -147,6 +222,8 @@ export async function createUpdateProperty(
               condominiumSolvencyDetails: documentsInformation.condominiumSolvencyDetails ?? '',
               condominiumSolvency: documentsInformation.condominiumSolvency ?? false,
               catastralRecordYear: documentsInformation.catastralRecordYear ?? '',
+              realStateTax: documentsInformation.realStateTax ?? '',
+              owner: documentsInformation.owner ?? '',
               CIorRIF: documentsInformation.CIorRIF ?? false,
               mortgageRelease: documentsInformation.mortgageRelease ?? '',
               isCatastralRecordSameOwner: documentsInformation.isCatastralRecordSameOwner ?? false,
@@ -284,7 +361,7 @@ export async function createUpdateProperty(
           negotiationInformation: {
             create: {
               client: negotiationInformation.client ?? '',
-              externalAdviser: negotiationInformation.externalAdviser,
+              externalAdviser: negotiationInformation.externalAdviser ?? '',
               realStateWebPages: negotiationInformation.realStateWebPages ?? false,
               realStateGroups: negotiationInformation.realStateGroups ?? false,
               socialMedia: negotiationInformation.socialMedia ?? false,
@@ -321,6 +398,8 @@ export async function createUpdateProperty(
               condominiumSolvencyDetails: documentsInformation.condominiumSolvencyDetails ?? '',
               condominiumSolvency: documentsInformation.condominiumSolvency ?? false,
               catastralRecordYear: documentsInformation.catastralRecordYear ?? '',
+              realStateTax: documentsInformation.realStateTax ?? '',
+              owner: documentsInformation.owner ?? '',
               CIorRIF: documentsInformation.CIorRIF ?? false,
               mortgageRelease: documentsInformation.mortgageRelease ?? '',
               isCatastralRecordSameOwner: documentsInformation.isCatastralRecordSameOwner ?? false,

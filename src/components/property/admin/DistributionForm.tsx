@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function DistributionForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof DistributionFormSchema>>({
     resolver: zodResolver(DistributionFormSchema),
     defaultValues: {
@@ -88,7 +87,11 @@ export default function DistributionForm({ data, onAppend, onUpdate, onRemove }:
 
   async function handleDeleteUtility(id: number) {
     const index = data.findIndex((e) => e.distributionId === id);
+    const t = toast.loading('Se esta eliminando el inmueble', {
+      duration: 20000,
+    });
     const { success, error } = await deleteDistribution(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino la distribucion con exito!');
       onRemove(index);

@@ -78,8 +78,6 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           },
         },
   });
-
-  console.log(form.formState);
   const { append: appendDistribution } = useFieldArray({ control: form.control, name: 'distributions' });
   const { append: appendAttribute } = useFieldArray({ control: form.control, name: 'attributes' });
   const { append: appendEquipment } = useFieldArray({ control: form.control, name: 'equipments' });

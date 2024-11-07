@@ -40,7 +40,7 @@ export function TableFilters() {
         <DialogContent className="overflow-y-auto max-h-screen">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl">Nuevo propietario</DialogTitle>
-            <OwnerForm data={{} as any} onCloseModal={() => setOpen(false)} />
+            <OwnerForm isForm={true} data={{} as any} onCloseModal={() => setOpen(false)} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

@@ -102,7 +102,11 @@ export const columns: ColumnDef<ShortUser>[] = [
     cell: ({ row }) => {
       const user = row.original;
       async function handleDeleteUser(id: string) {
+        const t = toast.loading('Se esta eliminando el usuario', {
+          duration: 20000,
+        });
         const { success, error } = await deleteUser(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el usuario con exito!');
           window.location.reload();
@@ -121,7 +125,7 @@ export const columns: ColumnDef<ShortUser>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar Usuario</DialogTitle>
-                <UserForm data={user} />
+                <UserForm isForm={true} data={user} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

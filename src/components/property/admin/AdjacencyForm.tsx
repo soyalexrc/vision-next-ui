@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof AdjacencyFormSchema>>({
     resolver: zodResolver(AdjacencyFormSchema),
     defaultValues: {
@@ -87,7 +86,11 @@ export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Pr
 
   async function handleDeleteAdjacency(id: number) {
     const index = data.findIndex((e) => e.adjacencyId === id);
+    const t = toast.loading('Se esta eliminando la adyacencia', {
+      duration: 20000,
+    });
     const { success, error } = await deleteAdjacency(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino el adyacencia con exito!');
       onRemove(index);

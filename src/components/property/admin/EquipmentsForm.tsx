@@ -33,7 +33,6 @@ type Props = {
 };
 
 export default function EquipmentsForm({ data, onAppend, onUpdate, onRemove }: Props) {
-  console.log(data);
   const form = useForm<z.infer<typeof EquipmentFormSchema>>({
     resolver: zodResolver(EquipmentFormSchema),
     defaultValues: {
@@ -90,7 +89,11 @@ export default function EquipmentsForm({ data, onAppend, onUpdate, onRemove }: P
 
   async function handleDeleteEquipment(id: number) {
     const index = data.findIndex((e) => e.equipmentId === id);
+    const t = toast.loading('Se esta eliminando el equipo', {
+      duration: 20000,
+    });
     const { success, error } = await deleteEquipment(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino el equipo con exito!');
       onRemove(index);

@@ -63,8 +63,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
           additionalInformation: foundUtility?.additionalInformation ?? '',
         };
       });
-
-      console.log(property);
       filledDistributions = rawDistributions.map((distribution) => {
         const foundDistribution = property.DistributionsOnProperties?.find((d) => d.distributionId === distribution.id);
         return {

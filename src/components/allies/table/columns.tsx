@@ -75,7 +75,11 @@ export const columns: ColumnDef<Ally>[] = [
     cell: ({ row }) => {
       const ally = row.original;
       async function handleDeleteAlly(id: number) {
+        const t = toast.loading('Se esta eliminando el aliado', {
+          duration: 20000,
+        });
         const { success, error } = await deleteAlly(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
           window.location.reload();
@@ -94,7 +98,7 @@ export const columns: ColumnDef<Ally>[] = [
             <DialogContent className="overflow-y-auto max-h-screen">
               <DialogHeader>
                 <DialogTitle className="text-center text-2xl">Editar aliado</DialogTitle>
-                <AllyForm data={ally} />
+                <AllyForm isForm={true} data={ally} />
               </DialogHeader>
             </DialogContent>
           </Dialog>

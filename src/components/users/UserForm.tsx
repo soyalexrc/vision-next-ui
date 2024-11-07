@@ -11,15 +11,17 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { createUser, updateUser } from '@/actions/user';
+import { useState } from 'react';
 
 type Props = {
   data: ShortUser;
   onCloseModal?: () => void;
+  isForm?: boolean;
 };
 
-export default function UserForm({ data, onCloseModal }: Props) {
+export default function UserForm({ data, onCloseModal, isForm }: Props) {
   const router = useRouter();
-  console.log(data);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
@@ -36,8 +38,10 @@ export default function UserForm({ data, onCloseModal }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof UserFormSchema>) {
+    setLoading(true);
     if (values.id) {
       const { success, error } = await updateUser(values);
+      setLoading(false);
       if (success) {
         toast.success('Se actualizo el usuario con exito!');
         router.refresh();
@@ -48,6 +52,7 @@ export default function UserForm({ data, onCloseModal }: Props) {
       }
     } else {
       const { success, error } = await createUser(values);
+      setLoading(false);
       if (success) {
         toast.success('Se registro el usuario con exito!');
         router.refresh();
@@ -220,12 +225,21 @@ export default function UserForm({ data, onCloseModal }: Props) {
           )}
 
           <div className="flex justify-center gap-3 mt-10">
-            <Button disabled={form.formState.isSubmitting} type="submit" className="w-full lg:w-auto bg-red-900">
-              {form.formState.isSubmitting && (
-                <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
-              )}
-              {form.formState.isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
-            </Button>
+            {isForm && (
+              <Button disabled={form.formState.isSubmitting} type="submit" className="w-full lg:w-auto bg-red-900">
+                {form.formState.isSubmitting && (
+                  <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>
+                )}
+                {form.formState.isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
+              </Button>
+            )}
+
+            {!isForm && (
+              <Button disabled={loading} type="button" onClick={() => onSubmit(form.getValues())} className="w-full lg:w-auto bg-red-900">
+                {loading && <div className="w-4 h-4 border-4 mr-2 border-solid border-t-transparent rounded-full animate-spin"></div>}
+                {loading ? 'Guardando cambios...' : 'Guardar cambios'}
+              </Button>
+            )}
           </div>
         </form>
       </Form>

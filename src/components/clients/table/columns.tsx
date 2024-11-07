@@ -56,7 +56,11 @@ export const columns: ColumnDef<Client>[] = [
     cell: ({ row }) => {
       const client = row.original;
       async function handleDeleteClient(id: number) {
+        const t = toast.loading('Se esta eliminando el cliente', {
+          duration: 20000,
+        });
         const { success, error } = await deleteClient(id);
+        toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el cliente con exito!');
           setTimeout(() => {
@@ -64,6 +68,7 @@ export const columns: ColumnDef<Client>[] = [
           }, 500);
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el cliente  ${error}`);
+          toast.dismiss();
           console.log(error);
         }
       }

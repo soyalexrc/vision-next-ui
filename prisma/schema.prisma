@@ -36,6 +36,7 @@ model Property {
   furnishedAreas            String[]
   slug                      String                      @unique
   updatedAt                 DateTime                    @updatedAt
+  isFeatured                Boolean?                    @default(false)
   AdjacenciesOnProperties   AdjacenciesOnProperties[]
   AttributesOnProperties    AttributesOnProperties[]
   DistributionsOnProperties DistributionsOnProperties[]
@@ -66,10 +67,12 @@ model DocumentsInformation {
   mortgageRelease            String?
   condominiumSolvencyDetails String?
   power                      String?
+  owner                      String?
   successionDeclaration      String?
   courtRulings               String?
   catastralRecordYear        String?
   attorneyEmail              String?
+  realStateTax               String?
   attorneyPhone              String?
   attorneyFirstName          String?
   attorneyLastName           String?
@@ -425,6 +428,28 @@ model CashFlowTransactionType {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
+}
+
+model ContactForm {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  createdAt DateTime @default(now())
+  from      String
+  message   String
+}
+
+model WorkWithUsForm {
+  id        Int      @id @default(autoincrement())
+  email     String
+  name      String
+  phone     String
+  createdAt DateTime @default(now())
+  message   String
+  role      String
+  office    String
+  cvUrl     String
 }
 
 enum FormTypes {

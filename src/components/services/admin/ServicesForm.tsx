@@ -67,7 +67,11 @@ export default function ServicesForm({ data, onDelete, onRefresh }: Props) {
   }
 
   async function handleDeleteService(id: number) {
+    const t = toast.loading('Se esta eliminando el servicio', {
+      duration: 20000,
+    });
     const { success, error } = await deleteService(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino el servicio con exito!');
       onDelete(id);

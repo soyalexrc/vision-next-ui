@@ -1,9 +1,9 @@
 export default function Arrow(props: { disabled: boolean; left?: boolean; onClick: (e: any) => void }) {
-  const disabeld = props.disabled ? ' arrow--disabled' : '';
+  const disabled = props.disabled ? ' arrow--disabled' : '';
   return (
     <svg
       onClick={props.onClick}
-      className={`arrow ${props.left ? 'arrow--left' : 'arrow--right'} ${disabeld}`}
+      className={`arrow ${props.left ? 'arrow--left' : 'arrow--right'} ${disabled}`}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
     >

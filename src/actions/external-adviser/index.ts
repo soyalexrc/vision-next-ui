@@ -3,6 +3,23 @@
 import { z } from 'zod';
 import prisma from '@/lib/db/prisma';
 import { ExternalAdviserFormSchema } from '@/lib/interfaces/ExternalAdviser';
+import { ExternalAdviser } from '@prisma/client';
+
+export async function getExternalAdvisers(): Promise<{ error?: string; data: ExternalAdviser[] | undefined }> {
+  try {
+    const data = await prisma.externalAdviser.findMany();
+    return {
+      data,
+      error: undefined,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      data: undefined,
+      error: JSON.stringify(err),
+    };
+  }
+}
 
 export async function createExternalAdviser(
   form: z.infer<typeof ExternalAdviserFormSchema>,

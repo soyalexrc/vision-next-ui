@@ -38,6 +38,15 @@ export async function GET(req: NextRequest) {
         generalInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, description: true },
         },
+        locationInformation: {
+          select: {
+            municipality: true,
+            urbanization: true,
+            avenue: true,
+            street: true,
+            state: true,
+          },
+        },
       },
       where: whereClause,
     });
@@ -48,9 +57,15 @@ export async function GET(req: NextRequest) {
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
       operationType: row.negotiationInformation?.operationType,
+      isFeatured: row.isFeatured,
       publicationTitle: row.generalInformation?.publicationTitle,
       propertyType: row.generalInformation?.propertyType,
       footageBuilding: row.generalInformation?.footageBuilding,
+      municipality: row.locationInformation?.municipality,
+      state: row.locationInformation?.state,
+      avenue: row.locationInformation?.avenue,
+      urbanization: row.locationInformation?.urbanization,
+      street: row.locationInformation?.street,
       description: row.generalInformation?.description,
       images: row.images ?? ['/vision-icon.png'],
     }));

@@ -1,9 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
+import ContactForm from '@/components/contact/ContactForm';
 
 export default function ContactUs() {
   return (
@@ -39,30 +35,7 @@ export default function ContactUs() {
           </div>
           <div className="px-4">
             <h2 className="text-3xl mb-4">Mis datos</h2>
-            <Input type="text" placeholder="Nombre" />
-
-            <div className="grid gap-4 grid-cols-2 my-5">
-              <Input type="email" placeholder="Email" />
-              <Input type="tel" placeholder="Telefono" />
-            </div>
-
-            <h2 className="text-2xl mt-10 mb-3">Estoy interesado en </h2>
-
-            <Textarea placeholder="Escribir mensaje aqui" className="w-full" />
-
-            <div className="flex items-center my-5 gap-2">
-              <Checkbox defaultChecked />
-              <span className="text-sm">
-                He leido y acepto los
-                <Link href="/">terminos y condiciones</Link>
-              </span>
-            </div>
-
-            <div className="flex justify-center">
-              <Button size="lg" className="bg-red-900 text-white">
-                Enviar
-              </Button>
-            </div>
+            <ContactForm from="GENERAL" showLabels={true} />
           </div>
         </div>
       </section>

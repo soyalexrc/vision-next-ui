@@ -107,9 +107,13 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
     }
   }
 
-  async function handleDeleteUtility(id: number) {
+  async function handleDeleteAttribute(id: number) {
     const index = data.findIndex((e) => e.attributeId === id);
+    const t = toast.loading('Se esta eliminando el atributo', {
+      duration: 20000,
+    });
     const { success, error } = await deleteAttribute(id);
+    toast.dismiss(t);
     if (success) {
       toast.success('Se elimino el atributo con exito!');
       onRemove(index);
@@ -199,7 +203,7 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDeleteUtility(attribute.attributeId)}>Continuar</AlertDialogAction>
+                    <AlertDialogAction onClick={() => handleDeleteAttribute(attribute.attributeId)}>Continuar</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>

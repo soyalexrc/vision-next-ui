@@ -93,13 +93,11 @@ export function DigitalSignatureContent({ data }: Props) {
   // };
 
   const validateUserData = async (formValues: Inputs) => {
-    console.log(formValues);
     const payload = {
       ...formValues,
       userId: data.user.id.toString(),
     };
     const responseValidation = await http.post('/api/firma-digital/validateUserData', payload);
-    console.log(responseValidation);
     if (responseValidation.data.error) {
       setSnackbarState({
         show: true,

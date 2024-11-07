@@ -1,6 +1,4 @@
 // 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
 // import Lightbox from 'yet-another-react-lightbox';
 // import NextJsImage from '@/components/lightbox/NextJsImage';
 // import { useState } from 'react';
@@ -9,12 +7,11 @@ import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
 import formatCurrency from '@/utils/format-currency';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
+import ContactForm from '@/components/contact/ContactForm';
+import ImagesGrid from '@/components/property/ImagesGrid';
+import Gallery from '@/components/property/Gallery';
 
 type Props = {
   params: { slug: string };
@@ -92,9 +89,13 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="min-h-screen">
-      <div className="w-full h-[300px] lg:h-[500px] relative">
-        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />
-      </div>
+      <ImagesGrid images={property.images} />
+
+      {/*<div className="w-full h-[300px] lg:h-[200px] max-h-[500px] relative">*/}
+      {/*  {property.images.length === 1 && (*/}
+      {/*    <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />*/}
+      {/*  )}*/}
+      {/*</div>*/}
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="px-4 lg:px-24">
           <div className="grid grid-cols-12">
@@ -238,21 +239,7 @@ export default async function Page({ params }: Props) {
 
           <div>
             <h3 className="px-4 text-3xl my-10">Galeria</h3>
-            <div className="grid grid-cols-4 gap-2">
-              {property &&
-                property.images &&
-                property.images.length > 0 &&
-                property.images.map((image: string) => (
-                  <Image
-                    width={200}
-                    height={200}
-                    className="w-full h-[150px] lg:h-[200px] object-cover rounded cursor-zoom-in"
-                    key={image}
-                    src={image}
-                    alt="Imagen de propiedad"
-                  />
-                ))}
-            </div>
+            <Gallery images={property.images} />
           </div>
           <div className="px-4 my-10">
             <h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>
@@ -294,23 +281,7 @@ export default async function Page({ params }: Props) {
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>
           <div className="my-5">
-            <Input className="mb-4" type="text" placeholder="Nombres y apellidos" />
-            <Input className="mb-4" type="email" placeholder="Email" />
-            <Input className="mb-4" type="tel" placeholder="Telefono" />
-            <Textarea placeholder="Mensaje" className="w-full" />
-            <div className="my-5 flex gap-2 items-center">
-              <Checkbox defaultChecked />
-              <span className="text-xs">
-                He leido y acepto los{' '}
-                <Link className="text-xs" href="/public">
-                  terminos y condiciones
-                </Link>
-              </span>
-            </div>
-
-            <div className="flex justify-center">
-              <Button className="bg-red-900 text-white">Enviar informacion</Button>
-            </div>
+            <ContactForm from={property.generalInformation.code} showLabels={false} />
           </div>
         </div>
       </div>

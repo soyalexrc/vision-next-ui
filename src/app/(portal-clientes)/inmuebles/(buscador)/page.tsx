@@ -45,6 +45,12 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
             title={property.publicationTitle}
             description={property.description}
             price={property.price}
+            municipality={property.municipality}
+            street={property.street}
+            state={property.state}
+            code={property.code}
+            avenue={property.avenue}
+            urbanization={property.urbanization}
             featured={[property.footageBuilding, property.operationType, property.propertyType]}
           />
         ))}

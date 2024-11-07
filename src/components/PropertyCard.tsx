@@ -9,6 +9,11 @@ import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { useUiConfig } from '@/lib/context/UiConfigContext';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Heart, Phone } from 'lucide-react';
+import { MailIcon, WhatsappIcon } from '@/components/icons';
+import Link from 'next/link';
 
 export function PropertyCard(props: { img: string }) {
   return (
@@ -30,9 +35,15 @@ export function PropertyCard(props: { img: string }) {
 export function PropertyCardWithCarousel(props: {
   images: string[];
   path: string;
+  code: string;
   title: string;
   description: string;
   price: string;
+  state: string;
+  municipality: string;
+  street: string;
+  avenue: string;
+  urbanization: string;
   featured: string[];
 }) {
   const { viewStyle } = useUiConfig();
@@ -93,13 +104,13 @@ export function PropertyCardWithCarousel(props: {
         </div>
       )}
       {viewStyle === 'list' && (
-        <div className="flex w-full mb-5 max-h-[400px]">
+        <div className="flex w-full mb-5 max-h-[400px] border-2 border-gray-200 rounded-r-lg">
           <div className="navigation-wrapper max-w-[300px] relative">
-            <div ref={sliderRef} className="keen-slider">
+            <Link href={`/inmuebles/${props.path}`} ref={sliderRef} className="keen-slider">
               {props.images.map((image) => (
                 <CarouselCard key={image} image={image} position="horizontal" />
               ))}
-            </div>
+            </Link>
             {loaded && instanceRef.current && props.images.length > 1 && (
               <>
                 <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
@@ -111,24 +122,45 @@ export function PropertyCardWithCarousel(props: {
               </>
             )}
           </div>
-          <div
-            onClick={() => router.push(`/inmuebles/${props.path}`)}
-            className="cursor-pointer bg-gray-100 p-6 w-full rounded-tr rounded-br min-h-[290px] flex flex-col justify-between"
-          >
-            <div>
-              <h3 className="text-2xl mb-2">{textShortener(props.title, 100)}</h3>
-              <div className="flex gap-5 mb-4">
+          <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">
+            <Link href={`/inmuebles/${props.path}`} className="flex justify-between">
+              <p className="text-gray-500">{props.code}</p>
+              <Button variant="outline" size="icon">
+                <Heart size={18} className="fill-red-500 text-red-500" />
+              </Button>
+            </Link>
+            <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
+              {formatCurrency(props.price)}
+            </Link>
+            <Link href={`/inmuebles/${props.path}`}>
+              <h5>
+                {props.municipality}, {props.state}
+              </h5>
+              {/*<h3 className="text-xl mb-2">{textShortener(props.title, 100)}</h3>*/}
+              <div className="flex gap-5 mt-2 mb-4">
                 {props.featured.map((feature, index) => (
-                  <Badge variant="outline" key={feature} className={`${index === 1 && 'px-4'} text-red-900 border-red-900`}>
+                  <Badge variant="secondary" key={feature} className={`${index === 1 && 'px-4'}`}>
                     {index === 0 ? `${feature} m2` : feature}
                   </Badge>
                 ))}
               </div>
 
               <p className="text-sm">{textShortener(props.description, 285)}</p>
+            </Link>
+            <Separator className="my-2" />
+            <div className="flex gap-2 justify-end z-50">
+              <Button variant="outline" size="icon">
+                <Phone size={18} />
+              </Button>
+              <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2">
+                <p className="font-bold text-white">Whatsapp</p>
+                <WhatsappIcon width={18} height={18} fill="white" />
+              </Button>
+              <Button variant="vision" className="gap-2">
+                <p className="font-bold text-white">Contactar</p>
+                <MailIcon width={18} height={18} fill="white" />
+              </Button>
             </div>
-
-            <p className="text-red-900 text-right mt-5 text-4xl">{formatCurrency(props.price)}</p>
           </div>
         </div>
       )}

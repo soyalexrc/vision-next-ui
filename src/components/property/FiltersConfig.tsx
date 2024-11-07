@@ -34,90 +34,102 @@ export function FiltersConfig() {
     if (value === 'Aragua') setMunicipalitiesList(LOCATIONS_DETAIL.aragua);
   }
   return (
-    <div className="my-5">
-      <p className="font-bold text-sm mb-1">Estado</p>
-      <Select value={state} onValueChange={handleChangeLocation}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Estado</SelectLabel>
-            {LOCATIONS.map((location) => (
-              <SelectItem value={location} key={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+    <div className="my-5 flex gap-4">
+      {/*<div>*/}
+      {/*  <p className="font-bold text-sm mb-1">Estado</p>*/}
+      {/*  <Select value={state} onValueChange={handleChangeLocation}>*/}
+      {/*    <SelectTrigger className="w-full mb-4">*/}
+      {/*      <SelectValue placeholder="Seleccionar" />*/}
+      {/*    </SelectTrigger>*/}
+      {/*    <SelectContent>*/}
+      {/*      <SelectGroup>*/}
+      {/*        <SelectLabel>Estado</SelectLabel>*/}
+      {/*        {LOCATIONS.map((location) => (*/}
+      {/*          <SelectItem value={location} key={location}>*/}
+      {/*            {location}*/}
+      {/*          </SelectItem>*/}
+      {/*        ))}*/}
+      {/*      </SelectGroup>*/}
+      {/*    </SelectContent>*/}
+      {/*  </Select>*/}
+      {/*</div>*/}
 
-      <p className="font-bold text-sm mb-1">Municipio</p>
-      <Select value={municipality} onValueChange={setMunicipality}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Municipio</SelectLabel>
-            {municipalitiesList.map((location) => (
-              <SelectItem value={location} key={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {/*<div>*/}
+      {/*  <p className="font-bold text-sm mb-1">Municipio</p>*/}
+      {/*  <Select value={municipality} onValueChange={setMunicipality}>*/}
+      {/*    <SelectTrigger className="w-full mb-4">*/}
+      {/*      <SelectValue placeholder="Seleccionar" />*/}
+      {/*    </SelectTrigger>*/}
+      {/*    <SelectContent>*/}
+      {/*      <SelectGroup>*/}
+      {/*        <SelectLabel>Municipio</SelectLabel>*/}
+      {/*        {municipalitiesList.map((location) => (*/}
+      {/*          <SelectItem value={location} key={location}>*/}
+      {/*            {location}*/}
+      {/*          </SelectItem>*/}
+      {/*        ))}*/}
+      {/*      </SelectGroup>*/}
+      {/*    </SelectContent>*/}
+      {/*  </Select>*/}
+      {/*</div>*/}
 
-      <p className="font-bold text-sm mb-1">Precio</p>
+      {/*<div>*/}
+      {/*  <p className="font-bold text-sm mb-1">Precio</p>*/}
 
-      <div className="mb-4 grid grid-cols-12 justify-items-center items-center">
-        <Input className="col-span-5" type="text" placeholder="Desde" />
-        <div className="col-span-2">-</div>
-        <Input className="col-span-5" type="text" placeholder="Hasta" />
+      {/*  <div className="mb-4 grid grid-cols-12 justify-items-center items-center">*/}
+      {/*    <Input className="col-span-5" type="text" placeholder="Desde" />*/}
+      {/*    <div className="col-span-2">-</div>*/}
+      {/*    <Input className="col-span-5" type="text" placeholder="Hasta" />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+
+      <div>
+        {/*<p className="font-bold text-sm mb-1">Inmueble</p>*/}
+        <Select value={propertyType} onValueChange={setPropertyType}>
+          <SelectTrigger className="w-full mb-4">
+            <SelectValue placeholder="Seleccionar" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Tipo de inmueble</SelectLabel>
+              {PROPERTY_TYPES.map((propertyType) => (
+                <SelectItem value={propertyType} key={propertyType}>
+                  {propertyType}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
-      <p className="font-bold text-sm mb-1">Inmueble</p>
-      <Select value={propertyType} onValueChange={setPropertyType}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Tipo de inmueble</SelectLabel>
-            {PROPERTY_TYPES.map((propertyType) => (
-              <SelectItem value={propertyType} key={propertyType}>
-                {propertyType}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Tipo de operacion</p>
-      <Select value={operationType} onValueChange={setOperationType}>
-        <SelectTrigger className="w-full mb-4">
-          <SelectValue placeholder="Seleccionar" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Tipo de operacion</SelectLabel>
-            <SelectItem value="Venta">Venta</SelectItem>
-            <SelectItem value="Alquiler">Alquiler</SelectItem>
-            <SelectItem value="Traspaso de fondo">Traspaso de fondo</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <p className="font-bold text-sm mb-1">Buscar por codigo de referencia</p>
-
-      <Input className="mb-4" type="text" placeholder="Buscar por codigo" />
-
-      <div className="flex justify-center">
-        <Button onClick={updateQuery} size="lg" className="bg-red-900 text-white w-full">
-          Buscar
-        </Button>
+      <div>
+        {/*<p className="font-bold text-sm mb-1">Tipo de operacion</p>*/}
+        <Select value={operationType} onValueChange={setOperationType}>
+          <SelectTrigger className="w-full mb-4">
+            <SelectValue placeholder="Seleccionar" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Tipo de operacion</SelectLabel>
+              <SelectItem value="Venta">Venta</SelectItem>
+              <SelectItem value="Alquiler">Alquiler</SelectItem>
+              <SelectItem value="Traspaso de fondo">Traspaso de fondo</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
+
+      <div>
+        {/*<p className="font-bold text-sm mb-1">Buscar por codigo de referencia</p>*/}
+
+        <Input className="mb-4" type="text" placeholder="Buscar por codigo" />
+      </div>
+
+      {/*<div className="flex justify-center">*/}
+      {/*  <Button onClick={updateQuery} size="lg" className="bg-red-900 text-white w-full">*/}
+      {/*    Buscar*/}
+      {/*  </Button>*/}
+      {/*</div>*/}
     </div>
   );
 }

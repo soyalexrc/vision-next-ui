@@ -15,7 +15,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { Metadata } from 'next';
-import ContactForm from "@/components/contact/ContactForm";
+import ContactForm from '@/components/contact/ContactForm';
+import ImagesGrid from "@/components/property/ImagesGrid";
+import Lightbox from "@/components/property/Lightbox";
+import Gallery from "@/components/property/Gallery";
 
 type Props = {
   params: { slug: string };
@@ -93,9 +96,13 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="min-h-screen">
-      <div className="w-full h-[300px] lg:h-[500px] relative">
-        <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />
-      </div>
+      <ImagesGrid images={property.images} />
+
+      {/*<div className="w-full h-[300px] lg:h-[200px] max-h-[500px] relative">*/}
+      {/*  {property.images.length === 1 && (*/}
+      {/*    <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />*/}
+      {/*  )}*/}
+      {/*</div>*/}
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="px-4 lg:px-24">
           <div className="grid grid-cols-12">
@@ -239,21 +246,7 @@ export default async function Page({ params }: Props) {
 
           <div>
             <h3 className="px-4 text-3xl my-10">Galeria</h3>
-            <div className="grid grid-cols-4 gap-2">
-              {property &&
-                property.images &&
-                property.images.length > 0 &&
-                property.images.map((image: string) => (
-                  <Image
-                    width={200}
-                    height={200}
-                    className="w-full h-[150px] lg:h-[200px] object-cover rounded cursor-zoom-in"
-                    key={image}
-                    src={image}
-                    alt="Imagen de propiedad"
-                  />
-                ))}
-            </div>
+            <Gallery images={property.images} />
           </div>
           <div className="px-4 my-10">
             <h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>

@@ -25,33 +25,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </section>
 
-      <section className="lg:px-20 grid gap-4 lg:grid-cols-12 ">
-        <div className="lg:col-span-3 lg:order-1 hidden lg:block">
-          <FiltersConfig />
-        </div>
-        <div className="order-1 lg:col-span-9 my-5 lg:order-2">
-          {/*toolbar*/}
-          <Toolbar />
-          {/* Properties */}
-          <PropertyListWrapper>{children}</PropertyListWrapper>
-          <div className="flex justify-end mt-10">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+      <section className="lg:px-20">
+        {/*toolbar*/}
+        {/*<Toolbar />*/}
+        <div className="flex justify-center">
+          <div className="max-w-[1400px] w-full">
+            <FiltersConfig />
+            {/* Properties */}
+            <PropertyListWrapper>{children}</PropertyListWrapper>
           </div>
+        </div>
+        <div className=" mt-10">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </section>
     </div>

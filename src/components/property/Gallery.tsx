@@ -19,13 +19,13 @@ export default function Gallery({ images }: Props) {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
         {images.map((image: string, index) => (
           <Image
             onClick={() => onImagePressed(index)}
             width={200}
             height={200}
-            className="w-full h-[150px] lg:h-[200px] object-cover rounded cursor-zoom-in"
+            className="w-full h-[400px] lg:h-[200px] object-cover rounded cursor-zoom-in"
             key={image}
             src={image}
             alt="Imagen de propiedad"

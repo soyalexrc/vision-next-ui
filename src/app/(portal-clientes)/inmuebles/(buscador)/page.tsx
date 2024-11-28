@@ -1,5 +1,10 @@
 import { PropertyCardWithCarousel } from '@/components/PropertyCard';
 import React from 'react';
+import CustomPagination from '@/components/CustomPagination';
+import { cn } from '@/lib/utils';
+import { className } from 'postcss-selector-parser';
+import { Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -24,7 +29,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const properties = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
+  const response = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
@@ -32,12 +37,25 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     },
   }).then((data) => data.json());
 
-  if (!properties) {
-    return <div>no se encontraron propiedades...</div>;
+  const currentPage = Number(searchParams.pagina) || 1;
+
+  if (response?.properties.length < 1) {
+    return (
+      <div className={cn('flex flex-col items-center justify-center p-8 text-center', className)}>
+        <div className="rounded-full bg-muted p-3 mb-4">
+          <Home className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <h3 className="text-lg font-semibold mb-2">No Se Encontraron Inmuebles</h3>
+        <p className="text-muted-foreground mb-4 max-w-sm">
+          No pudimos encontrar ninguna propiedad que coincida con tus criterios. Intenta ajustar tus filtros o explora nuevas áreas.
+        </p>
+        {/*<Button variant="outline">Modificar Busqueda</Button>*/}
+      </div>
+    );
   } else {
     return (
-      <>
-        {properties.map((property: any) => (
+      <section className="mx-4 md:mx-0">
+        {response.properties.map((property: any) => (
           <PropertyCardWithCarousel
             images={property.images}
             key={property.id}
@@ -54,7 +72,10 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
             featured={[property.footageBuilding, property.operationType, property.propertyType]}
           />
         ))}
-      </>
+        <div className=" mt-10">
+          <CustomPagination totalPages={response.totalPages} currentPage={currentPage} />
+        </div>
+      </section>
     );
   }
 }

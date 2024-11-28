@@ -1,12 +1,3 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 import { FiltersConfig } from '@/components/property/FiltersConfig';
 import PropertyListWrapper from '@/components/property/PropertyListWrapper';
 
@@ -24,33 +15,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </section>
 
-      <section className="lg:px-20">
+      <section className="lg:px-5">
         {/*toolbar*/}
         {/*<Toolbar />*/}
         <div className="flex justify-center">
           <div className="max-w-[1400px] w-full">
             <FiltersConfig />
             {/* Properties */}
-            <PropertyListWrapper>{children}</PropertyListWrapper>
+            {/*<PropertyListWrapper></PropertyListWrapper>*/}
+            {children}
           </div>
-        </div>
-        <div className=" mt-10">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
         </div>
       </section>
     </div>

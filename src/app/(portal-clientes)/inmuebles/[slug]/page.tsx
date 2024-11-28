@@ -151,7 +151,7 @@ export default async function Page({ params }: Props) {
         </div>
       </div>
 
-      <div className="lg:px-24 grid gap-10 grid-cols-12">
+      <div className="lg:px-24 grid lg:gap-10 lg:grid-cols-12">
         <div className="col-span-12 lg:col-span-9 border-b-1 pb-5 lg:border-none lg:pb-0">
           <div className="px-4">
             <h3 className="text-3xl my-10">Descripcion</h3>
@@ -275,7 +275,7 @@ export default async function Page({ params }: Props) {
             </div>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-3">
+        <div className="col-span-12 mx-4 lg:mx-0 lg:col-span-3">
           <h3 className="text-2xl text-center mb-3">Contactanos</h3>
           <p className="text-sm text-center lg:text-left">
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.

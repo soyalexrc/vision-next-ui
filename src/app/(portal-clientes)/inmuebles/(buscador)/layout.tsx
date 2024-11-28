@@ -1,5 +1,4 @@
 import { FiltersConfig } from '@/components/property/FiltersConfig';
-import PropertyListWrapper from '@/components/property/PropertyListWrapper';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

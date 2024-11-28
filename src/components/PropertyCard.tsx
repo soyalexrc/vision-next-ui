@@ -5,10 +5,8 @@ import Arrow from '@/components/carousel/Arrow';
 // import Link from 'next/link';
 import textShortener from '@/utils/text-shortener';
 import formatCurrency from '@/utils/format-currency';
-import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-import { useUiConfig } from '@/lib/context/UiConfigContext';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Heart, Phone } from 'lucide-react';
@@ -46,10 +44,8 @@ export function PropertyCardWithCarousel(props: {
   urbanization: string;
   featured: string[];
 }) {
-  const { viewStyle } = useUiConfig();
   const [loaded, setLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const router = useRouter();
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       slideChanged(slider) {
@@ -248,18 +244,18 @@ function CarouselCard2(props: { title?: string; image?: string; link?: string })
   );
 }
 
-function CarouselCard(props: { title?: string; image?: string; link?: string; position: 'horizontal' | 'vertical' }) {
-  return (
-    <div className="keen-slider__slide min-w-[300px]">
-      <Image
-        className={` ${
-          props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-[290px] w-[300px] object-cover rounded-bl rounded-tl'
-        }`}
-        width={300}
-        height={300}
-        src={props.image!}
-        alt="banner"
-      />
-    </div>
-  );
-}
+// function CarouselCard(props: { title?: string; image?: string; link?: string; position: 'horizontal' | 'vertical' }) {
+//   return (
+//     <div className="keen-slider__slide min-w-[300px]">
+//       <Image
+//         className={` ${
+//           props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-[290px] w-[300px] object-cover rounded-bl rounded-tl'
+//         }`}
+//         width={300}
+//         height={300}
+//         src={props.image!}
+//         alt="banner"
+//       />
+//     </div>
+//   );
+// }

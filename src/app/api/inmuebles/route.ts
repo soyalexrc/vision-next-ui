@@ -32,7 +32,6 @@ export async function GET(req: NextRequest) {
     ];
   }
 
-
   if (operationType && operationType !== 'todos') {
     console.log(operationType);
     whereClause.negotiationInformation = {

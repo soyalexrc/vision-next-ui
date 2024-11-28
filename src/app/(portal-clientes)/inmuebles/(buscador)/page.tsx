@@ -4,7 +4,6 @@ import CustomPagination from '@/components/CustomPagination';
 import { cn } from '@/lib/utils';
 import { className } from 'postcss-selector-parser';
 import { Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 type SearchParams = {
   [key: string]: string | string[] | undefined;

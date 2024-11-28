@@ -35,7 +35,7 @@ async function TableWrapper({ query }: { query: SearchParams }) {
   }
 
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const properties = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
+  const response = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
@@ -43,5 +43,5 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-  return <DataTable columns={columns} data={properties} />;
+  return <DataTable columns={columns} data={response?.properties} />;
 }

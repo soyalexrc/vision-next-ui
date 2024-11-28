@@ -5,10 +5,8 @@ import Arrow from '@/components/carousel/Arrow';
 // import Link from 'next/link';
 import textShortener from '@/utils/text-shortener';
 import formatCurrency from '@/utils/format-currency';
-import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-import { useUiConfig } from '@/lib/context/UiConfigContext';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Heart, Phone } from 'lucide-react';
@@ -46,10 +44,8 @@ export function PropertyCardWithCarousel(props: {
   urbanization: string;
   featured: string[];
 }) {
-  const { viewStyle } = useUiConfig();
   const [loaded, setLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const router = useRouter();
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       slideChanged(slider) {
@@ -64,117 +60,181 @@ export function PropertyCardWithCarousel(props: {
       // add plugins here
     ],
   );
+
+  return (
+    <div className="flex flex-col md:flex-row w-full mb-5 md:max-h-[400px] border-2 border-gray-200 rounded-r-lg rounded-l-lg md:rounded-l-none">
+      <div className="navigation-wrapper w-full md:max-w-[300px] relative">
+        <Link href={`/inmuebles/${props.path}`} ref={sliderRef} className="keen-slider">
+          {props.images.map((image) => (
+            <CarouselCard2 key={image} image={image} />
+          ))}
+        </Link>
+        {loaded && instanceRef.current && props.images.length > 1 && (
+          <>
+            <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+
+            <Arrow
+              onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
+              disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
+            />
+          </>
+        )}
+      </div>
+      <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">
+        <Link href={`/inmuebles/${props.path}`} className="flex justify-between">
+          <p className="text-gray-500">{props.code}</p>
+          <Button variant="outline" size="icon">
+            <Heart size={18} className="fill-red-500 text-red-500" />
+          </Button>
+        </Link>
+        <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
+          {formatCurrency(props.price)}
+        </Link>
+        <Link href={`/inmuebles/${props.path}`}>
+          <h5>
+            {props.municipality}, {props.state}
+          </h5>
+          {/*<h3 className="text-xl mb-2">{textShortener(props.title, 100)}</h3>*/}
+          <div className="flex gap-5 mt-2 mb-4">
+            {props.featured.map((feature, index) => (
+              <Badge variant="secondary" key={feature} className={`${index === 1 && 'px-4'}`}>
+                {index === 0 ? `${feature} m2` : feature}
+              </Badge>
+            ))}
+          </div>
+
+          <p className="text-sm">{textShortener(props.description, 285)}</p>
+        </Link>
+        <Separator className="my-2" />
+        <div className="flex md:flex-row flex-col gap-2 justify-end z-50">
+          <Button variant="outline" size="icon" className="w-full md:w-[40px]">
+            <Phone size={18} />
+          </Button>
+          <div className="flex gap-2">
+            <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
+              <p className="font-bold text-white">Whatsapp</p>
+              <WhatsappIcon width={18} height={18} fill="white" />
+            </Button>
+            <Button variant="vision" className="gap-2 w-full md:w-[130px]">
+              <p className="font-bold text-white">Contactar</p>
+              <MailIcon width={18} height={18} fill="white" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
   return (
     <>
-      {viewStyle === 'grid' && (
-        <div>
-          <div className="navigation-wrapper relative">
-            <div ref={sliderRef} className="keen-slider">
-              {props.images.map((image) => (
-                <CarouselCard key={image} image={image} position="vertical" />
-              ))}
-            </div>
-            {loaded && instanceRef.current && props.images.length > 1 && (
-              <>
-                <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+      {/*{viewStyle === 'grid' && (*/}
+      {/*    <div>*/}
+      {/*        <div className="navigation-wrapper relative">*/}
+      {/*            <div ref={sliderRef} className="keen-slider">*/}
+      {/*                {props.images.map((image) => (*/}
+      {/*                    <CarouselCard key={image} image={image} position="vertical"/>*/}
+      {/*                ))}*/}
+      {/*            </div>*/}
+      {/*            {loaded && instanceRef.current && props.images.length > 1 && (*/}
+      {/*                <>*/}
+      {/*                    <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()}*/}
+      {/*                           disabled={currentSlide === 0}/>*/}
 
-                <Arrow
-                  onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-                  disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
-                />
-              </>
-            )}
-          </div>
-          <div
-            onClick={() => router.push(`/inmuebles/${props.path}`)}
-            className="bg-gray-100 cursor-pointer p-6 min-h-[240px] flex flex-col justify-between"
-          >
-            <h3 className="text-2xl">{textShortener(props.title, 90)}</h3>
-            <div>
-              <div className="flex gap-5 justify-center ">
-                {props.featured.map((feature, index) => (
-                  <Badge variant="outline" key={feature} className={`${index === 1 && 'px-4'} text-red-900 border-red-900`}>
-                    {index === 0 ? `${feature} m2` : feature}
-                  </Badge>
-                ))}
-              </div>
-              <p className="text-red-900 text-center mt-5 text-4xl">{formatCurrency(props.price)}</p>
-            </div>
-          </div>
-        </div>
-      )}
-      {viewStyle === 'list' && (
-        <div className="flex w-full mb-5 max-h-[400px] border-2 border-gray-200 rounded-r-lg">
-          <div className="navigation-wrapper max-w-[300px] relative">
-            <Link href={`/inmuebles/${props.path}`} ref={sliderRef} className="keen-slider">
-              {props.images.map((image) => (
-                <CarouselCard key={image} image={image} position="horizontal" />
-              ))}
-            </Link>
-            {loaded && instanceRef.current && props.images.length > 1 && (
-              <>
-                <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+      {/*                    <Arrow*/}
+      {/*                        onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}*/}
+      {/*                        disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}*/}
+      {/*                    />*/}
+      {/*                </>*/}
+      {/*            )}*/}
+      {/*        </div>*/}
+      {/*        <div*/}
+      {/*            onClick={() => router.push(`/inmuebles/${props.path}`)}*/}
+      {/*            className="bg-gray-100 cursor-pointer p-6 min-h-[240px] flex flex-col justify-between"*/}
+      {/*        >*/}
+      {/*            <h3 className="text-2xl">{textShortener(props.title, 90)}</h3>*/}
+      {/*            <div>*/}
+      {/*                <div className="flex gap-5 justify-center ">*/}
+      {/*                    {props.featured.map((feature, index) => (*/}
+      {/*                        <Badge variant="outline" key={feature}*/}
+      {/*                               className={`${index === 1 && 'px-4'} text-red-900 border-red-900`}>*/}
+      {/*                            {index === 0 ? `${feature} m2` : feature}*/}
+      {/*                        </Badge>*/}
+      {/*                    ))}*/}
+      {/*                </div>*/}
+      {/*                <p className="text-red-900 text-center mt-5 text-4xl">{formatCurrency(props.price)}</p>*/}
+      {/*            </div>*/}
+      {/*        </div>*/}
+      {/*    </div>*/}
+      {/*)}*/}
+      {/*{viewStyle === 'list' && (*/}
+      {/*  <div className="flex w-full mb-5 max-h-[400px] border-2 border-gray-200 rounded-r-lg">*/}
+      {/*    <div className="navigation-wrapper max-w-[300px] relative">*/}
+      {/*      <Link href={`/inmuebles/${props.path}`} ref={sliderRef} className="keen-slider">*/}
+      {/*        {props.images.map((image) => (*/}
+      {/*          <CarouselCard key={image} image={image} position="horizontal" />*/}
+      {/*        ))}*/}
+      {/*      </Link>*/}
+      {/*      {loaded && instanceRef.current && props.images.length > 1 && (*/}
+      {/*        <>*/}
+      {/*          <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />*/}
 
-                <Arrow
-                  onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-                  disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}
-                />
-              </>
-            )}
-          </div>
-          <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">
-            <Link href={`/inmuebles/${props.path}`} className="flex justify-between">
-              <p className="text-gray-500">{props.code}</p>
-              <Button variant="outline" size="icon">
-                <Heart size={18} className="fill-red-500 text-red-500" />
-              </Button>
-            </Link>
-            <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
-              {formatCurrency(props.price)}
-            </Link>
-            <Link href={`/inmuebles/${props.path}`}>
-              <h5>
-                {props.municipality}, {props.state}
-              </h5>
-              {/*<h3 className="text-xl mb-2">{textShortener(props.title, 100)}</h3>*/}
-              <div className="flex gap-5 mt-2 mb-4">
-                {props.featured.map((feature, index) => (
-                  <Badge variant="secondary" key={feature} className={`${index === 1 && 'px-4'}`}>
-                    {index === 0 ? `${feature} m2` : feature}
-                  </Badge>
-                ))}
-              </div>
+      {/*          <Arrow*/}
+      {/*            onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}*/}
+      {/*            disabled={currentSlide === instanceRef.current.track.details.slides.length - 1}*/}
+      {/*          />*/}
+      {/*        </>*/}
+      {/*      )}*/}
+      {/*    </div>*/}
+      {/*    <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">*/}
+      {/*      <Link href={`/inmuebles/${props.path}`} className="flex justify-between">*/}
+      {/*        <p className="text-gray-500">{props.code}</p>*/}
+      {/*        <Button variant="outline" size="icon">*/}
+      {/*          <Heart size={18} className="fill-red-500 text-red-500" />*/}
+      {/*        </Button>*/}
+      {/*      </Link>*/}
+      {/*      <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">*/}
+      {/*        {formatCurrency(props.price)}*/}
+      {/*      </Link>*/}
+      {/*      <Link href={`/inmuebles/${props.path}`}>*/}
+      {/*        <h5>*/}
+      {/*          {props.municipality}, {props.state}*/}
+      {/*        </h5>*/}
+      {/*        /!*<h3 className="text-xl mb-2">{textShortener(props.title, 100)}</h3>*!/*/}
+      {/*        <div className="flex gap-5 mt-2 mb-4">*/}
+      {/*          {props.featured.map((feature, index) => (*/}
+      {/*            <Badge variant="secondary" key={feature} className={`${index === 1 && 'px-4'}`}>*/}
+      {/*              {index === 0 ? `${feature} m2` : feature}*/}
+      {/*            </Badge>*/}
+      {/*          ))}*/}
+      {/*        </div>*/}
 
-              <p className="text-sm">{textShortener(props.description, 285)}</p>
-            </Link>
-            <Separator className="my-2" />
-            <div className="flex gap-2 justify-end z-50">
-              <Button variant="outline" size="icon">
-                <Phone size={18} />
-              </Button>
-              <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2">
-                <p className="font-bold text-white">Whatsapp</p>
-                <WhatsappIcon width={18} height={18} fill="white" />
-              </Button>
-              <Button variant="vision" className="gap-2">
-                <p className="font-bold text-white">Contactar</p>
-                <MailIcon width={18} height={18} fill="white" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/*        <p className="text-sm">{textShortener(props.description, 285)}</p>*/}
+      {/*      </Link>*/}
+      {/*      <Separator className="my-2" />*/}
+      {/*      <div className="flex gap-2 justify-end z-50">*/}
+      {/*        <Button variant="outline" size="icon">*/}
+      {/*          <Phone size={18} />*/}
+      {/*        </Button>*/}
+      {/*        <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2">*/}
+      {/*          <p className="font-bold text-white">Whatsapp</p>*/}
+      {/*          <WhatsappIcon width={18} height={18} fill="white" />*/}
+      {/*        </Button>*/}
+      {/*        <Button variant="vision" className="gap-2">*/}
+      {/*          <p className="font-bold text-white">Contactar</p>*/}
+      {/*          <MailIcon width={18} height={18} fill="white" />*/}
+      {/*        </Button>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </>
   );
 }
 
-function CarouselCard(props: { title?: string; image?: string; link?: string; position: 'horizontal' | 'vertical' }) {
+function CarouselCard2(props: { title?: string; image?: string; link?: string }) {
   return (
     <div className="keen-slider__slide min-w-[300px]">
       <Image
-        className={` ${
-          props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-[290px] w-[300px] object-cover rounded-bl rounded-tl'
-        }`}
+        className="max-h-[300px] md:h-[290px] w-full md:w-[300px] object-cover rounded-bl rounded-tl"
         width={300}
         height={300}
         src={props.image!}
@@ -183,3 +243,19 @@ function CarouselCard(props: { title?: string; image?: string; link?: string; po
     </div>
   );
 }
+
+// function CarouselCard(props: { title?: string; image?: string; link?: string; position: 'horizontal' | 'vertical' }) {
+//   return (
+//     <div className="keen-slider__slide min-w-[300px]">
+//       <Image
+//         className={` ${
+//           props.position === 'vertical' ? 'h-[300px] w-full object-cover' : 'h-[290px] w-[300px] object-cover rounded-bl rounded-tl'
+//         }`}
+//         width={300}
+//         height={300}
+//         src={props.image!}
+//         alt="banner"
+//       />
+//     </div>
+//   );
+// }

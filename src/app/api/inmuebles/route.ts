@@ -4,7 +4,10 @@ import prisma from '@/lib/db/prisma';
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const busqueda = params.get('busqueda');
-
+  const page = Number(params.get('pagina')) || 1;
+  const size = Number(params.get('cantidad')) || 10;
+  const operationType = params.get('tipo-de-operacion') || 'todos';
+  const propertyType = params.get('tipo-de-inmueble') || 'todos';
   const whereClause: any = {};
 
   if (busqueda) {
@@ -28,10 +31,29 @@ export async function GET(req: NextRequest) {
       { negotiationInformation: { operationType: { contains: busqueda, mode: 'insensitive' } } },
     ];
   }
+
+  if (operationType && operationType !== 'todos') {
+    console.log(operationType);
+    whereClause.negotiationInformation = {
+      ...whereClause.negotiationInformation,
+      operationType: { contains: operationType, mode: 'insensitive' },
+    };
+  }
+
+  if (propertyType && propertyType !== 'todos') {
+    console.log(propertyType);
+    whereClause.generalInformation = {
+      ...whereClause.generalInformation,
+      propertyType: { contains: propertyType, mode: 'insensitive' },
+    };
+  }
+
   // console.log(req.nextUrl.searchParams);
   // const page = Number(req.nextUrl.searchParams.get('pagina')) || 1;
   // const size = Number(req.nextUrl.searchParams.get('cantidad')) || 10;
   try {
+    const totalProperties = await prisma.property.count({ where: whereClause });
+    const totalPages = Math.ceil(totalProperties / size);
     const data = await prisma.property.findMany({
       include: {
         negotiationInformation: { select: { price: true, operationType: true } },
@@ -49,6 +71,8 @@ export async function GET(req: NextRequest) {
         },
       },
       where: whereClause,
+      skip: (page - 1) * size,
+      take: size,
     });
 
     const formattedData = data.map((row) => ({
@@ -70,7 +94,7 @@ export async function GET(req: NextRequest) {
       images: row.images ?? ['/vision-icon.png'],
     }));
 
-    return NextResponse.json(formattedData);
+    return NextResponse.json({ properties: formattedData, totalPages });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Error al obtener los inmuebles' }, { status: 500 });

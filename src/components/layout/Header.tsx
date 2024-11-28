@@ -46,7 +46,7 @@ export default function Header() {
                     <NavigationMenuLink asChild>
                       <Link
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/inmuebles?tipo-de-operacion=venta"
+                        href="/inmuebles?tipo-de-operacion=venta&pagina=1&cantidad=10"
                       >
                         <Image
                           alt="propiedades menu imagen"
@@ -62,15 +62,15 @@ export default function Header() {
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <Link href="/inmuebles?tipo-de-propiedad=alquiler" legacyBehavior passHref>
+                  <Link href="/inmuebles?tipo-de-operacion=alquiler&pagina=1&cantidad=10" legacyBehavior passHref>
                     <ListItem title="En alquiler">Alquila la casa o apartamento perfecto para tus necesidades y presupuesto.</ListItem>
                   </Link>
-                  <Link href="/inmuebles?tipo-de-propiedad=estadias-vacacionales" legacyBehavior passHref>
+                  <Link href="/inmuebles?tipo-de-operacion=estadias vacacionales&pagina=1&cantidad=10" legacyBehavior passHref>
                     <ListItem title="Estadias vacacionales">
                       Disfruta de unas vacaciones inolvidables en nuestras casas y apartamentos de temporada.
                     </ListItem>
                   </Link>
-                  <Link href="/inmuebles?tipo-de-propiedad=estadias-residenciales" legacyBehavior passHref>
+                  <Link href="/inmuebles?tipo-de-operacion=estadias residenciales&pagina=1&cantidad=10" legacyBehavior passHref>
                     <ListItem title="Estadias residenciales ">
                       Encuentra tu hogar temporal ideal para estancias prolongadas o reubicaciones.
                     </ListItem>
@@ -179,16 +179,16 @@ export default function Header() {
                   <AccordionContent>
                     <ul className="px-2 text-left">
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=venta">En venta</Link>
+                        <Link href="/inmuebles?tipo-de-operacion=venta&pagina=1&cantidad=10">En venta</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=alquiler">En Alquiler</Link>
+                        <Link href="/inmuebles?tipo-de-operacion=alquiler&pagina=1&cantidad=10">En Alquiler</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=estadias-vacacionales">Estadias vacaionales</Link>
+                        <Link href="/inmuebles?tipo-de-operacion=estadias-vacacionales&pagina=1&cantidad=10">Estadias vacaionales</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=estadias-residenciales">Estadias residenciales</Link>
+                        <Link href="/inmuebles?tipo-de-operacion=estadias-residenciales&pagina=1&cantidad=10">Estadias residenciales</Link>
                       </li>
                     </ul>
                   </AccordionContent>

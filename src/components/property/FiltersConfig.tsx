@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { PROPERTY_TYPES } from '@/utils/data/property-types';
+import { useRouter } from 'next/navigation';
 
 export function FiltersConfig() {
   // const [state, setState] = useState<string>('');
@@ -10,18 +11,19 @@ export function FiltersConfig() {
   // const [municipalitiesList, setMunicipalitiesList] = useState<string[]>([]);
   const [propertyType, setPropertyType] = useState<string>('');
   const [operationType, setOperationType] = useState<string>('');
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const [stickyTop, setStickyTop] = useState(0);
+  const router = useRouter();
 
-  // const updateQuery = () => {
-  // const updatedSearchParams = new URLSearchParams(searchParams?.toString());
-  // updatedSearchParams.set('pagina', encodeURI(currentPage));
-  // updatedSearchParams.set('limite', encodeURI(pageLimit));
-  // updatedSearchParams.set('estado', encodeURI(state));
-  // updatedSearchParams.set('municipalidad', encodeURI(municipality));
-  // updatedSearchParams.set('tipo_de_operacion', encodeURI(operationType));
-  // updatedSearchParams.set('tipo_de_inmueble', encodeURI(propertyType));
-  //
-  // router.push('/inmuebles' + '?' + updatedSearchParams.toString());
-  // };
+  const updateQuery = (key: string, value: string) => {
+    const params = new URLSearchParams(window.location.search);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`/inmuebles?${params.toString()}`);
+  };
 
   // function handleChangeLocation(value: string) {
   //   setState(value);
@@ -31,8 +33,45 @@ export function FiltersConfig() {
   //   if (value === 'Cojedes') setMunicipalitiesList(LOCATIONS_DETAIL.cojedes);
   //   if (value === 'Aragua') setMunicipalitiesList(LOCATIONS_DETAIL.aragua);
   // }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const initialPropertyType = params.get('tipo-de-inmueble') || '';
+    const initialOperationType = params.get('tipo-de-operacion') || '';
+    if (initialPropertyType) {
+      setPropertyType(initialPropertyType);
+    } else {
+      setPropertyType('todos');
+    }
+    if (initialOperationType) {
+      setOperationType(initialOperationType);
+    } else {
+      setOperationType('todos');
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const handleScroll = () => {
+      if (stickyRef.current) {
+        const stickyRect = stickyRef.current.getBoundingClientRect();
+        if (stickyRect.top <= 112) {
+          setStickyTop(105);
+        } else if (stickyRect.top > 133) {
+          // Small buffer to prevent jitter
+          // console.log(stickyRect.top);
+          setStickyTop(0);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="my-5 flex gap-4">
+    <div className={`py-5 flex bg-white z-20 gap-4 sticky`} style={{ top: `${stickyTop}px` }} ref={stickyRef}>
       {/*<div>*/}
       {/*  <p className="font-bold text-sm mb-1">Estado</p>*/}
       {/*  <Select value={state} onValueChange={handleChangeLocation}>*/}
@@ -83,15 +122,22 @@ export function FiltersConfig() {
 
       <div>
         {/*<p className="font-bold text-sm mb-1">Inmueble</p>*/}
-        <Select value={propertyType} onValueChange={setPropertyType}>
+        <Select
+          value={propertyType}
+          onValueChange={(value) => {
+            setPropertyType(value);
+            updateQuery('tipo-de-inmueble', value);
+          }}
+        >
           <SelectTrigger className="w-full mb-4">
             <SelectValue placeholder="Seleccionar" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Tipo de inmueble</SelectLabel>
+              <SelectItem value="todos">Todos</SelectItem>
               {PROPERTY_TYPES.map((propertyType) => (
-                <SelectItem value={propertyType} key={propertyType}>
+                <SelectItem value={propertyType.toLowerCase()} key={propertyType}>
                   {propertyType}
                 </SelectItem>
               ))}
@@ -102,16 +148,25 @@ export function FiltersConfig() {
 
       <div>
         {/*<p className="font-bold text-sm mb-1">Tipo de operacion</p>*/}
-        <Select value={operationType} onValueChange={setOperationType}>
+        <Select
+          value={operationType}
+          onValueChange={(value) => {
+            setOperationType(value);
+            updateQuery('tipo-de-operacion', value);
+          }}
+        >
           <SelectTrigger className="w-full mb-4">
             <SelectValue placeholder="Seleccionar" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Tipo de operacion</SelectLabel>
-              <SelectItem value="Venta">Venta</SelectItem>
-              <SelectItem value="Alquiler">Alquiler</SelectItem>
-              <SelectItem value="Traspaso de fondo">Traspaso de fondo</SelectItem>
+              <SelectItem value="todos">Todos</SelectItem>
+              <SelectItem value="venta">Venta</SelectItem>
+              <SelectItem value="alquiler">Alquiler</SelectItem>
+              <SelectItem value="traspaso de fondo">Traspaso de fondo</SelectItem>
+              <SelectItem value="estadias vacacionales">Estadias Vacacionales</SelectItem>
+              <SelectItem value="estadias residenciales">Estadias Residenciales</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

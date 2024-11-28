@@ -1,3 +1,14 @@
+import { LoadingState } from '@/components/LoadingState';
+
 export default function Loading() {
-  return <div>loading...</div>;
+  return (
+    <div>
+      <LoadingState columns={1} className="mb-8" />
+      <LoadingState columns={1} className="mb-8" />
+      <LoadingState columns={1} className="mb-8" />
+      <LoadingState columns={1} className="mb-8" />
+      <LoadingState columns={1} className="mb-8" />
+      <LoadingState columns={1} className="mb-8" />
+    </div>
+  );
 }

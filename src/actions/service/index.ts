@@ -46,6 +46,13 @@ export async function getSubServices(parentId: number): Promise<{ success: boole
 
 export async function createService(form: z.infer<typeof ServiceFormSchema>): Promise<{ success: boolean; error?: string }> {
   try {
+    if (form.title === '') {
+      return {
+        success: false,
+        error: 'El campo nombre de servicio es requerido',
+      };
+    }
+
     await prisma.service.create({
       data: {
         title: form.title,
@@ -63,6 +70,12 @@ export async function createService(form: z.infer<typeof ServiceFormSchema>): Pr
 
 export async function updateService(form: z.infer<typeof ServiceFormSchema>): Promise<{ success: boolean; error?: string }> {
   try {
+    if (form.title === '') {
+      return {
+        success: false,
+        error: 'El campo nombre de servicio es requerido',
+      };
+    }
     await prisma.service.update({
       where: {
         id: form.id,
@@ -96,6 +109,12 @@ export async function deleteService(id: number): Promise<{ success: boolean; err
 
 export async function createSubService(form: z.infer<typeof SubServiceFormSchema>): Promise<{ success: boolean; error?: string }> {
   try {
+    if (form.service === '') {
+      return {
+        success: false,
+        error: 'El campo nombre de servicio es requerido',
+      };
+    }
     await prisma.subService.create({
       data: {
         service: form.service,
@@ -114,6 +133,12 @@ export async function createSubService(form: z.infer<typeof SubServiceFormSchema
 
 export async function updateSubService(form: z.infer<typeof SubServiceFormSchema>): Promise<{ success: boolean; error?: string }> {
   try {
+    if (form.service === '') {
+      return {
+        success: false,
+        error: 'El campo nombre de servicio es requerido',
+      };
+    }
     await prisma.subService.update({
       where: {
         id: form.id,

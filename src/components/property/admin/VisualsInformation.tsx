@@ -4,7 +4,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storag
 import storage from '@/lib/firebase/storage';
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { Grip, PlusCircle, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import FileUploadingLoader from '@/components/files-management/FileUploadingLoader';
@@ -109,19 +109,28 @@ export function VisualsInformation() {
             {status && <FileUploadingLoader />}
           </div>
           {images.map((image, index) => (
-            <ContextMenu key={image}>
-              <ContextMenuTrigger draggable onDragStart={(e) => handleDragStart(e, index)} onDrop={(e) => handleDrop(e, index)}>
-                <div className="border-2 cursor-grab rounded-xl border-gray-200 p-2 w-[220px] h-[220px]" key={image}>
-                  <Image alt="Imagen de propiedad" width={200} height={200} style={{ height: '100%' }} src={image} />
-                </div>
-              </ContextMenuTrigger>
-              <ContextMenuContent>
-                <ContextMenuItem className="gap-2 px-3 " onClick={() => removeImageFromFirebase(image)}>
-                  <Trash2 />
-                  Eliminar
-                </ContextMenuItem>
-              </ContextMenuContent>
-            </ContextMenu>
+            <div
+              key={image}
+              className="flex items-center"
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDrop={(e) => handleDrop(e, index)}
+            >
+              <Grip className="block md:hidden" />
+              <ContextMenu>
+                <ContextMenuTrigger>
+                  <div className="border-2 cursor-grab rounded-xl border-gray-200 p-2 w-[220px] h-[220px]" key={image}>
+                    <Image alt="Imagen de propiedad" width={200} height={200} style={{ height: '100%' }} src={image} />
+                  </div>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuItem className="gap-2 px-3 " onClick={() => removeImageFromFirebase(image)}>
+                    <Trash2 />
+                    Eliminar
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
+            </div>
           ))}
         </div>
       )}

@@ -83,7 +83,7 @@ export const UserFormSchema = z.object({
   id: z.string().optional(),
   lastName: z.string().min(3, 'Minimo 3 caracteres'),
   password: z.string().optional(),
-  username: z.string().min(3, 'Minimo 3 caracteres'),
+  username: z.string().min(3, 'Minimo 3 caracteres').trim(),
   phoneNumber: z.string(),
   email: z.string().email({ message: 'Email invalido' }),
   role: z.string().min(3, 'Este campo es requerido'),

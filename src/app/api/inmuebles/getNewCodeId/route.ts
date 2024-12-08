@@ -5,7 +5,8 @@ export async function GET() {
   try {
     let newVinmId: string = '';
     const amountOfProperties = await prisma.property.count();
-    switch (String(amountOfProperties + 1).length) {
+    console.log('amountOfProperties', amountOfProperties);
+    switch (String(amountOfProperties).length) {
       case 1:
         newVinmId = `VINM_00${amountOfProperties + 1}`;
         break;

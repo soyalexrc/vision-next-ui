@@ -126,6 +126,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     const { id } = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/inmuebles/getNewCodeId`, {
       method: 'GET',
     }).then((res) => res.json());
+    console.log(id);
     form.setValue('generalInformation.code', id);
     await getImagesFromStorage(id);
     await getDocumentsFromStorage(id);

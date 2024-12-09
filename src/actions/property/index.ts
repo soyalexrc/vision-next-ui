@@ -321,12 +321,12 @@ export async function createUpdateProperty(
               propertyCondition: generalInformation.propertyCondition ?? '',
               isFurnished: generalInformation.isFurnished ?? false,
               propertyType: generalInformation.propertyType,
-              footageBuilding: generalInformation.footageBuilding,
+              footageBuilding: generalInformation.footageBuilding ?? '',
               handoverKeys: generalInformation.handoverKeys ?? false,
               code: generalInformation.code,
               amountOfFloors: generalInformation.amountOfFloors ?? '',
               isOccupiedByPeople: generalInformation.isOccupiedByPeople ?? false,
-              footageGround: generalInformation.footageGround,
+              footageGround: generalInformation.footageGround ?? '',
               description: generalInformation.description,
               antiquity: generalInformation.antiquity ?? '',
               termsAndConditionsAccepted: generalInformation.termsAndConditionsAccepted ?? false,
@@ -370,7 +370,7 @@ export async function createUpdateProperty(
               reasonToSellOrRent: negotiationInformation.reasonToSellOrRent ?? '',
               mouthToMouth: negotiationInformation.mouthToMouth ?? false,
               ally: negotiationInformation.ally ?? '',
-              propertyExclusivity: negotiationInformation.propertyExclusivity,
+              propertyExclusivity: negotiationInformation.propertyExclusivity ?? '',
               minimumNegotiation: negotiationInformation.minimumNegotiation ?? '',
               operationType: negotiationInformation.operationType,
               partOfPayment: negotiationInformation.partOfPayment ?? '',
@@ -484,6 +484,25 @@ export async function createUpdateProperty(
     }
 
     return { success: true, error: undefined };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: JSON.stringify(err) };
+  }
+}
+
+export async function activateDeactivateProperty(id: string, current: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    await prisma.property.update({
+      data: {
+        active: !current,
+      },
+      where: { id },
+    });
+
+    return {
+      success: true,
+      error: undefined,
+    };
   } catch (err) {
     console.log(err);
     return { success: false, error: JSON.stringify(err) };

@@ -1,7 +1,12 @@
+const { version }  = require('./package.json')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: false,
     transpilePackages: ['lucide-react'],
+    publicRuntimeConfig: {
+        version
+    },
     images: {
         remotePatterns: [
             {

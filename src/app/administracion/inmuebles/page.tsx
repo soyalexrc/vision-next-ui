@@ -34,6 +34,8 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     }
   }
 
+  filteredQuery.set('status', 'todos');
+
   const urlParams = new URLSearchParams(filteredQuery.toString());
   const response = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
     cache: 'no-store',

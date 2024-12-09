@@ -3,8 +3,10 @@ import { currentUser } from '@clerk/nextjs/server';
 import { AllowedRoute } from '@/lib/interfaces/Menu';
 import MenuItem from '@/components/layout/administracion/MenuItem';
 import Image from 'next/image';
+import getConfig from 'next/config';
 
 export default async function Sidenav() {
+  const { publicRuntimeConfig } = getConfig();
   const user = await currentUser();
   const defaultRoutes = user?.publicMetadata.allowedRoutes as AllowedRoute[];
 
@@ -14,7 +16,11 @@ export default async function Sidenav() {
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href={defaultRoutes[0].path || '/administracion'} className="flex items-center gap-2 font-semibold">
             <Image src="/vision-icon.png" alt="Logo de vision inmobiliaria" width={30} height={30} />
-            <span className="">Vision Inmobiliaria</span>
+            <div>
+              <span className="">Vision Inmobiliaria</span>
+              <br />
+              <span className="text-xs text-blue-500">Version {publicRuntimeConfig.version}</span>
+            </div>
           </Link>
         </div>
         <div className="flex-1">

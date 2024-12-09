@@ -37,6 +37,7 @@ model Property {
   slug                      String                      @unique
   updatedAt                 DateTime                    @updatedAt
   isFeatured                Boolean?                    @default(false)
+  active                    Boolean                     @default(false)
   AdjacenciesOnProperties   AdjacenciesOnProperties[]
   AttributesOnProperties    AttributesOnProperties[]
   DistributionsOnProperties DistributionsOnProperties[]
@@ -67,15 +68,15 @@ model DocumentsInformation {
   mortgageRelease            String?
   condominiumSolvencyDetails String?
   power                      String?
-  owner                      String?
   successionDeclaration      String?
   courtRulings               String?
   catastralRecordYear        String?
   attorneyEmail              String?
-  realStateTax               String?
   attorneyPhone              String?
   attorneyFirstName          String?
   attorneyLastName           String?
+  realStateTax               String?
+  owner                      String?
   property                   Property @relation(fields: [propertyId], references: [id])
 }
 
@@ -435,21 +436,21 @@ model ContactForm {
   name      String
   email     String
   phone     String
-  createdAt DateTime @default(now())
-  from      String
   message   String
+  from      String
+  createdAt DateTime @default(now())
 }
 
 model WorkWithUsForm {
   id        Int      @id @default(autoincrement())
   email     String
-  name      String
   phone     String
-  createdAt DateTime @default(now())
   message   String
   role      String
   office    String
   cvUrl     String
+  createdAt DateTime @default(now())
+  name      String
 }
 
 enum FormTypes {

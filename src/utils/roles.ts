@@ -156,20 +156,16 @@ export function getAllowedRoutesByRole(role: string) {
   if (role === 'Asesor inmobiliario vision') {
     routes = [
       {
+        path: '/administracion',
+        title: 'Inicio',
+      },
+      {
         path: '/administracion/inmuebles',
         title: 'Inmuebles',
       },
       {
         path: '/administracion/clientes',
         title: 'Clientes',
-      },
-      {
-        path: '/administracion/aliados',
-        title: 'Aliados',
-      },
-      {
-        path: '/administracion/propietarios',
-        title: 'Propietarios',
       },
     ];
   }

@@ -147,7 +147,13 @@ export default function UserForm({ data, onCloseModal, isForm }: Props) {
                 <FormItem className="col-span-2">
                   <FormLabel>Nombre de usuario</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\s/g, '');
+                        field.onChange(value);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

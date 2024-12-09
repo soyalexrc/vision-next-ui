@@ -19,7 +19,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import {activateDeactivateProperty, deleteProperty, toggleFeatured} from '@/actions/property';
+import { activateDeactivateProperty, deleteProperty, toggleFeatured } from '@/actions/property';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -148,7 +148,9 @@ export const columns: ColumnDef<PropertyPreview>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleActivateDeactivateProperty(property.id, property.active)}>Continuar</AlertDialogAction>
+                <AlertDialogAction onClick={() => handleActivateDeactivateProperty(property.id, property.active)}>
+                  Continuar
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
   const page = Number(params.get('pagina')) || 1;
   const size = Number(params.get('cantidad')) || 10;
   const operationType = params.get('tipo-de-operacion') || 'todos';
+  const status = params.get('status') || 'true';
   const propertyType = params.get('tipo-de-inmueble') || 'todos';
   const whereClause: any = {};
 
@@ -33,15 +34,18 @@ export async function GET(req: NextRequest) {
   }
 
   if (operationType && operationType !== 'todos') {
-    console.log(operationType);
     whereClause.negotiationInformation = {
       ...whereClause.negotiationInformation,
       operationType: { contains: operationType, mode: 'insensitive' },
     };
   }
 
+  // TODO mostrar solo los activos en la ruta web, validar ruta que no sea admin
+  if (status && status !== 'todos') {
+    whereClause.active = status === 'true';
+  }
+
   if (propertyType && propertyType !== 'todos') {
-    console.log(propertyType);
     whereClause.generalInformation = {
       ...whereClause.generalInformation,
       propertyType: { contains: propertyType, mode: 'insensitive' },
@@ -78,6 +82,7 @@ export async function GET(req: NextRequest) {
     const formattedData = data.map((row) => ({
       id: row.id,
       slug: row.slug,
+      active: row.active,
       price: row.negotiationInformation?.price,
       code: row.generalInformation?.code,
       operationType: row.negotiationInformation?.operationType,

@@ -124,6 +124,9 @@ export function GeneralInformation() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
+                  <SelectItem key="No Aplica" value="No Aplica">
+                    No Aplica
+                  </SelectItem>
                   <SelectItem key="Mercado Primario" value="Mercado Primario">
                     Mercado Primario
                   </SelectItem>
@@ -144,7 +147,10 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Metraje de terreno</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <div className="relative">
+                  <Input {...field} className="pr-10" />
+                  <span className="absolute top-1/2 right-3 transform -translate-y-1/2">m2</span>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -157,7 +163,10 @@ export function GeneralInformation() {
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
               <FormLabel>Metraje de construccion</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <div className="relative">
+                  <Input {...field} className="pr-10" />
+                  <span className="absolute top-1/2 right-3 transform -translate-y-1/2">m2</span>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -229,6 +238,9 @@ export function GeneralInformation() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
+                  <SelectItem key="No Aplica" value="No Aplica">
+                    No Aplica
+                  </SelectItem>
                   <SelectItem key="Obra gris" value="Obra gris">
                     Obra gris
                   </SelectItem>

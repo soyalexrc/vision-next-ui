@@ -275,6 +275,7 @@ export function NegotiationInformation() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                    <SelectItem value="No Aplica">No aplica</SelectItem>
                     <SelectItem value="30 dias">30 dias</SelectItem>
                     <SelectItem value="45 dias">45 dias</SelectItem>
                     <SelectItem value="60 dias">60 dias</SelectItem>

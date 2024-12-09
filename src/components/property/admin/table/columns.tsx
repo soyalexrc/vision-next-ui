@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Download, Pencil, Star, Trash } from 'lucide-react';
+import { ArrowUpDown, Download, Pencil, ShieldCheck, ShieldOff, Star, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -19,13 +19,14 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { deleteProperty, toggleFeatured } from '@/actions/property';
+import {activateDeactivateProperty, deleteProperty, toggleFeatured} from '@/actions/property';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type PropertyPreview = {
   id: string;
   price: number;
+  active: boolean;
   operationType: string;
   propertyType: string;
   code: string;
@@ -78,7 +79,25 @@ export const columns: ColumnDef<PropertyPreview>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
+      console.log(row.original);
       const property = row.original;
+
+      async function handleActivateDeactivateProperty(id: string, current: boolean) {
+        const t = toast.loading(`Se esta ${current ? 'Desactivando' : 'Activando'} el inmueble`, {
+          duration: 20000,
+        });
+        const { success, error } = await activateDeactivateProperty(id, current);
+        if (success) {
+          toast.success(`Se ${current ? 'Desactivo' : 'Activo'} el inmueble con exito!`);
+          toast.dismiss(t);
+          window.location.reload();
+        } else {
+          toast.dismiss();
+          toast.error(`Ocurrio un error al intentar ${current ? 'Desactivar' : 'Activar'} el inmueble  ${error}`);
+          console.log(error);
+        }
+      }
+
       async function handleDeleteProperty(id: string, imagesPaths: string[], code: string) {
         const t = toast.loading('Se esta eliminando el inmueble', {
           duration: 20000,
@@ -112,6 +131,27 @@ export const columns: ColumnDef<PropertyPreview>[] = [
 
       return (
         <div className="flex gap-2">
+          <AlertDialog>
+            <AlertDialogTrigger>
+              {property.active ? <ShieldCheck size={16} className="text-green-500" /> : <ShieldOff size={16} className="text-yellow-500" />}
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  {property.active ? 'Desactivar' : 'Activar'} inmueble ({property.code})?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  {property.active
+                    ? 'Esta seguro de desactivar el inmueble? Se retirara de las busquedas de la pagina web'
+                    : 'Esta seguro de activar el inmueble? Se activara en las busquedas de la pagina web'}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={() => handleActivateDeactivateProperty(property.id, property.active)}>Continuar</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <Link href={`/administracion/inmuebles/${property.id}`}>
             <Pencil size={16} className="text-blue-500" />
           </Link>

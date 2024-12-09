@@ -89,12 +89,12 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
     <div className="p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-12 gap-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="col-span-1">
+                <FormItem className="col-span-6">
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -107,7 +107,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
               control={form.control}
               name="lastname"
               render={({ field }) => (
-                <FormItem className="col-span-1">
+                <FormItem className="col-span-6">
                   <FormLabel>Apellido</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -120,7 +120,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="col-span-12">
                   <FormLabel>Correo electronico</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -134,7 +134,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
               control={form.control}
               name="phoneNumber"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="col-span-12">
                   <FormLabel>Numero de telefono</FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -147,7 +147,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
               control={form.control}
               name="birthdate"
               render={({ field }) => (
-                <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+                <FormItem className="col-span-12 ">
                   <FormLabel>Fecha de nacimiento</FormLabel>
                   <FormControl>
                     <Popover>
@@ -176,7 +176,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
               control={form.control}
               name="isInvestor"
               render={({ field }) => (
-                <FormItem className="col-span-2 flex items-end gap-2">
+                <FormItem className="col-span-12 flex items-end gap-2">
                   <FormControl>
                     <Checkbox defaultChecked={field.value} onCheckedChange={(checked) => field.onChange(checked)} />
                   </FormControl>

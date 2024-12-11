@@ -1,11 +1,13 @@
 import prisma from '@/lib/db/prisma';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     let newVinmId: string = '';
     const amountOfProperties = await prisma.property.count();
-    console.log('amountOfProperties', amountOfProperties);
+    console.warn('amountOfProperties', amountOfProperties);
     switch (String(amountOfProperties).length) {
       case 1:
         newVinmId = `VINM_00${amountOfProperties + 1}`;

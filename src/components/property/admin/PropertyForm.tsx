@@ -124,6 +124,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
 
   async function setNewVinmId() {
     const { id } = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/inmuebles/getNewCodeId`, {
+      cache: 'no-store',
       method: 'GET',
     }).then((res) => res.json());
     console.log(id);

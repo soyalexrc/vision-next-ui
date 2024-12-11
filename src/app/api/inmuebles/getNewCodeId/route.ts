@@ -1,9 +1,10 @@
 import prisma from '@/lib/db/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
   try {
-    console.log(req.json());
     let newVinmId: string = '';
     const amountOfProperties = await prisma.property.count();
     console.warn('amountOfProperties', amountOfProperties);

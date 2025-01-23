@@ -5,18 +5,24 @@ import prisma from '@/lib/db/prisma';
 import { ClientFormSchema } from '@/lib/interfaces/Client';
 
 export async function createClient(form: z.infer<typeof ClientFormSchema>): Promise<{ success: boolean; error?: string }> {
+  console.log(form);
   try {
     await prisma.client.create({
       data: {
         occupation: form.occupation ?? '',
         essentialFeatures: form.essentialFeatures ?? [],
         m2: form.m2 ?? '',
+        propertytype: form.propertytype ?? '',
+        allowyounger: form.allowyounger ?? '',
+        allowpets: form.allowpets ?? '',
         amountOfNights: form.amountOfNights ?? 0,
         amountOfPets: form.amountOfPets ?? 0,
-        name: form.name,
         amountOfPeople: form.amountOfPeople ?? 0,
-        company: form.company ?? '',
         amountOfYounger: form.amountOfYounger ?? 0,
+        budgetfrom: form.budgetfrom ?? 0,
+        budgetto: form.budgetto ?? 0,
+        name: form.name,
+        company: form.company ?? '',
         arrivingDate: form.arrivingDate ?? null,
         note: form.note ?? '',
         appointmentDate: form.appointmentDate ?? null,
@@ -76,10 +82,12 @@ export async function updateClient(form: z.infer<typeof ClientFormSchema>): Prom
         m2: form.m2 ?? '',
         amountOfNights: form.amountOfNights ?? 0,
         amountOfPets: form.amountOfPets ?? 0,
-        name: form.name,
         amountOfPeople: form.amountOfPeople ?? 0,
-        company: form.company ?? '',
         amountOfYounger: form.amountOfYounger ?? 0,
+        budgetfrom: form.budgetfrom ?? 0,
+        budgetto: form.budgetto ?? 0,
+        name: form.name,
+        company: form.company ?? '',
         arrivingDate: form.arrivingDate ?? null,
         note: form.note ?? '',
         appointmentDate: form.appointmentDate ?? null,

@@ -270,6 +270,13 @@ model Client {
   inspectionDate       DateTime?
   zonesOfInterest      String[]
   essentialFeatures    String[]
+  propertytype         String?   @db.VarChar(256)
+  allowpets            String?   @db.VarChar(256)
+  allowyounger         String?   @db.VarChar(256)
+  requestracking       String?
+  isinwaitinglist      Boolean?
+  budgetfrom           Int?
+  budgetto             Int?
 }
 
 model ExternalAdviser {

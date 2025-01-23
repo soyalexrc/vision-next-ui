@@ -115,6 +115,7 @@ export async function createSubService(form: z.infer<typeof SubServiceFormSchema
         error: 'El campo nombre de servicio es requerido',
       };
     }
+    console.log(form);
     await prisma.subService.create({
       data: {
         service: form.service,

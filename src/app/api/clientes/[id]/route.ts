@@ -13,6 +13,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         },
       });
     }
+    console.log(data);
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);

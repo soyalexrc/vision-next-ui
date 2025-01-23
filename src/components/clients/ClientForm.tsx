@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
-import { Categories, Client, Service, SubService } from '@prisma/client';
+import { Categories, Client, Service } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import { ClientFormSchema } from '@/lib/interfaces/Client';
 import { createClient, updateClient } from '@/actions/client';
@@ -17,7 +17,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { PlusIcon, Settings, Trash2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import ServicesForm from '@/components/services/admin/ServicesForm';
-import { getServices, getSubServices } from '@/actions/service';
+import { getServices } from '@/actions/service';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { getCategories } from '@/actions/category';
@@ -61,12 +61,12 @@ export default function ClientForm({ data }: Props) {
   });
 
   const [serviceList, setServiceList] = useState<Service[]>([]);
-  const [subServiceList, setSubServiceList] = useState<SubService[]>([]);
+  // const [subServiceList, setSubServiceList] = useState<SubService[]>([]);
 
   console.log(form.formState.errors);
 
   const watchedContactFrom = form.watch('contactFrom');
-  const watchedServiceName = form.watch('serviceName');
+  // const watchedServiceName = form.watch('serviceName');
   const watchedBudgetFrom = form.watch('budgetfrom');
   const watchedBudgetTo = form.watch('budgetto');
   const watchedTypeOfPerson = form.watch('typeOfPerson');
@@ -129,25 +129,25 @@ export default function ClientForm({ data }: Props) {
     const { data: services, error, success } = await getServices();
     if (success) {
       setServiceList(services);
-      callSubServices(watchedServiceName!, services);
+      // callSubServices(watchedServiceName!, services);
     } else {
       toast.error(error);
     }
   }
 
-  async function callSubServices(parentName: string, list?: Service[]) {
-    const service = list ? list.find((s) => s.title === parentName) : serviceList.find((s) => s.title === parentName);
-    if (service) {
-      const { data: services, error, success } = await getSubServices(service.id);
-      if (success) {
-        setSubServiceList(services);
-      } else {
-        toast.error(error);
-      }
-    } else {
-      return;
-    }
-  }
+  // async function callSubServices(parentName: string, list?: Service[]) {
+  //   const service = list ? list.find((s) => s.title === parentName) : serviceList.find((s) => s.title === parentName);
+  //   if (service) {
+  //     const { data: services, error, success } = await getSubServices(service.id);
+  //     if (success) {
+  //       setSubServiceList(services);
+  //     } else {
+  //       toast.error(error);
+  //     }
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   function handleDeleteAction(id: number) {
     const updatedList = serviceList.filter((item) => item.id !== id);
@@ -159,11 +159,11 @@ export default function ClientForm({ data }: Props) {
   //   setSubServiceList(updatedList);
   // }
 
-  useEffect(() => {
-    if (watchedServiceName) {
-      callSubServices(watchedServiceName);
-    }
-  }, [watchedServiceName]);
+  // useEffect(() => {
+  //   if (watchedServiceName) {
+  //     callSubServices(watchedServiceName);
+  //   }
+  // }, [watchedServiceName]);
 
   // function getServiceByName(name: string | undefined) {
   //   if (!name) return undefined;
@@ -883,7 +883,8 @@ export default function ClientForm({ data }: Props) {
                   <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
                     <FormLabel>Cantidad de menores de edad</FormLabel>
                     <FormControl>
-                      <Input {...field} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />                    </FormControl>
+                      <Input {...field} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />{' '}
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

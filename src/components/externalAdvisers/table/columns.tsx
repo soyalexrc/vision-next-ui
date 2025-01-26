@@ -79,8 +79,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el asesor externo con exito!');
-          // @ts-expect-error sample
-          await queryClient.invalidateQueries(['externalAdvisers']);
+          await queryClient.invalidateQueries({ queryKey: ['externalAdvisers'] });
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el asesor externo: ${error}`);
           console.log(error);

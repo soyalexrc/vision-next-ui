@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale/es';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
+import {useQueryClient} from "@tanstack/react-query";
 
 type Props = {
   data: Owner;
@@ -29,6 +30,7 @@ type Props = {
 export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof OwnersFormSchema>>({
     resolver: zodResolver(OwnersFormSchema),
@@ -50,7 +52,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se actualizo el propietario con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['owners'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar actualizar el propietario: ${error}`);
@@ -61,7 +63,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se registro el propietario con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['owners'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el propietario: ${error}`);

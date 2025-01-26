@@ -92,8 +92,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         if (success) {
           toast.success(`Se ${current ? 'Desactivo' : 'Activo'} el inmueble con exito!`);
           toast.dismiss(t);
-          // @ts-expect-error sample
-          await queryClient.invalidateQueries(['properties']);
+          await queryClient.invalidateQueries({ queryKey: ['properties'] });
         } else {
           toast.dismiss();
           toast.error(`Ocurrio un error al intentar ${current ? 'Desactivar' : 'Activar'} el inmueble  ${error}`);
@@ -109,8 +108,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         if (success) {
           toast.success('Se elimino el inmueble con exito!');
           toast.dismiss(t);
-          // @ts-expect-error sample
-          await queryClient.invalidateQueries(['properties']);
+          await queryClient.invalidateQueries({ queryKey: ['properties'] });
         } else {
           toast.dismiss();
           toast.error(`Ocurrio un error al intentar eliminar el inmueble  ${error}`);
@@ -126,8 +124,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se actualizo la informacion con exito!');
-          // @ts-expect-error sample
-          await queryClient.invalidateQueries(['properties']);
+          await queryClient.invalidateQueries({ queryKey: ['properties'] });
         } else {
           toast.error(`Ocurrio un error al actualizar la informacion  ${error}`);
           console.log(error);

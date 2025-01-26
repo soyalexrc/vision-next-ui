@@ -31,14 +31,13 @@ type Props = {
 export default function ClientForm({ data }: Props) {
   const router = useRouter();
   const [categories, setCategories] = useState<Categories[]>([]);
-  console.log(data);
   const form = useForm<z.infer<typeof ClientFormSchema | any>>({
     resolver: zodResolver(ClientFormSchema),
     defaultValues: data.id
       ? { ...data }
       : {
-          allowPets: 'N/A',
-          allowYounger: 'N/A',
+          allowpets: 'N/A',
+          allowyounger: 'N/A',
           status: true,
         },
   });
@@ -63,8 +62,6 @@ export default function ClientForm({ data }: Props) {
 
   const [serviceList, setServiceList] = useState<Service[]>([]);
   // const [subServiceList, setSubServiceList] = useState<SubService[]>([]);
-
-  console.log(form.formState.errors);
 
   const watchedContactFrom = form.watch('contactFrom');
   // const watchedServiceName = form.watch('serviceName');
@@ -854,7 +851,7 @@ export default function ClientForm({ data }: Props) {
                 <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
                   <FormLabel>Presencia de menores de edad</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona una opcion" />
                       </SelectTrigger>
@@ -884,7 +881,7 @@ export default function ClientForm({ data }: Props) {
                   <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
                     <FormLabel>Cantidad de menores de edad</FormLabel>
                     <FormControl>
-                      <Input {...field} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />{' '}
+                      <Input {...field} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -899,7 +896,7 @@ export default function ClientForm({ data }: Props) {
                 <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
                   <FormLabel>Presencia de mascotas</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona una opcion" />
                       </SelectTrigger>

@@ -86,8 +86,7 @@ export const columns: ColumnDef<Ally>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
-          // @ts-expect-error sample
-          await queryClient.invalidateQueries(['properties']);
+          await queryClient.invalidateQueries({ queryKey: ['properties'] });
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el aliado: ${error}`);
           console.log(error);

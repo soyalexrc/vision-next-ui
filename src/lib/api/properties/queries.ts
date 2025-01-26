@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PropertyPreview } from '@/components/property/admin/table';
 
 const fetchProperties = async (): Promise<PropertyPreview[]> => {
-  const { data } = await axios.get('/api/inmuebles?pagina=1&cantidad=1000', {
+  const { data } = await axios.get('/api/inmuebles?pagina=1&cantidad=1000&status=todos', {
     headers: {
       'Content-Type': 'application/json',
     },

@@ -3,16 +3,49 @@ import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  totalPages: any;
 }
 
-export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
+export function DataTablePagination<TData>({ table, totalPages }: DataTablePaginationProps<TData>) {
+  const router = useRouter();
+  const params = useSearchParams();
+
+  useEffect(() => {
+    const query = Object.fromEntries(params.entries());
+    console.log(query);
+    if (query.cantidad) {
+      table.setPageSize(Number(query.cantidad));
+    }
+  }, [params, table]);
+
+  console.log(table.getPageCount());
+  console.log(table.getState())
+
+  const onNextPage = () => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = table.getState().pagination.pageIndex + 1;
+    params.set('pagina', String(currentPage + 1));
+    table.nextPage();
+    router.push(`/inmuebles?${params.toString()}`);
+  };
+
+  const handlePageSizeChange = (size: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('cantidad', size);
+    router.push(`/administracion/inmuebles?${params.toString()}`);
+    table.setPageSize(Number(size));
+
+  };
+
   return (
     <div className="flex items-center justify-between p-4 mt-4">
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} Filas(s) seleccionadas.
+        {/*{table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} Filas(s) seleccionadas.*/}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
@@ -20,7 +53,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value));
+              handlePageSizeChange(value);
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
@@ -36,7 +69,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           </Select>
         </div>
         <div className="flex w-[120px] items-center justify-center text-sm font-medium">
-          Pagina {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          Pagina {table.getState().pagination.pageIndex + 1} de {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -59,7 +92,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            onClick={onNextPage}
             disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to last page</span>

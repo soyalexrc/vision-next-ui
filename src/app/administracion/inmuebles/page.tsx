@@ -1,3 +1,4 @@
+
 import { columns, DataTable } from '@/components/property/admin/table';
 import { Suspense } from 'react';
 import { TableFilters } from '@/components/property/admin';
@@ -45,5 +46,9 @@ async function TableWrapper({ query }: { query: SearchParams }) {
     },
   }).then((data) => data.json());
 
-  return <DataTable columns={columns} data={response?.properties} />;
+  return <DataTable
+      columns={columns}
+      data={response?.properties}
+      totalPages={response?.totalPages}
+  />;
 }

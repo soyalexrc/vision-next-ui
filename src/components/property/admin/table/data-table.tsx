@@ -17,16 +17,41 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Eye } from 'lucide-react';
-import { DataTablePagination } from '@/components/ui/table-pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import {DataTablePagination} from "@/components/ui/table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  totalPages: any;
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (size: number) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, totalPages, onPageChange }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    onPageChange?.(page);
+  };
+
+  // const handlePageSizeChange = (size: number) => {
+  //   setPageSize(size);
+  //   setCurrentPage(1);
+  //   onPageSizeChange?.(size);
+  // };
+
+  // const paginatedData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const table = useReactTable({
     data,
@@ -36,6 +61,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    pageCount: totalPages,
     state: {
       sorting,
       columnVisibility,
@@ -125,7 +151,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             )}
           </TableBody>
         </Table>
-        <DataTablePagination table={table} />
+        <DataTablePagination table={table} totalPages={totalPages} />
+
       </div>
     </div>
   );

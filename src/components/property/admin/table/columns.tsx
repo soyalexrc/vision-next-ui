@@ -79,7 +79,6 @@ export const columns: ColumnDef<PropertyPreview>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      console.log(row.original);
       const property = row.original;
 
       async function handleActivateDeactivateProperty(id: string, current: boolean) {

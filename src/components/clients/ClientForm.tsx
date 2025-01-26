@@ -39,6 +39,7 @@ export default function ClientForm({ data }: Props) {
       : {
           allowPets: 'N/A',
           allowYounger: 'N/A',
+          status: true,
         },
   });
 
@@ -1186,6 +1187,19 @@ export default function ClientForm({ data }: Props) {
                     <Textarea {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className="col-span-12 flex items-end gap-2">
+                  <FormControl>
+                    <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} />
+                  </FormControl>
+                  <FormLabel>Estatus</FormLabel>
                 </FormItem>
               )}
             />

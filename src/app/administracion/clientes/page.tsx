@@ -1,14 +1,15 @@
+'use client';
+
 import { TableFilters } from '@/components/clients/TableFilters';
-import { Suspense } from 'react';
-import { columns, DataTable } from '@/components/clients/table';
+import { columns } from '@/components/clients/table';
 import { AlertTriangle } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
+import { useClients } from '@/lib/api/clients';
+import { DataTable } from '@/components/ui/data-table';
 
-type SearchParams = {
-  [key: string]: string | string[] | undefined;
-};
+export default function Page() {
+  const { data, isPending, error } = useClients();
 
-export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
     <>
       <div className="bg-yellow-500 text-black p-2 text-center">
@@ -18,30 +19,10 @@ export default function Page({ searchParams }: { searchParams: SearchParams }) {
       <div className="p-4 container mx-auto">
         <h1 className="text-4xl mb-4">Clientes</h1>
         <TableFilters />
-        <Suspense fallback={<TableSkeleton />} key={JSON.stringify(searchParams)}>
-          <TableWrapper query={searchParams} />
-        </Suspense>
+        {isPending && <TableSkeleton />}
+        {error && <div>Error: {error.message}</div>}
+        {data && <DataTable columns={columns} data={data} />}
       </div>
     </>
   );
-}
-
-async function TableWrapper({ query }: { query: SearchParams }) {
-  const filteredQuery = new URLSearchParams();
-  for (const [key, value] of Object.entries(query)) {
-    if (value) {
-      filteredQuery.set(key, value as string);
-    }
-  }
-
-  const urlParams = new URLSearchParams(filteredQuery.toString());
-  const data = await fetch(`${process.env.HOST_URL}/api/clientes?${urlParams}`, {
-    cache: 'no-store',
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((data) => data.json());
-
-  return <DataTable columns={columns} data={data} />;
 }

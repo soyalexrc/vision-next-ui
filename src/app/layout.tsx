@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { ClerkProvider } from '@clerk/nextjs';
 import { esES } from '@clerk/localizations';
 import { Toaster } from '@/components/ui/sonner';
+import { Providers } from '@/components/Providers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -72,7 +73,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body>
         <main className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
-          <ClerkProvider localization={esES}>{children}</ClerkProvider>
+          <ClerkProvider localization={esES}>
+            <Providers>{children}</Providers>
+          </ClerkProvider>
         </main>
         <Toaster />
       </body>

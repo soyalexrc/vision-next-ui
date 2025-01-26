@@ -11,7 +11,8 @@ const fetchClients = async (): Promise<Client[]> => {
   return data;
 };
 
-export const useClients = () => useQuery({
+export const useClients = () =>
+  useQuery({
     queryKey: ['clients'],
     queryFn: fetchClients,
-});
+  });

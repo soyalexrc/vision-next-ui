@@ -106,7 +106,7 @@ export const columns: ColumnDef<Client>[] = [
         if (success) {
           toast.success(`Se ${current ? 'Desactivo' : 'Activo'} el cliente con exito!`);
           toast.dismiss(t);
-          // @ts-ignore
+          // @ts-expect-error sample
           await queryClient.invalidateQueries(['clients']);
           // window.location.reload();
         } else {
@@ -160,7 +160,7 @@ export const columns: ColumnDef<Client>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el cliente con exito!');
-          // @ts-ignore
+          // @ts-expect-error sample
           await queryClient.invalidateQueries(['clients']);
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el cliente  ${error}`);

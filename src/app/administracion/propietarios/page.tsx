@@ -4,6 +4,7 @@ import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { columns } from '@/components/owners/table';
 import { DataTable } from '@/components/ui/data-table';
 import { AlertTriangle } from 'lucide-react';
+import {TableFilters} from "@/components/owners/TableFilters";
 
 export default function Page() {
   const { data, isPending, error } = useOwners();
@@ -15,7 +16,7 @@ export default function Page() {
         Trabajo en progreso - Esta pagina se encuentra bajo desarrollo activo.
       </div>
       <h1 className="text-4xl mb-4">Propietarios</h1>
-      {/*<TableFilters />*/}
+      <TableFilters />
       {isPending && <TableSkeleton />}
       {error && <div>Error: {error.message}</div>}
       {data && <DataTable columns={columns} data={data} />}

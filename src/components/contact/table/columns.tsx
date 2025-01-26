@@ -20,6 +20,7 @@ import { ContactForm } from '@prisma/client';
 import { deleteAlly } from '@/actions/ally';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
 import { Badge } from '@/components/ui/badge';
+import {useQueryClient} from "@tanstack/react-query";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -65,17 +66,22 @@ export const columns: ColumnDef<ContactForm>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const ally = row.original;
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const queryClient = useQueryClient();
+
       async function handleDeleteAlly(id: number) {
-        const t = toast.loading('Se esta eliminando el aliado', {
+        const t = toast.loading('Se esta eliminando el mensaje', {
           duration: 20000,
         });
         const { success, error } = await deleteAlly(id);
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
-          window.location.reload();
+          // @ts-expect-error sample
+          await queryClient.invalidateQueries(['properties']);
         } else {
-          toast.error(`Ocurrio un error al intentar eliminar el aliado: ${error}`);
+          toast.error(`Ocurrio un error al intentar eliminar el mensaje: ${error}`);
           console.log(error);
         }
       }
@@ -89,7 +95,7 @@ export const columns: ColumnDef<ContactForm>[] = [
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Esta seguro de eliminar el aliado ({ally.name})?</AlertDialogTitle>
+                <AlertDialogTitle>Esta seguro de eliminar el mensaje de ({ally.name})?</AlertDialogTitle>
                 <AlertDialogDescription>
                   Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
                   servidores.

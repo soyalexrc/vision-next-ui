@@ -4,6 +4,7 @@ import { AlertTriangle } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { useProperties } from '@/lib/api/properties';
 import { DataTable } from '@/components/ui/data-table';
+import {TableFilters} from "@/components/property/admin";
 
 export default function Page() {
   const { data, isPending, error } = useProperties();
@@ -16,7 +17,7 @@ export default function Page() {
       </div>
       <div className="p-4 container mx-auto">
         <h1 className="text-4xl mb-4">Inmuebles</h1>
-        {/*<TableFilters />*/}
+        <TableFilters />
         {isPending && <TableSkeleton />}
         {error && <div>Error: {error.message}</div>}
         {data && <DataTable columns={columns} data={data} />}

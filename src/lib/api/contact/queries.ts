@@ -1,4 +1,4 @@
-import { ContactForm} from '@prisma/client';
+import { ContactForm } from '@prisma/client';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 

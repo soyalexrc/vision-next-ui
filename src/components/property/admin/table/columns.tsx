@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { activateDeactivateProperty, deleteProperty, toggleFeatured } from '@/actions/property';
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -80,6 +81,8 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const queryClient = useQueryClient();
 
       async function handleActivateDeactivateProperty(id: string, current: boolean) {
         const t = toast.loading(`Se esta ${current ? 'Desactivando' : 'Activando'} el inmueble`, {
@@ -89,7 +92,8 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         if (success) {
           toast.success(`Se ${current ? 'Desactivo' : 'Activo'} el inmueble con exito!`);
           toast.dismiss(t);
-          window.location.reload();
+          // @ts-expect-error sample
+          await queryClient.invalidateQueries(['properties']);
         } else {
           toast.dismiss();
           toast.error(`Ocurrio un error al intentar ${current ? 'Desactivar' : 'Activar'} el inmueble  ${error}`);
@@ -105,7 +109,8 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         if (success) {
           toast.success('Se elimino el inmueble con exito!');
           toast.dismiss(t);
-          window.location.reload();
+          // @ts-expect-error sample
+          await queryClient.invalidateQueries(['properties']);
         } else {
           toast.dismiss();
           toast.error(`Ocurrio un error al intentar eliminar el inmueble  ${error}`);
@@ -121,7 +126,8 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se actualizo la informacion con exito!');
-          window.location.reload();
+          // @ts-expect-error sample
+          await queryClient.invalidateQueries(['properties']);
         } else {
           toast.error(`Ocurrio un error al actualizar la informacion  ${error}`);
           console.log(error);

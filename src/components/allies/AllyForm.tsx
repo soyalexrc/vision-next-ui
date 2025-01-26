@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { AllyFormSchema } from '@/lib/interfaces/Ally';
 import { Ally } from '@prisma/client';
 import { createAlly, updateAlly } from '@/actions/ally';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 type Props = {
   data: Ally;
@@ -20,8 +20,8 @@ type Props = {
 };
 
 export default function AllyForm({ data, onCloseModal, isForm }: Props) {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof AllyFormSchema>>({
     resolver: zodResolver(AllyFormSchema),
@@ -41,7 +41,8 @@ export default function AllyForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se actualizo el aliado con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['allies'] });
+        // router.refresh();
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar actualizar el aliado: ${error}`);
@@ -52,7 +53,7 @@ export default function AllyForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se registro el aliado con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['allies'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el aliado: ${error}`);

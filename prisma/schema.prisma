@@ -277,6 +277,7 @@ model Client {
   isinwaitinglist      Boolean?
   budgetfrom           Int?
   budgetto             Int?
+  status               Boolean?  @default(true)
 }
 
 model ExternalAdviser {

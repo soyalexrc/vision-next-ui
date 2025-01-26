@@ -32,6 +32,7 @@ export async function createClient(form: z.infer<typeof ClientFormSchema>): Prom
         inspectionDate: form.inspectionDate ?? null,
         interestDate: form.interestDate ?? null,
         isPotentialInvestor: form.isPotentialInvestor ?? false,
+        status: form.status ?? true,
         phone: form.phone,
         location: form.location ?? '',
         personEntry: form.personEntry ?? '',
@@ -97,6 +98,7 @@ export async function updateClient(form: z.infer<typeof ClientFormSchema>): Prom
         inspectionDate: form.inspectionDate ?? null,
         interestDate: form.interestDate ?? null,
         isPotentialInvestor: form.isPotentialInvestor ?? false,
+        status: form.status ?? true,
         phone: form.phone,
         location: form.location ?? '',
         personEntry: form.personEntry ?? '',
@@ -147,5 +149,24 @@ export async function deleteClient(id: number): Promise<{ success: boolean; erro
       success: false,
       error: JSON.stringify(error),
     };
+  }
+}
+
+export async function activateDeactivateClient(id: number, current: boolean): Promise<{ success: boolean; error?: string }> {
+  try {
+    await prisma.client.update({
+      data: {
+        status: !current,
+      },
+      where: { id },
+    });
+
+    return {
+      success: true,
+      error: undefined,
+    };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: JSON.stringify(err) };
   }
 }

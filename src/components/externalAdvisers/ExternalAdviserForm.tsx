@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { ExternalAdviser } from '@prisma/client';
 import { ExternalAdviserFormSchema } from '@/lib/interfaces/ExternalAdviser';
 import { createExternalAdviser, updateExternalAdviser } from '@/actions/external-adviser';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 type Props = {
   data: ExternalAdviser;
@@ -20,8 +20,8 @@ type Props = {
 };
 
 export default function ExternalAdviserForm({ data, onCloseModal, isForm }: Props) {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof ExternalAdviserFormSchema>>({
     resolver: zodResolver(ExternalAdviserFormSchema),
@@ -42,7 +42,7 @@ export default function ExternalAdviserForm({ data, onCloseModal, isForm }: Prop
       setLoading(false);
       if (success) {
         toast.success('Se actualizo el asesor externo con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['externalAdvisers'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar actualizar el asesor externo: ${error}`);
@@ -53,7 +53,7 @@ export default function ExternalAdviserForm({ data, onCloseModal, isForm }: Prop
       setLoading(false);
       if (success) {
         toast.success('Se registro el asesor externo con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['externalAdvisers'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el asesor externo: ${error}`);

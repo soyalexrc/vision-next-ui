@@ -1,14 +1,14 @@
-import { columns, DataTable } from '@/components/property/admin/table';
-import { Suspense } from 'react';
-import { TableFilters } from '@/components/property/admin';
+'use client';
+import { columns } from '@/components/property/admin/table';
 import { AlertTriangle } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
+import { useProperties } from '@/lib/api/properties';
+import { DataTable } from '@/components/ui/data-table';
+import { TableFilters } from '@/components/property/admin';
 
-type SearchParams = {
-  [key: string]: string | string[] | undefined;
-};
+export default function Page() {
+  const { data, isPending, error } = useProperties();
 
-export default function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
     <>
       <div className="bg-yellow-500 text-black p-2 text-center">
@@ -18,32 +18,10 @@ export default function Page({ searchParams }: { searchParams: SearchParams }) {
       <div className="p-4 container mx-auto">
         <h1 className="text-4xl mb-4">Inmuebles</h1>
         <TableFilters />
-        <Suspense fallback={<TableSkeleton />} key={JSON.stringify(searchParams)}>
-          <TableWrapper query={searchParams} />
-        </Suspense>
+        {isPending && <TableSkeleton />}
+        {error && <div>Error: {error.message}</div>}
+        {data && <DataTable columns={columns} data={data} />}
       </div>
     </>
   );
-}
-
-async function TableWrapper({ query }: { query: SearchParams }) {
-  const filteredQuery = new URLSearchParams();
-  for (const [key, value] of Object.entries(query)) {
-    if (value) {
-      filteredQuery.set(key, value as string);
-    }
-  }
-
-  filteredQuery.set('status', 'todos');
-
-  const urlParams = new URLSearchParams(filteredQuery.toString());
-  const response = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
-    cache: 'no-store',
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((data) => data.json());
-
-  return <DataTable columns={columns} data={response?.properties} />;
 }

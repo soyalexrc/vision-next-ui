@@ -21,6 +21,7 @@ import { ExternalAdviser } from '@prisma/client';
 import ExternalAdviserForm from '@/components/externalAdvisers/ExternalAdviserForm';
 import { deleteExternalAdviser } from '@/actions/external-adviser';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
+import { useQueryClient } from '@tanstack/react-query';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -67,6 +68,9 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
     cell: ({ row }) => {
       const adviser = row.original;
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const queryClient = useQueryClient();
+
       async function handleDeleteAdviser(id: number) {
         const t = toast.loading('Se esta eliminando el asesor', {
           duration: 20000,
@@ -75,7 +79,7 @@ export const columns: ColumnDef<ExternalAdviser>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el asesor externo con exito!');
-          window.location.reload();
+          await queryClient.invalidateQueries({ queryKey: ['externalAdvisers'] });
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el asesor externo: ${error}`);
           console.log(error);

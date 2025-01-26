@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Owner } from '@prisma/client';
@@ -19,6 +18,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale/es';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
+import { useQueryClient } from '@tanstack/react-query';
 
 type Props = {
   data: Owner;
@@ -27,8 +27,8 @@ type Props = {
 };
 
 export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof OwnersFormSchema>>({
     resolver: zodResolver(OwnersFormSchema),
@@ -50,7 +50,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se actualizo el propietario con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['owners'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar actualizar el propietario: ${error}`);
@@ -61,7 +61,7 @@ export default function OwnerForm({ data, onCloseModal, isForm }: Props) {
       setLoading(false);
       if (success) {
         toast.success('Se registro el propietario con exito!');
-        router.refresh();
+        await queryClient.invalidateQueries({ queryKey: ['owners'] });
         onCloseModal ? onCloseModal() : null;
       } else {
         toast.error(`Ocurrio un error al intentar registrar el propietario: ${error}`);

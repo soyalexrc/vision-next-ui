@@ -13,6 +13,7 @@ export const ClientFormSchema = z.object({
   budgetfrom: z.any(),
   budgetto: z.any(),
   isinwaitinglist: z.boolean().optional().nullable(),
+  status: z.boolean(),
   propertytype: z.string().optional(),
   propertyOfInterest: z.string().optional().nullable(),
   propertyLocation: z.string().optional().nullable(),

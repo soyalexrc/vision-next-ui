@@ -21,6 +21,7 @@ import { Ally } from '@prisma/client';
 import AllyForm from '@/components/allies/AllyForm';
 import { deleteAlly } from '@/actions/ally';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
+import { useQueryClient } from '@tanstack/react-query';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -74,6 +75,9 @@ export const columns: ColumnDef<Ally>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const ally = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const queryClient = useQueryClient();
+
       async function handleDeleteAlly(id: number) {
         const t = toast.loading('Se esta eliminando el aliado', {
           duration: 20000,
@@ -82,7 +86,7 @@ export const columns: ColumnDef<Ally>[] = [
         toast.dismiss(t);
         if (success) {
           toast.success('Se elimino el aliado con exito!');
-          window.location.reload();
+          await queryClient.invalidateQueries({ queryKey: ['properties'] });
         } else {
           toast.error(`Ocurrio un error al intentar eliminar el aliado: ${error}`);
           console.log(error);

@@ -1,24 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import AllyForm from '@/components/allies/AllyForm';
 
 export function TableFilters() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState<string>(searchParams.get('busqueda') ?? '');
-
-  function search() {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('busqueda', query);
-    router.push(pathname + '?' + params.toString());
-  }
 
   return (
     <div className="flex flex-col md:flex-row mb-4 gap-4">

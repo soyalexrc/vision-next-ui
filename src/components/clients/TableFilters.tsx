@@ -1,21 +1,19 @@
 'use client';
-import { useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 
 export function TableFilters() {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [query, setQuery] = useState<string>(searchParams.get('busqueda') ?? '');
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
+  // const [query, setQuery] = useState<string>(searchParams.get('busqueda') ?? '');
 
-  function search() {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('busqueda', query);
-    router.push(pathname + '?' + params.toString());
-  }
+  // function search() {
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   params.set('busqueda', query);
+  //   router.push(pathname + '?' + params.toString());
+  // }
 
   return (
     <div className="flex flex-col md:flex-row mb-4 gap-4">

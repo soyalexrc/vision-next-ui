@@ -4,7 +4,7 @@ import { useExternalAdvisers } from '@/lib/api/external-advisers';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { DataTable } from '@/components/ui/data-table';
 import { columns } from '@/components/externalAdvisers/table';
-import {TableFilters} from "@/components/externalAdvisers/TableFilters";
+import { TableFilters } from '@/components/externalAdvisers/TableFilters';
 
 export default function Page() {
   const { data, isPending, error } = useExternalAdvisers();

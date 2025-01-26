@@ -4,7 +4,7 @@ import { AlertTriangle } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { useAllies } from '@/lib/api/allies';
 import { DataTable } from '@/components/ui/data-table';
-import {TableFilters} from "@/components/allies/TableFilters";
+import { TableFilters } from '@/components/allies/TableFilters';
 
 export default function Page() {
   const { data, isPending, error } = useAllies();

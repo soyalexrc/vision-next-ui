@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { AllyFormSchema } from '@/lib/interfaces/Ally';
@@ -21,7 +20,6 @@ type Props = {
 };
 
 export default function AllyForm({ data, onCloseModal, isForm }: Props) {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const queryClient = useQueryClient();
 

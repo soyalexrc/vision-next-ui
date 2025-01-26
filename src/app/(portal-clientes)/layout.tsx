@@ -4,7 +4,6 @@ import { SelectIcon } from '@/components/icons';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SocialMediaLink } from '@prisma/client';
-import { Providers } from '@/components/Providers';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const socialMedia = await fetch(`${process.env.HOST_URL}/api/socialMedia`, {

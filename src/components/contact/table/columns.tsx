@@ -20,7 +20,7 @@ import { ContactForm } from '@prisma/client';
 import { deleteAlly } from '@/actions/ally';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
 import { Badge } from '@/components/ui/badge';
-import {useQueryClient} from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

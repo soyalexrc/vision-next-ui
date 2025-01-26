@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { activateDeactivateProperty, deleteProperty, toggleFeatured } from '@/actions/property';
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import { useQueryClient } from '@tanstack/react-query';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

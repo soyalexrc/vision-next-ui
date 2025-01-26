@@ -87,7 +87,7 @@ export function PropertyCardWithCarousel(props: {
             <p className="text-gray-500">{props.code}</p>
           </div>
           <Button variant="outline" size="icon">
-            <Heart size={18} className="fill-red-500 text-red-500"/>
+            <Heart size={18} className="fill-red-500 text-red-500" />
           </Button>
         </Link>
         <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">

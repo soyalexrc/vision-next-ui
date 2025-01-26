@@ -247,6 +247,9 @@ export default async function Page({ params }: Props) {
               {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}
             </p>
             <p>
+              <b>Urbanizacion:</b> {property.locationInformation.urbanization}
+            </p>
+            <p>
               <b>Av:</b> {property.locationInformation.avenue}
             </p>
             <p>

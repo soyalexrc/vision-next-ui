@@ -82,9 +82,12 @@ export function PropertyCardWithCarousel(props: {
       </div>
       <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">
         <Link href={`/inmuebles/${props.path}`} className="flex justify-between">
-          <p className="text-gray-500">{props.code}</p>
+          <div className="mb-2 flex items-center gap-5">
+            <h3 className="text-2xl ">{textShortener(props.title, 100)}</h3>
+            <p className="text-gray-500">{props.code}</p>
+          </div>
           <Button variant="outline" size="icon">
-            <Heart size={18} className="fill-red-500 text-red-500" />
+            <Heart size={18} className="fill-red-500 text-red-500"/>
           </Button>
         </Link>
         <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
@@ -92,9 +95,8 @@ export function PropertyCardWithCarousel(props: {
         </Link>
         <Link href={`/inmuebles/${props.path}`}>
           <h5>
-            {props.municipality}, {props.state}
+            {props.urbanization} - {props.municipality} - {props.state}
           </h5>
-          {/*<h3 className="text-xl mb-2">{textShortener(props.title, 100)}</h3>*/}
           <div className="flex gap-5 mt-2 mb-4">
             {props.featured.map((feature, index) => (
               <Badge variant="secondary" key={feature} className={`${index === 1 && 'px-4'}`}>

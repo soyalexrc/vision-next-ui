@@ -21,6 +21,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
             howToGet: true,
             municipality: true,
             referencePoint: true,
+            urbanization: true,
             street: true,
             isClosedStreet: true,
           },

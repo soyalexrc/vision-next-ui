@@ -22,7 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { getCategories } from '@/actions/category';
 import formatCurrency from '@/utils/format-currency';
-import {getUsersFromClerk} from "@/actions/user";
+import { getUsersFromClerk } from '@/actions/user';
 
 type Props = {
   data: Client;
@@ -188,7 +188,6 @@ export default function ClientForm({ data }: Props) {
   }, []);
 
   console.log(form.formState.errors);
-
 
   console.log(users);
 

@@ -46,6 +46,10 @@ export const columns: ColumnDef<Client>[] = [
     },
   },
   {
+    accessorKey: 'adviser',
+    header: 'Asesor',
+  },
+  {
     accessorKey: 'serviceName',
     header: 'Servicio',
   },
@@ -54,8 +58,20 @@ export const columns: ColumnDef<Client>[] = [
     header: 'Tipo de inmueble',
   },
   {
-    accessorKey: 'requestracking',
-    header: 'Solicitud de seguimiento',
+    accessorKey: 'propertyOfInterest',
+    header: 'Inmueble por el cual nos contacta',
+    cell: ({ cell }) => {
+      const propertyOfInterest = cell.row.original.propertyOfInterest;
+      return <div className="min-w-[130px]">{propertyOfInterest}</div>;
+    },
+  },
+  {
+    accessorKey: 'contactFrom',
+    header: 'De donde nos contacta?',
+    cell: ({ cell }) => {
+      const contactFrom = cell.row.original.contactFrom;
+      return <div className="min-w-[170px]">{contactFrom}</div>;
+    },
   },
   {
     accessorKey: 'specificRequirement',
@@ -66,29 +82,8 @@ export const columns: ColumnDef<Client>[] = [
     },
   },
   {
-    accessorKey: 'typeOfPerson',
-    header: 'Perfil de cliente',
-    cell: ({ cell }) => {
-      const typeOfPerson = cell.row.original.typeOfPerson;
-      return <div className="min-w-[130px]">{typeOfPerson}</div>;
-    },
-  },
-  {
-    accessorKey: 'budget',
-    header: 'Presupuesto',
-    cell: ({ cell }) => {
-      const budgetFrom = cell.row.original.budgetfrom;
-      const budgetTo = cell.row.original.budgetto;
-      return <div className="min-w-[150px]">{`${formatCurrency(String(budgetFrom))} - ${formatCurrency(String(budgetTo))}`}</div>;
-    },
-  },
-  {
-    accessorKey: 'contactFrom',
-    header: 'De donde nos contacta?',
-    cell: ({ cell }) => {
-      const contactFrom = cell.row.original.contactFrom;
-      return <div className="min-w-[170px]">{contactFrom}</div>;
-    },
+    accessorKey: 'requestracking',
+    header: 'Seguimiento',
   },
   {
     accessorKey: 'status',
@@ -141,6 +136,49 @@ export const columns: ColumnDef<Client>[] = [
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+      );
+    },
+  },
+  {
+    accessorKey: 'budget',
+    header: 'Presupuesto',
+    cell: ({ cell }) => {
+      const budgetFrom = cell.row.original.budgetfrom;
+      const budgetTo = cell.row.original.budgetto;
+      return <div className="min-w-[150px]">{`${formatCurrency(String(budgetFrom))} - ${formatCurrency(String(budgetTo))}`}</div>;
+    },
+  },
+  {
+    accessorKey: 'typeOfPerson',
+    header: 'Perfil de cliente',
+    cell: ({ cell }) => {
+      const typeOfPerson = cell.row.original.typeOfPerson;
+      return <div className="min-w-[130px]">{typeOfPerson}</div>;
+    },
+  },
+  {
+    accessorKey: 'allowyounger',
+    header: 'Menores de edad',
+    cell: ({ cell }) => {
+      const allowyounger = cell.row.original.allowyounger;
+      const amountOfYounger = cell.row.original.amountOfYounger;
+      return (
+        <div className="min-w-[120px]">
+          {allowyounger} {allowyounger === 'Si' && `- ${amountOfYounger}`}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'allowpets',
+    header: 'Mascotas',
+    cell: ({ cell }) => {
+      const allowpets = cell.row.original.allowpets;
+      const amountOfPets = cell.row.original.amountOfPets;
+      return (
+        <div className="min-w-[120px]">
+          {allowpets} {allowpets === 'Si' && `- ${amountOfPets}`}
+        </div>
       );
     },
   },

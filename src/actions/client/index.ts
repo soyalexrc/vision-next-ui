@@ -10,6 +10,8 @@ export async function createClient(form: z.infer<typeof ClientFormSchema>): Prom
     await prisma.client.create({
       data: {
         occupation: form.occupation ?? '',
+        adviser_id: form.adviser_id ?? '',
+        adviser_name: form.adviser_name ?? '',
         essentialFeatures: form.essentialFeatures ?? [],
         m2: form.m2 ?? '',
         propertytype: form.propertytype ?? '',
@@ -79,6 +81,8 @@ export async function updateClient(form: z.infer<typeof ClientFormSchema>): Prom
       },
       data: {
         occupation: form.occupation ?? '',
+        adviser_id: form.adviser_id ?? '',
+        adviser_name: form.adviser_name ?? '',
         essentialFeatures: form.essentialFeatures ?? [],
         m2: form.m2 ?? '',
         amountOfNights: form.amountOfNights ?? 0,

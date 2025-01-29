@@ -22,6 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { getCategories } from '@/actions/category';
 import formatCurrency from '@/utils/format-currency';
+import {getUsersFromClerk} from "@/actions/user";
 
 type Props = {
   data: Client;
@@ -31,6 +32,7 @@ type Props = {
 export default function ClientForm({ data }: Props) {
   const router = useRouter();
   const [categories, setCategories] = useState<Categories[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const form = useForm<z.infer<typeof ClientFormSchema | any>>({
     resolver: zodResolver(ClientFormSchema),
     defaultValues: data.id
@@ -79,7 +81,9 @@ export default function ClientForm({ data }: Props) {
       budgetto: typeof values.budgetto === 'string' ? Number(values.budgetto) : values.budgetto,
       amountOfYounger: typeof values.amountOfYounger === 'string' ? Number(values.amountOfYounger) : values.amountOfYounger,
       amountOfPets: typeof values.amountOfPets === 'string' ? Number(values.amountOfPets) : values.amountOfPets,
+      adviser_name: users.find((user: any) => user.id === values.adviser_id)?.fullName,
     };
+    console.log(data);
     if (values.id && values.id !== 0) {
       const { success, error } = await updateClient(data);
       if (success) {
@@ -118,7 +122,13 @@ export default function ClientForm({ data }: Props) {
 
   useEffect(() => {
     callServices();
+    fetchUsers();
   }, []);
+
+  async function fetchUsers() {
+    const response = await getUsersFromClerk();
+    setUsers(response.data as any);
+  }
 
   async function callServices() {
     if (!data.id) {
@@ -178,6 +188,9 @@ export default function ClientForm({ data }: Props) {
   }, []);
 
   console.log(form.formState.errors);
+
+
+  console.log(users);
 
   return (
     <div className="p-4 container mx-auto">
@@ -331,6 +344,32 @@ export default function ClientForm({ data }: Props) {
                   <ServicesForm data={serviceList} onDelete={handleDeleteAction} onRefresh={callServices} />
                 </DialogContent>
               </Dialog>
+            </div>
+
+            <div className="col-span-12 lg:col-span-6  flex items-end gap-2">
+              <FormField
+                control={form.control}
+                name="adviser_id"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Asesor</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={!users}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona una opcion" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {users.map((user: any) => (
+                          <SelectItem key={user.id} value={user.id}>
+                            {user.fullName} ({user.publicMetadata?.role})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/*<div className="col-span-12 lg:col-span-6  flex items-end gap-2">*/}

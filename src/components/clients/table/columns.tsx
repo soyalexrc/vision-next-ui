@@ -46,8 +46,12 @@ export const columns: ColumnDef<Client>[] = [
     },
   },
   {
-    accessorKey: 'adviser',
+    accessorKey: 'adviser_name',
     header: 'Asesor',
+    cell: ({ cell }) => {
+      const adviser = cell.row.original.adviser_name;
+      return <div className="min-w-[150px]">{adviser}</div>;
+    },
   },
   {
     accessorKey: 'serviceName',

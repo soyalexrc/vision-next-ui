@@ -278,6 +278,8 @@ model Client {
   budgetfrom           Int?
   budgetto             Int?
   status               Boolean?  @default(true)
+  adviser_id           String?   @db.VarChar(255)
+  adviser_name         String?   @db.VarChar(255)
 }
 
 model ExternalAdviser {

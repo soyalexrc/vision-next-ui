@@ -4,6 +4,8 @@ export const ClientFormSchema = z.object({
   id: z.number().optional(),
   name: z.string({ required_error: 'Este campo es requerido' }).min(3, 'Minimo 3 caracteres'),
   referrer: z.string().optional().nullable(),
+  adviser_id: z.string().optional().nullable(),
+  adviser_name: z.string().optional().nullable(),
   usageProperty: z.string().optional().nullable(),
   requirementStatus: z.string().optional().nullable(),
   contactFrom: z.string(),

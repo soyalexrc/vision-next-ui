@@ -17,6 +17,7 @@ export async function getUsersFromClerk(): Promise<{
         id: user.id,
         fullName: user.firstName + ' ' + user.lastName,
         email: user.emailAddresses[0].emailAddress,
+        publicMetadata: user.publicMetadata,
       }));
     return {
       data: fields,

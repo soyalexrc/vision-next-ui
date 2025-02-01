@@ -44,6 +44,8 @@ export default function ClientForm({ data }: Props) {
         },
   });
 
+  console.log(data);
+
   const {
     fields: zones,
     append: appendZone,
@@ -126,7 +128,7 @@ export default function ClientForm({ data }: Props) {
   }, []);
 
   async function fetchUsers() {
-    const response = await getUsersFromClerk();
+    const response = await getUsersFromClerk(false);
     setUsers(response.data as any);
   }
 
@@ -1230,11 +1232,26 @@ export default function ClientForm({ data }: Props) {
               control={form.control}
               name="status"
               render={({ field }) => (
-                <FormItem className="col-span-12 flex items-end gap-2">
-                  <FormControl>
-                    <Checkbox onCheckedChange={field.onChange} defaultChecked={field.value} />
-                  </FormControl>
-                  <FormLabel>Estatus</FormLabel>
+                <FormItem className={'col-span-12 lg:col-span-6'}>
+                  <FormLabel>Estatus de cliente</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona una opcion" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem key="Activo" value="Activo">
+                        Activo
+                      </SelectItem>
+                      <SelectItem key="Inactivo" value="Inactivo">
+                        Inactivo
+                      </SelectItem>
+                      <SelectItem key="Concretado" value="Concretado">
+                        Concretado
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />

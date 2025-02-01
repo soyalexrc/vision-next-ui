@@ -151,6 +151,7 @@ model NegotiationInfomation {
   ally                  String?
   externalAdviser       String?
   realStateAdviser      String?
+  additional_price      String?
   property              Property @relation(fields: [propertyId], references: [id])
 }
 
@@ -277,7 +278,7 @@ model Client {
   isinwaitinglist      Boolean?
   budgetfrom           Int?
   budgetto             Int?
-  status               Boolean?  @default(true)
+  status               String?   @db.VarChar(255)
   adviser_id           String?   @db.VarChar(255)
   adviser_name         String?   @db.VarChar(255)
 }

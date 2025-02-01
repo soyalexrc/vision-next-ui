@@ -75,6 +75,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           negotiationInformation: {
             price: '0',
             minimumNegotiation: '0',
+            additional_price: '0',
           },
         },
   });

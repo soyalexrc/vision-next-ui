@@ -6,9 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import React from 'react';
+import { useCategories } from '@/lib/api/categories';
 
 export function GeneralInformation() {
   const { control } = useFormContext();
+  const { data, isPending } = useCategories();
 
   return (
     <div>
@@ -61,6 +63,7 @@ export function GeneralInformation() {
 
         <FormField
           control={control}
+          disabled={isPending}
           name="generalInformation.propertyType"
           render={({ field }) => (
             <FormItem className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
@@ -72,39 +75,11 @@ export function GeneralInformation() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem key="Apartamento" value="Apartamento">
-                    Apartamento
-                  </SelectItem>
-                  <SelectItem key="Local Comercial" value="Local Comercial">
-                    Local Comercial
-                  </SelectItem>
-                  <SelectItem key="Galpon" value="Galpon">
-                    Galpon
-                  </SelectItem>
-                  <SelectItem key="Terreno" value="Terreno">
-                    Terreno
-                  </SelectItem>
-                  <SelectItem key="Oficina" value="Oficina">
-                    Oficina
-                  </SelectItem>
-                  <SelectItem key="Casa" value="Casa">
-                    Casa
-                  </SelectItem>
-                  <SelectItem key="Townhouse" value="Townhouse">
-                    Townhouse
-                  </SelectItem>
-                  <SelectItem key="Penthouse" value="Penthouse">
-                    Penthouse
-                  </SelectItem>
-                  <SelectItem key="Apartoquinta" value="Apartoquinta">
-                    Apartoquinta
-                  </SelectItem>
-                  <SelectItem key="Casa Quinta" value="Casa Quinta">
-                    Casa Quinta
-                  </SelectItem>
-                  <SelectItem key="Fondo de Comercio" value="Fondo de Comercio">
-                    Fondo de Comercio
-                  </SelectItem>
+                  {data?.map((category) => (
+                    <SelectItem key={category.id} value={category.title}>
+                      {category.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </FormItem>

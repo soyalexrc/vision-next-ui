@@ -33,6 +33,8 @@ export function NegotiationInformation() {
   const [allies, setAllies] = useState<Ally[]>([]);
 
   const watchedPrice = watch('negotiationInformation.price');
+  const watchedAdditionalPrice = watch('negotiationInformation.additional_price');
+  const watchedOperationType = watch('negotiationInformation.operationType');
   const watchedMinimumNegotiation = watch('negotiationInformation.minimumNegotiation');
 
   async function callExternalAdvisers() {
@@ -253,6 +255,7 @@ export function NegotiationInformation() {
                   <SelectContent>
                     <SelectItem value="Venta">Venta</SelectItem>
                     <SelectItem value="Alquiler">Alquiler</SelectItem>
+                    <SelectItem value="Venta y Alquiler">Venta y Alquiler</SelectItem>
                     <SelectItem value="Traspaso">Traspaso</SelectItem>
                   </SelectContent>
                 </Select>
@@ -261,6 +264,22 @@ export function NegotiationInformation() {
             </FormItem>
           )}
         />
+        {watchedOperationType === 'Venta y Alquiler' && (
+          <FormField
+            control={control}
+            name="negotiationInformation.additional_price"
+            render={({ field }) => (
+              <FormItem className="col-span-12 md:col-span-6 lg:col-span-3">
+                <FormLabel>Precio de alquiler</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>{formatCurrency(watchedAdditionalPrice)}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={control}
           name="negotiationInformation.propertyExclusivity"

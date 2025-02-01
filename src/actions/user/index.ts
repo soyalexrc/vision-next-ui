@@ -5,14 +5,19 @@ import { UserFormSchema } from '@/lib/interfaces/User';
 import { clerkClient } from '@clerk/nextjs/server';
 import { getAllowedRoutesByRole } from '@/utils/roles';
 
-export async function getUsersFromClerk(): Promise<{
+export async function getUsersFromClerk(onlyAdvisers = true): Promise<{
   error?: string;
   data: { id: string; fullName: string; email: string }[] | undefined;
 }> {
   try {
     const data = await clerkClient.users.getUserList();
     const fields = data.data
-      .filter((user) => user.publicMetadata?.role === 'Asesor inmobiliario vision' || user.publicMetadata?.role === 'Asesor inmobiliario')
+      .filter(
+        (user) =>
+          !onlyAdvisers ||
+          user.publicMetadata?.role === 'Asesor inmobiliario vision' ||
+          user.publicMetadata?.role === 'Asesor inmobiliario',
+      )
       .map((user) => ({
         id: user.id,
         fullName: user.firstName + ' ' + user.lastName,

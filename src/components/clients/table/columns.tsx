@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Download, Pencil, Trash } from 'lucide-react';
+import { CircleCheck, CircleX, Download, Pencil, Trash } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,11 +15,14 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { Client } from '@prisma/client';
-import { activateDeactivateClient, deleteClient } from '@/actions/client';
+import { deleteClient, updateStatusClient } from '@/actions/client';
 import Link from 'next/link';
 import { formatVenezuelanPhoneNumber } from '@/utils/string';
 import formatCurrency from '@/utils/format-currency';
 import { useQueryClient } from '@tanstack/react-query';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
+const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -97,49 +100,72 @@ export const columns: ColumnDef<Client>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const queryClient = useQueryClient(); // Access the query client
 
-      async function handleActivateDeactivateClient(id: number, current: boolean) {
-        const t = toast.loading(`Se esta ${current ? 'Desactivando' : 'Activando'} el cliente`, {
+      async function handleActivateDeactivateClient(id: number, newStatus: string) {
+        const t = toast.loading(`Se esta actualizando el estatus de el cliente`, {
           duration: 20000,
         });
-        const { success, error } = await activateDeactivateClient(id, current);
+        const { success, error } = await updateStatusClient(id, newStatus);
         if (success) {
-          toast.success(`Se ${current ? 'Desactivo' : 'Activo'} el cliente con exito!`);
+          toast.success(`Se actualizo el estatus de el cliente con exito!`);
           toast.dismiss(t);
           await queryClient.invalidateQueries({ queryKey: ['clients'] });
           // window.location.reload();
         } else {
           toast.dismiss();
-          toast.error(`Ocurrio un error al intentar ${current ? 'Desactivar' : 'Activar'} el inmueble  ${error}`);
+          toast.error(`Ocurrio un error al intentar actualizar el estatus de el cliente  ${error}`);
           console.log(error);
         }
       }
 
       return (
-        <AlertDialog>
-          <AlertDialogTrigger>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
             <div
               className={`text-center rounded-lg cursor-pointer p-2 w-[70px] ${
-                client.status ? 'text-green-500 font-bold bg-green-100' : 'text-red-500 font-bold bg-red-100'
+                client.status === 'Activo'
+                  ? 'text-green-500 font-bold bg-green-100'
+                  : client.status === 'Inactivo'
+                    ? 'text-red-500 font-bold bg-red-100'
+                    : ''
               }`}
             >
-              {client.status ? 'Activo' : 'Inactivo'}
+              {client.status}
             </div>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                {client.status ? 'Desactivar' : 'Activar'} cliente ({client.name})?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                {client.status ? 'Esta seguro de desactivar el cliente?' : 'Esta seguro de activar el cliente?'}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={() => handleActivateDeactivateClient(client.id, client.status!)}>Continuar</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {statusOptions.map((option) => (
+              <DropdownMenuItem onClick={() => handleActivateDeactivateClient(client.id, option)} key={option}>
+                {option}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+  {
+    accessorKey: 'isinwaitinglist',
+    header: 'Lista de espera',
+    cell: ({ cell }) => {
+      const client = cell.row.original;
+
+      return (
+        <div className="w-[110px] flex justify-center">
+          {client.isinwaitinglist ? <CircleCheck className="text-green-500" /> : <CircleX className="text-red-500" />}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'isPotentialInvestor',
+    header: 'Potencial inversor',
+    cell: ({ cell }) => {
+      const client = cell.row.original;
+
+      return (
+        <div className="w-[120px] flex justify-center">
+          {client.isPotentialInvestor ? <CircleCheck className="text-green-500" /> : <CircleX className="text-red-500" />}
+        </div>
       );
     },
   },

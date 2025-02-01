@@ -298,6 +298,7 @@ export const PropertyFormSchema = z.object({
     rentCommission: z.string().optional(),
     reasonToSellOrRent: z.string().optional(),
     price: z.string({ required_error: 'Este campo es requerido' }),
+    additional_price: z.string().optional(),
     realStateGroups: z.boolean().optional(),
     ownerPaysCommission: z.string().optional(),
     realStateWebPages: z.boolean().optional(),

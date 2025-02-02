@@ -107,13 +107,13 @@ export function PropertyCardWithCarousel(props: {
       </div>
       <div className="px-6 pt-6 pb-2 w-full z-10 min-h-[290px] flex flex-col justify-between">
         <Link href={`/inmuebles/${props.path}`} className="flex justify-between">
-          <div className="mb-2 flex items-center gap-5">
-            <h3 className="text-2xl ">{textShortener(props.title, 100)}</h3>
+          <div className="mb-2">
             <p className="text-gray-500">{props.code}</p>
+            <h3 className="text-2xl ">{textShortener(props.title, 100)}</h3>
           </div>
-          {/*<Button variant="outline" size="icon">*/}
-          {/*  <Heart size={18} className="fill-red-500 text-red-500" />*/}
-          {/*</Button>*/}
+          <Button variant="outline" size="icon" className="w-full md:w-[40px]" onClick={() => shareContent(props.title, props.slug)}>
+            <Share2 size={18} />
+          </Button>
         </Link>
         <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
           {formatCurrency(props.price)}
@@ -152,10 +152,6 @@ export function PropertyCardWithCarousel(props: {
                 <MailIcon width={18} height={18} fill="white" />
               </Button>
             </Link>
-
-            <Button variant="outline" size="icon" className="w-full md:w-[40px]" onClick={() => shareContent(props.title, props.slug)}>
-              <Share2 size={18} />
-            </Button>
           </div>
         </div>
       </div>

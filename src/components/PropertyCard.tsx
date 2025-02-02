@@ -145,12 +145,7 @@ export function PropertyCardWithCarousel(props: {
                 <Phone size={18} />
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              size="icon"
-              className="flex md:hidden w-full"
-              onClick={() => shareContent(props.title, props.slug)}
-            >
+            <Button variant="outline" size="icon" className="flex md:hidden w-full" onClick={() => shareContent(props.title, props.slug)}>
               <Share2 size={18} />
             </Button>
           </div>

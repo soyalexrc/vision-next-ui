@@ -111,7 +111,12 @@ export function PropertyCardWithCarousel(props: {
             <p className="text-gray-500">{props.code}</p>
             <h3 className="text-2xl ">{textShortener(props.title, 100)}</h3>
           </div>
-          <Button variant="outline" size="icon" className="w-full md:w-[40px]" onClick={() => shareContent(props.title, props.slug)}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden md:flex w-full md:w-[40px]"
+            onClick={() => shareContent(props.title, props.slug)}
+          >
             <Share2 size={18} />
           </Button>
         </Link>
@@ -134,19 +139,29 @@ export function PropertyCardWithCarousel(props: {
         </Link>
         <Separator className="my-2" />
         <div className="flex md:flex-row flex-col gap-2 justify-end z-50">
-          <Link href="tel:5804244095149">
-            <Button variant="outline" size="icon" className="w-full md:w-[40px]">
-              <Phone size={18} />
-            </Button>
-          </Link>
           <div className="flex gap-2">
-            <Link href="wa.me/5804244095149" target="_blank">
+            <Link href="tel:5804244095149" className="w-full">
+              <Button variant="outline" size="icon" className="w-full md:w-[40px]">
+                <Phone size={18} />
+              </Button>
+            </Link>
+            <Button
+              variant="outline"
+              size="icon"
+              className="flex md:hidden w-full"
+              onClick={() => shareContent(props.title, props.slug)}
+            >
+              <Share2 size={18} />
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Link href="https://wa.me/5804244095149" target="_blank" className="w-full">
               <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
                 <p className="font-bold text-white">Whatsapp</p>
                 <WhatsappIcon width={18} height={18} fill="white" />
               </Button>
             </Link>
-            <Link href="/contacto">
+            <Link href="/contacto" className="w-full">
               <Button variant="vision" className="gap-2 w-full md:w-[130px]">
                 <p className="font-bold text-white">Contactar</p>
                 <MailIcon width={18} height={18} fill="white" />

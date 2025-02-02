@@ -40,14 +40,11 @@ export default function Footer({ socialMediaLinks }: { socialMediaLinks: SocialM
             Corporación Visión Inmobiliaria CA, constituida en el año 2016 y representada desde sus inicios por nuestra CEO, quien tiene una
             trayectoria comercial desde mediados del año 2011 y quien sigue dirigiendo esta empresa con la visión y liderazgo que hoy nos
             caracteriza.
-            <br/>
-            Nuestra Misión como organización, es brindar a nuestros clientes desde un concepto único,
-            integral y confortable,
-            el mejor, más profesional y más completo servicio inmobiliario en el mercado nacional e incluso
-            medirnos a nivel internacional.
-            Nuestros objetivos principales son garantizar la satisfacción del cliente, por medio de la
-            realización a cabalidad de cada
-            servicio y gestión ofrecida en la organización.
+            <br />
+            Nuestra Misión como organización, es brindar a nuestros clientes desde un concepto único, integral y confortable, el mejor, más
+            profesional y más completo servicio inmobiliario en el mercado nacional e incluso medirnos a nivel internacional. Nuestros
+            objetivos principales son garantizar la satisfacción del cliente, por medio de la realización a cabalidad de cada servicio y
+            gestión ofrecida en la organización.
           </p>
         </div>
         <div className="col-span-3">

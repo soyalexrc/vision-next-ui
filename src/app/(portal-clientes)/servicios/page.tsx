@@ -144,7 +144,13 @@ export default function Services() {
 
           {SERVICES_DATA.map((service) => (
             <div id={service.id} key={service.title} className="flex flex-wrap items-start gap-4 mb-8  lg:flex-nowrap lg:=]mb-4 ">
-              <Image src={service.image} width={350} height={350} className="rounded w-full min-w-[350px] lg:w-[350px]" alt={service.title} />
+              <Image
+                src={service.image}
+                width={350}
+                height={350}
+                className="rounded w-full min-w-[350px] lg:w-[350px]"
+                alt={service.title}
+              />
               <div>
                 <h4 className="text-2xl mb-2">{service.title}</h4>
                 <p className="text-sm">{service.description}</p>

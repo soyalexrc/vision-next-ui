@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Heart, Phone, Share2 } from 'lucide-react';
+import { Phone, Share2 } from 'lucide-react';
 import { MailIcon, WhatsappIcon } from '@/components/icons';
 import Link from 'next/link';
 import { PropertyPreview } from '@/components/property/admin/table';

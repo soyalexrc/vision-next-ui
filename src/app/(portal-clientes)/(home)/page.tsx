@@ -4,7 +4,6 @@ import CategoriesCarousel from '@/components/CategoriesCarousel';
 import ContactUsBanner from '@/components/ContactUsBanner';
 import FeaturedProperties from '@/components/FeaturedProperties';
 import ServicesBanner from '@/components/ServicesBanner';
-import { Categories } from '@prisma/client';
 
 export default async function HomePage() {
   return (

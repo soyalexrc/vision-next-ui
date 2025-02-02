@@ -1,7 +1,7 @@
 import { SERVICES_DATA } from '@/utils/data/services';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function ServicesBanner() {
   return (

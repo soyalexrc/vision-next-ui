@@ -1,6 +1,6 @@
 'use client';
 import { TabsList, TabsTrigger, Tabs } from '@/components/ui/tabs';
-import { SelectContent, SelectGroup, SelectItem, Select, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useCategories } from '@/lib/api/categories';

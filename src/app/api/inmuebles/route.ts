@@ -9,6 +9,9 @@ export async function GET(req: NextRequest) {
   const operationType = params.get('tipo-de-operacion') || 'todos';
   const status = params.get('status') || 'true';
   const propertyType = params.get('tipo-de-inmueble') || 'todos';
+  const code = params.get('codigo');
+  const state = params.get('estado');
+  const municipality = params.get('municipio');
   const whereClause: any = {};
 
   if (busqueda) {
@@ -31,6 +34,27 @@ export async function GET(req: NextRequest) {
 
       { negotiationInformation: { operationType: { contains: busqueda, mode: 'insensitive' } } },
     ];
+  }
+
+  if (code) {
+    whereClause.generalInformation = {
+      ...whereClause.generalInformation,
+      code: { contains: code, mode: 'insensitive' },
+    };
+  }
+
+  if (state) {
+    whereClause.locationInformation = {
+      ...whereClause.locationInformation,
+      state: { contains: state, mode: 'insensitive' },
+    };
+  }
+
+  if (municipality) {
+    whereClause.locationInformation = {
+      ...whereClause.locationInformation,
+      municipality: { contains: municipality, mode: 'insensitive' },
+    };
   }
 
   if (operationType && operationType !== 'todos') {

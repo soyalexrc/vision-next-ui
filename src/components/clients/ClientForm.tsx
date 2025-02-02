@@ -44,8 +44,6 @@ export default function ClientForm({ data }: Props) {
         },
   });
 
-  console.log(data);
-
   const {
     fields: zones,
     append: appendZone,

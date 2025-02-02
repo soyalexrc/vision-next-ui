@@ -4,7 +4,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
 import { useCategories } from '@/lib/api/categories';
 import { Categories } from '@prisma/client';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function CategoriesCarousel() {
   const [loaded, setLoaded] = useState(false);

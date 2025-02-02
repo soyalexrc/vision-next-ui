@@ -21,6 +21,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Lottie from 'lottie-react';
 import successAnimation from '@/lib/lottie/success-animation.json';
+import Image from 'next/image';
 
 export default function WorkWithUs() {
   const [uploadedFile, setUploadedFile] = useState<{ path: string; name: string }>({ name: '', path: '' });
@@ -107,11 +108,18 @@ export default function WorkWithUs() {
 
   return (
     <>
-      <section className="relative">
-        <img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />
-        <div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">
-          <h2 className="text-white lg:text-4xl tracking-widest">Trabaja con nosotros.</h2>
-        </div>
+      <section className="relative w-full h-[300px] md:h-[550px]">
+        <Image
+          src="/banners/trabaja-con-nosotros.png"
+          // className="object-bottom"
+          objectFit="cover"
+          fill
+          alt="Banner publicitario de inmuebles"
+        />
+        {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
+        {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">*/}
+        {/*  <h2 className="text-white lg:text-4xl tracking-widest">Trabaja con nosotros.</h2>*/}
+        {/*</div>*/}
       </section>
       <section className="lg:px-24 my-10">
         <h1 className="text-4xl text-center mb-10">Unete a nuestro equipo</h1>

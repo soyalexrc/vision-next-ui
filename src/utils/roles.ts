@@ -59,10 +59,10 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/inmuebles',
         title: 'Inmuebles',
       },
-      {
-        path: '/administracion/clientes',
-        title: 'Clientes',
-      },
+      // {
+      //   path: '/administracion/clientes',
+      //   title: 'Clientes',
+      // },
     ];
   }
 
@@ -104,6 +104,14 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/aliados',
         title: 'Aliados',
       },
+      {
+        path: '/administracion/contacto',
+        title: 'Contacto',
+      },
+      {
+        path: '/administracion/trabaja-con-nosotros',
+        title: 'Trabaja con nosotros',
+      },
     ];
   }
 
@@ -129,6 +137,14 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/gestion-de-archivos',
         title: 'Gestion de Archivos',
       },
+      {
+        path: '/administracion/contacto',
+        title: 'Contacto',
+      },
+      {
+        path: '/administracion/trabaja-con-nosotros',
+        title: 'Trabaja con nosotros',
+      },
     ];
   }
 
@@ -150,6 +166,14 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/clientes',
         title: 'Clientes',
       },
+      {
+        path: '/administracion/contacto',
+        title: 'Contacto',
+      },
+      {
+        path: '/administracion/trabaja-con-nosotros',
+        title: 'Trabaja con nosotros',
+      },
     ];
   }
 
@@ -163,10 +187,10 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/inmuebles',
         title: 'Inmuebles',
       },
-      {
-        path: '/administracion/clientes',
-        title: 'Clientes',
-      },
+      // {
+      //   path: '/administracion/clientes',
+      //   title: 'Clientes',
+      // },
     ];
   }
 

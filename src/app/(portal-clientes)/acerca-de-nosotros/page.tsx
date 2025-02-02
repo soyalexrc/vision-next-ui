@@ -4,11 +4,18 @@ import { Button } from '@/components/ui/button';
 export default function AboutUs() {
   return (
     <>
-      <section className="relative">
-        <img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />
-        <div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">
-          <h2 className="text-white lg:text-4xl tracking-widest">Comienza una nueva ilusion</h2>
-        </div>
+      <section className="relative w-full h-[300px] md:h-[550px]">
+        <Image
+          src="/banners/acerca-de-nosotros.png"
+          // className="object-bottom"
+          objectFit="cover"
+          fill
+          alt="Banner publicitario de inmuebles"
+        />
+        {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
+        {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">*/}
+        {/*  <h2 className="text-white lg:text-4xl tracking-widest">Comienza una nueva ilusion</h2>*/}
+        {/*</div>*/}
       </section>
       <section className="lg:px-52">
         <div className="my-10 border-b-1">

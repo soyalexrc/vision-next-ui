@@ -28,8 +28,8 @@ export default async function Sidenav() {
             {(user?.publicMetadata.allowedRoutes as AllowedRoute[]).map((route: { path: string; title: string }) => (
               <MenuItem key={route.path} route={route} />
             ))}
-            <MenuItem route={{ path: '/administracion/contacto', title: 'Contacto' }} />
-            <MenuItem route={{ path: '/administracion/trabaja-con-nosotros', title: 'Trabaja con Nosotros' }} />
+            {/*<MenuItem route={{ path: '/administracion/contacto', title: 'Contacto' }} />*/}
+            {/*<MenuItem route={{ path: '/administracion/trabaja-con-nosotros', title: 'Trabaja con Nosotros' }} />*/}
           </nav>
         </div>
       </div>

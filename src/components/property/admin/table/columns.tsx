@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Download, Pencil, ShieldCheck, ShieldOff, Star, Trash } from 'lucide-react';
+import {ArrowUpDown, Download, Eye, ImageDown, Pencil, Share2, ShieldCheck, ShieldOff, Star, Trash} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 import { activateDeactivateProperty, deleteProperty, toggleFeatured } from '@/actions/property';
 import { useQueryClient } from '@tanstack/react-query';
+import { useUser } from '@clerk/nextjs';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -34,6 +35,7 @@ export type PropertyPreview = {
   publicationTitle: string;
   isFeatured: boolean;
   images: string[];
+  adviserId: string;
 };
 
 export const columns: ColumnDef<PropertyPreview>[] = [
@@ -81,8 +83,22 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
+      console.log(property);
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const queryClient = useQueryClient();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario Vision';
+      }
+
+      function validateOwnerShip(property: PropertyPreview): boolean {
+        if (isAdviser()) {
+          return isAdviser() && property.adviserId === user?.id;
+        }
+        return true;
+      }
 
       async function handleActivateDeactivateProperty(id: string, current: boolean) {
         const t = toast.loading(`Se esta ${current ? 'Desactivando' : 'Activando'} el inmueble`, {
@@ -133,58 +149,73 @@ export const columns: ColumnDef<PropertyPreview>[] = [
 
       return (
         <div className="flex gap-2">
-          <AlertDialog>
-            <AlertDialogTrigger>
-              {property.active ? <ShieldCheck size={16} className="text-green-500" /> : <ShieldOff size={16} className="text-yellow-500" />}
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  {property.active ? 'Desactivar' : 'Activar'} inmueble ({property.code})?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  {property.active
-                    ? 'Esta seguro de desactivar el inmueble? Se retirara de las busquedas de la pagina web'
-                    : 'Esta seguro de activar el inmueble? Se activara en las busquedas de la pagina web'}
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleActivateDeactivateProperty(property.id, property.active)}>
-                  Continuar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <Link href={`/administracion/inmuebles/${property.id}`}>
-            <Pencil size={16} className="text-blue-500" />
-          </Link>
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Trash size={16} className="text-destructive" />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Esta seguro de eliminar el inmueble ({property.code})?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
-                  servidores. Incluidos datos de el inmueble, documentos e imagenes asociadas.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteProperty(property.id, property.images, property.code)}>
-                  Continuar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <Download size={16} className="cursor-pointer" />
-          <Star
-            onClick={() => handleToggleFeatured(property.id, property.isFeatured)}
-            size={16}
-            className={`cursor-pointer ${property.isFeatured && 'fill-yellow-400 text-yellow-400'}`}
-          />
+          {!isAdviser() && (
+            <AlertDialog>
+              <AlertDialogTrigger>
+                {property.active ? (
+                  <ShieldCheck size={16} className="text-green-500" />
+                ) : (
+                  <ShieldOff size={16} className="text-yellow-500" />
+                )}
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {property.active ? 'Desactivar' : 'Activar'} inmueble ({property.code})?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {property.active
+                      ? 'Esta seguro de desactivar el inmueble? Se retirara de las busquedas de la pagina web'
+                      : 'Esta seguro de activar el inmueble? Se activara en las busquedas de la pagina web'}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleActivateDeactivateProperty(property.id, property.active)}>
+                    Continuar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {validateOwnerShip(property) && (
+            <Link href={`/administracion/inmuebles/${property.id}`}>
+              <Pencil size={16} className="text-blue-500" />
+            </Link>
+          )}
+          {!isAdviser() && (
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Trash size={16} className="text-destructive" />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Esta seguro de eliminar el inmueble ({property.code})?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
+                    servidores. Incluidos datos de el inmueble, documentos e imagenes asociadas.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDeleteProperty(property.id, property.images, property.code)}>
+                    Continuar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {/*<Download size={16} className="cursor-pointer" />*/}
+          <Eye size={16} className="cursor-pointer" />
+          <ImageDown size={16} className="cursor-pointer" />
+          <Share2 size={16} className="cursor-pointer" />
+          {!isAdviser() && (
+            <Star
+              onClick={() => handleToggleFeatured(property.id, property.isFeatured)}
+              size={16}
+              className={`cursor-pointer ${property.isFeatured && 'fill-yellow-400 text-yellow-400'}`}
+            />
+          )}
         </div>
       );
     },

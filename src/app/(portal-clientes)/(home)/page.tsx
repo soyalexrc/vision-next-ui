@@ -15,8 +15,10 @@ export default async function HomePage() {
 
   return (
     <div className={`flex  min-h-screen flex-col items-center justify-between`}>
-      <Banner />
-      <Searcher />
+      <div className="relative w-full">
+        <Banner />
+        <Searcher />
+      </div>
       <CategoriesCarousel categories={categories as Categories[]} />
       <ContactUsBanner />
       <FeaturedProperties />

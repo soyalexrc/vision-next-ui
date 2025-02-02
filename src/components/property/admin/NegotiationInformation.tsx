@@ -20,7 +20,6 @@ import UserForm from '@/components/users/UserForm';
 
 export function NegotiationInformation() {
   const { control, watch } = useFormContext();
-
   const { user } = useUser();
   const [externalAdvisersLoading, setExternalAdvisersLoading] = useState<boolean>(false);
   const [usersLoading, setUsersLoading] = useState<boolean>(false);

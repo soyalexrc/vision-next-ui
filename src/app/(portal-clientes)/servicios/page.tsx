@@ -3,10 +3,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 const services = [
   {
     title: 'Servicio inmobiliario',
+    image: '/services/images/servicio-inmobiliario.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -16,6 +18,7 @@ const services = [
   },
   {
     title: 'Administración de inmuebles alquilados',
+    image: '/services/images/administracion-de-inmuebles.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -25,6 +28,7 @@ const services = [
   },
   {
     title: 'Trámites legales',
+    image: '/services/images/tramites-legales.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -34,6 +38,7 @@ const services = [
   },
   {
     title: 'Gestión contable',
+    image: '/services/images/gestion-contable.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -43,6 +48,7 @@ const services = [
   },
   {
     title: 'Ama de llaves (limpieza)',
+    image: '/services/images/ama-de-llaves.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -52,6 +58,7 @@ const services = [
   },
   {
     title: 'Remodelación',
+    image: '/services/images/remodelacion.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -61,6 +68,7 @@ const services = [
   },
   {
     title: 'Mantenimiento de inmuebles',
+    image: '/services/images/mantenimiento.jpg',
     description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
         the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
         scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
@@ -73,14 +81,15 @@ const services = [
 export default function Services() {
   return (
     <>
-      <section className="relative">
-        <img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />
-        <div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">
-          <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-2">Conoce nuestro servicios</h2>
-          <p className="text-white text-sm lg:text-xl text-center">
-            Es nuestro trabajo el proporcionarte el tipo de inmueble que más se ajuste a sus intereses
-          </p>
-        </div>
+      <section className="relative w-full h-[300px] md:h-[550px]">
+        <Image src="/banners/servicios.png" className="object-center" objectFit="cover" fill alt="Banner publicitario de inmuebles" />
+        {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
+        {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">*/}
+        {/*  <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-2">Conoce nuestro servicios</h2>*/}
+        {/*  <p className="text-white text-sm lg:text-xl text-center">*/}
+        {/*    Es nuestro trabajo el proporcionarte el tipo de inmueble que más se ajuste a sus intereses*/}
+        {/*  </p>*/}
+        {/*</div>*/}
       </section>
       <section className=" my-5 px-4 lg:px-24 grid gap-4 grid-cols-1 lg:grid-cols-12">
         <div className="order-2 lg:order-1 lg:col-span-3">
@@ -112,7 +121,7 @@ export default function Services() {
 
           {services.map((service) => (
             <div key={service.title} className="flex flex-wrap gap-4 mb-8  lg:flex-nowrap lg:mb-4 ">
-              <img src="/about/office-6.jpg" className="w-[350px] rounded" alt="" />
+              <Image src={service.image} width={350} height={350} className="rounded min-w-[350px]" alt={service.title} />
               <div>
                 <h4 className="text-2xl">{service.title}</h4>
                 <p className="text-sm">{service.description}</p>

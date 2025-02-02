@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(totalProperties / size);
     const data = await prisma.property.findMany({
       include: {
-        negotiationInformation: { select: { price: true, operationType: true } },
+        negotiationInformation: { select: { price: true, operationType: true, realStateAdviser: true } },
         generalInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, description: true },
         },
@@ -97,6 +97,7 @@ export async function GET(req: NextRequest) {
       street: row.locationInformation?.street,
       description: row.generalInformation?.description,
       images: row.images ?? ['/vision-icon.png'],
+      adviserId: row.negotiationInformation?.realStateAdviser,
     }));
 
     return NextResponse.json({ properties: formattedData, totalPages });

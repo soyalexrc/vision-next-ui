@@ -1,5 +1,4 @@
 'use client';
-import { PROPERTY_TYPES } from '@/utils/data/property-types';
 import { TabsList, TabsTrigger, Tabs } from '@/components/ui/tabs';
 import { SelectContent, SelectGroup, SelectItem, Select, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -9,7 +8,7 @@ import { LOCATIONS, LOCATIONS_DETAIL } from '@/utils/data/locations';
 import { useEffect, useState } from 'react';
 
 export default function Searcher() {
-  const { data, isPending, error } = useCategories();
+  const { data, isPending } = useCategories();
   const [selectedState, setSelectedState] = useState<string>('');
   const [municipalities, setMunicipalities] = useState<string[]>([]);
 

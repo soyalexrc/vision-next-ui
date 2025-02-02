@@ -21,7 +21,6 @@ import { formatVenezuelanPhoneNumber } from '@/utils/string';
 import formatCurrency from '@/utils/format-currency';
 import { useQueryClient } from '@tanstack/react-query';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import {useUser} from "@clerk/nextjs";
 
 const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 

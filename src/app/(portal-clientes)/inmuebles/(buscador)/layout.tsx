@@ -5,7 +5,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`min-h-screen`}>
       <section className="relative w-full h-[300px] md:h-[550px]">
-        <Image src="/banners/Banner-inmuebles.png" className="object-bottom" objectFit="cover" fill alt="Banner publicitario de inmuebles" />
+        <Image
+          src="/banners/Banner-inmuebles.png"
+          className="object-bottom"
+          objectFit="cover"
+          fill
+          alt="Banner publicitario de inmuebles"
+        />
         {/*<img src="/property/Banner-inmuebles.png" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">*/}
         {/*  <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-4">Opera con nosotros</h2>*/}

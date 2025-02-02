@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import {ArrowUpDown, Download, Eye, ImageDown, Pencil, Share2, ShieldCheck, ShieldOff, Star, Trash} from 'lucide-react';
+import { ArrowUpDown, Eye, ImageDown, Pencil, Share2, ShieldCheck, ShieldOff, Star, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';

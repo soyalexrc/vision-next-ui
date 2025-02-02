@@ -2,15 +2,13 @@
 import { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
+import { useCategories } from '@/lib/api/categories';
 import { Categories } from '@prisma/client';
 
-type Props = {
-  categories: Categories[];
-};
-
-export default function CategoriesCarousel({ categories }: Props) {
+export default function CategoriesCarousel() {
   const [loaded, setLoaded] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { data, isPending } = useCategories();
 
   const [sliderRef, instanceRef] = useKeenSlider(
     {
@@ -55,29 +53,25 @@ export default function CategoriesCarousel({ categories }: Props) {
   return (
     <section className="lg:px-24 py-12 w-full bg-gray-200">
       <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu propiedad ideal</h2>
-      <div className="navigation-wrapper relative">
-        <div ref={sliderRef} className="keen-slider">
-          {categories.map((category) => (
-            <CarouselCard key={category.id} title={category.titlePlural} image="/home/lifestyle-banner-1.jpg" />
-          ))}
-          {/*<CarouselCard title="Oficinas" image="/home/lifestyle-banner-1.jpg" />*/}
-          {/*<CarouselCard title="Propiedades vacacionales" image="/home/lifestyle-banner-1.jpg" />*/}
-          {/*<CarouselCard title="Apartamentos" image="/home/lifestyle-banner-1.jpg" />*/}
-          {/*<CarouselCard title="Casas, Townhouse, Quintas" image="/home/lifestyle-banner-1.jpg" />*/}
-          {/*<CarouselCard title="Galpones" image="/home/lifestyle-banner-1.jpg" />*/}
-          {/*<CarouselCard title="Otras porpiedades" image="/home/lifestyle-banner-1.jpg" />*/}
-        </div>
-        {loaded && instanceRef.current && (
-          <>
-            <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
+      {!isPending && data && data.length > 0 && (
+        <div className="navigation-wrapper relative">
+          <div ref={sliderRef} className="keen-slider">
+            {data.map((category) => (
+              <CarouselCard key={category.id} {...category} />
+            ))}
+          </div>
+          {loaded && instanceRef.current && (
+            <>
+              <Arrow left onClick={(e: any) => e.stopPropagation() || instanceRef.current?.prev()} disabled={currentSlide === 0} />
 
-            <Arrow
-              onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
-              disabled={currentSlide === instanceRef.current?.track?.details?.slides?.length - 1}
-            />
-          </>
-        )}
-      </div>
+              <Arrow
+                onClick={(e: any) => e.stopPropagation() || instanceRef.current?.next()}
+                disabled={currentSlide === instanceRef.current?.track?.details?.slides?.length - 1}
+              />
+            </>
+          )}
+        </div>
+      )}
       {/*{loaded && instanceRef.current && (*/}
       {/*    <div className="dots">*/}
       {/*        {[*/}
@@ -99,12 +93,13 @@ export default function CategoriesCarousel({ categories }: Props) {
   );
 }
 
-function CarouselCard(props: { title: string; image: string; link?: string }) {
+function CarouselCard(props: Categories) {
   return (
     <div className="keen-slider__slide relative">
-      <img width="100%" height="100%" src={props.image} alt={props.title} />
-      <div className="absolute bottom-0 left-0 w-full bg-black-opacity h-full flex flex-col items-center justify-end pb-6">
-        <h4 className="text-white text-lg">{props.title}</h4>
+      <img width="100%" height="100%" src="/home/lifestyle-banner-1.jpg" alt={props.title} />
+      <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-50" />
+      <div className="absolute bottom-0 left-0 w-full  h-full flex flex-col items-center justify-end pb-6">
+        <h4 className="text-white text-lg">{props.titlePlural}</h4>
         <a className="underline text-blue-500">Ver más</a>
       </div>
     </div>

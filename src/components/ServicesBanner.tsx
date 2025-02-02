@@ -1,6 +1,7 @@
 import { SERVICES_DATA } from '@/utils/data/services';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from "next/image";
 
 export default function ServicesBanner() {
   return (
@@ -11,8 +12,8 @@ export default function ServicesBanner() {
       <div className="grid gap-x-4 grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-y-10">
         {SERVICES_DATA.map((service) => (
           <div key={service.title} className={`flex flex-col items-center justify-center`}>
-            <img className="mb-3" src={service.img} alt="" />
-            <h6 className="text-white">{service.title}</h6>
+            <Image width={200} height={200} className="mb-3" src={service.img} alt={service.title} />
+            <h6 className="text-white font-bold">{service.title}</h6>
           </div>
         ))}
       </div>

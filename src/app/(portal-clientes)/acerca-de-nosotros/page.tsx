@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+
 export default function AboutUs() {
   return (
     <>
@@ -36,13 +37,11 @@ export default function AboutUs() {
             />
           </div>
           <div className="px-4">
-            Grupo Induo, es una empresa de intermediación inmobiliaria y gestión de activos, compuesta por profesionales con más de veinte
-            años de experiencia en el sector. Actualmente gestionamos el patrimonio inmobiliario de particulares, entidades financieras y
-            fondos de inversión, ya sea residencial, comercial y terciario. También realizamos operaciones de Sale & Lease back. Disponemos
-            de profesionales altamente cualificados para ofrecer a nuestros clientes seguridad y profesionalidad ante cualquier proyecto
-            inmobiliario. Nuestro trabajo consiste en proporcionar a nuestros clientes el tipo de activo que más se ajuste a sus intereses.
-            Ofrecemos nuestros servicios tanto a particulares, empresas y fondos de inversión, adecuando cada tipo de operación a las
-            preferencias y capacidad de cada uno.
+            Somos una empresa de intermediación inmobiliaria con un concepto integral, que nos define y nos diferencia del mercado porque no
+            solo le brindamos a nuestros clientes la asesoría de compra, venta y alquiler de sus propiedades comerciales, residenciales e
+            industriales, sino que también, les ofrecemos distintos servicios complementarios y necesarios para llevar a cabo cualquier
+            acción que requieran con su propiedad desde propietarios e inquilinos, garantizando así, el servicio más completo del mercado en
+            un solo lugar y de manera confiable y segura, ya que es llevado a cabo a través de profesionales en cada área.
           </div>
         </div>
       </section>
@@ -58,8 +57,10 @@ export default function AboutUs() {
         <div className="absolute top-0 left-0 z-10 bg-gray-950 opacity-50 w-full h-full flex justify-center items-center flex-col" />
         <div className="absolute top-0 left-0 z-20 w-full h-full flex justify-center items-center flex-col">
           <h2 className="text-center text-white lg:text-4xl">
-            Te asesoramos para conseguir el propiedad <br />
-            que estas buscando, de forma transparente y segura.
+            Te invitamos a vivir nuestra experiencia inmobiliaria <br />
+            “El confort de tener todo en un solo lugar“
+            {/*Te asesoramos para conseguir el propiedad <br />*/}
+            {/*que estas buscando, de forma transparente y segura.*/}
           </h2>
           <div className="flex justify-center mt-7">
             <Link href="/contacto">
@@ -68,6 +69,20 @@ export default function AboutUs() {
           </div>
         </div>
       </section>
+
+      <div className="lg:px-24 my-10" id="equipo-de-trabajo">
+        <h3 className="text-4xl text-center mb-10">Resena de equipo de trabajo</h3>
+        <p>
+          Te presentamos nuestro equipo de trabajo en cada área y quienes nos conforman y representan en sus labores diarias, personas
+          honradas, de valores y principios, profesionales al servicio de nuestros clientes.
+        </p>
+        <br />
+
+        <p>
+          Nuestros Asesores Inmobiliarios a continuación, son los encargados de atenderte en cada servicio que requieras para brindarte una
+          solución oportuna a tus necesidades.
+        </p>
+      </div>
 
       {/*<section className="px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-4">*/}
       {/*  {images.map((image) => (*/}

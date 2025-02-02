@@ -7,19 +7,13 @@ import ServicesBanner from '@/components/ServicesBanner';
 import { Categories } from '@prisma/client';
 
 export default async function HomePage() {
-  const categories = await fetch(`${process.env.HOST_URL}/api/categories?isFeatured=true`, {
-    cache: 'force-cache',
-    next: { tags: ['categories_home'] },
-    method: 'GET',
-  }).then((res) => res.json());
-
   return (
     <div className={`flex  min-h-screen flex-col items-center justify-between`}>
       <div className="relative w-full">
         <Banner />
         <Searcher />
       </div>
-      <CategoriesCarousel categories={categories as Categories[]} />
+      <CategoriesCarousel />
       <ContactUsBanner />
       <FeaturedProperties />
       <ServicesBanner />

@@ -12,7 +12,7 @@ export default function ContactUs() {
         {/*</div>*/}
       </section>
       <section className="lg:px-24 my-10">
-        <h1 className="text-4xl text-center mb-10">Contactanos</h1>
+        <h1 className="text-4xl text-center mb-10">Contáctanos</h1>
         <div className="grid  grid-cols-1 lg:grid-cols-2 gap-4">
           <div className=" border-r-1 px-4">
             <h2 className="text-3xl mb-4">Visión Inmobiliaria</h2>

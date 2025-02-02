@@ -28,6 +28,7 @@ import { useUser } from '@clerk/nextjs';
 export type PropertyPreview = {
   id: string;
   price: number;
+  footageGround: string;
   active: boolean;
   operationType: string;
   propertyType: string;
@@ -36,6 +37,13 @@ export type PropertyPreview = {
   isFeatured: boolean;
   images: string[];
   adviserId: string;
+  slug: string;
+  footageBuilding: string;
+  description: string;
+  municipality: string;
+  state: string;
+  urbanization: string;
+  street: string;
 };
 
 export const columns: ColumnDef<PropertyPreview>[] = [
@@ -83,7 +91,6 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const property = row.original;
-      console.log(property);
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const queryClient = useQueryClient();
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -99,6 +106,22 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         }
         return true;
       }
+
+      const shareContent = (title: string, slug: string) => {
+        if (navigator.share) {
+          navigator
+            .share({
+              title,
+              text: 'Mira estos increíbles inmuebles que te pueden interesar.',
+              url: 'https://visioninmobiliaria.com.ve/inmuebles/' + slug, // Gets the current URL
+            })
+            .then(() => console.log('Shared successfully'))
+            .catch((error) => console.error('Error sharing:', error));
+        } else {
+          navigator.clipboard.writeText('https://visioninmobiliaria.com.ve/inmuebles/' + slug);
+          toast.success('Link copiado al portapapeles');
+        }
+      };
 
       async function handleActivateDeactivateProperty(id: string, current: boolean) {
         const t = toast.loading(`Se esta ${current ? 'Desactivando' : 'Activando'} el inmueble`, {
@@ -208,7 +231,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
           {/*<Download size={16} className="cursor-pointer" />*/}
           <Eye size={16} className="cursor-pointer" />
           <ImageDown size={16} className="cursor-pointer" />
-          <Share2 size={16} className="cursor-pointer" />
+          <Share2 onClick={() => shareContent(property.publicationTitle, property.slug)} size={16} className="cursor-pointer" />
           {!isAdviser() && (
             <Star
               onClick={() => handleToggleFeatured(property.id, property.isFeatured)}

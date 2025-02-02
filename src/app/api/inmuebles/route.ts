@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
   const code = params.get('codigo');
   const state = params.get('estado');
   const municipality = params.get('municipio');
+  const isFeatured = params.get('destacado');
   const whereClause: any = {};
 
   if (busqueda) {
@@ -34,6 +35,10 @@ export async function GET(req: NextRequest) {
 
       { negotiationInformation: { operationType: { contains: busqueda, mode: 'insensitive' } } },
     ];
+  }
+
+  if (isFeatured && isFeatured === 'true') {
+    whereClause.isFeatured = isFeatured === 'true';
   }
 
   if (code) {
@@ -86,7 +91,7 @@ export async function GET(req: NextRequest) {
       include: {
         negotiationInformation: { select: { price: true, operationType: true, realStateAdviser: true } },
         generalInformation: {
-          select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, description: true },
+          select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, footageGround: true, description: true },
         },
         locationInformation: {
           select: {
@@ -114,6 +119,7 @@ export async function GET(req: NextRequest) {
       publicationTitle: row.generalInformation?.publicationTitle,
       propertyType: row.generalInformation?.propertyType,
       footageBuilding: row.generalInformation?.footageBuilding,
+      footageGround: row.generalInformation?.footageGround,
       municipality: row.locationInformation?.municipality,
       state: row.locationInformation?.state,
       avenue: row.locationInformation?.avenue,

@@ -138,7 +138,7 @@ export default async function Page({ params }: Props) {
           <div className="mt-5">
             <div className="flex gap-5 justify-center ">
               <Badge variant="outline" className="text-red-900 border-red-900">
-                {property.generalInformation.footageGround} m2
+                {property.generalInformation.footageGround || property.generalInformation.footageBuilding} m2
               </Badge>
               <Badge variant="outline" className="text-red-900 border-red-900 px-4">
                 {property.generalInformation.propertyType}
@@ -279,7 +279,7 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
         <div className="col-span-12 mx-4 lg:mx-0 lg:col-span-3">
-          <h3 className="text-2xl text-center mb-3">Contactanos</h3>
+          <h3 className="text-2xl text-center mb-3">Contáctanos</h3>
           <p className="text-sm text-center lg:text-left">
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>

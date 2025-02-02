@@ -57,23 +57,27 @@ export default function Header() {
                         />
                         <div className="mb-2 mt-4 text-lg font-medium">En venta</div>
                         <p className="text-sm leading-tight text-muted-foreground">
-                          Descubre tu hogar ideal entre nuestra amplia selección de propiedades en venta.
+                          Descubre tu inmueble ideal entre nuestra amplia selección de propiedades en venta.
                         </p>
                       </Link>
                     </NavigationMenuLink>
                   </li>
                   <Link href="/inmuebles?tipo-de-operacion=alquiler&pagina=1&cantidad=10" legacyBehavior passHref>
-                    <ListItem title="En alquiler">Alquila la casa o apartamento perfecto para tus necesidades y presupuesto.</ListItem>
+                    <ListItem title="En alquiler">Alquila con nosotros el inmueble que andas buscando para lograr tus objetivos</ListItem>
+                  </Link>
+                  <Link href="/inmuebles?tipo-de-inmueble=Local Comercial&pagina=1&cantidad=10" legacyBehavior passHref>
+                    <ListItem title="Comercial">Alquila el local comercial idóneo para tu emprendimiento</ListItem>
                   </Link>
                   <Link href="/inmuebles?tipo-de-operacion=estadias vacacionales&pagina=1&cantidad=10" legacyBehavior passHref>
-                    <ListItem title="Estadias vacacionales">
-                      Disfruta de unas vacaciones inolvidables en nuestras casas y apartamentos de temporada.
-                    </ListItem>
+                    <ListItem title="Hospedajes">Hospédate en la propiedad que se adapte mejor a tu comodidad</ListItem>
                   </Link>
                   <Link href="/inmuebles?tipo-de-operacion=estadias residenciales&pagina=1&cantidad=10" legacyBehavior passHref>
-                    <ListItem title="Estadias residenciales ">
-                      Encuentra tu hogar temporal ideal para estancias prolongadas o reubicaciones.
+                    <ListItem title="Residenciales">
+                      Descubre nuestra sección de inmuebles de temporadas largas para la estabilidad de tu hogar
                     </ListItem>
+                  </Link>
+                  <Link href="/inmuebles?pagina=1&cantidad=10" legacyBehavior passHref>
+                    <ListItem title="Industrial">Descubre el establecimiento industrial que requieres para tu empresa</ListItem>
                   </Link>
                 </ul>
               </NavigationMenuContent>
@@ -82,37 +86,44 @@ export default function Header() {
               <NavigationMenuTrigger>Servicios</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[475px] gap-3 p-4  md:grid-cols-2  ">
-                  <Link href="/servicios" legacyBehavior passHref>
+                  <Link href="/servicios#servicio-inmobiliario" legacyBehavior passHref>
                     <ListItem title="Servicio inmobiliario">
-                      Te acompañamos en todo el proceso de compra, venta o alquiler de tu propiedad.
+                      Intermediacion y asesoría en la compra, venta y alquiler de propiedades, comerciales, residenciales e industriales.
                     </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
-                    <ListItem title="Administracin de inmuebles alquilados">
-                      Asesoría y gestión de los trámites legales relacionados con tu propiedad.
+                  <Link href="/servicios#admin-contratos-alquiler" legacyBehavior passHref>
+                    <ListItem title="Administracion de contratos de alquiler">
+                      Para aquellos propietarios que no tienen el tiempo, la disposición o el conocimiento de cómo llevar a cabo un
+                      seguimiento adecuado de su alquiler, cumpliendo con la formalidad en términos legales.
                     </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
-                    <ListItem title="Trámites legales">Servicio profesional de limpieza y mantenimiento de tu hogar.</ListItem>
+                  <Link href="/servicios#tramites-legales" legacyBehavior passHref>
+                    <ListItem title="Trámites legales">
+                      Asesoramos y gestionamos a través de Abogados en el área, los trámites legales que requieran y necesiten nuestros
+                      clientes
+                    </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
+                  <Link href="/servicios#gestion-contable" legacyBehavior passHref>
                     <ListItem title="Gestión contable">
-                      Mantenemos tu propiedad en óptimas condiciones con nuestros servicios de mantenimiento integral.
+                      Enfocado principalmente para nuestros clientes comerciales, pequeñas y medianas empresas que requieran llevar su
+                      contabilidad al dia y evitar ser multados por no llevar una gestión contable oportuna.
                     </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
+                  <Link href="/servicios#servicio-limpieza" legacyBehavior passHref>
                     <ListItem title="Ama de llaves (limpieza)">
-                      Gestionamos tus propiedades de alquiler de forma eficiente y segura.
+                      Ofrecemos el servicio de mantenimiento enfocado para inmuebles residenciales y comerciales.
                     </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
+                  <Link href="/servicios#remodelacion" legacyBehavior passHref>
                     <ListItem title="Remodelación">
-                      Llevamos a cabo la gestión contable de tu propiedad de forma transparente y precisa.
+                      A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e
+                      industrial.{' '}
                     </ListItem>
                   </Link>
-                  <Link href="/servicios" legacyBehavior passHref>
-                    <ListItem title="Mantenimiento de inmuebles">
-                      Convertimos tus sueños en realidad con nuestros servicios de remodelación y diseño de interiores.
+                  <Link href="/servicios#mantenimiento" legacyBehavior passHref>
+                    <ListItem title="Mantenimiento de equipos">
+                      Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu
+                      orden para brindarte solución ante cualquier instalación o reparación de tus equipos.{' '}
                     </ListItem>
                   </Link>
                 </ul>
@@ -127,21 +138,21 @@ export default function Header() {
                       Conoce nuestra empresa, nuestra filosofía y nuestro compromiso con la excelencia.
                     </ListItem>
                   </Link>
-                  <Link href="/equipo-de-trabajo" legacyBehavior passHref>
+                  <Link href="/acerca-de-nosotros#equipo-de-trabajo" legacyBehavior passHref>
                     <ListItem title="Equipo de trabajo" href="">
                       Descubre a nuestro equipo de profesionales apasionados por el sector inmobiliario.
-                    </ListItem>
-                  </Link>
-                  <Link href="/comentarios" legacyBehavior passHref>
-                    <ListItem title="Comentarios" href="">
-                      Lee las opiniones de nuestros clientes satisfechos y descubre por qué elegirnos.
                     </ListItem>
                   </Link>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            <NavigationMenuItem className="h-[26px]">
+              <Link href="/comentarios" legacyBehavior passHref>
+                <NavigationMenuLink className="text-sm font-medium">Comentarios</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Contacto</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Contáctanos</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="w-[475px] gap-3 p-4 ">
                   <Link href="/contacto" legacyBehavior passHref>
@@ -198,25 +209,25 @@ export default function Header() {
                   <AccordionContent>
                     <ul className="px-2 text-left">
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Servicio inmobiliario</Link>
+                        <Link href="/servicios#servicio-inmobiliario">Servicio inmobiliario</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Tramites legales</Link>
+                        <Link href="/servicios#tramites-legales">Tramites legales</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Ama de llaves (limpieza)</Link>
+                        <Link href="/servicios#servicio-limpieza">Ama de llaves (limpieza)</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Mantenimiento de inmuebles</Link>
+                        <Link href="/servicios#mantenimento">Mantenimiento de inmuebles</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Administracion de inmuebles alquilados</Link>
+                        <Link href="/servicios#admin-contratos-alquiler">Administracion de contratos de alquiler</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Gestion contable</Link>
+                        <Link href="/servicios#gestion-contable">Gestion contable</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios">Remodelacion</Link>
+                        <Link href="/servicios#remodelacion">Remodelacion</Link>
                       </li>
                     </ul>
                   </AccordionContent>
@@ -242,7 +253,7 @@ export default function Header() {
                   <AccordionContent>
                     <ul className="px-2 text-left">
                       <li className="p-2 mb-1">
-                        <Link href="/contacto">Contactanos</Link>
+                        <Link href="/contacto">Contáctanos</Link>
                       </li>
                       <li className="p-2 mb-1">
                         <Link href="/Trabaja con nosotros">Trabaja con nosotros</Link>

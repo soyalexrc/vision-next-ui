@@ -90,6 +90,10 @@
   animation: ping 1.5s infinite;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 
 .arrow {
   width: 30px;

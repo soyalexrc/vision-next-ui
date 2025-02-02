@@ -57,6 +57,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
         {response.properties.map((property: any) => (
           <PropertyCardWithCarousel
             images={property.images}
+            slug={property.slug}
             key={property.id}
             path={property.slug}
             title={property.publicationTitle}

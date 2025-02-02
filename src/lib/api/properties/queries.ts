@@ -16,3 +16,18 @@ export const useProperties = () =>
     queryKey: ['properties'],
     queryFn: fetchProperties,
   });
+
+const fetchFeaturedProperties = async (): Promise<PropertyPreview[]> => {
+  const { data } = await axios.get('/api/inmuebles?pagina=1&cantidad=1000&status=true&destacado=true', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return data.properties;
+};
+
+export const useFeaturedProperties = () =>
+  useQuery({
+    queryKey: ['featuredProperties'],
+    queryFn: fetchFeaturedProperties,
+  });

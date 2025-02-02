@@ -1,26 +1,30 @@
 export const SERVICES_DATA = [
   {
-    img: '/services/particulares.png',
+    img: '/services/icons/promocion-de-inmuebles.png',
     title: 'Promoción de inmuebles',
   },
   {
-    img: '/services/promotores.png',
+    img: '/services/icons/admin-contratos-alquiler.png',
     title: 'Administración de de contratos de alquiler',
   },
   {
-    img: '/services/entidades-financieras.png',
+    img: '/services/icons/tramites-legales.png',
     title: 'Trámites legales',
   },
   {
-    img: '/services/sociedades-de-inversion.png',
+    img: '/services/icons/contabilidad.png',
+    title: 'Servicios contables',
+  },
+  {
+    img: '/services/icons/ama-de-llaves.png',
     title: 'Ama de llaves (Limpieza)',
   },
   {
-    img: '/services/sociedades-de-inversion.png',
+    img: '/services/icons/remodelacion.png',
     title: 'Remodelación',
   },
   {
-    img: '/services/sociedades-de-inversion.png',
+    img: '/services/icons/mantenimiento.png',
     title: 'Mantenimiento de inmuebles',
   },
 ];

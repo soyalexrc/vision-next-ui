@@ -9,22 +9,30 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Heart, Phone } from 'lucide-react';
+import { Heart, Phone, Share2 } from 'lucide-react';
 import { MailIcon, WhatsappIcon } from '@/components/icons';
 import Link from 'next/link';
+import { PropertyPreview } from '@/components/property/admin/table';
 
-export function PropertyCard(props: { img: string }) {
+export function PropertyCard(props: PropertyPreview) {
   return (
     <div>
-      <img className={`h-[220px] w-full object-cover`} src={props.img} alt="" />
-      <div className="bg-gray-100 p-6 ">
-        <h5 className="text-2xl hover:underline cursor-pointer mb-5">Piso con terraza en avenida de castilla</h5>
-        <div className="flex gap-5 justify-center ">
-          <small>86 m2</small>
-          <small className="border-x-1 border-gray-400 px-4">3 Habitaciones</small>
-          <small>2 P.E</small>
+      <img className={`h-[220px] w-full object-cover`} src={props.images[0]} alt="" />
+      <div className="bg-gray-100 p-6 min-h-[267.20px] flex flex-col">
+        <Link href={`/inmuebles/${props.slug}`}>
+          <h5 className="text-2xl hover:underline cursor-pointer mb-2">{props.publicationTitle}</h5>
+        </Link>
+        {/*<p>{textShortener(props.description, 120)}</p>*/}
+        <p className="text-gray-500 text-sm">
+          {props.state}, {props.municipality}
+        </p>
+        <p className="mb-5 text-gray-500 text-sm">{props.urbanization}</p>
+        <div className="flex gap-5 justify-center mt-auto">
+          <small>{props.footageBuilding || props.footageGround} m2</small>
+          <small className="border-x-1 border-gray-400 px-4">{props.propertyType}</small>
+          <small>{props.operationType}</small>
         </div>
-        <p className="text-red-900 text-center mt-5 text-4xl">$ 295.000</p>
+        <p className="text-red-900 text-center mt-5 text-4xl">{formatCurrency(props.price.toString())}</p>
       </div>
     </div>
   );
@@ -34,6 +42,7 @@ export function PropertyCardWithCarousel(props: {
   images: string[];
   path: string;
   code: string;
+  slug: string;
   title: string;
   description: string;
   price: string;
@@ -61,6 +70,22 @@ export function PropertyCardWithCarousel(props: {
     ],
   );
 
+  const shareContent = (title: string, slug: string) => {
+    const location = window.location;
+    if (navigator.share) {
+      navigator
+        .share({
+          title,
+          text: 'Mira estos increíbles inmuebles que te pueden interesar.',
+          url: location.origin + location.pathname + '/' + slug, // Gets the current URL
+        })
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => console.error('Error sharing:', error));
+    } else {
+      alert('Tu navegador no soporta compartir.');
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row w-full mb-5 md:max-h-[400px] border-2 border-gray-200 rounded-r-lg rounded-l-lg md:rounded-l-none">
       <div className="navigation-wrapper w-full md:max-w-[300px] relative">
@@ -86,9 +111,9 @@ export function PropertyCardWithCarousel(props: {
             <h3 className="text-2xl ">{textShortener(props.title, 100)}</h3>
             <p className="text-gray-500">{props.code}</p>
           </div>
-          <Button variant="outline" size="icon">
-            <Heart size={18} className="fill-red-500 text-red-500" />
-          </Button>
+          {/*<Button variant="outline" size="icon">*/}
+          {/*  <Heart size={18} className="fill-red-500 text-red-500" />*/}
+          {/*</Button>*/}
         </Link>
         <Link href={`/inmuebles/${props.path}`} className="text-red-900  font-bold text-2xl">
           {formatCurrency(props.price)}
@@ -109,17 +134,27 @@ export function PropertyCardWithCarousel(props: {
         </Link>
         <Separator className="my-2" />
         <div className="flex md:flex-row flex-col gap-2 justify-end z-50">
-          <Button variant="outline" size="icon" className="w-full md:w-[40px]">
-            <Phone size={18} />
-          </Button>
-          <div className="flex gap-2">
-            <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
-              <p className="font-bold text-white">Whatsapp</p>
-              <WhatsappIcon width={18} height={18} fill="white" />
+          <Link href="tel:5804244095149">
+            <Button variant="outline" size="icon" className="w-full md:w-[40px]">
+              <Phone size={18} />
             </Button>
-            <Button variant="vision" className="gap-2 w-full md:w-[130px]">
-              <p className="font-bold text-white">Contactar</p>
-              <MailIcon width={18} height={18} fill="white" />
+          </Link>
+          <div className="flex gap-2">
+            <Link href="wa.me/5804244095149" target="_blank">
+              <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
+                <p className="font-bold text-white">Whatsapp</p>
+                <WhatsappIcon width={18} height={18} fill="white" />
+              </Button>
+            </Link>
+            <Link href="/contacto">
+              <Button variant="vision" className="gap-2 w-full md:w-[130px]">
+                <p className="font-bold text-white">Contactar</p>
+                <MailIcon width={18} height={18} fill="white" />
+              </Button>
+            </Link>
+
+            <Button variant="outline" size="icon" className="w-full md:w-[40px]" onClick={() => shareContent(props.title, props.slug)}>
+              <Share2 size={18} />
             </Button>
           </div>
         </div>

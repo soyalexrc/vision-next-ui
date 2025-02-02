@@ -462,7 +462,7 @@ export default function PreviewProperty({ goToSection }: Props) {
 
         {/*  Sample box of contact us*/}
         <div className="col-span-12 lg:col-span-3">
-          <p className="text-xl text-center mb-3">Contactanos</p>
+          <p className="text-xl text-center mb-3">Contáctanos</p>
           <p className="text-sm text-center lg:text-left">
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>

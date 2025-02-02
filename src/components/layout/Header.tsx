@@ -28,11 +28,11 @@ export default function Header() {
     <header className="w-full pt-[41px] fixed top-0 z-40 bg-white shadow-sm">
       <nav className="p-2 flex justify-between items-center">
         <div>
-          <Link href="/" className="md:hidden">
-            <Image title="Vision inmobiliaria logo" alt="Vision inmobiliaria logo" src="/vision-icon.png" width={50} height={50} />
-          </Link>
+          {/*<Link href="/" className="md:hidden">*/}
+          {/*  <Image title="Vision inmobiliaria logo" alt="Vision inmobiliaria logo" src="/vision-icon.png" width={50} height={50} />*/}
+          {/*</Link>*/}
 
-          <Link href="/" className="hidden md:block">
+          <Link href="/" className="">
             <Image title="Visión inmobiliaria logo" alt="Vision inmobiliaria logo" src="/vision-logo.png" width={120} height={60} />
           </Link>
         </div>
@@ -69,10 +69,10 @@ export default function Header() {
                     <ListItem title="Comercial">Alquila el local comercial idóneo para tu emprendimiento</ListItem>
                   </Link>
                   <Link href="/inmuebles?tipo-de-operacion=estadias vacacionales&pagina=1&cantidad=10" legacyBehavior passHref>
-                    <ListItem title="Hospedajes">Hospédate en la propiedad que se adapte mejor a tu comodidad</ListItem>
+                    <ListItem title="Hospedaje">Hospédate en la propiedad que se adapte mejor a tu comodidad</ListItem>
                   </Link>
                   <Link href="/inmuebles?tipo-de-operacion=estadias residenciales&pagina=1&cantidad=10" legacyBehavior passHref>
-                    <ListItem title="Residenciales">
+                    <ListItem title="Residencial">
                       Descubre nuestra sección de inmuebles de temporadas largas para la estabilidad de tu hogar
                     </ListItem>
                   </Link>
@@ -181,7 +181,7 @@ export default function Header() {
                 Vision Inmobiliaria
               </SheetTitle>
               <SheetDescription>
-                Tu aliado inmobiliario. Compra, venta, alquiler, administración y remodelación. Expertos y comprometidos con tu
+                Tu aliado inmobiliario, compra, venta, alquiler, administración y remodelación. Expertos y comprometidos con tu
                 satisfacción.
               </SheetDescription>
               <Accordion type="single" collapsible>
@@ -196,10 +196,17 @@ export default function Header() {
                         <Link href="/inmuebles?tipo-de-operacion=alquiler&pagina=1&cantidad=10">En Alquiler</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=estadias-vacacionales&pagina=1&cantidad=10">Estadias vacaionales</Link>
+                        <Link href="/inmuebles?tipo-de-inmueble=Local Comercial&pagina=1&cantidad=10">Comercial</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/inmuebles?tipo-de-operacion=estadias-residenciales&pagina=1&cantidad=10">Estadias residenciales</Link>
+                        <Link href="/inmuebles?tipo-de-operacion=estadias-residenciales&pagina=1&cantidad=10">Residencial</Link>
+                      </li>
+                      <li className="p-2 mb-1">
+                        <Link href="/inmuebles?tipo-de-operacion=estadias-vacacionales&pagina=1&cantidad=10">Hospedaje</Link>
+                      </li>
+
+                      <li className="p-2 mb-1">
+                        <Link href="/inmuebles?pagina=1&cantidad=10">Industrial</Link>
                       </li>
                     </ul>
                   </AccordionContent>
@@ -240,16 +247,16 @@ export default function Header() {
                         <Link href="/acerca-de-nosotros">Acerca de nosotros</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/equipo-de-trabajo">Equipo de trabajo</Link>
-                      </li>
-                      <li className="p-2 mb-1">
-                        <Link href="/comentarios">Comentarios</Link>
+                        <Link href="/acerca-de-nosotros#equipo-de-trabajo">Equipo de trabajo</Link>
                       </li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
+                <Link href="/comentarios">
+                  <p className=" py-4 border-b-[1px] text-xl text-start hover:underline">Comentarios</p>
+                </Link>
                 <AccordionItem value="item-4">
-                  <AccordionTrigger className="text-xl">Contacto</AccordionTrigger>
+                  <AccordionTrigger className="text-xl">Contáctanos</AccordionTrigger>
                   <AccordionContent>
                     <ul className="px-2 text-left">
                       <li className="p-2 mb-1">

@@ -1,7 +1,7 @@
 export const SERVICES_DATA = [
   {
     img: '/services/icons/promocion-de-inmuebles.png',
-    title: 'Promoción de inmuebles',
+    title: 'Servicio inmobiliario',
   },
   {
     img: '/services/icons/admin-contratos-alquiler.png',

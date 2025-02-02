@@ -22,7 +22,7 @@ export default function AboutUs() {
         <div className="my-10 border-b-1">
           <h3 className="tracking-widest text-xl uppercase text-center mb-5">Visión Inmobiliaria</h3>
           <h1 className="text-center text-4xl mb-5">
-            Profesionales con más de veinte años de <br />
+            Profesionales con más de <span className="font-bold text-red-500">12 años</span> de <br />
             experiencia
           </h1>
         </div>
@@ -36,12 +36,18 @@ export default function AboutUs() {
               src="/about/about-image.jpg"
             />
           </div>
-          <div className="px-4">
-            Somos una empresa de intermediación inmobiliaria con un concepto integral, que nos define y nos diferencia del mercado porque no
-            solo le brindamos a nuestros clientes la asesoría de compra, venta y alquiler de sus propiedades comerciales, residenciales e
-            industriales, sino que también, les ofrecemos distintos servicios complementarios y necesarios para llevar a cabo cualquier
-            acción que requieran con su propiedad desde propietarios e inquilinos, garantizando así, el servicio más completo del mercado en
-            un solo lugar y de manera confiable y segura, ya que es llevado a cabo a través de profesionales en cada área.
+          <div className="p-4">
+            <p className="text-center mb-5">
+              Corporación Visión Inmobiliaria CA, constituida en el año 2016 y representada desde sus inicios por nuestra CEO, quien tiene
+              una trayectoria comercial desde mediados del año 2011 y quien sigue dirigiendo esta empresa con la visión y liderazgo que hoy
+              nos caracteriza.
+            </p>
+            <p className="text-center">
+              Nuestra Misión como organización, es brindar a nuestros clientes desde un concepto único, integral y confortable, el mejor,
+              más profesional y más completo servicio inmobiliario en el mercado nacional e incluso medirnos a nivel internacional. Nuestros
+              objetivos principales son garantizar la satisfacción del cliente, por medio de la realización a cabalidad de cada servicio y
+              gestión ofrecida en la organización.
+            </p>
           </div>
         </div>
       </section>
@@ -71,7 +77,7 @@ export default function AboutUs() {
       </section>
 
       <div className="lg:px-24 my-10" id="equipo-de-trabajo">
-        <h3 className="text-4xl text-center mb-10">Resena de equipo de trabajo</h3>
+        <h3 className="text-4xl text-center mb-10"> Equipo de trabajo</h3>
         <p>
           Te presentamos nuestro equipo de trabajo en cada área y quienes nos conforman y representan en sus labores diarias, personas
           honradas, de valores y principios, profesionales al servicio de nuestros clientes.

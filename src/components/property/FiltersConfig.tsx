@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Input } from '@/components/ui/input';
 import { PROPERTY_TYPES } from '@/utils/data/property-types';
 import { useRouter } from 'next/navigation';
+import { useCategories } from '@/lib/api/categories';
 
 export function FiltersConfig() {
   // const [state, setState] = useState<string>('');
@@ -14,6 +15,7 @@ export function FiltersConfig() {
   const stickyRef = useRef<HTMLDivElement>(null);
   const [stickyTop, setStickyTop] = useState(0);
   const router = useRouter();
+  const { data, isPending } = useCategories();
 
   const updateQuery = (key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -123,6 +125,7 @@ export function FiltersConfig() {
       <div>
         {/*<p className="font-bold text-sm mb-1">Inmueble</p>*/}
         <Select
+          disabled={isPending}
           value={propertyType}
           onValueChange={(value) => {
             setPropertyType(value);
@@ -136,9 +139,9 @@ export function FiltersConfig() {
             <SelectGroup>
               <SelectLabel>Tipo de inmueble</SelectLabel>
               <SelectItem value="todos">Todos</SelectItem>
-              {PROPERTY_TYPES.map((propertyType) => (
-                <SelectItem value={propertyType.toLowerCase()} key={propertyType}>
-                  {propertyType}
+              {data?.map((propertyType) => (
+                <SelectItem value={propertyType.title} key={propertyType.id}>
+                  {propertyType.title}
                 </SelectItem>
               ))}
             </SelectGroup>

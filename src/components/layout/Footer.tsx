@@ -37,14 +37,11 @@ export default function Footer({ socialMediaLinks }: { socialMediaLinks: SocialM
         <div className="col-span-6 lg:px-20 ">
           <Image alt="Logo de Visión Vnmobiliaria" width={130} height={100} src="/vision-logo.png" />
           <p className="text-sm mt-4">
-            Corporación Visión Inmobiliaria CA, constituida en el año 2016 y representada desde sus inicios por nuestra CEO, quien tiene una
-            trayectoria comercial desde mediados del año 2011 y quien sigue dirigiendo esta empresa con la visión y liderazgo que hoy nos
-            caracteriza.
-            <br />
-            Nuestra Misión como organización, es brindar a nuestros clientes desde un concepto único, integral y confortable, el mejor, más
-            profesional y más completo servicio inmobiliario en el mercado nacional e incluso medirnos a nivel internacional. Nuestros
-            objetivos principales son garantizar la satisfacción del cliente, por medio de la realización a cabalidad de cada servicio y
-            gestión ofrecida en la organización.
+            Somos una empresa de intermediación inmobiliaria con un concepto integral, que nos define y nos diferencia del mercado porque no
+            solo le brindamos a nuestros clientes la asesoría de compra, venta y alquiler de sus propiedades comerciales, residenciales e
+            industriales, sino que también, les ofrecemos distintos servicios complementarios y necesarios para llevar a cabo cualquier
+            acción que requieran con su propiedad desde propietarios e inquilinos, garantizando así, el servicio más completo del mercado en
+            un solo lugar y de manera confiable y segura, ya que es llevado a cabo a través de profesionales en cada área.
           </p>
         </div>
         <div className="col-span-3">

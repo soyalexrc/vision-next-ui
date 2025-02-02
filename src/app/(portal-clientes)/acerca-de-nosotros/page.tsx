@@ -22,7 +22,7 @@ export default function AboutUs() {
         <div className="my-10 border-b-1">
           <h3 className="tracking-widest text-xl uppercase text-center mb-5">Visión Inmobiliaria</h3>
           <h1 className="text-center text-4xl mb-5">
-            Profesionales con más de <span className="font-bold text-red-500">12 años</span> de <br />
+            Profesionales con más de <span className="font-bold text-red-500">14 años</span> de <br />
             experiencia
           </h1>
         </div>
@@ -37,12 +37,12 @@ export default function AboutUs() {
             />
           </div>
           <div className="p-4">
-            <p className="text-center mb-5">
+            <p className="text-justify mb-5">
               Corporación Visión Inmobiliaria CA, constituida en el año 2016 y representada desde sus inicios por nuestra CEO, quien tiene
               una trayectoria comercial desde mediados del año 2011 y quien sigue dirigiendo esta empresa con la visión y liderazgo que hoy
               nos caracteriza.
             </p>
-            <p className="text-center">
+            <p className="text-justify">
               Nuestra Misión como organización, es brindar a nuestros clientes desde un concepto único, integral y confortable, el mejor,
               más profesional y más completo servicio inmobiliario en el mercado nacional e incluso medirnos a nivel internacional. Nuestros
               objetivos principales son garantizar la satisfacción del cliente, por medio de la realización a cabalidad de cada servicio y

@@ -35,7 +35,7 @@ const SERVICES_DATA = [
     ctaButton: 'Ir',
   },
   {
-    title: 'Trámites legales',
+    title: 'Servicio Legal',
     id: 'tramites-legales',
     image: '/services/images/tramites-legales.jpg',
     description: `Asesoramos y gestionamos a través de Abogados en el área, los trámites legales que requieran y necesiten nuestros clientes`,
@@ -50,7 +50,7 @@ const SERVICES_DATA = [
     ctaButton: 'Ir',
   },
   {
-    title: 'Gestión contable',
+    title: 'Servicio Contable',
     id: 'gestion-contable',
     image: '/services/images/gestion-contable.jpg',
     description: `Enfocado principalmente para nuestros clientes comerciales, pequeñas y medianas empresas que requieran llevar su contabilidad al dia y evitar ser multados por no llevar una gestión contable oportuna.`,
@@ -84,7 +84,7 @@ const SERVICES_DATA = [
     ctaButton: 'Ir',
   },
   {
-    title: 'Remodelación de espacios',
+    title: 'Servicio de Remodelación de espacios',
     id: 'remodelacion',
     image: '/services/images/remodelacion.jpg',
     description: `A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e industrial. Te asesoramos en cuanto a diseño, materiales y costos. Adaptamos tu presupuesto a tu objetivo para que juntos materialicemos lo que andas buscando.`,

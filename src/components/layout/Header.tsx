@@ -92,36 +92,36 @@ export default function Header() {
                     </ListItem>
                   </Link>
                   <Link href="/servicios#admin-contratos-alquiler" legacyBehavior passHref>
-                    <ListItem title="Administracion de contratos de alquiler">
+                    <ListItem title="Servicio de administracion de contratos de alquiler">
                       Para aquellos propietarios que no tienen el tiempo, la disposición o el conocimiento de cómo llevar a cabo un
                       seguimiento adecuado de su alquiler, cumpliendo con la formalidad en términos legales.
                     </ListItem>
                   </Link>
                   <Link href="/servicios#tramites-legales" legacyBehavior passHref>
-                    <ListItem title="Trámites legales">
+                    <ListItem title="Servicio Legal">
                       Asesoramos y gestionamos a través de Abogados en el área, los trámites legales que requieran y necesiten nuestros
                       clientes
                     </ListItem>
                   </Link>
                   <Link href="/servicios#gestion-contable" legacyBehavior passHref>
-                    <ListItem title="Gestión contable">
+                    <ListItem title="Servicio Contable">
                       Enfocado principalmente para nuestros clientes comerciales, pequeñas y medianas empresas que requieran llevar su
                       contabilidad al dia y evitar ser multados por no llevar una gestión contable oportuna.
                     </ListItem>
                   </Link>
                   <Link href="/servicios#servicio-limpieza" legacyBehavior passHref>
-                    <ListItem title="Ama de llaves (limpieza)">
+                    <ListItem title="Servicio de limpieza - Ama de llaves">
                       Ofrecemos el servicio de mantenimiento enfocado para inmuebles residenciales y comerciales.
                     </ListItem>
                   </Link>
                   <Link href="/servicios#remodelacion" legacyBehavior passHref>
-                    <ListItem title="Remodelación">
+                    <ListItem title="Servicio de Remodelación de espacios ">
                       A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e
                       industrial.{' '}
                     </ListItem>
                   </Link>
                   <Link href="/servicios#mantenimiento" legacyBehavior passHref>
-                    <ListItem title="Mantenimiento de equipos">
+                    <ListItem title="Servicio Técnico de equipos">
                       Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu
                       orden para brindarte solución ante cualquier instalación o reparación de tus equipos.{' '}
                     </ListItem>
@@ -216,25 +216,25 @@ export default function Header() {
                   <AccordionContent>
                     <ul className="px-2 text-left">
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#servicio-inmobiliario">Servicio inmobiliario</Link>
+                        <Link href="/servicios#servicio-inmobiliario">Servicio Inmobiliario</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#tramites-legales">Tramites legales</Link>
+                        <Link href="/servicios#tramites-legales">Servicio Legal</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#servicio-limpieza">Ama de llaves (limpieza)</Link>
+                        <Link href="/servicios#servicio-limpieza">Servicio de limpieza - Ama de llaves</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#mantenimento">Mantenimiento de inmuebles</Link>
+                        <Link href="/servicios#mantenimento">Servicio Técnico de equipos</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#admin-contratos-alquiler">Administracion de contratos de alquiler</Link>
+                        <Link href="/servicios#admin-contratos-alquiler">Servicio de administracion de contratos de alquiler</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#gestion-contable">Gestion contable</Link>
+                        <Link href="/servicios#gestion-contable">Servicio Contable</Link>
                       </li>
                       <li className="p-2 mb-1">
-                        <Link href="/servicios#remodelacion">Remodelacion</Link>
+                        <Link href="/servicios#remodelacion">Servicio de Remodelación de espacios </Link>
                       </li>
                     </ul>
                   </AccordionContent>

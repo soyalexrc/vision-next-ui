@@ -2,7 +2,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { PROPERTY_TYPES } from '@/utils/data/property-types';
 import { useRouter } from 'next/navigation';
 import { useCategories } from '@/lib/api/categories';
 

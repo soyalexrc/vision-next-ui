@@ -94,6 +94,10 @@ html {
   scroll-behavior: smooth;
 }
 
+#servicio-inmobiliario, #tramites-legales, #servicio-limpieza, #mantenimiento, #admin-contratos-alquiler, #gestion-contable, #remodelacion {
+  scroll-margin-top: 140px; /* Adjust based on your navbar height */
+}
+
 
 .arrow {
   width: 30px;

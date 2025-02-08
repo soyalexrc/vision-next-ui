@@ -108,11 +108,10 @@ export default function WorkWithUs() {
 
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[550px]">
+      <section className="relative w-full h-[300px] md:h-[600px]">
         <Image
           src="/banners/trabaja-con-nosotros.png"
           // className="object-bottom"
-          objectFit="cover"
           fill
           alt="Banner publicitario de inmuebles"
         />

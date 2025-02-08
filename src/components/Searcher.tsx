@@ -57,7 +57,7 @@ export default function Searcher() {
   }
 
   return (
-    <section className="md:px-24 w-full md:absolute top-[50%] md:translate-y-[-50%] lg:translate-y-[0]">
+    <section className="md:px-24 w-full ">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(search)}>
           <div className="bg-white p-4 rounded-xl">

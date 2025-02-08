@@ -53,7 +53,7 @@ export default function Page() {
           </Button>
           <Button variant="outline">
             <Filter size={16} className="mr-2" />
-            Ver mas filtros
+            Ver Más filtros
           </Button>
           <Button variant="outline">
             <GalleryVerticalEnd size={16} className="mr-2" />

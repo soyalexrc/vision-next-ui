@@ -22,7 +22,8 @@ export default function AboutUs() {
         <div className="my-10 border-b-1">
           <h3 className="tracking-widest text-xl uppercase text-center mb-5">Visión Inmobiliaria</h3>
           <h1 className="text-center text-4xl mb-5">
-            Profesionales con más de <span className="font-bold text-red-500">14 años</span> de <br />
+            {/*Profesionales con más de <span className="font-bold text-red-500">14 años</span> de <br />*/}
+            Profesionales con <span className="font-bold text-red-500">14 años</span> de <br />
             experiencia
           </h1>
         </div>

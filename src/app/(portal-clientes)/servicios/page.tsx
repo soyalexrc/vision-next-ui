@@ -21,7 +21,7 @@ const SERVICES_DATA = [
     description: `Para aquellos propietarios que no tienen el tiempo, la disposición o el conocimiento de cómo llevar a cabo un seguimiento adecuado de su alquiler, cumpliendo con la formalidad en términos legales.`,
     listTitle: 'Ofrecemos:',
     list: [
-      'compañamiento de inicio a fin del contrato de arrendamiento donde el propietarios es permanentemente asesorado por profesionales a nivel legal, administrativo e inmobiliario, para tomar las mejores decisiones de acuerdo a cada situación',
+      'Acompañamiento de inicio a fin del contrato de arrendamiento donde el propietarios es permanentemente asesorado por profesionales a nivel legal, administrativo e inmobiliario, para tomar las mejores decisiones de acuerdo a cada situación',
       'Manteniendo un total contacto con el inquilino',
       'Gestionando la cobranza del alquiler en los términos acordados',
       'Haciendo seguimiento al inquilino ante el pago de servicios mensuales concernientes al inmueble',
@@ -104,8 +104,8 @@ const SERVICES_DATA = [
 export default function Services() {
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[550px]">
-        <Image src="/banners/servicios.png" className="object-center" objectFit="cover" fill alt="Banner publicitario de inmuebles" />
+      <section className="relative w-full h-[300px] md:h-[600px]">
+        <Image src="/banners/servicios.png" fill alt="Banner publicitario de inmuebles" />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">*/}
         {/*  <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-2">Conoce nuestro servicios</h2>*/}
@@ -116,14 +116,14 @@ export default function Services() {
       </section>
       <section className=" my-5 px-4 lg:px-24 grid gap-4 grid-cols-1 lg:grid-cols-12">
         <div className="order-2 lg:order-1 lg:col-span-3">
-          <h3 className="text-3xl text-center mb-2 lg:mb-4">Mas informacion</h3>
-          <p className="text-sm text-center">Si deseas más información sobre esta propiedad, por favor, rellena el formulario.</p>
+          <h3 className="text-3xl text-center mb-2 lg:mb-4">Más información</h3>
+          <p className="text-sm text-center">Si deseas más información sobre nuestros servicios, por favor, contactanos aqui abajo.</p>
 
           <div className="my-5">
             <Input className="mb-4" type="text" placeholder="Nombres y apellidos" />
             <Input className="mb-4" type="email" placeholder="Email" />
             <Input className="mb-4" type="tel" placeholder="Telefono" />
-            <Textarea className="w-full" />
+            <Textarea className="w-full" placeholder="Solicitud" />
             <div className="my-5 gap-2 flex items-center">
               <Checkbox defaultChecked />
               <span className="text-xs">

@@ -1,7 +1,9 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SocialMediaLink } from '@prisma/client';
 import { SelectIcon } from '@/components/icons';
+import { useSocialMediaLinks } from '@/lib/api/general/footer';
 
 const footerLinks = [
   {
@@ -30,7 +32,9 @@ const footerLinks = [
   },
 ];
 
-export default function Footer({ socialMediaLinks }: { socialMediaLinks: SocialMediaLink[] }) {
+export default function Footer() {
+  const { data, isPending } = useSocialMediaLinks();
+
   return (
     <footer className="border-t-8 border-red-opacity mt-10 pt-5">
       <div className="lg:grid gap-4 grid-cols-12 px-5">
@@ -59,12 +63,20 @@ export default function Footer({ socialMediaLinks }: { socialMediaLinks: SocialM
         </div>
         <div className="col-span-3">
           <h3 className="text-xl my-10">Contáctanos</h3>
-          {socialMediaLinks.map((link) => (
-            <Link key={link.id} href={link.href} target="_blank" className="mb-3 flex gap-2 items-center cursor-pointer" color="foreground">
-              <SelectIcon icon={link.iconName} />
-              <small className="font-bold text-inherit">{link.title}</small>
-            </Link>
-          ))}
+          {!isPending &&
+            data &&
+            data.map((link) => (
+              <Link
+                key={link.id}
+                href={link.href}
+                target="_blank"
+                className="mb-3 flex gap-2 items-center cursor-pointer"
+                color="foreground"
+              >
+                <SelectIcon icon={link.iconName} />
+                <small className="font-bold text-inherit">{link.title}</small>
+              </Link>
+            ))}
         </div>
       </div>
 

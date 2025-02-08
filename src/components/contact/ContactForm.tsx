@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useState } from 'react';
 import Lottie from 'lottie-react';
 import successAnimation from '@/lib/lottie/success-animation.json';
+import SocialMediaBar from '@/app/(portal-clientes)/contacto/SocialMediaBar';
 
 type Props = {
   showLabels: boolean;
@@ -162,6 +163,13 @@ export default function ContactForm({ showLabels, from }: Props) {
           </div>
         </form>
       </Form>
+
+      <div>
+        <div>
+          <p className="text-center my-5">O, Contactanos aqui abajo</p>
+        </div>
+        <SocialMediaBar />
+      </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

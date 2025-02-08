@@ -4,8 +4,8 @@ import ContactForm from '@/components/contact/ContactForm';
 export default function ContactUs() {
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[550px]">
-        <Image src="/banners/contacto.png" className="object-bottom" objectFit="cover" fill alt="Banner publicitario de inmuebles" />
+      <section className="relative w-full h-[300px] md:h-[600px]">
+        <Image src="/banners/contacto.png" className="object-bottom" fill alt="Banner publicitario de inmuebles" />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">*/}
         {/*  <h2 className="text-white lg:text-4xl tracking-widest">Contactanos y te ayudaremos.</h2>*/}

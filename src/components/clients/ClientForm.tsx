@@ -266,6 +266,9 @@ export default function ClientForm({ data }: Props) {
                       <SelectItem key="Llamada" value="Llamada">
                         Llamada
                       </SelectItem>
+                      <SelectItem key="Oficina" value="Oficina">
+                        Oficina
+                      </SelectItem>
                       <SelectItem key="Mensajeria de texto" value="Mensajeria de texto">
                         Mensajeria de texto
                       </SelectItem>

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
 import { useCategories } from '@/lib/api/categories';
@@ -51,6 +51,17 @@ export default function CategoriesCarousel() {
       // add plugins here
     ],
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      instanceRef?.current?.next();
+    }, 4000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [instanceRef]);
+
   return (
     <section className="lg:px-24 py-12 w-full bg-gray-200">
       <h2 className="text-center text-2xl font-bold lg:font-medium  lg:text-4xl mb-10">Encuentra tu propiedad ideal</h2>

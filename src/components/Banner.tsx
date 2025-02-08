@@ -39,7 +39,7 @@ export default function BannerCarousel() {
           <div key={index} className="keen-slider__slide relative">
             <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-30" />
             <Image
-              className="object-cover object-bottom w-full h-[300px] md:h-[90vh]"
+              className=" object-bottom w-full h-[300px] md:h-[600px]"
               width={1920}
               height={600}
               src={src}

@@ -4,6 +4,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import Arrow from '@/components/carousel/Arrow';
 import { useCategories } from '@/lib/api/categories';
 import { Categories } from '@prisma/client';
+import Link from "next/link";
 // import Image from 'next/image';
 
 export default function CategoriesCarousel() {
@@ -115,7 +116,7 @@ function CarouselCard(props: Categories) {
       <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-50" />
       <div className="absolute bottom-0 left-0 w-full  h-full flex flex-col items-center justify-end pb-6">
         <h4 className="text-white text-lg">{props.titlePlural}</h4>
-        <a className="underline text-blue-500">Ver más</a>
+        <Link href="/inmuebles" className="underline text-blue-500">Ver más</Link>
       </div>
     </div>
   );

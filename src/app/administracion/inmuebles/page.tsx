@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { columns } from '@/components/property/admin/table';
-import {AlertTriangle, Plus} from 'lucide-react';
+import { AlertTriangle, Plus } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { useProperties } from '@/lib/api/properties';
 import { DataTable } from '@/components/ui/data-table';
 import { TableFilters } from '@/components/property/admin';
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const { data, isPending, error } = useProperties();

@@ -2,13 +2,13 @@
 
 import { TableFilters } from '@/components/clients/TableFilters';
 import { columns } from '@/components/clients/table';
-import {AlertTriangle, Plus} from 'lucide-react';
+import { AlertTriangle, Plus } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
 import { useClients } from '@/lib/api/clients';
 import { DataTable } from '@/components/ui/data-table';
 import { useState } from 'react';
-import {Button} from "@/components/ui/button";
-import {useRouter} from "next/navigation";
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const { data, isPending, error } = useClients();
@@ -16,12 +16,12 @@ export default function Page() {
   const [adviser, setAdviser] = useState('');
   const [query, setQuery] = useState('');
   const [propertyType, setPropertyType] = useState('');
-  const [allowPets, setAllowPets] = useState('');
-  const [allowYounger, setAllowYounger] = useState('');
+  // const [allowPets, setAllowPets] = useState('');
+  // const [allowYounger, setAllowYounger] = useState('');
   const [contactFrom, setContactFrom] = useState('');
   // const [budgetFrom, setBudgetFrom] = useState('');
   // const [budgetTo, setBudgetTo] = useState('');
-  const [status, setStatus] = useState('');
+  // const [status, setStatus] = useState('');
 
   // Filter data based on the query, price range, and new fields
   const filteredData = data?.filter((client) => {

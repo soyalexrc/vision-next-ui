@@ -86,8 +86,6 @@ export function TableFilters({
         {/* input for price range */}
       </div>
       <div className="flex flex-col md:flex-row mb-4 md:items-end gap-4">
-
-
         <div>
           <p className="text-xs font-bold mb-1">De donde nos contacta</p>
           <Select value={contactFrom} onValueChange={setContactFrom}>
@@ -138,7 +136,6 @@ export function TableFilters({
             </SelectContent>
           </Select>
         </div>
-
       </div>
     </>
   );

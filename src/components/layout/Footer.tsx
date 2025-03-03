@@ -81,20 +81,23 @@ export default function Footer() {
 
       {/*TODO pendiente*/}
 
-      {/*<div className="bg-red-opacity w-full flex gap-4 justify-center flex-wrap px-20 py-2 mt-10">*/}
-      {/*  <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="/aviso-legal">*/}
-      {/*    Aviso legal*/}
-      {/*  </Link>*/}
-      {/*  <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="proteccion-de-datos">*/}
-      {/*    Proteccion de datos*/}
-      {/*  </Link>*/}
-      {/*  <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="politica-de-cookies">*/}
-      {/*    Cookies*/}
-      {/*  </Link>*/}
-      {/*  <Link color="secondary" className="hover:underline" href="https://lsmsinergy.com" target="_blank">*/}
-      {/*    Creado por LSM Sinergy*/}
-      {/*  </Link>*/}
-      {/*</div>*/}
+      <div className="bg-red-opacity w-full flex gap-4 justify-center flex-wrap px-20 py-2 mt-10">
+        <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="/aviso-legal">
+          Aviso legal
+        </Link>
+        <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="proteccion-de-datos">
+          Proteccion de datos
+        </Link>
+        <Link className="hover:underline pr-5 lg:border-r-1 border-gray-500" color="secondary" href="politica-de-cookies">
+          Cookies
+        </Link>
+        <Link color="secondary" className="hover:underline" href="https://lsmsinergy.com" target="_blank">
+          Creado por LSM Sinergy
+        </Link>
+        <Link color="secondary" className="hover:underline" href="/administracion">
+          Administracion
+        </Link>
+      </div>
     </footer>
   );
 }

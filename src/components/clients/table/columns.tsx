@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { CircleCheck, CircleX, Download, Pencil, Trash } from 'lucide-react';
+import { ArrowUpDown, CircleCheck, CircleX, Download, Pencil, Trash } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +21,7 @@ import { formatVenezuelanPhoneNumber } from '@/utils/string';
 import formatCurrency from '@/utils/format-currency';
 import { useQueryClient } from '@tanstack/react-query';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 
 const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 
@@ -30,7 +31,14 @@ const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 export const columns: ColumnDef<Client>[] = [
   {
     accessorKey: 'name',
-    header: 'Nombre',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Nombre
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ cell }) => {
       const name = cell.row.original.name;
       return <div className="min-w-[130px]">{name}</div>;
@@ -50,7 +58,14 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'adviser_name',
-    header: 'Asesor',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Asesor
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ cell }) => {
       const adviser = cell.row.original.adviser_name;
       return <div className="min-w-[150px]">{adviser}</div>;
@@ -58,15 +73,36 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'serviceName',
-    header: 'Servicio',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Servicio
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'propertytype',
-    header: 'Tipo de inmueble',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Tipo de inmueble
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'propertyOfInterest',
-    header: 'Inmueble por el cual nos contacta',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Inmueble por el cual nos contacta
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ cell }) => {
       const propertyOfInterest = cell.row.original.propertyOfInterest;
       return <div className="min-w-[130px]">{propertyOfInterest}</div>;
@@ -74,7 +110,14 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'contactFrom',
-    header: 'De donde nos contacta?',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          De donde nos contacta?
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ cell }) => {
       const contactFrom = cell.row.original.contactFrom;
       return <div className="min-w-[170px]">{contactFrom}</div>;
@@ -94,7 +137,14 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Estatus',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="min-w-[130px]">
+          Estatus
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ cell }) => {
       const client = cell.row.original;
       // eslint-disable-next-line react-hooks/rules-of-hooks

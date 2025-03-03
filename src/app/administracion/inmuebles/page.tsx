@@ -14,11 +14,17 @@ export default function Page() {
   const [query, setQuery] = useState('');
   const [operationType, setOperationType] = useState('');
   const [propertyType, setPropertyType] = useState('');
+  const [priceFrom, setPriceFrom] = useState('');
+  const [priceTo, setPriceTo] = useState('');
+  const [adviser, setAdviser] = useState('');
+  const [ally, setAlly] = useState('');
+  const [externalAdviser, setExternalAdviser] = useState('');
   const router = useRouter();
 
-  // Filter data based on the query
+  // Filter data based on the query, price range, and new fields
   const filteredData = data?.filter((property) => {
     const searchText = query.toLowerCase();
+    const price = Number((property?.price as any).replace(/[^0-9.-]+/g, '')); // Convert price text to number
 
     return (
       (!query ||
@@ -27,7 +33,12 @@ export default function Page() {
         property.propertyType?.toLowerCase().includes(searchText) ||
         property.operationType?.toLowerCase().includes(searchText)) &&
       (operationType === 'all' || !operationType || property.operationType === operationType) &&
-      (propertyType === 'all' || !propertyType || property.propertyType === propertyType)
+      (propertyType === 'all' || !propertyType || property.propertyType === propertyType) &&
+      (!priceFrom || price >= Number(priceFrom)) && // Min Price
+      (!priceTo || price <= Number(priceTo)) && // Max Price
+      (adviser === 'all' || !adviser || property.adviserId?.toLowerCase().includes(adviser.toLowerCase())) && // Adviser
+      (ally === 'all' || !ally || property.allyId?.toLowerCase().includes(ally.toLowerCase())) && // Ally
+      (externalAdviser === 'all' || !externalAdviser || property.externalAdviserId?.toLowerCase().includes(externalAdviser.toLowerCase())) // External Adviser
     );
   });
 
@@ -53,6 +64,16 @@ export default function Page() {
           propertyType={propertyType}
           setPropertyType={setPropertyType}
           setQuery={setQuery}
+          priceFrom={priceFrom}
+          priceTo={priceTo}
+          setPriceTo={setPriceTo}
+          setPriceFrom={setPriceFrom}
+          adviser={adviser}
+          setAdviser={setAdviser}
+          externalAdviser={externalAdviser}
+          setExternalAdviser={setExternalAdviser}
+          ally={ally}
+          setAlly={setAlly}
         />
         {isPending && <TableSkeleton />}
         {error && <div>Error: {error.message}</div>}

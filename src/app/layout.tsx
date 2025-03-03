@@ -72,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body>
-        <main className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
+        <main className={cn('min-h-screen bg-background font-sans antialiased overflow-x-hidden', inter.variable)}>
           <ClerkProvider localization={esES}>
             <Providers>{children}</Providers>
           </ClerkProvider>

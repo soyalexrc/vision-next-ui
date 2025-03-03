@@ -44,6 +44,8 @@ export type PropertyPreview = {
   state: string;
   urbanization: string;
   street: string;
+  allyId: string;
+  externalAdviserId: string;
 };
 
 export const columns: ColumnDef<PropertyPreview>[] = [

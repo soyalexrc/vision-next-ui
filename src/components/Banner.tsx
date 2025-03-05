@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const banners = [
   '/banners/banner-home-2.png',
@@ -15,7 +15,30 @@ const banners = [
   '/banners/trabaja-con-nosotros.png',
 ];
 
+const bannersMobile = [
+  '/banners/mobile/acerca-de-nosotros.png',
+  '/banners/mobile/contacto.png',
+  '/banners/mobile/servicios.png',
+  '/banners/mobile/trabaja-con-nosotros.png',
+  '/banners/mobile/expertos.png',
+  '/banners/mobile/testimonios.png',
+];
+
 export default function BannerCarousel() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateScreenSize = () => {
+      setIsMobile(window.innerWidth < 768); // Change to `true` if width < 768px
+    };
+
+    updateScreenSize(); // Run initially
+    window.addEventListener('resize', updateScreenSize);
+
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  const activeBanners = isMobile ? bannersMobile : banners;
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
     slides: { perView: 1 },
@@ -35,7 +58,7 @@ export default function BannerCarousel() {
   return (
     <div className="relative w-full">
       <div ref={sliderRef} className="keen-slider">
-        {banners.map((src, index) => (
+        {activeBanners.map((src, index) => (
           <div key={index} className="keen-slider__slide relative">
             <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-30" />
             <Image

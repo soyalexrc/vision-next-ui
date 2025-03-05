@@ -111,8 +111,15 @@ export default function WorkWithUs() {
       <section className="relative w-full h-[300px] md:h-[600px]">
         <Image
           src="/banners/trabaja-con-nosotros.png"
-          // className="object-bottom"
+          className="object-bottom hidden md:block"
           fill
+          alt="Banner publicitario de inmuebles"
+        />
+        <Image
+          src="/banners/mobile/trabaja-con-nosotros.png"
+          className="w-full h-full block md:hidden"
+          width={250}
+          height={250}
           alt="Banner publicitario de inmuebles"
         />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}

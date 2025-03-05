@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import React from 'react';
 
 const SERVICES_DATA = [
   {
@@ -105,7 +106,14 @@ export default function Services() {
   return (
     <>
       <section className="relative w-full h-[300px] md:h-[600px]">
-        <Image src="/banners/servicios.png" fill alt="Banner publicitario de inmuebles" />
+        <Image src="/banners/servicios.png" fill className="hidden md:block" alt="Banner publicitario de inmuebles" />
+        <Image
+          src="/banners/mobile/servicios.png"
+          className="w-full h-full block md:hidden"
+          width={250}
+          height={250}
+          alt="Banner publicitario de inmuebles"
+        />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">*/}
         {/*  <h2 className="text-white text-xl lg:text-4xl tracking-widest mb-2">Conoce nuestro servicios</h2>*/}

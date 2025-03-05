@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import React from 'react';
 
 export default function AboutUs() {
   return (
@@ -8,9 +9,16 @@ export default function AboutUs() {
       <section className="relative w-full h-[300px] md:h-[550px]">
         <Image
           src="/banners/acerca-de-nosotros.png"
-          // className="object-bottom"
+          className="hidden md:block"
           objectFit="cover"
           fill
+          alt="Banner publicitario de inmuebles"
+        />
+        <Image
+          src="/banners/mobile/acerca-de-nosotros.png"
+          className="w-full h-full block md:hidden"
+          width={250}
+          height={250}
           alt="Banner publicitario de inmuebles"
         />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}

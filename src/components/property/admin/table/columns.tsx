@@ -1,7 +1,20 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Eye, ImageDown, Pencil, Share2, ShieldCheck, ShieldOff, Star, Trash } from 'lucide-react';
+import {
+  ArrowUpDown,
+  CloudDownload,
+  CloudUpload,
+  Eye,
+  ImageDown,
+  Pencil,
+  Share2,
+  ShieldCheck,
+  ShieldOff,
+  Star,
+  Trash,
+  Trash2
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -22,6 +35,10 @@ import { toast } from 'sonner';
 import { activateDeactivateProperty, deleteProperty, toggleFeatured } from '@/actions/property';
 import { useQueryClient } from '@tanstack/react-query';
 import { useUser } from '@clerk/nextjs';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { useState } from 'react';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -97,6 +114,8 @@ export const columns: ColumnDef<PropertyPreview>[] = [
       const queryClient = useQueryClient();
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { user } = useUser();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [loading, setLoading] = useState<boolean>(false);
 
       function isAdviser(): boolean {
         return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario Vision';
@@ -172,16 +191,57 @@ export const columns: ColumnDef<PropertyPreview>[] = [
         }
       }
 
+      async function handleDownloadAssets() {
+        const zip = new JSZip();
+        const images = row.original.images;
+
+        const t = toast.loading('Se estan descargando las imagenes de el inmueble');
+        setLoading(true);
+        for (let i = 0; i < images.length; i++) {
+          try {
+            // const imageRef = ref(storage, images[i]);
+            // const blob = await getBlob(imageRef);
+            const response = await fetch(images[i]);
+            const blob = await response.blob();
+            zip.file(`${row.original.code}-${i + 1}.jpg`, blob);
+          } catch (error) {
+            console.error('Error downloading image:', images[i], error);
+          }
+        }
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        saveAs(zipBlob, `IMAGENES_${row.original.code}.zip`);
+        toast.dismiss(t);
+        setLoading(false);
+        toast.success('Imagenes descargadas con exito!');
+      }
+
       return (
         <div className="flex gap-2">
           {!isAdviser() && (
             <AlertDialog>
               <AlertDialogTrigger>
-                {property.active ? (
-                  <ShieldCheck size={16} className="text-green-500" />
-                ) : (
-                  <ShieldOff size={16} className="text-yellow-500" />
-                )}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      {property.active ? (
+                        <ShieldCheck size={16} className="text-green-500" />
+                      ) : (
+                        <ShieldOff size={16} className="text-yellow-500" />
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent
+                      style={{
+                        background: 'black',
+                        color: 'white',
+                        padding: '6px',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      {property.active ? 'Desactivar' : 'Activar'} inmueble ({property.code})
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -204,14 +264,39 @@ export const columns: ColumnDef<PropertyPreview>[] = [
             </AlertDialog>
           )}
           {validateOwnerShip(property) && (
-            <Link href={`/administracion/inmuebles/${property.id}`}>
-              <Pencil size={16} className="text-blue-500" />
-            </Link>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link href={`/administracion/inmuebles/${property.id}`}>
+                    <Pencil size={16} className="text-blue-500" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent style={{ background: 'black', color: 'white', padding: '6px', borderRadius: '4px' }}>
+                  <p>Editar inmueble</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
           {!isAdviser() && (
             <AlertDialog>
               <AlertDialogTrigger>
-                <Trash size={16} className="text-destructive" />
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Trash size={16} className="text-destructive" />
+                    </TooltipTrigger>
+                    <TooltipContent
+                      style={{
+                        background: 'black',
+                        color: 'white',
+                        padding: '6px',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      <p>Eliminar inmueble</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -231,16 +316,73 @@ export const columns: ColumnDef<PropertyPreview>[] = [
             </AlertDialog>
           )}
           {/*<Download size={16} className="cursor-pointer" />*/}
-          <Eye size={16} className="cursor-pointer" />
-          <ImageDown size={16} className="cursor-pointer" />
-          <Share2 onClick={() => shareContent(property.publicationTitle, property.slug)} size={16} className="cursor-pointer" />
-          {!isAdviser() && (
-            <Star
-              onClick={() => handleToggleFeatured(property.id, property.isFeatured)}
-              size={16}
-              className={`cursor-pointer ${property.isFeatured && 'fill-yellow-400 text-yellow-400'}`}
-            />
-          )}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Eye size={16} className="cursor-pointer" />
+              </TooltipTrigger>
+              <TooltipContent style={{ background: 'black', color: 'white', padding: '6px', borderRadius: '4px' }}>
+                <p>Ver detalle de inmueble</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger disabled={loading}>
+                    {loading ? (
+                      <CloudDownload size={16} className="text-gray-500 animate-pulse" />
+                    ) : (
+                      <ImageDown size={16} className="cursor-pointer" />
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent
+                    style={{
+                      background: 'black',
+                      color: 'white',
+                      padding: '6px',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <p>Descargar imagenes de inmueble</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Descargar imagenes de inmueble ({property.code})?</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDownloadAssets}>Continuar</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger onClick={() => shareContent(property.publicationTitle, property.slug)}>
+                <Share2 size={16} className="cursor-pointer" />
+              </TooltipTrigger>
+              <TooltipContent style={{ background: 'black', color: 'white', padding: '6px', borderRadius: '4px' }}>
+                <p>Compartir enlace de inmueble</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger onClick={() => handleToggleFeatured(property.id, property.isFeatured)}>
+                {!isAdviser() && (
+                  <Star size={16} className={`cursor-pointer ${property.isFeatured && 'fill-yellow-400 text-yellow-400'}`} />
+                )}
+              </TooltipTrigger>
+              <TooltipContent style={{ background: 'black', color: 'white', padding: '6px', borderRadius: '4px' }}>
+                <p>{property.isFeatured ? 'Quitar de favoritos' : 'Marcar como favorito'}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       );
     },

@@ -1,6 +1,6 @@
 {
   "name": "vision-web",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,6 +29,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.8",
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-query": "^5.64.2",
     "@tanstack/react-table": "^8.17.3",
@@ -45,8 +46,10 @@
     "date-fns": "^3.6.0",
     "eslint": "8.48.0",
     "eslint-config-next": "^14.1.4",
+    "file-saver": "^2.0.5",
     "firebase": "^10.12.2",
     "framer-motion": "^10.16.2",
+    "jszip": "^3.10.1",
     "keen-slider": "^6.8.6",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.396.0",
@@ -72,6 +75,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/react-signature-canvas": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",

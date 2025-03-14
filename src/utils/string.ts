@@ -15,3 +15,25 @@ export function formatVenezuelanPhoneNumber(phoneNumber: string): string {
 
   return `(${areaCode}) ${firstPart} ${secondPart} ${thirdPart}`;
 }
+
+export function generateNewCode(latestCode: string): string {
+  const sliced = latestCode.replace('VINM_', '');
+  const parsed = parseInt(sliced);
+  const newCode = parsed + 1;
+  const newCodeString = newCode.toString();
+  let newCodeId = '';
+
+  switch (newCodeString.length) {
+    case 1:
+      newCodeId = `VINM_00${newCode}`;
+      break;
+    case 2:
+      newCodeId = `VINM_0${newCode}`;
+      break;
+    case 3:
+      newCodeId = `VINM_${newCode}`;
+      break;
+  }
+
+  return newCodeId;
+}

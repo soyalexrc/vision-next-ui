@@ -16,7 +16,9 @@ model AppConfig {
 }
 
 model TemporalId {
-  id String @id @default(cuid())
+  id    Int     @id @default(autoincrement())
+  value String? @db.VarChar(255)
+  type  String? @db.VarChar(255)
 }
 
 model DeleteFileRequest {

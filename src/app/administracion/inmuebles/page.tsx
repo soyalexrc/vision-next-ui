@@ -12,9 +12,9 @@ import { useUser } from '@clerk/nextjs';
 
 export default function Page() {
   const { user } = useUser();
-  const [adviserId, setAdviserId] = useState('');
+  // const [adviserId, setAdviserId] = useState('');
   const [role, setRole] = useState('');
-  const { data, isPending, error, refetch } = useProperties(adviserId);
+  const { data, isPending, error, refetch } = useProperties();
   const [query, setQuery] = useState('');
   const [operationType, setOperationType] = useState('');
   const [propertyType, setPropertyType] = useState('');

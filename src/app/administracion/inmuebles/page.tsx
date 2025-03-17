@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { columns } from '@/components/property/admin/table';
 import { AlertTriangle, Plus } from 'lucide-react';
 import { TableSkeleton } from '@/components/ui/table-skeleton';
@@ -8,9 +8,13 @@ import { DataTable } from '@/components/ui/data-table';
 import { TableFilters } from '@/components/property/admin';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 
 export default function Page() {
-  const { data, isPending, error } = useProperties();
+  const { user } = useUser();
+  const [adviserId, setAdviserId] = useState('');
+  const [role, setRole] = useState('');
+  const { data, isPending, error, refetch } = useProperties(adviserId);
   const [query, setQuery] = useState('');
   const [operationType, setOperationType] = useState('');
   const [propertyType, setPropertyType] = useState('');
@@ -20,6 +24,19 @@ export default function Page() {
   const [ally, setAlly] = useState('');
   const [externalAdviser, setExternalAdviser] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    if (user && user.id) {
+      const role: any = user.publicMetadata.role;
+      setRole(role);
+      // if (role === 'Asesor inmobiliario' || role === 'Asesor inmobiliario vision') {
+      //   setAdviserId(user.id);
+      // }
+      setTimeout(async () => {
+        await refetch();
+      }, 200);
+    }
+  }, [user]);
 
   // Filter data based on the query, price range, and new fields
   const filteredData = data?.filter((property) => {
@@ -59,6 +76,7 @@ export default function Page() {
         </div>
         <TableFilters
           query={query}
+          role={role}
           operationType={operationType}
           setOperationType={setOperationType}
           propertyType={propertyType}

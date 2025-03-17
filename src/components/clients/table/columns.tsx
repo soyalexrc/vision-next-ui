@@ -22,6 +22,8 @@ import formatCurrency from '@/utils/format-currency';
 import { useQueryClient } from '@tanstack/react-query';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { useUser } from '@clerk/nextjs';
+import { PropertyPreview } from '@/components/property/admin/table';
 
 const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 
@@ -51,18 +53,46 @@ export const columns: ColumnDef<Client>[] = [
       );
     },
     cell: ({ cell }) => {
-      const name = cell.row.original.name;
-      return <div className="min-w-[130px]">{name}</div>;
+      const client = cell.row.original;
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
+
+      return <div className="min-w-[130px]">{validateOwnerShip(client) ? client.name : '-- -- --'}</div>;
     },
   },
   {
     accessorKey: 'phone',
     header: 'Telefono',
     cell: ({ cell }) => {
-      const phoneNumber = cell.row.original.phone;
+      const client = cell.row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
       return (
         <ul className="min-w-[120px]">
-          <li className="underline">{formatVenezuelanPhoneNumber(phoneNumber)}</li>
+          <li className={validateOwnerShip(client) ? 'underline' : ''}>
+            {validateOwnerShip(client) ? formatVenezuelanPhoneNumber(client.phone) : '-- -- --'}
+          </li>
         </ul>
       );
     },
@@ -115,8 +145,20 @@ export const columns: ColumnDef<Client>[] = [
       );
     },
     cell: ({ cell }) => {
-      const propertyOfInterest = cell.row.original.propertyOfInterest;
-      return <div className="min-w-[130px]">{propertyOfInterest}</div>;
+      const client = cell.row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
+      return <div className="min-w-[130px]">{validateOwnerShip(client) ? client.propertyOfInterest : '-- -- --'}</div>;
     },
   },
   {
@@ -130,8 +172,20 @@ export const columns: ColumnDef<Client>[] = [
       );
     },
     cell: ({ cell }) => {
-      const contactFrom = cell.row.original.contactFrom;
-      return <div className="min-w-[170px]">{contactFrom}</div>;
+      const client = cell.row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
+      return <div className="min-w-[170px]">{validateOwnerShip(client) ? client.contactFrom : '-- -- --'}</div>;
     },
   },
   {
@@ -145,6 +199,22 @@ export const columns: ColumnDef<Client>[] = [
   {
     accessorKey: 'requestracking',
     header: 'Seguimiento',
+    cell: ({ cell }) => {
+      const client = cell.row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
+      return <div>{validateOwnerShip(client) ? client.requestracking : '-- -- --'} </div>;
+    },
   },
   {
     accessorKey: 'status',
@@ -280,6 +350,19 @@ export const columns: ColumnDef<Client>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const queryClient = useQueryClient();
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { user } = useUser();
+      function isAdviser(): boolean {
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
+      }
+
+      function validateOwnerShip(client: Client): boolean {
+        if (isAdviser()) {
+          return isAdviser() && client.adviser_id === user?.id;
+        }
+        return true;
+      }
+
       async function handleDeleteClient(id: number) {
         const t = toast.loading('Se esta eliminando el cliente', {
           duration: 20000,
@@ -298,28 +381,33 @@ export const columns: ColumnDef<Client>[] = [
 
       return (
         <div className="flex gap-2">
-          <Link href={`/administracion/clientes/${client.id}`}>
-            <Pencil size={16} className="text-blue-500" />
-          </Link>
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Trash size={16} className="text-destructive" />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Esta seguro de eliminar el cliente ({client.name})?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
-                  servidores.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteClient(client.id)}>Continuar</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          <Download size={16} className="cursor-pointer" />
+          {validateOwnerShip(client) && (
+            <Link href={`/administracion/clientes/${client.id}`}>
+              <Pencil size={16} className="text-blue-500" />
+            </Link>
+          )}
+
+          {validateOwnerShip(client) && (
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Trash size={16} className="text-destructive" />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Esta seguro de eliminar el cliente ({client.name})?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta accion es irreversible. Esto eliminara permanentemente la informacion de la cuenta y los datos de nuestros
+                    servidores.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDeleteClient(client.id)}>Continuar</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {validateOwnerShip(client) && <Download size={16} className="cursor-pointer" />}
         </div>
       );
     },

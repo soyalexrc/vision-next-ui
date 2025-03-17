@@ -59,10 +59,10 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/inmuebles',
         title: 'Inmuebles',
       },
-      // {
-      //   path: '/administracion/clientes',
-      //   title: 'Clientes',
-      // },
+      {
+        path: '/administracion/clientes',
+        title: 'Clientes',
+      },
     ];
   }
 
@@ -187,10 +187,10 @@ export function getAllowedRoutesByRole(role: string) {
         path: '/administracion/inmuebles',
         title: 'Inmuebles',
       },
-      // {
-      //   path: '/administracion/clientes',
-      //   title: 'Clientes',
-      // },
+      {
+        path: '/administracion/clientes',
+        title: 'Clientes',
+      },
     ];
   }
 

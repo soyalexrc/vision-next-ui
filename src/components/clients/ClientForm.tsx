@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { getCategories } from '@/actions/category';
 import formatCurrency from '@/utils/format-currency';
 import { getUsersFromClerk } from '@/actions/user';
+import { useUser } from '@clerk/nextjs';
 
 type Props = {
   data: Client;
@@ -33,6 +34,7 @@ export default function ClientForm({ data }: Props) {
   const router = useRouter();
   const [categories, setCategories] = useState<Categories[]>([]);
   const [users, setUsers] = useState<any[]>([]);
+  const { user } = useUser();
   const form = useForm<z.infer<typeof ClientFormSchema | any>>({
     resolver: zodResolver(ClientFormSchema),
     defaultValues: data.id
@@ -124,6 +126,19 @@ export default function ClientForm({ data }: Props) {
     callServices();
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (data.id) {
+      if (user && user.id) {
+        const role: any = user.publicMetadata.role;
+        if (role === 'Asesor inmobiliario' || role === 'Asesor inmobiliario vision') {
+          if (data.adviser_id !== user.id) {
+            router.back();
+          }
+        }
+      }
+    }
+  }, [data, user]);
 
   async function fetchUsers() {
     const response = await getUsersFromClerk(false);

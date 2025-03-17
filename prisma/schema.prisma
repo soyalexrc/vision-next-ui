@@ -18,7 +18,7 @@ model AppConfig {
 model TemporalId {
   id    Int     @id @default(autoincrement())
   value String? @db.VarChar(255)
-  type  String? @db.VarChar(255)
+  type  String  @db.VarChar(255)
 }
 
 model DeleteFileRequest {
@@ -154,6 +154,9 @@ model NegotiationInfomation {
   externalAdviser       String?
   realStateAdviser      String?
   additional_price      String?
+  realstateadvisername  String?  @db.VarChar(255)
+  externaladvisername   String?  @db.VarChar(255)
+  allyname              String?  @db.VarChar(255)
   property              Property @relation(fields: [propertyId], references: [id])
 }
 

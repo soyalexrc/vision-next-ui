@@ -41,6 +41,7 @@ import {
   PropertyFormSchema,
 } from '@/lib/interfaces/property/PropertyForm';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { getUsersFromClerk } from '@/actions/user';
 
 type Props = {
   data: {
@@ -58,6 +59,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   const dispatch = useAppDispatch();
   const images = useAppSelector(selectPropertyImages);
   const router = useRouter();
+  const [users, setUsers] = useState<any[]>([]);
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
@@ -99,11 +101,24 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     appendUtilities();
     appendDistributions();
     appendAdjacencies();
+    fetchUsers();
   }, []);
 
+  async function fetchUsers() {
+    const response = await getUsersFromClerk(false);
+    setUsers(response.data as any);
+  }
+
   async function onSubmit(values: z.infer<typeof PropertyFormSchema>) {
+    const payload: z.infer<typeof PropertyFormSchema> = {
+      ...values,
+      negotiationInformation: {
+        ...values.negotiationInformation,
+        realstateadvisername: users.find((user: any) => user.id === values.negotiationInformation.realStateAdviser)?.fullName,
+      },
+    };
     if (property) {
-      const { success, error } = await createUpdateProperty(values, images, true, property.id);
+      const { success, error } = await createUpdateProperty(payload, images, true, property.id);
       if (success) {
         toast.success('Se actualizo el inmueble con exito!');
         router.back();
@@ -112,7 +127,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         console.log(error);
       }
     } else {
-      const { success, error } = await createUpdateProperty(values, images, false, '');
+      const { success, error } = await createUpdateProperty(payload, images, false, '');
       if (success) {
         toast.success('Se registro el inmueble con exito!');
         router.back();

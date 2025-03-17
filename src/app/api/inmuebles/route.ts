@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
   const code = params.get('codigo');
   const state = params.get('estado');
   const municipality = params.get('municipio');
+  const adviserId = params.get('asesor');
   const isFeatured = params.get('destacado');
   const whereClause: any = {};
 
@@ -81,6 +82,13 @@ export async function GET(req: NextRequest) {
     };
   }
 
+  if (adviserId && adviserId !== '') {
+    whereClause.negotiationInformation = {
+      ...whereClause.negotiationInformation,
+      realStateAdviser: adviserId,
+    };
+  }
+
   // console.log(req.nextUrl.searchParams);
   // const page = Number(req.nextUrl.searchParams.get('pagina')) || 1;
   // const size = Number(req.nextUrl.searchParams.get('cantidad')) || 10;
@@ -89,7 +97,7 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(totalProperties / size);
     const data = await prisma.property.findMany({
       include: {
-        negotiationInformation: { select: { price: true, operationType: true, realStateAdviser: true, externalAdviser: true, ally: true } },
+        negotiationInformation: { select: { price: true, operationType: true, realStateAdviser: true, externalAdviser: true, ally: true, realstateadvisername: true} },
         generalInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, footageGround: true, description: true },
         },
@@ -116,6 +124,7 @@ export async function GET(req: NextRequest) {
       code: row.generalInformation?.code,
       operationType: row.negotiationInformation?.operationType,
       isFeatured: row.isFeatured,
+      realstateadvisername: row.negotiationInformation?.realstateadvisername,
       publicationTitle: row.generalInformation?.publicationTitle,
       propertyType: row.generalInformation?.propertyType,
       footageBuilding: row.generalInformation?.footageBuilding,

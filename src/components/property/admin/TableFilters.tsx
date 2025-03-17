@@ -22,6 +22,7 @@ export function TableFilters({
   setExternalAdviser,
   ally,
   setAlly,
+  role,
 }: {
   query: string;
   setQuery: (value: string) => void;
@@ -39,6 +40,7 @@ export function TableFilters({
   setAlly: (value: string) => void;
   externalAdviser: string;
   setExternalAdviser: (value: string) => void;
+  role: string;
 }) {
   const { data } = useCategories();
   const { data: externalAdvisers } = useExternalAdvisers();
@@ -94,54 +96,56 @@ export function TableFilters({
           <Input className="w-[100px]" value={priceTo} onChange={(e) => setPriceTo(e.target.value)} />
         </div>
       </div>
-      <div className="flex flex-col md:flex-row mb-4 md:items-end gap-4">
-        <div>
-          <p className="text-xs font-bold mb-1">Asesor</p>
-          <Select value={adviser} onValueChange={setAdviser}>
-            <SelectTrigger className="w-full md:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos</SelectItem>
-              <SelectItem value="Venta">Venta</SelectItem>
-              <SelectItem value="Alquiler">Alquiler</SelectItem>
-              <SelectItem value="Traspaso">Traspaso de fondo</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      {role !== 'Asesor inmobiliario' && role !== 'Asesor inmobiliario vision' && (
+        <div className="flex flex-col md:flex-row mb-4 md:items-end gap-4">
+          <div>
+            <p className="text-xs font-bold mb-1">Asesor</p>
+            <Select value={adviser} onValueChange={setAdviser}>
+              <SelectTrigger className="w-full md:w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="Venta">Venta</SelectItem>
+                <SelectItem value="Alquiler">Alquiler</SelectItem>
+                <SelectItem value="Traspaso">Traspaso de fondo</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div>
-          <p className="text-xs font-bold mb-1">Asesor externo</p>
-          <Select value={externalAdviser} onValueChange={setExternalAdviser}>
-            <SelectTrigger className="w-full md:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos</SelectItem>
-              {externalAdvisers?.map((externalAdviser) => (
-                <SelectItem value="Venta" key={externalAdviser.id}>
-                  {externalAdviser.name} {externalAdviser.lastname}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+          <div>
+            <p className="text-xs font-bold mb-1">Asesor externo</p>
+            <Select value={externalAdviser} onValueChange={setExternalAdviser}>
+              <SelectTrigger className="w-full md:w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                {externalAdvisers?.map((externalAdviser) => (
+                  <SelectItem value="Venta" key={externalAdviser.id}>
+                    {externalAdviser.name} {externalAdviser.lastname}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div>
-          <p className="text-xs font-bold mb-1">Aliado</p>
-          <Select value={ally} onValueChange={setAlly}>
-            <SelectTrigger className="w-full md:w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos</SelectItem>
-              <SelectItem value="Venta">Venta</SelectItem>
-              <SelectItem value="Alquiler">Alquiler</SelectItem>
-              <SelectItem value="Traspaso">Traspaso de fondo</SelectItem>
-            </SelectContent>
-          </Select>
+          <div>
+            <p className="text-xs font-bold mb-1">Aliado</p>
+            <Select value={ally} onValueChange={setAlly}>
+              <SelectTrigger className="w-full md:w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="Venta">Venta</SelectItem>
+                <SelectItem value="Alquiler">Alquiler</SelectItem>
+                <SelectItem value="Traspaso">Traspaso de fondo</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

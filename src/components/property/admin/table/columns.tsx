@@ -38,6 +38,7 @@ export type PropertyPreview = {
   propertyType: string;
   code: string;
   publicationTitle: string;
+  realstateadvisername: string;
   isFeatured: boolean;
   images: string[];
   adviserId: string;
@@ -78,6 +79,14 @@ export const columns: ColumnDef<PropertyPreview>[] = [
     header: 'Tipo de operacion',
   },
   {
+    accessorKey: 'realstateadvisername',
+    header: 'Asesor',
+    cell: ({ cell }) => {
+      const property = cell.row.original;
+      return <div className="min-w-[100px]">{property.realstateadvisername ?? '-'}</div>;
+    },
+  },
+  {
     accessorKey: 'price',
     header: ({ column }) => {
       return (
@@ -105,7 +114,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
       const [loading, setLoading] = useState<boolean>(false);
 
       function isAdviser(): boolean {
-        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario Vision';
+        return user?.publicMetadata?.role === 'Asesor inmobiliario' || user?.publicMetadata?.role === 'Asesor inmobiliario vision';
       }
 
       function validateOwnerShip(property: PropertyPreview): boolean {

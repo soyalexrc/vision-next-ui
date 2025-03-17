@@ -2,8 +2,11 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { PropertyPreview } from '@/components/property/admin/table';
 
-const fetchProperties = async (): Promise<PropertyPreview[]> => {
-  const { data } = await axios.get('/api/inmuebles?pagina=1&cantidad=1000&status=todos', {
+const fetchProperties = async (adviserId = ''): Promise<PropertyPreview[]> => {
+  const url = adviserId
+    ? `/api/inmuebles?pagina=1&cantidad=1000&status=todos&asesor=${adviserId}`
+    : '/api/inmuebles?pagina=1&cantidad=1000&status=todos';
+  const { data } = await axios.get(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -11,10 +14,11 @@ const fetchProperties = async (): Promise<PropertyPreview[]> => {
   return data.properties;
 };
 
-export const useProperties = () =>
+export const useProperties = (adviserId = '') =>
   useQuery({
     queryKey: ['properties'],
-    queryFn: fetchProperties,
+    enabled: false,
+    queryFn: () => fetchProperties(adviserId),
   });
 
 const fetchFeaturedProperties = async (): Promise<PropertyPreview[]> => {

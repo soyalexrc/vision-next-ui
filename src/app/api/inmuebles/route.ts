@@ -97,7 +97,16 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(totalProperties / size);
     const data = await prisma.property.findMany({
       include: {
-        negotiationInformation: { select: { price: true, operationType: true, realStateAdviser: true, externalAdviser: true, ally: true, realstateadvisername: true} },
+        negotiationInformation: {
+          select: {
+            price: true,
+            operationType: true,
+            realStateAdviser: true,
+            externalAdviser: true,
+            ally: true,
+            realstateadvisername: true,
+          },
+        },
         generalInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, footageGround: true, description: true },
         },

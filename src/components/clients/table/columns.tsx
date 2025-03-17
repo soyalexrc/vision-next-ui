@@ -23,7 +23,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@clerk/nextjs';
-import { PropertyPreview } from '@/components/property/admin/table';
 
 const statusOptions = ['Activo', 'Inactivo', 'Concretado'];
 

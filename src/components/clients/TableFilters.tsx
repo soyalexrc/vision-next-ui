@@ -14,6 +14,8 @@ export function TableFilters({
   setPropertyType,
   adviser,
   setAdviser,
+  status,
+  setStatus
 }: {
   contactFrom: string;
   setContactFrom: (value: string) => void;
@@ -23,6 +25,8 @@ export function TableFilters({
   setPropertyType: (value: string) => void;
   adviser: string;
   setAdviser: (value: string) => void;
+  status: string;
+  setStatus: (value: string) => void;
 }) {
   const { data } = useCategories();
   const [users, setUsers] = useState<any[]>([]);
@@ -132,6 +136,26 @@ export function TableFilters({
               </SelectItem>
               <SelectItem key="Referido" value="Referido">
                 Referido
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <p className="text-xs font-bold mb-1">Estatus</p>
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="w-full md:w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem key="Activo" value="Activo">
+                Activo
+              </SelectItem>
+              <SelectItem key="Inactivo" value="Inactivo">
+                Inactivo
+              </SelectItem>
+              <SelectItem key="Concretado" value="Concretado">
+                Concretado
               </SelectItem>
             </SelectContent>
           </Select>

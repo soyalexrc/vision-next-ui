@@ -15,6 +15,7 @@ export default function Page() {
   const router = useRouter();
   const [adviser, setAdviser] = useState('');
   const [query, setQuery] = useState('');
+  const [status, setStatus] = useState('');
   const [propertyType, setPropertyType] = useState('');
   // const [allowPets, setAllowPets] = useState('');
   // const [allowYounger, setAllowYounger] = useState('');
@@ -37,6 +38,7 @@ export default function Page() {
       // (operationType === 'all' || !operationType || property.operationType === operationType) &&
       (propertyType === 'all' || !propertyType || client.propertytype === propertyType) &&
       (contactFrom === 'all' || !contactFrom || client.contactFrom === contactFrom) &&
+      (status === 'all' || !status || client.status === status) &&
       // (!priceFrom || price >= Number(priceFrom)) && // Min Price
       // (!priceTo || price <= Number(priceTo)) && // Max Price
 
@@ -62,6 +64,8 @@ export default function Page() {
         <TableFilters
           setAdviser={setAdviser}
           query={query}
+          setStatus={setStatus}
+          status={status}
           contactFrom={contactFrom}
           setContactFrom={setContactFrom}
           propertyType={propertyType}

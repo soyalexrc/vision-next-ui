@@ -251,12 +251,14 @@ export const columns: ColumnDef<Client>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div
-              className={`text-center rounded-lg cursor-pointer p-2 w-[70px] ${
+              className={`text-center rounded-lg cursor-pointer p-2 min-w-[70px] ${
                 client.status === 'Activo'
                   ? 'text-green-500 font-bold bg-green-100'
                   : client.status === 'Inactivo'
                     ? 'text-red-500 font-bold bg-red-100'
-                    : ''
+                    : client.status === 'Concretado'
+                      ? 'text-orange-500 font-bold bg-orange-100'
+                      : ''
               }`}
             >
               {client.status}

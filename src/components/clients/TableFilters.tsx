@@ -15,7 +15,7 @@ export function TableFilters({
   adviser,
   setAdviser,
   status,
-  setStatus
+  setStatus,
 }: {
   contactFrom: string;
   setContactFrom: (value: string) => void;

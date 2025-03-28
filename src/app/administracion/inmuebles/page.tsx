@@ -14,6 +14,7 @@ export default function Page() {
   const { user } = useUser();
   // const [adviserId, setAdviserId] = useState('');
   const [role, setRole] = useState('');
+  const [status, setStatus] = useState<string>('all');
   const { data, isPending, error, refetch } = useProperties();
   const [query, setQuery] = useState('');
   const [operationType, setOperationType] = useState('');
@@ -55,9 +56,15 @@ export default function Page() {
       (!priceTo || price <= Number(priceTo)) && // Max Price
       (adviser === 'all' || !adviser || property.adviserId?.toLowerCase().includes(adviser.toLowerCase())) && // Adviser
       (ally === 'all' || !ally || property.allyId?.toLowerCase().includes(ally.toLowerCase())) && // Ally
-      (externalAdviser === 'all' || !externalAdviser || property.externalAdviserId?.toLowerCase().includes(externalAdviser.toLowerCase())) // External Adviser
+      (externalAdviser === 'all' ||
+        !externalAdviser ||
+        property.externalAdviserId?.toLowerCase().includes(externalAdviser.toLowerCase())) && // External Adviser
+      (status === 'all' || String(property.active) === status) // ✅ Status Filter (boolean  )
     );
   });
+
+  console.log('status', status);
+  console.log('status bool', Boolean(status));
 
   return (
     <>
@@ -79,6 +86,8 @@ export default function Page() {
           role={role}
           operationType={operationType}
           setOperationType={setOperationType}
+          status={status}
+          setStatus={setStatus}
           propertyType={propertyType}
           setPropertyType={setPropertyType}
           setQuery={setQuery}

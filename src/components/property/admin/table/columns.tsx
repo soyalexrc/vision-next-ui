@@ -53,7 +53,7 @@ export type PropertyPreview = {
   externalAdviserId: string;
 };
 
-export const columns: ColumnDef<PropertyPreview>[] = [
+export const  columns: ColumnDef<PropertyPreview>[] = [
   {
     accessorKey: 'code',
     header: 'Codigo',

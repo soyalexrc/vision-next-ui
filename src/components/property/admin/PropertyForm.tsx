@@ -42,6 +42,7 @@ import {
 } from '@/lib/interfaces/property/PropertyForm';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { getUsersFromClerk } from '@/actions/user';
+import { useUser } from '@clerk/nextjs';
 
 type Props = {
   data: {
@@ -60,6 +61,9 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   const images = useAppSelector(selectPropertyImages);
   const router = useRouter();
   const [users, setUsers] = useState<any[]>([]);
+  const { user } = useUser();
+
+  console.log(user);
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
@@ -114,11 +118,21 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       ...values,
       negotiationInformation: {
         ...values.negotiationInformation,
-        realstateadvisername: users.find((user: any) => user.id === values.negotiationInformation.realStateAdviser)?.fullName,
+        realstateadvisername:
+          user?.publicMetadata.role === 'Asesor inmobiliario' || user?.publicMetadata.role === 'Asesor inmobiliario vision'
+            ? user.fullName
+            : users.find((user: any) => user.id === values.negotiationInformation.realStateAdviser)?.fullName,
+        realStateAdviser: user?.publicMetadata.role === 'Asesor inmobiliario' || user?.publicMetadata.role === 'Asesor inmobiliario vision'
+          ? user.id
+          : values.negotiationInformation.realStateAdviser,
       },
     };
+    const payloadFull: { dataForm: z.infer<typeof PropertyFormSchema>, userId: string } = {
+      dataForm: payload,
+      userId: user?.id ?? '',
+    }
     if (property) {
-      const { success, error } = await createUpdateProperty(payload, images, true, property.id);
+      const { success, error } = await createUpdateProperty(payloadFull, images, true, property.id);
       if (success) {
         toast.success('Se actualizo el inmueble con exito!');
         router.back();
@@ -127,7 +141,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
         console.log(error);
       }
     } else {
-      const { success, error } = await createUpdateProperty(payload, images, false, '');
+      const { success, error } = await createUpdateProperty(payloadFull, images, false, '');
       if (success) {
         toast.success('Se registro el inmueble con exito!');
         router.back();

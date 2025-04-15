@@ -122,15 +122,16 @@ export default function PropertyForm({ data: { property, attributes, equipments,
           user?.publicMetadata.role === 'Asesor inmobiliario' || user?.publicMetadata.role === 'Asesor inmobiliario vision'
             ? user.fullName
             : users.find((user: any) => user.id === values.negotiationInformation.realStateAdviser)?.fullName,
-        realStateAdviser: user?.publicMetadata.role === 'Asesor inmobiliario' || user?.publicMetadata.role === 'Asesor inmobiliario vision'
-          ? user.id
-          : values.negotiationInformation.realStateAdviser,
+        realStateAdviser:
+          user?.publicMetadata.role === 'Asesor inmobiliario' || user?.publicMetadata.role === 'Asesor inmobiliario vision'
+            ? user.id
+            : values.negotiationInformation.realStateAdviser,
       },
     };
-    const payloadFull: { dataForm: z.infer<typeof PropertyFormSchema>, userId: string } = {
+    const payloadFull: { dataForm: z.infer<typeof PropertyFormSchema>; userId: string } = {
       dataForm: payload,
       userId: user?.id ?? '',
-    }
+    };
     if (property) {
       const { success, error } = await createUpdateProperty(payloadFull, images, true, property.id);
       if (success) {

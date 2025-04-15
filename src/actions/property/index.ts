@@ -87,7 +87,7 @@ export async function deleteProperty(id: string, imagesPaths: string[], code: st
 }
 
 export async function createUpdateProperty(
-  form: { dataForm: z.infer<typeof PropertyFormSchema>, userId: string },
+  form: { dataForm: z.infer<typeof PropertyFormSchema>; userId: string },
   images: string[],
   update: boolean,
   id: string,

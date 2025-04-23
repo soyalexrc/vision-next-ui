@@ -81,7 +81,7 @@ export function NegotiationInformation() {
   useEffect(() => {
     callExternalAdvisers();
     callAllies();
-    if (user && user.publicMetadata?.role === 'Administrador') {
+    if (user && (user.publicMetadata?.role === 'Administrador' || user.publicMetadata?.role === 'Coordinador de serviciox')) {
       callUsers();
     }
   }, []);
@@ -145,7 +145,7 @@ export function NegotiationInformation() {
             </FormItem>
           )}
         />
-        {user && user.publicMetadata?.role === 'Administrador' && (
+        {user && (user.publicMetadata?.role === 'Administrador' || user.publicMetadata?.role === 'Coordinador de servicios') && (
           <FormField
             control={control}
             name="negotiationInformation.realStateAdviser"

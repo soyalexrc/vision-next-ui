@@ -214,17 +214,16 @@ export const columns: ColumnDef<PropertyPreview>[] = [
 
       return (
         <div className="flex gap-2">
-          {
-            isAdviser() &&
+          {isAdviser() && (
             <TooltipProvider>
               <Tooltip>
-               <TooltipTrigger>
-                 {property.active ? (
-                   <ShieldCheck size={16} className="text-green-500" />
-                 ) : (
-                   <ShieldOff size={16} className="text-yellow-500" />
-                 )}
-               </TooltipTrigger>
+                <TooltipTrigger>
+                  {property.active ? (
+                    <ShieldCheck size={16} className="text-green-500" />
+                  ) : (
+                    <ShieldOff size={16} className="text-yellow-500" />
+                  )}
+                </TooltipTrigger>
                 <TooltipContent
                   style={{
                     background: 'black',
@@ -237,7 +236,7 @@ export const columns: ColumnDef<PropertyPreview>[] = [
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          }
+          )}
           {!isAdviser() && (
             <AlertDialog>
               <AlertDialogTrigger>

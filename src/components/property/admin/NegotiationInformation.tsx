@@ -81,7 +81,7 @@ export function NegotiationInformation() {
   useEffect(() => {
     callExternalAdvisers();
     callAllies();
-    console.log('user', user)
+    console.log('user', user);
     if (user && (user.publicMetadata?.role === 'Administrador' || user.publicMetadata?.role === 'Coordinador de servicios')) {
       callUsers();
     }

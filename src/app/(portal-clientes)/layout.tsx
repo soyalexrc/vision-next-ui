@@ -2,6 +2,7 @@ import React from 'react';
 import Footer from '@/components/layout/Footer';
 import SocialMediaHeader from '@/components/layout/SocialMediaHeader';
 import Header from '@/components/layout/Header';
+import { FirebaseAnalytics } from '@/components/FirebaseAnalytics';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SocialMediaHeader />
       </div>
       <Header />
-      <main className="pt-[6.5rem]">{children}</main>
+      <main className="pt-[6.5rem]">
+        {children}
+        <FirebaseAnalytics />
+      </main>
       <Footer />
     </>
   );

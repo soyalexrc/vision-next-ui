@@ -87,11 +87,12 @@ export async function deleteProperty(id: string, imagesPaths: string[], code: st
 }
 
 export async function createUpdateProperty(
-  form: z.infer<typeof PropertyFormSchema>,
+  form: { dataForm: z.infer<typeof PropertyFormSchema>; userId: string },
   images: string[],
   update: boolean,
   id: string,
 ): Promise<{ success: boolean; error?: string }> {
+  const formPayload = form.dataForm;
   if (images.length < 1) {
     return {
       success: false,
@@ -99,10 +100,10 @@ export async function createUpdateProperty(
     };
   }
 
-  if (isNaN(Number(form.negotiationInformation.price))) {
+  if (isNaN(Number(formPayload.negotiationInformation.price))) {
     return {
       success: false,
-      error: `Ingresa un valor de precio correcto. Valor ingresado: $${form.negotiationInformation.price}`,
+      error: `Ingresa un valor de precio correcto. Valor ingresado: $${formPayload.negotiationInformation.price}`,
     };
   }
 
@@ -117,7 +118,7 @@ export async function createUpdateProperty(
       documentsInformation,
       negotiationInformation,
       adjacencies,
-    } = form;
+    } = formPayload;
 
     const validAdjacencies = adjacencies.filter((item) => item?.value);
     const validAttributes = attributes.filter((item) => item?.value);
@@ -304,7 +305,7 @@ export async function createUpdateProperty(
               };
             }),
           },
-          userId: 'admin@gmail.com',
+          userId: form.userId,
         },
       });
       revalidatePath(`/inmuebles/${property.slug}`);
@@ -391,7 +392,7 @@ export async function createUpdateProperty(
           statusHistory: {
             create: {
               status: 'created',
-              username: 'admin@gmail.com',
+              username: form.userId,
               comments: '',
             },
           },

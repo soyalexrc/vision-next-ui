@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useCategories } from '@/lib/api/categories';
 import React from 'react';
 import { useExternalAdvisers } from '@/lib/api/external-advisers';
+import { useUsers } from '@/lib/api/users';
 
 export function TableFilters({
   query,
@@ -48,6 +49,7 @@ export function TableFilters({
 }) {
   const { data } = useCategories();
   const { data: externalAdvisers } = useExternalAdvisers();
+  const { data: users } = useUsers();
 
   return (
     <>
@@ -125,9 +127,11 @@ export function TableFilters({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="Venta">Venta</SelectItem>
-                  <SelectItem value="Alquiler">Alquiler</SelectItem>
-                  <SelectItem value="Traspaso">Traspaso de fondo</SelectItem>
+                  {users?.map((user) => (
+                    <SelectItem value={user.id} key={user.id}>
+                      {user.firstName} {user.lastName}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

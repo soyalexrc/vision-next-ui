@@ -68,6 +68,7 @@ export async function updateUser(form: z.infer<typeof UserFormSchema>): Promise<
       username: form.username,
       firstName: form.firstName,
       lastName: form.lastName,
+      password: form.password,
       publicMetadata: {
         role: form.role,
         allowedRoutes: getAllowedRoutesByRole(form.role),

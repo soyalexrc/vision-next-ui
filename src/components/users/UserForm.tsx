@@ -191,9 +191,6 @@ export default function UserForm({ data, onCloseModal, isForm }: Props) {
                       <SelectItem key="Administrador" value="Administrador">
                         Administrador
                       </SelectItem>
-                      <SelectItem key="Asesor inmobiliario vision" value="Asesor inmobiliario vision">
-                        Asesor inmobiliario vision
-                      </SelectItem>
                       <SelectItem key="Asesor inmobiliario" value="Asesor inmobiliario">
                         Asesor inmobiliario
                       </SelectItem>

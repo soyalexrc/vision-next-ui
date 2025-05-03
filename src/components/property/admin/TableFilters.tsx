@@ -117,25 +117,26 @@ export function TableFilters({
             </SelectContent>
           </Select>
         </div>
+
+        <div>
+          <p className="text-xs font-bold mb-1">Asesor</p>
+          <Select value={adviser} onValueChange={setAdviser}>
+            <SelectTrigger className="w-full md:w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              {users?.map((user) => (
+                <SelectItem value={user.id} key={user.id}>
+                  {user.firstName} {user.lastName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         {role !== 'Asesor inmobiliario' && role !== 'Asesor inmobiliario vision' && (
           <>
-            <div>
-              <p className="text-xs font-bold mb-1">Asesor</p>
-              <Select value={adviser} onValueChange={setAdviser}>
-                <SelectTrigger className="w-full md:w-40">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
-                  {users?.map((user) => (
-                    <SelectItem value={user.id} key={user.id}>
-                      {user.firstName} {user.lastName}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             <div>
               <p className="text-xs font-bold mb-1">Asesor externo</p>
               <Select value={externalAdviser} onValueChange={setExternalAdviser}>

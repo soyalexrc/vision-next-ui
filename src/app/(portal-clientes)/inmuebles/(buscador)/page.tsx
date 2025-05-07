@@ -36,9 +36,11 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     },
   }).then((data) => data.json());
 
+  console.log(response);
+
   const currentPage = Number(searchParams.pagina) || 1;
 
-  if (response?.properties.length < 1) {
+  if (response?.properties?.length < 1) {
     return (
       <div className={cn('flex flex-col items-center justify-center p-8 text-center', className)}>
         <div className="rounded-full bg-muted p-3 mb-4">
@@ -54,7 +56,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   } else {
     return (
       <section className="mx-4 md:mx-0">
-        {response.properties.map((property: any) => (
+        {response?.properties?.map((property: any) => (
           <PropertyCardWithCarousel
             images={property.images}
             slug={property.slug}

@@ -25,35 +25,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const property = await prisma.property.findUnique({
     where: { slug: params.slug },
     include: {
-      generalInformation: { select: { publicationTitle: true, description: true, propertyType: true } },
-      locationInformation: { select: { country: true } },
-      negotiationInformation: { select: { operationType: true } },
+      GeneralInformation: { select: { publicationTitle: true, description: true, propertyType: true } },
+      LocationInformation: { select: { country: true } },
+      NegotiationInfomation: { select: { operationType: true } },
     },
   });
   return {
-    title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
-    description: property?.generalInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+    title: property?.GeneralInformation?.publicationTitle ?? 'Pagina de inmueble',
+    description: property?.GeneralInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
     alternates: {
       canonical: process.env.HOST_URL + '/inmuebles/' + params.slug,
     },
-    category: property?.negotiationInformation?.operationType + ' de inmuebles',
+    category: property?.NegotiationInfomation?.operationType + ' de inmuebles',
     keywords: [
-      property?.negotiationInformation?.operationType ?? 'Venta',
-      property?.generalInformation?.propertyType ?? 'Casa',
-      `${property?.negotiationInformation?.operationType ?? 'Venta'} de ${property?.generalInformation?.propertyType ?? 'Casa'}`,
-      `${property?.negotiationInformation?.operationType ?? 'Venta'} de ${
-        property?.generalInformation?.propertyType ?? 'Casa'
+      property?.NegotiationInfomation?.operationType ?? 'Venta',
+      property?.GeneralInformation?.propertyType ?? 'Casa',
+      `${property?.NegotiationInfomation?.operationType ?? 'Venta'} de ${property?.GeneralInformation?.propertyType ?? 'Casa'}`,
+      `${property?.NegotiationInfomation?.operationType ?? 'Venta'} de ${
+        property?.GeneralInformation?.propertyType ?? 'Casa'
       } en venezuela`,
       'Inmuebles',
       'Inmuebles en venezuela',
     ],
     openGraph: {
-      title: property?.generalInformation?.publicationTitle ?? 'Pagina de inmueble',
-      description: property?.generalInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+      title: property?.GeneralInformation?.publicationTitle ?? 'Pagina de inmueble',
+      description: property?.GeneralInformation?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
       images: property?.images ? property.images.map((image) => ({ url: image, alt: 'Imagen de inmueble' })) : [],
       type: 'website',
       url: process.env.HOST_URL + '/inmuebles/' + params.slug,
-      countryName: property?.locationInformation?.country ?? 'Venezuela',
+      countryName: property?.LocationInformation?.country ?? 'Venezuela',
       siteName: process.env.HOST_URL,
       locale: 'es_VE',
     },
@@ -101,50 +101,50 @@ export default async function Page({ params }: Props) {
           <div className="grid grid-cols-12">
             <div className="col-span-12">
               <Badge className="lg:hidden mb-5 border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
-                {property.negotiationInformation.operationType}
+                {property.NegotiationInfomation.operationType}
               </Badge>
             </div>
             <div className="col-span-12 lg:col-span-8">
-              <h1 className="text-2xl lg:text-4xl">{property.generalInformation.publicationTitle}</h1>
+              <h1 className="text-2xl lg:text-4xl">{property.GeneralInformation.publicationTitle}</h1>
               <h2 className="text-lg lg:text-2xl mt-3">
-                {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}{' '}
+                {property.LocationInformation.municipality}, {property.LocationInformation.state}, {property.LocationInformation.country}{' '}
               </h2>
-              <h3 className="text-lg mt-3">REF - {property.generalInformation.code}</h3>
+              <h3 className="text-lg mt-3">REF - {property.GeneralInformation.code}</h3>
             </div>
             <div className="col-span-12 mt-3 lg:hidden">
-              <h3 className="text-4xl text-center mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
+              <h3 className="text-4xl text-center mt-3 text-red-900">{formatCurrency(property.NegotiationInfomation.price)}</h3>
             </div>
             <div className="col-span-4 hidden lg:flex flex-col items-end">
               <Badge className="hidden lg:block border-red-900 select-none hover:bg-transparent bg-transparent text-red-900">
-                {property.negotiationInformation.operationType}
+                {property.NegotiationInfomation.operationType}
               </Badge>
-              <h3 className="text-4xl mt-3 text-red-900">{formatCurrency(property.negotiationInformation.price)}</h3>
+              <h3 className="text-4xl mt-3 text-red-900">{formatCurrency(property.NegotiationInfomation.price)}</h3>
             </div>
           </div>
           {/*<div className="lg:hidden px-4">*/}
           {/*  <Badge className="border-red-900 select-none hover:bg-transparent text-red-900 bg-transparent mb-5">*/}
-          {/*    {property.negotiationInformation.operationType}*/}
+          {/*    {property.NegotiationInfomation.operationType}*/}
           {/*  </Badge>*/}
 
-          {/*  <h2 className="text-2xl">{property.generalInformation.publicationTitle}</h2>*/}
+          {/*  <h2 className="text-2xl">{property.GeneralInformation.publicationTitle}</h2>*/}
           {/*  <span>-</span>*/}
           {/*  <h2 className="text-lg mt-3">*/}
-          {/*    {property.locationInformation.city}, {property.locationInformation.state}, {property.locationInformation.country}*/}
+          {/*    {property.LocationInformation.city}, {property.LocationInformation.state}, {property.LocationInformation.country}*/}
           {/*  </h2>*/}
-          {/*  <h3 className="text-md mt-3">REF - {property.generalInformation.code}</h3>*/}
+          {/*  <h3 className="text-md mt-3">REF - {property.GeneralInformation.code}</h3>*/}
 
-          {/*  <h2 className="text-3xl text-center mt-3 text-red-900">$ {property.negotiationInformation.price}</h2>*/}
+          {/*  <h2 className="text-3xl text-center mt-3 text-red-900">$ {property.NegotiationInfomation.price}</h2>*/}
           {/*</div>*/}
           <div className="mt-5">
             <div className="flex gap-5 justify-center ">
               <Badge variant="outline" className="text-red-900 border-red-900">
-                {property.generalInformation.footageGround || property.generalInformation.footageBuilding} m2
+                {property.GeneralInformation.footageGround || property.GeneralInformation.footageBuilding} m2
               </Badge>
               <Badge variant="outline" className="text-red-900 border-red-900 px-4">
-                {property.generalInformation.propertyType}
+                {property.GeneralInformation.propertyType}
               </Badge>
               <Badge variant="outline" className="text-red-900 border-red-900">
-                {property.negotiationInformation.operationType}
+                {property.NegotiationInfomation.operationType}
               </Badge>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default async function Page({ params }: Props) {
         <div className="col-span-12 lg:col-span-9 border-b-1 pb-5 lg:border-none lg:pb-0">
           <div className="px-4">
             <h3 className="text-3xl my-10">Descripcion</h3>
-            <p>{property.generalInformation.description}</p>
+            <p>{property.GeneralInformation.description}</p>
           </div>
 
           {/*<div className="px-4">*/}
@@ -171,11 +171,11 @@ export default async function Page({ params }: Props) {
                   key={relation.attributeId}
                   className="col-span-2 md:col-span-1 flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2"
                 >
-                  <p className="text-sm">{relation.attribute.label}</p>
-                  {relation.attribute.formType === 'check' ? (
+                  <p className="text-sm">{relation.Attribute.label}</p>
+                  {relation.Attribute.formType === 'check' ? (
                     <CheckIcon width={25} height={25} fill="green" />
                   ) : (
-                    <span className="font-bold">{relation.attribute.value.toString()}</span>
+                    <span className="font-bold">{relation.Attribute.value.toString()}</span>
                   )}
                 </div>
               ))}
@@ -216,7 +216,7 @@ export default async function Page({ params }: Props) {
             {property.UtilitiesOnProperties.map((relation: any) => (
               <div key={relation.utilityId} className="flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
                 <p className="text-sm">
-                  {relation.utility.title}
+                  {relation.Utility.title}
                   {relation.additionalInformation && <span className="text-gray-400 font-bold">: ({relation.additionalInformation})</span>}
                 </p>
                 <CheckIcon width={25} height={25} fill="green" />
@@ -229,7 +229,7 @@ export default async function Page({ params }: Props) {
             {property.EquipmentsOnProperties.map((relation: any) => (
               <div key={relation.equipmentId} className="flex justify-between  border-b-2 border-gray-100 items-center pb-2 mb-2">
                 <p className="text-sm">
-                  {relation.equipment.title}
+                  {relation.Equipment.title}
                   {relation.additionalInformation && <span className="text-gray-400 font-bold">: ({relation.additionalInformation})</span>}
                 </p>
                 <CheckIcon width={25} height={25} fill="green" />
@@ -244,27 +244,27 @@ export default async function Page({ params }: Props) {
           <div className="px-4 my-10">
             <h3 className="text-3xl my-10">Ubicacion y Adyacencias</h3>
             <p>
-              {property.locationInformation.municipality}, {property.locationInformation.state}, {property.locationInformation.country}
+              {property.LocationInformation.municipality}, {property.LocationInformation.state}, {property.LocationInformation.country}
             </p>
             <p>
-              <b>Urbanizacion:</b> {property.locationInformation.urbanization}
+              <b>Urbanizacion:</b> {property.LocationInformation.urbanization}
             </p>
             <p>
-              <b>Av:</b> {property.locationInformation.avenue}
+              <b>Av:</b> {property.LocationInformation.avenue}
             </p>
             <p>
-              <b>Calle:</b> {property.locationInformation.street}
+              <b>Calle:</b> {property.LocationInformation.street}
             </p>
             <p>
-              <b>¿Se encuentra en calle cerrada?:</b> {property.locationInformation.isClosedStreet}
+              <b>¿Se encuentra en calle cerrada?:</b> {property.LocationInformation.isClosedStreet}
             </p>
             {/*<p>*/}
             {/*  <b>Punto de referencia: </b>*/}
-            {/*  {property.locationInformation.referencePoint}*/}
+            {/*  {property.LocationInformation.referencePoint}*/}
             {/*</p>*/}
             {/*<p>*/}
             {/*  <b>Como llegar: </b>*/}
-            {/*  {property.locationInformation.howToGet}*/}
+            {/*  {property.LocationInformation.howToGet}*/}
             {/*</p>*/}
           </div>
           <div className="px-4 mt-2">
@@ -272,7 +272,7 @@ export default async function Page({ params }: Props) {
             <div className="flex flex-wrap justify-center md:justify-start gap-2">
               {property.AdjacenciesOnProperties.map((item: any) => (
                 <Badge key={item.adjacencyId} className="text-sm" variant="secondary">
-                  {item.adjacency.title}
+                  {item.Adjacency.title}
                 </Badge>
               ))}
             </div>
@@ -284,7 +284,7 @@ export default async function Page({ params }: Props) {
             Si deseas más información sobre esta propiedad, por favor, rellena el formulario.
           </p>
           <div className="my-5">
-            <ContactForm from={property.generalInformation.code} showLabels={false} />
+            <ContactForm from={property.GeneralInformation.code} showLabels={false} />
           </div>
         </div>
       </div>

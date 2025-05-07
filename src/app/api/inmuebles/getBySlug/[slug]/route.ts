@@ -8,11 +8,11 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
         slug: params.slug,
       },
       include: {
-        negotiationInformation: true,
-        generalInformation: {
+        NegotiationInfomation: true,
+        GeneralInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, footageGround: true, description: true },
         },
-        locationInformation: {
+        LocationInformation: {
           select: {
             state: true,
             avenue: true,
@@ -26,10 +26,10 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
             isClosedStreet: true,
           },
         },
-        AttributesOnProperties: { include: { attribute: true } },
-        AdjacenciesOnProperties: { include: { adjacency: true } },
-        EquipmentsOnProperties: { include: { equipment: true } },
-        UtilitiesOnProperties: { include: { utility: true } },
+        AttributesOnProperties: { include: { Attribute: true } },
+        AdjacenciesOnProperties: { include: { Adjacency: true } },
+        EquipmentsOnProperties: { include: { Equipment: true } },
+        UtilitiesOnProperties: { include: { Utility: true } },
       },
     });
     return NextResponse.json(property);

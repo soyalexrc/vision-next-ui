@@ -19,22 +19,22 @@ export async function GET(req: NextRequest) {
   if (busqueda) {
     whereClause.OR = [
       {
-        generalInformation: {
+        GeneralInformation: {
           publicationTitle: { contains: busqueda, mode: 'insensitive' },
         },
       },
       {
-        generalInformation: {
+        GeneralInformation: {
           propertyType: { contains: busqueda, mode: 'insensitive' },
         },
       },
       {
-        generalInformation: {
+        GeneralInformation: {
           code: { contains: busqueda, mode: 'insensitive' },
         },
       },
 
-      { negotiationInformation: { operationType: { contains: busqueda, mode: 'insensitive' } } },
+      { NegotiationInfomation: { operationType: { contains: busqueda, mode: 'insensitive' } } },
     ];
   }
 
@@ -43,29 +43,29 @@ export async function GET(req: NextRequest) {
   }
 
   if (code) {
-    whereClause.generalInformation = {
-      ...whereClause.generalInformation,
+    whereClause.GeneralInformation = {
+      ...whereClause.GeneralInformation,
       code: { contains: code, mode: 'insensitive' },
     };
   }
 
   if (state) {
-    whereClause.locationInformation = {
-      ...whereClause.locationInformation,
+    whereClause.LocationInformation = {
+      ...whereClause.LocationInformation,
       state: { contains: state, mode: 'insensitive' },
     };
   }
 
   if (municipality) {
-    whereClause.locationInformation = {
-      ...whereClause.locationInformation,
+    whereClause.LocationInformation = {
+      ...whereClause.LocationInformation,
       municipality: { contains: municipality, mode: 'insensitive' },
     };
   }
 
   if (operationType && operationType !== 'todos') {
-    whereClause.negotiationInformation = {
-      ...whereClause.negotiationInformation,
+    whereClause.NegotiationInfomation = {
+      ...whereClause.NegotiationInfomation,
       operationType: { contains: operationType, mode: 'insensitive' },
     };
   }
@@ -76,15 +76,15 @@ export async function GET(req: NextRequest) {
   }
 
   if (propertyType && propertyType !== 'todos') {
-    whereClause.generalInformation = {
-      ...whereClause.generalInformation,
+    whereClause.GeneralInformation = {
+      ...whereClause.GeneralInformation,
       propertyType: { contains: propertyType, mode: 'insensitive' },
     };
   }
 
   if (adviserId && adviserId !== '') {
-    whereClause.negotiationInformation = {
-      ...whereClause.negotiationInformation,
+    whereClause.NegotiationInfomation = {
+      ...whereClause.NegotiationInfomation,
       realStateAdviser: adviserId,
     };
   }
@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(totalProperties / size);
     const data = await prisma.property.findMany({
       include: {
-        negotiationInformation: {
+        NegotiationInfomation: {
           select: {
             price: true,
             operationType: true,
@@ -107,10 +107,10 @@ export async function GET(req: NextRequest) {
             realstateadvisername: true,
           },
         },
-        generalInformation: {
+        GeneralInformation: {
           select: { code: true, publicationTitle: true, propertyType: true, footageBuilding: true, footageGround: true, description: true },
         },
-        locationInformation: {
+        LocationInformation: {
           select: {
             municipality: true,
             urbanization: true,
@@ -129,25 +129,25 @@ export async function GET(req: NextRequest) {
       id: row.id,
       slug: row.slug,
       active: row.active,
-      price: row.negotiationInformation?.price,
-      code: row.generalInformation?.code,
-      operationType: row.negotiationInformation?.operationType,
+      price: row.NegotiationInfomation?.price,
+      code: row.GeneralInformation?.code,
+      operationType: row.NegotiationInfomation?.operationType,
       isFeatured: row.isFeatured,
-      realstateadvisername: row.negotiationInformation?.realstateadvisername,
-      publicationTitle: row.generalInformation?.publicationTitle,
-      propertyType: row.generalInformation?.propertyType,
-      footageBuilding: row.generalInformation?.footageBuilding,
-      footageGround: row.generalInformation?.footageGround,
-      municipality: row.locationInformation?.municipality,
-      state: row.locationInformation?.state,
-      avenue: row.locationInformation?.avenue,
-      urbanization: row.locationInformation?.urbanization,
-      street: row.locationInformation?.street,
-      description: row.generalInformation?.description,
+      realstateadvisername: row.NegotiationInfomation?.realstateadvisername,
+      publicationTitle: row.GeneralInformation?.publicationTitle,
+      propertyType: row.GeneralInformation?.propertyType,
+      footageBuilding: row.GeneralInformation?.footageBuilding,
+      footageGround: row.GeneralInformation?.footageGround,
+      municipality: row.LocationInformation?.municipality,
+      state: row.LocationInformation?.state,
+      avenue: row.LocationInformation?.avenue,
+      urbanization: row.LocationInformation?.urbanization,
+      street: row.LocationInformation?.street,
+      description: row.GeneralInformation?.description,
       images: row.images ?? ['/vision-icon.png'],
-      adviserId: row.negotiationInformation?.realStateAdviser,
-      allyId: row.negotiationInformation?.ally,
-      externalAdviserId: row.negotiationInformation?.externalAdviser,
+      adviserId: row.NegotiationInfomation?.realStateAdviser,
+      allyId: row.NegotiationInfomation?.ally,
+      externalAdviserId: row.NegotiationInfomation?.externalAdviser,
     }));
 
     return NextResponse.json({ properties: formattedData, totalPages });

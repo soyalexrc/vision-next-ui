@@ -8,177 +8,37 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+model AdjacenciesOnProperties {
+  propertyId  String
+  adjacencyId Int
+  createdAt   DateTime  @default(now())
+  Adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
+  Property    Property  @relation(fields: [propertyId], references: [id])
+
+  @@id([propertyId, adjacencyId])
+}
+
+model Adjacency {
+  id                      Int                       @id @default(autoincrement())
+  title                   String
+  description             String?
+  AdjacenciesOnProperties AdjacenciesOnProperties[]
+  Property                Property[]                @relation("AdjacencyToProperty")
+}
+
+model Ally {
+  id          Int    @id @default(autoincrement())
+  name        String
+  lastname    String
+  email       String
+  phoneNumber String
+}
+
 model AppConfig {
   id          String @id @default(cuid())
   code        String
   description String
   value       String
-}
-
-model TemporalId {
-  id    Int     @id @default(autoincrement())
-  value String? @db.VarChar(255)
-  type  String  @db.VarChar(255)
-}
-
-model DeleteFileRequest {
-  id       String @id @default(cuid())
-  path     String
-  username String
-  userId   String
-  type     String
-}
-
-model Property {
-  id                        String                      @id @default(cuid())
-  userId                    String
-  images                    String[]
-  distribution              Json[]
-  createdAt                 DateTime                    @default(now())
-  furnishedAreas            String[]
-  slug                      String                      @unique
-  updatedAt                 DateTime                    @updatedAt
-  isFeatured                Boolean?                    @default(false)
-  active                    Boolean                     @default(false)
-  AdjacenciesOnProperties   AdjacenciesOnProperties[]
-  AttributesOnProperties    AttributesOnProperties[]
-  DistributionsOnProperties DistributionsOnProperties[]
-  documentsInformation      DocumentsInformation?
-  EquipmentsOnProperties    EquipmentsOnProperties[]
-  generalInformation        GeneralInformation?
-  locationInformation       LocationInformation?
-  negotiationInformation    NegotiationInfomation?
-  statusHistory             PropertyStatusEntry?
-  UtilitiesOnProperties     UtilitiesOnProperties[]
-  adjacencies               Adjacency[]                 @relation("AdjacencyToProperty")
-  attributes                Attribute[]                 @relation("AttributeToProperty")
-  equipments                Equipment[]                 @relation("EquipmentToProperty")
-  distributions             Distribution[]              @relation("PropertyToDistribution")
-  utilities                 Utility[]                   @relation("PropertyToUtility")
-}
-
-model DocumentsInformation {
-  id                         String   @id @default(cuid())
-  propertyId                 String   @unique
-  propertyDoc                Boolean  @default(false)
-  CIorRIF                    Boolean  @default(false)
-  ownerCIorRIF               Boolean  @default(false)
-  spouseCIorRIF              Boolean  @default(false)
-  isCatastralRecordSameOwner Boolean  @default(false)
-  condominiumSolvency        Boolean  @default(false)
-  mainProperty               Boolean  @default(false)
-  mortgageRelease            String?
-  condominiumSolvencyDetails String?
-  power                      String?
-  successionDeclaration      String?
-  courtRulings               String?
-  catastralRecordYear        String?
-  attorneyEmail              String?
-  attorneyPhone              String?
-  attorneyFirstName          String?
-  attorneyLastName           String?
-  realStateTax               String?
-  owner                      String?
-  property                   Property @relation(fields: [propertyId], references: [id])
-}
-
-model GeneralInformation {
-  id                         String   @id @default(cuid())
-  propertyId                 String   @unique
-  status                     String?
-  code                       String
-  footageGround              String
-  footageBuilding            String
-  description                String
-  propertyType               String
-  propertyCondition          String?
-  handoverKeys               Boolean  @default(false)
-  termsAndConditionsAccepted Boolean  @default(false)
-  antiquity                  String?
-  zoning                     String?
-  amountOfFloors             String?
-  propertiesPerFloor         String?
-  typeOfWork                 String?
-  isFurnished                Boolean  @default(false)
-  isOccupiedByPeople         Boolean  @default(false)
-  publicationTitle           String
-  property                   Property @relation(fields: [propertyId], references: [id])
-}
-
-model LocationInformation {
-  id                     String   @id @default(cuid())
-  propertyId             String   @unique
-  location               String?
-  nomenclature           String?
-  tower                  String?
-  amountOfFloors         String?
-  isClosedStreet         String?
-  country                String
-  state                  String
-  municipality           String?
-  urbanization           String?
-  avenue                 String?
-  street                 String?
-  buildingShoppingCenter String?
-  buildingNumber         String?
-  floor                  String?
-  referencePoint         String?
-  howToGet               String?
-  trunkNumber            String?
-  trunkLevel             String?
-  parkingNumber          String?
-  parkingLevel           String?
-  city                   String?
-  property               Property @relation(fields: [propertyId], references: [id])
-}
-
-model NegotiationInfomation {
-  id                    String   @id @default(cuid())
-  propertyId            String   @unique
-  price                 String
-  minimumNegotiation    String?
-  client                String?
-  reasonToSellOrRent    String?
-  partOfPayment         String?
-  mouthToMouth          Boolean  @default(false)
-  realStateGroups       Boolean  @default(false)
-  realStateWebPages     Boolean  @default(false)
-  socialMedia           Boolean  @default(false)
-  publicationOnBuilding Boolean  @default(false)
-  operationType         String
-  propertyExclusivity   String
-  ownerPaysCommission   String?
-  rentCommission        String?
-  sellCommission        String?
-  ally                  String?
-  externalAdviser       String?
-  realStateAdviser      String?
-  additional_price      String?
-  realstateadvisername  String?  @db.VarChar(255)
-  externaladvisername   String?  @db.VarChar(255)
-  allyname              String?  @db.VarChar(255)
-  property              Property @relation(fields: [propertyId], references: [id])
-}
-
-model PropertyStatusEntry {
-  id         String   @id @default(cuid())
-  propertyId String   @unique
-  username   String
-  status     String
-  comments   String
-  property   Property @relation(fields: [propertyId], references: [id])
-}
-
-model AttributesOnProperties {
-  propertyId  String
-  attribyteId Int
-  createdAt   DateTime       @default(now())
-  value       String
-  valueType   FormValueTypes @default(string)
-  attribute   Attribute      @relation(fields: [attribyteId], references: [id])
-  property    Property       @relation(fields: [propertyId], references: [id])
-
-  @@id([propertyId, attribyteId])
 }
 
 model Attribute {
@@ -188,20 +48,80 @@ model Attribute {
   id                     Int                      @id @default(autoincrement())
   formType               FormTypes
   AttributesOnProperties AttributesOnProperties[]
-  properties             Property[]               @relation("AttributeToProperty")
+  Property               Property[]               @relation("AttributeToProperty")
 }
 
-model Service {
-  title       String       @unique
-  id          Int          @id @default(autoincrement())
-  subServices SubService[]
+model AttributesOnProperties {
+  propertyId  String
+  attribyteId Int
+  createdAt   DateTime       @default(now())
+  value       String
+  valueType   FormValueTypes @default(string)
+  Attribute   Attribute      @relation(fields: [attribyteId], references: [id])
+  Property    Property       @relation(fields: [propertyId], references: [id])
+
+  @@id([propertyId, attribyteId])
 }
 
-model SubService {
-  service   String  @unique
-  id        Int     @id @default(autoincrement())
-  serviceId Int
-  Service   Service @relation(fields: [serviceId], references: [id])
+model CashFlow {
+  id                    Int              @id @default(autoincrement())
+  client                String?
+  userName              String
+  userId                String
+  owner                 String?
+  location              String?
+  person                String?
+  date                  DateTime
+  month                 String
+  transactionType       String
+  wayToPay              String
+  service               String
+  serviceType           String?
+  taxPayer              String?
+  canon                 String?
+  guarantee             String?
+  contract              String?
+  reason                String?
+  createdBy             String
+  isTemporalTransaction Boolean?
+  temporalTransactionId Int?
+  amount                Int?
+  totalDue              Int?
+  incomeByThird         Int?
+  attachments           Int?
+  pendingToCollect      Int?
+  cashFlowPropertyId    Int
+  CashFlowProperty      CashFlowProperty @relation(fields: [cashFlowPropertyId], references: [id])
+}
+
+model CashFlowCurrency {
+  id     Int    @id @default(autoincrement())
+  name   String
+  symbol String
+}
+
+model CashFlowProperty {
+  id        Int        @id @default(autoincrement())
+  name      String
+  locatiuon String
+  CashFlow  CashFlow[]
+}
+
+model CashFlowSourceEntity {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
+model CashFlowTransactionType {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+}
+
+model CashFlowWayToPay {
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model Categories {
@@ -211,24 +131,6 @@ model Categories {
   titlePlural String
   isFeatured  Boolean
   image       String?
-}
-
-model Owner {
-  id          Int       @id @default(autoincrement())
-  name        String
-  lastname    String
-  isInvestor  Boolean
-  email       String
-  phoneNumber String
-  birthdate   DateTime?
-}
-
-model Ally {
-  id          Int    @id @default(autoincrement())
-  name        String
-  lastname    String
-  email       String
-  phoneNumber String
 }
 
 model Client {
@@ -289,6 +191,88 @@ model Client {
   adviser_name         String?   @db.VarChar(255)
 }
 
+model ContactForm {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  message   String
+  from      String
+  createdAt DateTime @default(now())
+}
+
+model DeleteFileRequest {
+  id       String @id @default(cuid())
+  path     String
+  username String
+  userId   String
+  type     String
+}
+
+model Distribution {
+  id                        Int                         @id @default(autoincrement())
+  title                     String
+  description               String?
+  DistributionsOnProperties DistributionsOnProperties[]
+  Property                  Property[]                  @relation("PropertyToDistribution")
+}
+
+model DistributionsOnProperties {
+  propertyId            String
+  createdAt             DateTime     @default(now())
+  additionalInformation String?
+  distributionId        Int
+  Distribution          Distribution @relation(fields: [distributionId], references: [id])
+  Property              Property     @relation(fields: [propertyId], references: [id])
+
+  @@id([propertyId, distributionId])
+}
+
+model DocumentsInformation {
+  id                         String   @id @default(cuid())
+  propertyId                 String   @unique
+  propertyDoc                Boolean  @default(false)
+  CIorRIF                    Boolean  @default(false)
+  ownerCIorRIF               Boolean  @default(false)
+  spouseCIorRIF              Boolean  @default(false)
+  isCatastralRecordSameOwner Boolean  @default(false)
+  condominiumSolvency        Boolean  @default(false)
+  mainProperty               Boolean  @default(false)
+  mortgageRelease            String?
+  condominiumSolvencyDetails String?
+  power                      String?
+  successionDeclaration      String?
+  courtRulings               String?
+  catastralRecordYear        String?
+  attorneyEmail              String?
+  attorneyPhone              String?
+  attorneyFirstName          String?
+  attorneyLastName           String?
+  realStateTax               String?
+  owner                      String?
+  Property                   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Equipment {
+  id                     Int                      @id @default(autoincrement())
+  title                  String
+  description            String?
+  EquipmentsOnProperties EquipmentsOnProperties[]
+  Property               Property[]               @relation("EquipmentToProperty")
+}
+
+model EquipmentsOnProperties {
+  propertyId            String
+  equipmentId           Int
+  createdAt             DateTime  @default(now())
+  brand                 String?
+  additionalInformation String?
+  Equipment             Equipment @relation(fields: [equipmentId], references: [id])
+  Property              Property  @relation(fields: [propertyId], references: [id])
+
+  @@id([propertyId, equipmentId])
+}
+
 model ExternalAdviser {
   id                   Int    @id @default(autoincrement())
   name                 String
@@ -298,6 +282,159 @@ model ExternalAdviser {
   realStateCompanyName String
 }
 
+model ExternalPerson {
+  id     Int    @id @default(autoincrement())
+  name   String
+  source String
+}
+
+model GeneralInformation {
+  id                         String   @id @default(cuid())
+  propertyId                 String   @unique
+  status                     String?
+  code                       String
+  footageGround              String
+  footageBuilding            String
+  description                String
+  propertyType               String
+  propertyCondition          String?
+  handoverKeys               Boolean  @default(false)
+  termsAndConditionsAccepted Boolean  @default(false)
+  antiquity                  String?
+  zoning                     String?
+  amountOfFloors             String?
+  propertiesPerFloor         String?
+  typeOfWork                 String?
+  isFurnished                Boolean  @default(false)
+  isOccupiedByPeople         Boolean  @default(false)
+  publicationTitle           String
+  Property                   Property @relation(fields: [propertyId], references: [id])
+}
+
+model LocationInformation {
+  id                     String   @id @default(cuid())
+  propertyId             String   @unique
+  location               String?
+  nomenclature           String?
+  tower                  String?
+  amountOfFloors         String?
+  isClosedStreet         String?
+  country                String
+  state                  String
+  municipality           String?
+  urbanization           String?
+  avenue                 String?
+  street                 String?
+  buildingShoppingCenter String?
+  buildingNumber         String?
+  floor                  String?
+  referencePoint         String?
+  howToGet               String?
+  trunkNumber            String?
+  trunkLevel             String?
+  parkingNumber          String?
+  parkingLevel           String?
+  city                   String?
+  Property               Property @relation(fields: [propertyId], references: [id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model NegotiationInfomation {
+  id                    String   @id @default(cuid())
+  propertyId            String   @unique
+  price                 String
+  minimumNegotiation    String?
+  client                String?
+  reasonToSellOrRent    String?
+  partOfPayment         String?
+  mouthToMouth          Boolean  @default(false)
+  realStateGroups       Boolean  @default(false)
+  realStateWebPages     Boolean  @default(false)
+  socialMedia           Boolean  @default(false)
+  publicationOnBuilding Boolean  @default(false)
+  operationType         String
+  propertyExclusivity   String
+  ownerPaysCommission   String?
+  rentCommission        String?
+  sellCommission        String?
+  ally                  String?
+  externalAdviser       String?
+  realStateAdviser      String?
+  additional_price      String?
+  realstateadvisername  String?  @db.VarChar(255)
+  externaladvisername   String?  @db.VarChar(255)
+  allyname              String?  @db.VarChar(255)
+  Property              Property @relation(fields: [propertyId], references: [id])
+}
+
+model Owner {
+  id          Int       @id @default(autoincrement())
+  name        String
+  lastname    String
+  isInvestor  Boolean
+  email       String
+  phoneNumber String
+  birthdate   DateTime?
+}
+
+model Passkey {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  backedup     Boolean  @default(false)
+  counter      Int      @default(0)
+  credentialid String
+  devicetype   String
+  platform     String
+  publickey    String
+  transports   String[]
+  createdat    DateTime @default(now())
+  updatedat    DateTime
+  User         User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Property {
+  id                        String                      @id @default(cuid())
+  userId                    String
+  images                    String[]
+  distribution              Json[]
+  createdAt                 DateTime                    @default(now())
+  furnishedAreas            String[]
+  slug                      String                      @unique
+  updatedAt                 DateTime
+  isFeatured                Boolean?                    @default(false)
+  active                    Boolean                     @default(false)
+  AdjacenciesOnProperties   AdjacenciesOnProperties[]
+  AttributesOnProperties    AttributesOnProperties[]
+  DistributionsOnProperties DistributionsOnProperties[]
+  DocumentsInformation      DocumentsInformation?
+  EquipmentsOnProperties    EquipmentsOnProperties[]
+  GeneralInformation        GeneralInformation?
+  LocationInformation       LocationInformation?
+  NegotiationInfomation     NegotiationInfomation?
+  PropertyStatusEntry       PropertyStatusEntry?
+  UtilitiesOnProperties     UtilitiesOnProperties[]
+  Adjacency                 Adjacency[]                 @relation("AdjacencyToProperty")
+  Attribute                 Attribute[]                 @relation("AttributeToProperty")
+  Equipment                 Equipment[]                 @relation("EquipmentToProperty")
+  Distribution              Distribution[]              @relation("PropertyToDistribution")
+  Utility                   Utility[]                   @relation("PropertyToUtility")
+}
+
+model PropertyStatusEntry {
+  id         String   @id @default(cuid())
+  propertyId String   @unique
+  username   String
+  status     String
+  comments   String
+  Property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Service {
+  title      String       @unique
+  id         Int          @id @default(autoincrement())
+  SubService SubService[]
+}
+
 model SocialMediaLink {
   id       Int    @id @default(autoincrement())
   title    String
@@ -305,30 +442,38 @@ model SocialMediaLink {
   iconName String
 }
 
-model Adjacency {
-  id                      Int                       @id @default(autoincrement())
-  title                   String
-  description             String?
-  AdjacenciesOnProperties AdjacenciesOnProperties[]
-  properties              Property[]                @relation("AdjacencyToProperty")
+model SubService {
+  service   String  @unique
+  id        Int     @id @default(autoincrement())
+  serviceId Int
+  Service   Service @relation(fields: [serviceId], references: [id])
 }
 
-model AdjacenciesOnProperties {
-  propertyId  String
-  adjacencyId Int
-  createdAt   DateTime  @default(now())
-  adjacency   Adjacency @relation(fields: [adjacencyId], references: [id])
-  property    Property  @relation(fields: [propertyId], references: [id])
-
-  @@id([propertyId, adjacencyId])
+model TemporalId {
+  id    Int     @id @default(autoincrement())
+  value String? @db.VarChar(255)
+  type  String  @db.VarChar(255)
 }
 
-model Utility {
-  id                    Int                     @id @default(autoincrement())
-  title                 String
-  description           String?
-  UtilitiesOnProperties UtilitiesOnProperties[]
-  properties            Property[]              @relation("PropertyToUtility")
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String
+  username         String
+  phonenumber      String?
+  firstname        String?
+  lastname         String?
+  imageurl         String?
+  createdat        DateTime  @default(now())
+  updatedat        DateTime
+  role             String
+  isactive         Boolean   @default(true)
+  permissions      Json?
+  issuperadmin     Boolean   @default(false)
+  lastlogin        DateTime?
+  twofactorenabled Boolean   @default(false)
+  password         String
+  pushtoken        String?
+  Passkey          Passkey?
 }
 
 model UtilitiesOnProperties {
@@ -336,126 +481,18 @@ model UtilitiesOnProperties {
   utilityId             Int
   createdAt             DateTime @default(now())
   additionalInformation String?
-  property              Property @relation(fields: [propertyId], references: [id])
-  utility               Utility  @relation(fields: [utilityId], references: [id])
+  Property              Property @relation(fields: [propertyId], references: [id])
+  Utility               Utility  @relation(fields: [utilityId], references: [id])
 
   @@id([propertyId, utilityId])
 }
 
-model Distribution {
-  id                        Int                         @id @default(autoincrement())
-  title                     String
-  description               String?
-  DistributionsOnProperties DistributionsOnProperties[]
-  properties                Property[]                  @relation("PropertyToDistribution")
-}
-
-model DistributionsOnProperties {
-  propertyId            String
-  createdAt             DateTime     @default(now())
-  additionalInformation String?
-  distributionId        Int
-  distribution          Distribution @relation(fields: [distributionId], references: [id])
-  property              Property     @relation(fields: [propertyId], references: [id])
-
-  @@id([propertyId, distributionId])
-}
-
-model Equipment {
-  id                     Int                      @id @default(autoincrement())
-  title                  String
-  description            String?
-  EquipmentsOnProperties EquipmentsOnProperties[]
-  properties             Property[]               @relation("EquipmentToProperty")
-}
-
-model EquipmentsOnProperties {
-  propertyId            String
-  equipmentId           Int
-  createdAt             DateTime  @default(now())
-  brand                 String?
-  additionalInformation String?
-  equipment             Equipment @relation(fields: [equipmentId], references: [id])
-  property              Property  @relation(fields: [propertyId], references: [id])
-
-  @@id([propertyId, equipmentId])
-}
-
-model CashFlow {
-  id                    Int              @id @default(autoincrement())
-  client                String?
-  userName              String
-  userId                String
-  owner                 String?
-  location              String?
-  person                String?
-  date                  DateTime
-  month                 String
-  transactionType       String
-  wayToPay              String
-  service               String
-  serviceType           String?
-  taxPayer              String?
-  canon                 String?
-  guarantee             String?
-  contract              String?
-  reason                String?
-  createdBy             String
-  isTemporalTransaction Boolean?
-  temporalTransactionId Int?
-  amount                Int?
-  totalDue              Int?
-  incomeByThird         Int?
-  attachments           Int?
-  pendingToCollect      Int?
-  cashFlowPropertyId    Int
-  property              CashFlowProperty @relation(fields: [cashFlowPropertyId], references: [id])
-}
-
-model CashFlowProperty {
-  id        Int        @id @default(autoincrement())
-  name      String
-  locatiuon String
-  CashFlows CashFlow[]
-}
-
-model ExternalPerson {
-  id     Int    @id @default(autoincrement())
-  name   String
-  source String
-}
-
-model CashFlowWayToPay {
-  id   Int    @id @default(autoincrement())
-  name String
-}
-
-model CashFlowCurrency {
-  id     Int    @id @default(autoincrement())
-  name   String
-  symbol String
-}
-
-model CashFlowSourceEntity {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-}
-
-model CashFlowTransactionType {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-}
-
-model ContactForm {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  phone     String
-  message   String
-  from      String
-  createdAt DateTime @default(now())
+model Utility {
+  id                    Int                     @id @default(autoincrement())
+  title                 String
+  description           String?
+  UtilitiesOnProperties UtilitiesOnProperties[]
+  Property              Property[]              @relation("PropertyToUtility")
 }
 
 model WorkWithUsForm {

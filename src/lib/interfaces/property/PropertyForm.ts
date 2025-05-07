@@ -71,7 +71,7 @@ export interface AttributeForm {
 }
 
 export interface FullProperty extends Property {
-  negotiationInformation: {
+  NegotiationInfomation: {
     id?: string;
     socialMedia?: boolean;
     ally?: string;
@@ -92,7 +92,7 @@ export interface FullProperty extends Property {
     realStateAdviser?: string;
     sellCommission?: string;
   };
-  generalInformation: {
+  GeneralInformation: {
     id?: string;
     code: string;
     footageGround: string;
@@ -111,7 +111,7 @@ export interface FullProperty extends Property {
     isFurnished?: boolean;
     isOccupiedByPeople?: boolean;
   };
-  documentsInformation: {
+  DocumentsInformation: {
     id?: string;
     owner?: string;
     successionDeclaration?: string;
@@ -133,7 +133,7 @@ export interface FullProperty extends Property {
     mortgageRelease?: string;
     propertyDoc?: boolean;
   };
-  locationInformation: {
+  LocationInformation: {
     id?: string;
     urbanization?: string;
     state: string;

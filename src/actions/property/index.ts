@@ -14,6 +14,7 @@ import {
 import { revalidatePath } from 'next/cache';
 import { deleteObject, listAll, ref } from '@firebase/storage';
 import storage from '@/lib/firebase/storage';
+import { v4 as uuid } from 'uuid';
 
 async function removeFolder(fullPath: string) {
   try {
@@ -145,7 +146,7 @@ export async function createUpdateProperty(
       const property = await prisma.property.update({
         where: { id },
         data: {
-          generalInformation: {
+          GeneralInformation: {
             update: {
               zoning: generalInformation.zoning ?? '',
               typeOfWork: generalInformation.typeOfWork ?? '',
@@ -165,7 +166,7 @@ export async function createUpdateProperty(
               publicationTitle: generalInformation.publicationTitle,
             },
           },
-          locationInformation: {
+          LocationInformation: {
             update: {
               municipality: locationInformation.municipality ?? '',
               state: locationInformation.state,
@@ -190,7 +191,7 @@ export async function createUpdateProperty(
               urbanization: locationInformation.urbanization ?? '',
             },
           },
-          negotiationInformation: {
+          NegotiationInfomation: {
             update: {
               client: negotiationInformation.client ?? '',
               externalAdviser: negotiationInformation.externalAdviser ?? '',
@@ -216,7 +217,7 @@ export async function createUpdateProperty(
               rentCommission: negotiationInformation.rentCommission ?? '',
             },
           },
-          documentsInformation: {
+          DocumentsInformation: {
             update: {
               power: documentsInformation.power ?? '',
               ownerCIorRIF: documentsInformation.ownerCIorRIF ?? false,
@@ -244,7 +245,7 @@ export async function createUpdateProperty(
             create: validAdjacencies.map((adjacency: any) => {
               const { adjacencyId } = adjacency as AdjacencyForm;
               return {
-                adjacency: {
+                Adjacency: {
                   connect: {
                     id: adjacencyId,
                   },
@@ -257,7 +258,7 @@ export async function createUpdateProperty(
               const { value, attributeId } = attribute as AttributeForm;
               return {
                 value: typeof value !== 'string' ? String(value) : value,
-                attribute: {
+                Attribute: {
                   connect: {
                     id: attributeId,
                   },
@@ -271,7 +272,7 @@ export async function createUpdateProperty(
               return {
                 brand,
                 additionalInformation,
-                equipment: {
+                Equipment: {
                   connect: {
                     id: equipmentId,
                   },
@@ -284,7 +285,7 @@ export async function createUpdateProperty(
               const { utilityId, additionalInformation } = utility as UtilityForm;
               return {
                 additionalInformation,
-                utility: {
+                Utility: {
                   connect: {
                     id: utilityId,
                   },
@@ -297,7 +298,7 @@ export async function createUpdateProperty(
               const { distributionId, additionalInformation } = distribution as DistributionForm;
               return {
                 additionalInformation,
-                distribution: {
+                Distribution: {
                   connect: {
                     id: distributionId,
                   },
@@ -312,13 +313,15 @@ export async function createUpdateProperty(
     } else {
       await prisma.property.create({
         data: {
+          updatedAt: new Date(),
           slug: slugify(generalInformation.publicationTitle, {
             lower: true,
             trim: true,
             replacement: '-',
           }),
-          generalInformation: {
+          GeneralInformation: {
             create: {
+              id: uuid(),
               status: 'Publicado',
               zoning: generalInformation.zoning ?? '',
               typeOfWork: generalInformation.typeOfWork ?? '',
@@ -338,8 +341,9 @@ export async function createUpdateProperty(
               publicationTitle: generalInformation.publicationTitle,
             },
           },
-          locationInformation: {
+          LocationInformation: {
             create: {
+              id: uuid(),
               municipality: locationInformation.municipality ?? '',
               state: locationInformation.state,
               location: locationInformation.location ?? '',
@@ -363,8 +367,9 @@ export async function createUpdateProperty(
               urbanization: locationInformation.urbanization ?? '',
             },
           },
-          negotiationInformation: {
+          NegotiationInfomation: {
             create: {
+              id: uuid(),
               client: negotiationInformation.client ?? '',
               externalAdviser: negotiationInformation.externalAdviser ?? '',
               externaladvisername: negotiationInformation.externaladvisername ?? '',
@@ -389,15 +394,17 @@ export async function createUpdateProperty(
               rentCommission: negotiationInformation.rentCommission ?? '',
             },
           },
-          statusHistory: {
+          PropertyStatusEntry: {
             create: {
+              id: uuid(),
               status: 'created',
               username: form.userId,
               comments: '',
             },
           },
-          documentsInformation: {
+          DocumentsInformation: {
             create: {
+              id: uuid(),
               power: documentsInformation.power ?? '',
               ownerCIorRIF: documentsInformation.ownerCIorRIF ?? false,
               propertyDoc: documentsInformation.propertyDoc ?? false,
@@ -426,7 +433,7 @@ export async function createUpdateProperty(
             create: validAdjacencies.map((adjacency) => {
               const { adjacencyId } = adjacency as AdjacencyForm;
               return {
-                adjacency: {
+                Adjacency: {
                   connect: {
                     id: adjacencyId,
                   },
@@ -439,7 +446,7 @@ export async function createUpdateProperty(
               const { value, attributeId } = attribute as AttributeForm;
               return {
                 value: typeof value !== 'string' ? String(value) : value,
-                attribute: {
+                Attribute: {
                   connect: {
                     id: attributeId,
                   },
@@ -453,7 +460,7 @@ export async function createUpdateProperty(
               return {
                 brand,
                 additionalInformation,
-                equipment: {
+                Equipment: {
                   connect: {
                     id: equipmentId,
                   },
@@ -466,7 +473,7 @@ export async function createUpdateProperty(
               const { utilityId, additionalInformation } = utility as UtilityForm;
               return {
                 additionalInformation,
-                utility: {
+                Utility: {
                   connect: {
                     id: utilityId,
                   },
@@ -479,7 +486,7 @@ export async function createUpdateProperty(
               const { distributionId, additionalInformation } = distribution as DistributionForm;
               return {
                 additionalInformation,
-                distribution: {
+                Distribution: {
                   connect: {
                     id: distributionId,
                   },
@@ -488,6 +495,7 @@ export async function createUpdateProperty(
             }),
           },
           userId: 'admin@gmail.com',
+          id: uuid(),
         },
       });
     }

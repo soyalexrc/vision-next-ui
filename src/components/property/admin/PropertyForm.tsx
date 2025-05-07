@@ -63,16 +63,16 @@ export default function PropertyForm({ data: { property, attributes, equipments,
   const [users, setUsers] = useState<any[]>([]);
   const { user } = useUser();
 
-  console.log(user);
+  console.log(property);
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
     defaultValues: property
       ? {
-          generalInformation: property.generalInformation,
-          locationInformation: property.locationInformation,
-          negotiationInformation: property.negotiationInformation,
-          documentsInformation: property.documentsInformation,
+          generalInformation: property.GeneralInformation,
+          locationInformation: property.LocationInformation,
+          negotiationInformation: property.NegotiationInfomation,
+          documentsInformation: property.DocumentsInformation,
         }
       : {
           locationInformation: {
@@ -96,8 +96,8 @@ export default function PropertyForm({ data: { property, attributes, equipments,
     if (!property) {
       setNewVinmId();
     } else {
-      getImagesFromStorage(property.generalInformation.code);
-      getDocumentsFromStorage(property.generalInformation.code);
+      getImagesFromStorage(property.GeneralInformation?.code);
+      getDocumentsFromStorage(property.GeneralInformation?.code);
     }
 
     appendAttributes();
@@ -132,7 +132,7 @@ export default function PropertyForm({ data: { property, attributes, equipments,
       dataForm: payload,
       userId: user?.id ?? '',
     };
-    if (property) {
+    if (property?.id) {
       const { success, error } = await createUpdateProperty(payloadFull, images, true, property.id);
       if (success) {
         toast.success('Se actualizo el inmueble con exito!');

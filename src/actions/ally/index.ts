@@ -8,6 +8,7 @@ import { Ally } from '@prisma/client';
 export async function getAllies(): Promise<{ error?: string; data: Ally[] | undefined }> {
   try {
     const data = await prisma.ally.findMany();
+    console.log(data);
     return {
       data,
       error: undefined,

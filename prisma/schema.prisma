@@ -32,6 +32,7 @@ model Ally {
   lastname    String
   email       String
   phoneNumber String
+  status      String @default("active")
 }
 
 model AppConfig {

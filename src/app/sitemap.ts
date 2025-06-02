@@ -1,8 +1,8 @@
-import prisma from '@/lib/db/prisma';
+// import prisma from '@/lib/db/prisma';
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const properties = await prisma.property.findMany();
+  // const properties = await prisma.property.findMany();
   const baseSitemap: MetadataRoute.Sitemap = [
     {
       url: 'https://visioninmobiliaria.com.ve',
@@ -65,11 +65,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
   ];
-  properties.forEach((property) => {
-    baseSitemap.push({
-      url: `${process.env.HOST_URL}/inmuebles/${property.slug}`,
-      lastModified: property.updatedAt,
-    });
-  });
+  // properties.forEach((property) => {
+  //   baseSitemap.push({
+  //     url: `${process.env.HOST_URL}/inmuebles/${property.slug}`,
+  //     lastModified: property.updatedAt,
+  //   });
+  // });
   return baseSitemap;
 }

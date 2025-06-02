@@ -94,7 +94,7 @@ export default function Footer() {
         <Link color="secondary" className="hover:underline" href="https://lsmsinergy.com" target="_blank">
           Creado por LSM Sinergy
         </Link>
-        <Link color="secondary" className="hover:underline" href="/administracion">
+        <Link color="secondary" className="hover:underline" target="_blank]" href="https://admin.visioninmobiliaria.com.ve">
           Administracion
         </Link>
       </div>

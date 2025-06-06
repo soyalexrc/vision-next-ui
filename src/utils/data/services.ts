@@ -13,18 +13,18 @@ export const SERVICES_DATA = [
   },
   {
     img: '/services/icons/contabilidad.png',
-    title: 'Servicio Contable',
+    title: 'Servicio Contable (para nuestros clientes comerciales)',
   },
   {
     img: '/services/icons/ama-de-llaves.png',
     title: 'Servicio de limpieza - Ama de llaves',
   },
-  {
-    img: '/services/icons/remodelacion.png',
-    title: 'Servicio de Remodelación de espacios ',
-  },
-  {
-    img: '/services/icons/mantenimiento.png',
-    title: 'Servicio Técnico de equipos',
-  },
+  // {
+  //   img: '/services/icons/remodelacion.png',
+  //   title: 'Servicio de Remodelación de espacios ',
+  // },
+  // {
+  //   img: '/services/icons/mantenimiento.png',
+  //   title: 'Servicio Técnico de equipos',
+  // },
 ];

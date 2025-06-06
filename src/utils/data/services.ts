@@ -5,7 +5,7 @@ export const SERVICES_DATA = [
   },
   {
     img: '/services/icons/admin-contratos-alquiler.png',
-    title: 'Servicio de administración de de contratos de alquiler',
+    title: 'Servicio de administración de contratos de alquiler',
   },
   {
     img: '/services/icons/tramites-legales.png',

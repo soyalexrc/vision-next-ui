@@ -12,12 +12,27 @@ import { Button } from '@/components/ui/button';
 import { Phone, Share2 } from 'lucide-react';
 import { MailIcon, WhatsappIcon } from '@/components/icons';
 import Link from 'next/link';
-import { PropertyPreview } from '@/components/property/admin/table';
 
-export function PropertyCard(props: PropertyPreview) {
+export type PropertyCardProps = {
+  coverUrl: string;
+  id: string;
+  slug: string;
+  publicationTitle: string;
+  state: string;
+  municipality: string;
+  urbanization: string;
+  footageBuilding: number;
+  operationType: string;
+  propertyType: string;
+  price: number;
+  footageGround: string;
+};
+
+export function PropertyCard(props: PropertyCardProps) {
+  console.log('props', props);
   return (
     <div>
-      <img className={`h-[220px] w-full object-cover`} src={props.images[0]} alt="" />
+      <img className={`h-[220px] w-full object-cover`} src={props.coverUrl} alt="" />
       <div className="bg-gray-100 p-6 min-h-[267.20px] flex flex-col">
         <Link href={`/inmuebles/${props.slug}`}>
           <h5 className="text-2xl hover:underline cursor-pointer mb-2">{props.publicationTitle}</h5>

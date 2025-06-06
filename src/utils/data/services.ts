@@ -1,11 +1,11 @@
 export const SERVICES_DATA = [
   {
     img: '/services/icons/promocion-de-inmuebles.png',
-    title: 'Servicio inmobiliario',
+    title: 'Servicio Inmobiliario',
   },
   {
     img: '/services/icons/admin-contratos-alquiler.png',
-    title: 'Servicio de administración de contratos de alquiler',
+    title: 'Servicio de Administrativo de Contratos de Alquiler',
   },
   {
     img: '/services/icons/tramites-legales.png',
@@ -17,7 +17,7 @@ export const SERVICES_DATA = [
   },
   {
     img: '/services/icons/ama-de-llaves.png',
-    title: 'Servicio de limpieza - Ama de llaves',
+    title: 'Servicio de Limpieza - Ama de Llaves',
   },
   // {
   //   img: '/services/icons/remodelacion.png',

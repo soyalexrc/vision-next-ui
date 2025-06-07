@@ -6,7 +6,6 @@ import ContactForm from '@/components/contact/ContactForm';
 import ImagesGrid from '@/components/property/ImagesGrid';
 import Gallery from '@/components/property/Gallery';
 import { Metadata } from 'next';
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
 type Props = {
   params: { slug: string };
@@ -27,8 +26,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  console.log('params', params);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const property = await fetch(`${process.env.HOST_URL}/property/detail/slug/${params.slug}`, {
     method: 'GET',
     headers: {
@@ -40,8 +38,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       console.error('Error fetching property:', error);
       return null; // Handle the error case
     });
-
-  console.log('`Property data:', property);
 
   return {
     title: property?.publicationTitle ?? 'Pagina de inmueble',

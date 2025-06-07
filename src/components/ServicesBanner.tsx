@@ -11,10 +11,12 @@ export default function ServicesBanner() {
       </h2>
       <div className="grid gap-x-4 grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-y-10">
         {SERVICES_DATA.map((service) => (
-          <div key={service.title} className={`flex flex-col items-center justify-center`}>
-            <Image width={200} height={200} className="mb-3" src={service.img} alt={service.title} />
-            <h6 className="text-white font-bold">{service.title}</h6>
-          </div>
+          <Link key={service.title} href={service.href}>
+            <div className={`flex flex-col items-center justify-center`}>
+              <Image width={200} height={200} className="mb-3" src={service.img} alt={service.title} />
+              <h6 className="text-white font-bold">{service.title}</h6>
+            </div>
+          </Link>
         ))}
       </div>
 

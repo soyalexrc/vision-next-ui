@@ -114,18 +114,18 @@ export default function Header() {
                       Ofrecemos el servicio de mantenimiento enfocado para inmuebles residenciales y comerciales.
                     </ListItem>
                   </Link>
-                  <Link href="/servicios#remodelacion" legacyBehavior passHref>
-                    <ListItem title="Servicio de Remodelación de espacios ">
-                      A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e
-                      industrial.{' '}
-                    </ListItem>
-                  </Link>
-                  <Link href="/servicios#mantenimiento" legacyBehavior passHref>
-                    <ListItem title="Servicio Técnico de equipos">
-                      Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu
-                      orden para brindarte solución ante cualquier instalación o reparación de tus equipos.{' '}
-                    </ListItem>
-                  </Link>
+                  {/*<Link href="/servicios#remodelacion" legacyBehavior passHref>*/}
+                  {/*  <ListItem title="Servicio de Remodelación de espacios ">*/}
+                  {/*    A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e*/}
+                  {/*    industrial.{' '}*/}
+                  {/*  </ListItem>*/}
+                  {/*</Link>*/}
+                  {/*<Link href="/servicios#mantenimiento" legacyBehavior passHref>*/}
+                  {/*  <ListItem title="Servicio Técnico de equipos">*/}
+                  {/*    Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu*/}
+                  {/*    orden para brindarte solución ante cualquier instalación o reparación de tus equipos.{' '}*/}
+                  {/*  </ListItem>*/}
+                  {/*</Link>*/}
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>

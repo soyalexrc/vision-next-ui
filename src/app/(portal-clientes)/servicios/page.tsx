@@ -84,22 +84,22 @@ const SERVICES_DATA = [
     ctaText: 'Contáctanos y preguntanos por nuestras tarifas y planes, conoce a detalle lo que tenemos para ofrecerte.',
     ctaButton: 'Ir',
   },
-  {
-    title: 'Servicio de Remodelación de espacios',
-    id: 'remodelacion',
-    image: '/services/images/remodelacion.jpg',
-    description: `A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e industrial. Te asesoramos en cuanto a diseño, materiales y costos. Adaptamos tu presupuesto a tu objetivo para que juntos materialicemos lo que andas buscando.`,
-    ctaText: 'Ponte en contacto con cualquiera de nuestros ASESORES',
-    ctaButton: 'Ir',
-  },
-  {
-    title: 'Servicio Técnico de equipos',
-    id: 'mantenimiento',
-    image: '/services/images/mantenimiento.jpg',
-    description: `Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu orden para brindarte solución ante cualquier instalación o reparación de tus equipos.`,
-    ctaText: 'Contacta a nuestro personal técnico y te haremos una evaluación gratis.',
-    ctaButton: 'Ir',
-  },
+  // {
+  //   title: 'Servicio de Remodelación de espacios',
+  //   id: 'remodelacion',
+  //   image: '/services/images/remodelacion.jpg',
+  //   description: `A través de nosotros puedes llevar a cabo cualquier obra de remodelación de tu propiedad comercial, residencial e industrial. Te asesoramos en cuanto a diseño, materiales y costos. Adaptamos tu presupuesto a tu objetivo para que juntos materialicemos lo que andas buscando.`,
+  //   ctaText: 'Ponte en contacto con cualquiera de nuestros ASESORES',
+  //   ctaButton: 'Ir',
+  // },
+  // {
+  //   title: 'Servicio Técnico de equipos',
+  //   id: 'mantenimiento',
+  //   image: '/services/images/mantenimiento.jpg',
+  //   description: `Para tus electrodomésticos, aires acondicionados, lavadoras, artefactos de cocina y entretenimiento, estamos a tu orden para brindarte solución ante cualquier instalación o reparación de tus equipos.`,
+  //   ctaText: 'Contacta a nuestro personal técnico y te haremos una evaluación gratis.',
+  //   ctaButton: 'Ir',
+  // },
 ];
 
 export default function Services() {

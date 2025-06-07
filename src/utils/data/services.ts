@@ -1,4 +1,4 @@
-export const SERVICES_DATA = [
+export const SERVICES_DATA: any[] = [
   {
     img: '/services/icons/promocion-de-inmuebles.png',
     title: 'Servicio Inmobiliario',
@@ -6,7 +6,7 @@ export const SERVICES_DATA = [
   },
   {
     img: '/services/icons/admin-contratos-alquiler.png',
-    title: 'Servicio de Administrativo de Contratos de Alquiler',
+    title: 'Servicio Administrativo de Contratos de Alquiler',
     href: '/servicios#admin-contratos-alquiler',
   },
   {
@@ -16,12 +16,12 @@ export const SERVICES_DATA = [
   },
   {
     img: '/services/icons/contabilidad.png',
-    title: 'Servicio Contable (para nuestros clientes comerciales)',
+    title: ['Servicio Contable', '(para nuestros clientes comerciales)'],
     href: '/servicios#gestion-contable',
   },
   {
     img: '/services/icons/ama-de-llaves.png',
-    title: 'Servicio de Limpieza - Ama de Llaves',
+    title: 'Servicio de Limpieza (Ama de Llaves)',
     href: '/servicios#servicio-limpieza',
   },
   // {

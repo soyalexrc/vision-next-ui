@@ -13,8 +13,31 @@ export default function ServicesBanner() {
         {SERVICES_DATA.map((service) => (
           <Link key={service.title} href={service.href}>
             <div className={`flex flex-col items-center justify-center`}>
-              <Image width={200} height={200} className="mb-3" src={service.img} alt={service.title} />
-              <h6 className="text-white font-bold">{service.title}</h6>
+              <Image
+                width={200}
+                height={200}
+                className="mb-3"
+                src={service.img}
+                alt={Array.isArray(service.title) ? service.title[0] : service.title}
+              />
+              <h6 className="text-white font-bold hidden md:block">
+                {Array.isArray(service.title) ? (
+                  <>
+                    {service.title[0]} <br /> {service.title[1]}
+                  </>
+                ) : (
+                  service.title
+                )}
+              </h6>
+              <h6 className="text-white font-bold md:hidden text-center px-10">
+                {Array.isArray(service.title) ? (
+                  <>
+                    {service.title[0]} <br /> {service.title[1]}
+                  </>
+                ) : (
+                  service.title
+                )}
+              </h6>
             </div>
           </Link>
         ))}

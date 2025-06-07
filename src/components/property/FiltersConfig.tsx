@@ -23,6 +23,7 @@ export function FiltersConfig() {
     } else {
       params.delete(key);
     }
+    params.set('pagina', '1'); // Reset to page 1 on filter change
     router.push(`/inmuebles?${params.toString()}`);
   };
 

@@ -27,16 +27,19 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     }
   }
 
+  console.log('filteredQuery', filteredQuery);
+
   const urlParams = new URLSearchParams(filteredQuery.toString());
-  const response = await fetch(`${process.env.HOST_URL}/api/inmuebles?${urlParams}`, {
+
+  console.log('urlParams', urlParams);
+
+  const response = await fetch(`${process.env.HOST_URL}/property/queried?${urlParams}`, {
     cache: 'no-store',
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((data) => data.json());
-
-  console.log(response);
+  }).then((res) => res.json());
 
   const currentPage = Number(searchParams.pagina) || 1;
 

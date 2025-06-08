@@ -68,16 +68,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  // const [openGallery, setOpenGallery] = useState(false);
-  // const [imgIndex, setImgIndex] = useState(0);
-
-  // console.log(openGallery, imgIndex);
-
-  // function handleOpenGallery(index: number) {
-  //   setImgIndex(index);
-  //   setOpenGallery(true);
-  // }
-
   const property = await fetch(`${process.env.HOST_URL}/property/detail/slug/${params.slug}`, {
     cache: 'force-cache',
     method: 'GET',
@@ -86,23 +76,20 @@ export default async function Page({ params }: Props) {
     },
   }).then((res) => res.json());
 
-  // if (error.error) {
-  //   return (
-  //     <div className="min-h-screen flex justify-center items-center">
-  //       <h3 className="text-xl">{error.message}</h3>
-  //     </div>
-  //   );
-  // }
+  console.log('property', property.status);
+
+  if (property.status === 'inactive') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <img src="/404.png" alt="Propiedad no disponible" className="max-w-xs mb-4" />
+        <h1 className="text-2xl text-red-600">Lo sentimos, esta propiedad no está disponible.</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
       <ImagesGrid images={property.images} />
-
-      {/*<div className="w-full h-[300px] lg:h-[200px] max-h-[500px] relative">*/}
-      {/*  {property.images.length === 1 && (*/}
-      {/*    <Image fill priority alt="Property image" className="top-0 left-0 w-full h-full object-cover" src={property.images[0]} />*/}
-      {/*  )}*/}
-      {/*</div>*/}
       <div className="border-b-8 pb-5 mt-5 mb-5 border-red-opacity">
         <div className="px-4 lg:px-24">
           <div className="grid grid-cols-12">

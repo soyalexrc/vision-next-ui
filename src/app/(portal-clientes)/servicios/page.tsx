@@ -105,14 +105,20 @@ const SERVICES_DATA = [
 export default function Services() {
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[600px]">
-        <Image src="/banners/servicios.png" fill className="hidden md:block" alt="Banner publicitario de inmuebles" />
+      <section className="relative w-full aspect-[4/3] md:aspect-[5/2]">
+        <Image
+          src="/banners/servicios.png"
+          fill
+          className="hidden md:block object-cover"
+          alt="Banner publicitario de inmuebles"
+          sizes="100vw"
+        />
         <Image
           src="/banners/mobile/servicios.png"
-          className="w-full h-full block md:hidden"
-          width={250}
-          height={250}
+          className="w-full h-full block md:hidden object-cover"
+          fill
           alt="Banner publicitario de inmuebles"
+          sizes="100vw"
         />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center flex-col">*/}

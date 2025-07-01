@@ -59,15 +59,9 @@ export default function BannerCarousel() {
     <div className="relative w-full">
       <div ref={sliderRef} className="keen-slider">
         {activeBanners.map((src, index) => (
-          <div key={index} className="keen-slider__slide relative">
-            <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-30" />
-            <Image
-              className=" object-bottom w-full h-[300px] md:h-[600px]"
-              width={1920}
-              height={600}
-              src={src}
-              alt={`Banner ${index + 1}`}
-            />
+          <div key={index} className="keen-slider__slide relative aspect-[16/9] md:aspect-[12/5]">
+            <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-30 z-10" />
+            <Image className="object-cover w-full h-full" fill src={src} alt={`Banner ${index + 1}`} sizes="100vw" />
           </div>
         ))}
       </div>

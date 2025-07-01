@@ -2,24 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import TeamSection from '../../../components/team-section';
 
 export default function AboutUs() {
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[550px]">
+      <section className="relative w-full aspect-[4/3] md:aspect-[5/2]">
         <Image
           src="/banners/acerca-de-nosotros.png"
-          className="hidden md:block"
-          objectFit="cover"
+          className="hidden md:block object-cover"
           fill
           alt="Banner publicitario de inmuebles"
+          sizes="100vw"
         />
         <Image
           src="/banners/mobile/acerca-de-nosotros.png"
-          className="w-full h-full block md:hidden"
-          width={250}
-          height={250}
+          className="w-full h-full block md:hidden object-cover"
+          fill
           alt="Banner publicitario de inmuebles"
+          sizes="100vw"
         />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">*/}
@@ -97,13 +98,10 @@ export default function AboutUs() {
           Nuestros Asesores Inmobiliarios a continuación, son los encargados de atenderte en cada servicio que requieras para brindarte una
           solución oportuna a tus necesidades.
         </p>
+      <TeamSection />
+
       </div>
 
-      {/*<section className="px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-4">*/}
-      {/*  {images.map((image) => (*/}
-      {/*    <img key={image.src} src={image.src} alt={image.alt} />*/}
-      {/*  ))}*/}
-      {/*</section>*/}
     </>
   );
 }

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
 
 // Datos de ejemplo - reemplaza con tus datos reales
 const teamMembers = [
@@ -113,8 +113,8 @@ export default function TeamSection() {
                     <Phone className="w-4 h-4 mr-2" />
                     Solicitar contacto
                   </Button>
-                  {/* <Button 
-                    variant="outline" 
+                  {/* <Button
+                    variant="outline"
                     className="w-full"
                     onClick={() => window.location.href = `mailto:${member.email}`}
                   >

@@ -109,7 +109,7 @@ export default function TeamSection() {
 
                 {/* CTAs de contacto */}
                 <div className="flex flex-col gap-2">
-                  <Button variant="vision" className="w-full" onClick={() => (window.location.href = `tel:${member.phone}`)}>
+                  <Button variant="vision" className="w-full">
                     <Phone className="w-4 h-4 mr-2" />
                     Solicitar contacto
                   </Button>

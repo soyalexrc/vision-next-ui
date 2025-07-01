@@ -98,10 +98,8 @@ export default function AboutUs() {
           Nuestros Asesores Inmobiliarios a continuación, son los encargados de atenderte en cada servicio que requieras para brindarte una
           solución oportuna a tus necesidades.
         </p>
-      <TeamSection />
-
+        <TeamSection />
       </div>
-
     </>
   );
 }

@@ -14,11 +14,11 @@ export const SERVICES_DATA: any[] = [
     title: 'Servicio Legal',
     href: '/servicios#tramites-legales',
   },
-  {
-    img: '/services/icons/contabilidad.png',
-    title: ['Servicio Contable', '(para nuestros clientes comerciales)'],
-    href: '/servicios#gestion-contable',
-  },
+  // {
+  //   img: '/services/icons/contabilidad.png',
+  //   title: ['Servicio Contable', '(para nuestros clientes comerciales)'],
+  //   href: '/servicios#gestion-contable',
+  // },
   {
     img: '/services/icons/ama-de-llaves.png',
     title: 'Servicio de Limpieza (Ama de Llaves)',

@@ -103,12 +103,12 @@ export default function Header() {
                       clientes
                     </ListItem>
                   </Link>
-                  <Link href="/servicios#gestion-contable" legacyBehavior passHref>
+                  {/* <Link href="/servicios#gestion-contable" legacyBehavior passHref>
                     <ListItem title="Servicio Contable">
                       Enfocado principalmente para nuestros clientes comerciales, pequeñas y medianas empresas que requieran llevar su
                       contabilidad al dia y evitar ser multados por no llevar una gestión contable oportuna.
                     </ListItem>
-                  </Link>
+                  </Link> */}
                   <Link href="/servicios#servicio-limpieza" legacyBehavior passHref>
                     <ListItem title="Servicio de limpieza - Ama de llaves">
                       Ofrecemos el servicio de mantenimiento enfocado para inmuebles residenciales y comerciales.
@@ -230,9 +230,9 @@ export default function Header() {
                       <li className="p-2 mb-1">
                         <Link href="/servicios#admin-contratos-alquiler">Servicio de administracion de contratos de alquiler</Link>
                       </li>
-                      <li className="p-2 mb-1">
+                      {/* <li className="p-2 mb-1">
                         <Link href="/servicios#gestion-contable">Servicio Contable</Link>
-                      </li>
+                      </li> */}
                       <li className="p-2 mb-1">
                         <Link href="/servicios#remodelacion">Servicio de Remodelación de espacios </Link>
                       </li>

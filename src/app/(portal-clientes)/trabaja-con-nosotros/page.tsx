@@ -108,19 +108,20 @@ export default function WorkWithUs() {
 
   return (
     <>
-      <section className="relative w-full h-[300px] md:h-[600px]">
+      <section className="relative w-full aspect-[4/3] md:aspect-[5/2]">
         <Image
           src="/banners/trabaja-con-nosotros.png"
-          className="object-bottom hidden md:block"
+          className="object-cover hidden md:block"
           fill
           alt="Banner publicitario de inmuebles"
+          sizes="100vw"
         />
         <Image
           src="/banners/mobile/trabaja-con-nosotros.png"
-          className="w-full h-full block md:hidden"
-          width={250}
-          height={250}
+          className="w-full h-full block md:hidden object-cover"
+          fill
           alt="Banner publicitario de inmuebles"
+          sizes="100vw"
         />
         {/*<img src="/about/aboutBanner.jpg" className="h-[200px] object-cover lg:h-full" alt="" />*/}
         {/*<div className="absolute top-0 left-0 w-full h-full bg-black-opacity flex justify-center items-center">*/}

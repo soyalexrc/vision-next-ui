@@ -105,7 +105,7 @@ const SERVICES_DATA = [
 export default function Services() {
   return (
     <>
-      <section className="relative w-full aspect-[4/3] md:aspect-[5/2]">
+      <section className="relative w-full aspect-[3/2] md:aspect-[5/2]">
         <Image
           src="/banners/servicios.png"
           fill

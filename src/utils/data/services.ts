@@ -1,7 +1,7 @@
 export const SERVICES_DATA: any[] = [
   {
     img: '/services/icons/promocion-de-inmuebles.png',
-    title: 'Servicio Inmobiliario',
+    title: 'Servicio Inmobiliario (Compra y venta de inmuebles)',
     href: '/servicios#servicio-inmobiliario',
   },
   {

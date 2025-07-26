@@ -113,7 +113,7 @@ function CarouselCard(props: Categories) {
       {/*<Image src={props.image || '/home/lifestyle-banner-1.jpg'} alt={props.title} width={200} height={200} className="w-full" />*/}
       <img src={props.image || '/home/lifestyle-banner-1.jpg'} alt={props.title} className="w-full h-full" />
       {/*<img width="100%" height="100%" src="/home/lifestyle-banner-1.jpg" alt={props.title} />*/}
-      <div className="absolute hidden md:block top-0 left-0 h-full w-full bg-black opacity-50" />
+      <div className="absolute  top-0 left-0 h-full w-full bg-black opacity-50" />
       <div className="absolute bottom-0 left-0 w-full  h-full flex flex-col items-center justify-end pb-6">
         <h4 className="text-white text-lg">{props.titlePlural}</h4>
         <Link href="/inmuebles" className="underline text-blue-500">

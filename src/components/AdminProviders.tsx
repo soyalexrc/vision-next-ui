@@ -1,10 +1,10 @@
 'use client';
 
 import { Provider } from 'react-redux';
-import { store } from '@/lib/store';
+import { store } from '@/lib/store/index';
 
 interface Props {
-  children: React.ReactNode;
+  children: any;
 }
 
 export const AdminProviders = ({ children }: Props) => {

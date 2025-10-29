@@ -21,12 +21,12 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Separator } from '@/components/ui/separator';
-import { UtilityForm } from '@/lib/interfaces/property/PropertyForm';
+import { UtilityForm as UtilityFormType } from '@/lib/interfaces/property/PropertyForm';
 import { UtilityFormSchema } from '@/lib/interfaces/Utility';
 import { createUtility, deleteUtility, updateUtility } from '@/actions/property/utility';
 
 type Props = {
-  data: UtilityForm[];
+  data: UtilityFormType[];
   onRemove: (index: number) => void;
   onAppend: (values: any) => void;
   onUpdate: (index: number, values: any) => void;
@@ -42,7 +42,7 @@ export default function UtilityForm({ data, onAppend, onUpdate, onRemove }: Prop
     },
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [utilityForEdition, setUtilityForEdition] = useState<UtilityForm>({
+  const [utilityForEdition, setUtilityForEdition] = useState<UtilityFormType>({
     utilityId: 0,
     title: '',
     id: '',
@@ -110,7 +110,7 @@ export default function UtilityForm({ data, onAppend, onUpdate, onRemove }: Prop
     }
   }
 
-  function handleEditSelection(utility: UtilityForm) {
+  function handleEditSelection(utility: UtilityFormType) {
     setUtilityForEdition(utility);
     form.setValue('id', utility.utilityId);
     form.setValue('title', utility.title);

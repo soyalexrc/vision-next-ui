@@ -21,12 +21,12 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Separator } from '@/components/ui/separator';
-import { AdjacencyForm } from '@/lib/interfaces/property/PropertyForm';
+import { AdjacencyForm as AdjacencyFormType } from '@/lib/interfaces/property/PropertyForm';
 import { AdjacencyFormSchema } from '@/lib/interfaces/Adjacency';
 import { createAdjacency, deleteAdjacency, updateAdjacency } from '@/actions/property/adjacency';
 
 type Props = {
-  data: AdjacencyForm[];
+  data: AdjacencyFormType[];
   onRemove: (index: number) => void;
   onAppend: (values: any) => void;
   onUpdate: (index: number, values: any) => void;
@@ -42,7 +42,7 @@ export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Pr
     },
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [adjacencyForEdition, setAdjacencyForEdition] = useState<AdjacencyForm>({
+  const [adjacencyForEdition, setAdjacencyForEdition] = useState<AdjacencyFormType>({
     adjacencyId: 0,
     title: '',
     id: '',
@@ -109,7 +109,7 @@ export default function AdjacencyForm({ data, onAppend, onUpdate, onRemove }: Pr
     }
   }
 
-  function handleEditSelection(adjacency: AdjacencyForm) {
+  function handleEditSelection(adjacency: AdjacencyFormType) {
     setAdjacencyForEdition(adjacency);
     form.setValue('id', adjacency.adjacencyId);
     form.setValue('title', adjacency.title);

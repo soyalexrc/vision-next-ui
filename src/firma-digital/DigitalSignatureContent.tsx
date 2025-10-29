@@ -29,7 +29,7 @@ interface Props {
 }
 
 export function DigitalSignatureContent({ data }: Props) {
-  const sigCanvas = useRef<any>();
+  const sigCanvas = useRef<any>(null);
   const [signatureURL, setSignatureURL] = useState<string>('');
   // const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [currentStep, setCurrentStep] = useState<number>(1);

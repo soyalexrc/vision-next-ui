@@ -21,13 +21,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Separator } from '@/components/ui/separator';
-import { AttributeForm } from '@/lib/interfaces/property/PropertyForm';
+import { AttributeForm as AttributeFormType } from '@/lib/interfaces/property/PropertyForm';
 import { AttributeFormSchema } from '@/lib/interfaces/Atribute';
 import { createAttribute, deleteAttribute, updateAttribute } from '@/actions/property/attribute';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Props = {
-  data: AttributeForm[];
+  data: AttributeFormType[];
   onRemove: (index: number) => void;
   onAppend: (values: any) => void;
   onUpdate: (index: number, values: any) => void;
@@ -46,7 +46,7 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
   });
   const watchedFormType = form.watch('formType');
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [attributeForEdition, setAttributeForEdition] = useState<AttributeForm>({
+  const [attributeForEdition, setAttributeForEdition] = useState<AttributeFormType>({
     attributeId: 0,
     label: '',
     id: '',
@@ -132,7 +132,7 @@ export default function AttributeForm({ data, onAppend, onUpdate, onRemove }: Pr
     }
   }
 
-  function handleEditSelection(attribute: AttributeForm) {
+  function handleEditSelection(attribute: AttributeFormType) {
     setAttributeForEdition(attribute);
     form.setValue('id', attribute.attributeId);
     form.setValue('label', attribute.label);

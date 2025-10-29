@@ -21,12 +21,12 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Separator } from '@/components/ui/separator';
-import { DistributionForm } from '@/lib/interfaces/property/PropertyForm';
+import { DistributionForm as DistributionFormType } from '@/lib/interfaces/property/PropertyForm';
 import { createDistribution, deleteDistribution, updateDistribution } from '@/actions/property/distribution';
 import { DistributionFormSchema } from '@/lib/interfaces/Distribution';
 
 type Props = {
-  data: DistributionForm[];
+  data: DistributionFormType[];
   onRemove: (index: number) => void;
   onAppend: (values: any) => void;
   onUpdate: (index: number, values: any) => void;
@@ -42,7 +42,7 @@ export default function DistributionForm({ data, onAppend, onUpdate, onRemove }:
     },
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [distributionForEdition, setUtilityForEdition] = useState<DistributionForm>({
+  const [distributionForEdition, setUtilityForEdition] = useState<DistributionFormType>({
     distributionId: 0,
     title: '',
     id: '',
@@ -110,7 +110,7 @@ export default function DistributionForm({ data, onAppend, onUpdate, onRemove }:
     }
   }
 
-  function handleEditSelection(distribution: DistributionForm) {
+  function handleEditSelection(distribution: DistributionFormType) {
     setUtilityForEdition(distribution);
     form.setValue('id', distribution.distributionId);
     form.setValue('title', distribution.title);

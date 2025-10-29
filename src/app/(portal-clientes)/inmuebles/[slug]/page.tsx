@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import ContactForm from '@/components/contact/ContactForm';
 import ImagesGrid from '@/components/property/ImagesGrid';
 import Gallery from '@/components/property/Gallery';
+import { RichTextRenderer } from '@/components/RichTextRenderer';
 import { Metadata } from 'next';
 
 type Props = {
@@ -149,7 +150,7 @@ export default async function Page({ params }: Props) {
         <div className="col-span-12 lg:col-span-9 border-b-1 pb-5 lg:border-none lg:pb-0">
           <div className="px-4">
             <h3 className="text-3xl my-10">Descripcion</h3>
-            <p>{property.description}</p>
+            <RichTextRenderer content={property.description} />
           </div>
 
           {/*<div className="px-4">*/}

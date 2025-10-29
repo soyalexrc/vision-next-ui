@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Phone, Share2 } from 'lucide-react';
 import { MailIcon, WhatsappIcon } from '@/components/icons';
 import Link from 'next/link';
+import { RichTextRenderer } from '@/components/RichTextRenderer';
 
 export type PropertyCardProps = {
   coverUrl: string;
@@ -150,7 +151,7 @@ export function PropertyCardWithCarousel(props: {
             ))}
           </div>
 
-          <p className="text-sm">{textShortener(props.description, 285)}</p>
+          <RichTextRenderer content={props.description} className="text-sm" maxLength={285} hideHtmlInPreview={true} />
         </Link>
         <Separator className="my-2" />
         <div className="flex md:flex-row flex-col gap-2 justify-end z-50">
@@ -167,13 +168,13 @@ export function PropertyCardWithCarousel(props: {
           <div className="flex gap-2">
             <Link href="https://wa.me/5804244095149" target="_blank" className="w-full">
               <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
-                <p className="font-bold text-white">Whatsapp</p>
+                <p className="font-bold text-white" style={{ marginBottom: 0 }}>Whatsapp</p>
                 <WhatsappIcon width={18} height={18} fill="white" />
               </Button>
             </Link>
             <Link href="/contacto" className="w-full">
               <Button variant="vision" className="gap-2 w-full md:w-[130px]">
-                <p className="font-bold text-white">Contactar</p>
+                <p className="font-bold text-white" style={{ marginBottom: 0 }}>Contactar</p>
                 <MailIcon width={18} height={18} fill="white" />
               </Button>
             </Link>

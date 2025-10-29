@@ -168,13 +168,17 @@ export function PropertyCardWithCarousel(props: {
           <div className="flex gap-2">
             <Link href="https://wa.me/5804244095149" target="_blank" className="w-full">
               <Button className="bg-[#25D366] hover:bg-[rgba(31,169,83,1)] gap-2 w-full md:w-[130px]">
-                <p className="font-bold text-white" style={{ marginBottom: 0 }}>Whatsapp</p>
+                <p className="font-bold text-white" style={{ marginBottom: 0 }}>
+                  Whatsapp
+                </p>
                 <WhatsappIcon width={18} height={18} fill="white" />
               </Button>
             </Link>
             <Link href="/contacto" className="w-full">
               <Button variant="vision" className="gap-2 w-full md:w-[130px]">
-                <p className="font-bold text-white" style={{ marginBottom: 0 }}>Contactar</p>
+                <p className="font-bold text-white" style={{ marginBottom: 0 }}>
+                  Contactar
+                </p>
                 <MailIcon width={18} height={18} fill="white" />
               </Button>
             </Link>

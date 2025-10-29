@@ -48,12 +48,7 @@ export function RichTextRenderer({ content, className = '', maxLength, hideHtmlI
   }
 
   if (processedContent.isHtml) {
-    return (
-      <div
-        className={`rich-text-content ${className}`}
-        dangerouslySetInnerHTML={{ __html: processedContent.content }}
-      />
-    );
+    return <div className={`rich-text-content ${className}`} dangerouslySetInnerHTML={{ __html: processedContent.content }} />;
   }
 
   return <p className={className}>{processedContent.content}</p>;

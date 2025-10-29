@@ -13,18 +13,25 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.HOST_URL}/property/slugs`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((res) => res.json());
+  try {
+    const response = await fetch(`${process.env.HOST_URL}/property/slugs`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
 
-  // Since your API returns an array of objects like [{ slug: 'value' }, ...]
-  // You need to extract the slug values directly
-  return response.map((item: { slug: string }) => ({
-    slug: item.slug,
-  }));
+    // Since your API returns an array of objects like [{ slug: 'value' }, ...]
+    // Filter out any invalid slugs (null, undefined, empty strings)
+    return response
+      .filter((item: { slug: string }) => item && item.slug && item.slug.trim() !== '')
+      .map((item: { slug: string }) => ({
+        slug: item.slug,
+      }));
+  } catch (error) {
+    console.error('Error fetching property slugs:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -42,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: property?.publicationTitle ?? 'Pagina de inmueble',
-    description: property?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+    description: property?.description ? property.description.slice(0, 155).concat('...') : 'Descripcion de el inmueble',
     alternates: {
       canonical: process.env.HOST_URL + '/inmuebles/' + params.slug,
     },
@@ -57,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     openGraph: {
       title: property?.publicationTitle ?? 'Pagina de inmueble',
-      description: property?.description.slice(0, 155).concat('...') ?? 'Descripcion de el inmueble',
+      description: property?.description ? property.description.slice(0, 155).concat('...') : 'Descripcion de el inmueble',
       images: property?.images ? property.images.map((image: string) => ({ url: image, alt: 'Imagen de inmueble' })) : [],
       type: 'website',
       url: process.env.HOST_URL + '/inmuebles/' + params.slug,

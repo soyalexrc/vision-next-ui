@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { DeleteIcon, UploadIcon } from '@/components/icons';
@@ -19,9 +20,13 @@ import { WorkWithUsFormSchema } from '@/lib/interfaces/WorkWithUs';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import Lottie from 'lottie-react';
+import dynamicImport from 'next/dynamic';
 import successAnimation from '@/lib/lottie/success-animation.json';
 import Image from 'next/image';
+
+const Lottie = dynamicImport(() => import('lottie-react'), { ssr: false });
+
+export const dynamic = 'force-dynamic';
 
 export default function WorkWithUs() {
   const [uploadedFile, setUploadedFile] = useState<{ path: string; name: string }>({ name: '', path: '' });

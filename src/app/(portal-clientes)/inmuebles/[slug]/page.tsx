@@ -77,7 +77,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const property = await fetch(`${process.env.HOST_URL}/property/detail/slug/${params.slug}`, {
-    cache: 'force-cache',
+    // Time-based fallback: pages refresh at most every hour even if the
+    // on-demand revalidation webhook (POST /api/revalidate) never fires.
+    // The webhook gives instant freshness when a property is saved in the admin;
+    // this `revalidate` guarantees prices are never stale indefinitely.
+    next: { revalidate: 3600 },
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

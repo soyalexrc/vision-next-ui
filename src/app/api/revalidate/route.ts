@@ -20,10 +20,7 @@ export async function POST(req: NextRequest) {
   const secret = process.env.REVALIDATE_SECRET;
 
   if (!secret) {
-    return NextResponse.json(
-      { revalidated: false, message: 'REVALIDATE_SECRET is not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ revalidated: false, message: 'REVALIDATE_SECRET is not configured' }, { status: 500 });
   }
 
   let body: { slug?: string; secret?: string } = {};
